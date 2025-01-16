@@ -1,0 +1,38 @@
+Index: src/main/resources/mapper/MessageMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mapper/MessageMapper.xml b/src/main/resources/mapper/MessageMapper.xml
+new file mode 100644
+--- /dev/null	(date 1736489055930)
++++ b/src/main/resources/mapper/MessageMapper.xml	(date 1736489055930)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
++<mapper namespace="kr.or.ysedu.c702.mapper.MessageMapper">
++    <insert id="insertMessage">
++        insert into board (title) value (#{title})
++    </insert>
++</mapper>
+\ No newline at end of file
+Index: src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java b/src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java
+new file mode 100644
+--- /dev/null	(date 1736486065071)
++++ b/src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java	(date 1736486065071)
+@@ -0,0 +1,10 @@
++package kr.or.ysedu.c702.mapper;
++
++import org.apache.ibatis.annotations.Mapper;
++
++@Mapper
++public interface MessageMapper {
++
++    // 데이터 추가
++    void insertMessage(String title);
++}

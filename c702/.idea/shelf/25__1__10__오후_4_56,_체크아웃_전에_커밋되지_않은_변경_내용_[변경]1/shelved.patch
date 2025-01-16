@@ -1,0 +1,295 @@
+Index: src/main/resources/templates/contact.html
+===================================================================
+diff --git a/src/main/resources/templates/contact.html b/src/main/resources/templates/contact.html
+deleted file mode 100644
+--- a/src/main/resources/templates/contact.html	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ /dev/null	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
+@@ -1,10 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-<head>
+-  <meta charset="UTF-8">
+-  <title>$Title$</title>
+-</head>
+-<body>
+-$END$
+-</body>
+-</html>
+\ No newline at end of file
+Index: src/main/java/kr/or/ydedu/c702/service/ExamplePath.java
+===================================================================
+diff --git a/src/main/java/kr/or/ydedu/c702/service/ExamplePath.java b/src/main/java/kr/or/ydedu/c702/service/ExamplePath.java
+deleted file mode 100644
+--- a/src/main/java/kr/or/ydedu/c702/service/ExamplePath.java	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ /dev/null	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
+@@ -1,4 +0,0 @@
+-package kr.or.ydedu.c702.service;
+-
+-public class ExamplePath {
+-}
+Index: src/main/resources/templates/info.html
+===================================================================
+diff --git a/src/main/resources/templates/info.html b/src/main/resources/templates/info.html
+deleted file mode 100644
+--- a/src/main/resources/templates/info.html	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ /dev/null	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
+@@ -1,10 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-<head>
+-  <meta charset="UTF-8">
+-  <title>$Title$</title>
+-</head>
+-<body>
+-$END$
+-</body>
+-</html>
+\ No newline at end of file
+Index: src/main/resources/templates/about.html
+===================================================================
+diff --git a/src/main/resources/templates/about.html b/src/main/resources/templates/about.html
+deleted file mode 100644
+--- a/src/main/resources/templates/about.html	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ /dev/null	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
+@@ -1,10 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="en">
+-<head>
+-  <meta charset="UTF-8">
+-  <title>$Title$</title>
+-</head>
+-<body>
+-$END$
+-</body>
+-</html>
+\ No newline at end of file
+Index: src/main/java/kr/or/ysedu/c702/service/HomeService.java
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/service/HomeService.java b/src/main/java/kr/or/ysedu/c702/service/HomeService.java
+deleted file mode 100644
+--- a/src/main/java/kr/or/ysedu/c702/service/HomeService.java	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ /dev/null	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
+@@ -1,4 +0,0 @@
+-package kr.or.ysedu.c702.service;
+-
+-public class HomeService {
+-}
+Index: src/main/resources/mapper/MessageMapper.xml
+===================================================================
+diff --git a/src/main/resources/mapper/MessageMapper.xml b/src/main/resources/mapper/MessageMapper.xml
+new file mode 100644
+--- /dev/null	(date 1736495615699)
++++ b/src/main/resources/mapper/MessageMapper.xml	(date 1736495615699)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
++<mapper namespace="kr.or.ysedu.c702.mapper.MessageMapper">
++    <insert id="insertMessage">
++        insert into board (title) value (#{title})
++    </insert>
++</mapper>
+\ No newline at end of file
+Index: src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java b/src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java
+new file mode 100644
+--- /dev/null	(date 1736495615748)
++++ b/src/main/java/kr/or/ysedu/c702/mapper/MessageMapper.java	(date 1736495615748)
+@@ -0,0 +1,10 @@
++package kr.or.ysedu.c702.mapper;
++
++import org.apache.ibatis.annotations.Mapper;
++
++@Mapper
++public interface MessageMapper {
++
++    // 데이터 추가
++    void insertMessage(String title);
++}
+Index: src/main/java/kr/or/ysedu/c702/Morning.java
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/Morning.java b/src/main/java/kr/or/ysedu/c702/Morning.java
+new file mode 100644
+--- /dev/null	(date 1736495638611)
++++ b/src/main/java/kr/or/ysedu/c702/Morning.java	(date 1736495638611)
+@@ -0,0 +1,9 @@
++package kr.or.ysedu.c702;
++
++public class Morning implements Greet{
++
++    @Override
++    public void greeting(){
++        System.out.println("기분 좋은 아침^^");
++    }
++}
+Index: src/main/java/kr/or/ysedu/c702/Evening.java
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/Evening.java b/src/main/java/kr/or/ysedu/c702/Evening.java
+new file mode 100644
+--- /dev/null	(date 1736495638609)
++++ b/src/main/java/kr/or/ysedu/c702/Evening.java	(date 1736495638609)
+@@ -0,0 +1,10 @@
++package kr.or.ysedu.c702;
++
++
++public class Evening implements Greet{
++
++    @Override
++    public void greeting(){
++        System.out.println("편안한 밤 되세요.");
++    }
++}
+Index: src/main/java/kr/or/ysedu/c702/Greet.java
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/Greet.java b/src/main/java/kr/or/ysedu/c702/Greet.java
+new file mode 100644
+--- /dev/null	(date 1736495638610)
++++ b/src/main/java/kr/or/ysedu/c702/Greet.java	(date 1736495638610)
+@@ -0,0 +1,6 @@
++package kr.or.ysedu.c702;
++
++public interface Greet {
++    void greeting() ;
++
++}
+Index: src/main/java/kr/or/ysedu/c702/controller/MessageController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/controller/MessageController.java b/src/main/java/kr/or/ysedu/c702/controller/MessageController.java
+new file mode 100644
+--- /dev/null	(date 1736495638614)
++++ b/src/main/java/kr/or/ysedu/c702/controller/MessageController.java	(date 1736495638614)
+@@ -0,0 +1,20 @@
++package kr.or.ysedu.c702.controller;
++
++import kr.or.ysedu.c702.service.MessageService;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Controller;
++import org.springframework.web.bind.annotation.GetMapping;
++import org.springframework.web.bind.annotation.PathVariable;
++import org.springframework.web.bind.annotation.ResponseBody;
++
++@Controller
++public class MessageController {
++
++    @Autowired
++    private MessageService messageService;
++
++    @GetMapping("/message/{number}")
++    public String message(@PathVariable("number") int myNumber) {
++        return messageService.choiceNum(myNumber);
++    }
++}
+Index: src/main/java/kr/or/ysedu/c702/controller/HelloController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/controller/HelloController.java b/src/main/java/kr/or/ysedu/c702/controller/HelloController.java
+new file mode 100644
+--- /dev/null	(date 1736495638612)
++++ b/src/main/java/kr/or/ysedu/c702/controller/HelloController.java	(date 1736495638612)
+@@ -0,0 +1,14 @@
++package kr.or.ysedu.c702.controller;
++
++import org.springframework.stereotype.Controller;
++import org.springframework.web.bind.annotation.GetMapping;
++
++@Controller
++public class HelloController {
++
++    @GetMapping("/hello")
++    public String hello(){
++        return "hello";
++    }
++
++}
+Index: src/main/resources/templates/common/about.html
+===================================================================
+diff --git a/src/main/resources/templates/common/about.html b/src/main/resources/templates/common/about.html
+new file mode 100644
+--- /dev/null	(date 1736495638619)
++++ b/src/main/resources/templates/common/about.html	(date 1736495638619)
+@@ -0,0 +1,11 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>About</title>
++</head>
++<body>
++    <h1>About 🐄</h1>
++    <a href="/">홈으로</a>
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/java/kr/or/ysedu/c702/service/MessageService.java
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/service/MessageService.java b/src/main/java/kr/or/ysedu/c702/service/MessageService.java
+new file mode 100644
+--- /dev/null	(date 1736495638616)
++++ b/src/main/java/kr/or/ysedu/c702/service/MessageService.java	(date 1736495638616)
+@@ -0,0 +1,19 @@
++package kr.or.ysedu.c702.service;
++
++import org.springframework.stereotype.Service;
++
++@Service
++public class MessageService {
++
++    public String choiceNum(int number){
++        if(number == 1){
++            return "common/about";
++        } else if (number == 2) {
++            return "common/contact";
++        } else if (number == 3) {
++            return "common/info";
++        }else {
++            return "common/404";
++        }
++    }
++}
+Index: src/main/resources/templates/home.html
+===================================================================
+diff --git a/src/main/resources/templates/home.html b/src/main/resources/templates/home.html
+new file mode 100644
+--- /dev/null	(date 1736495638623)
++++ b/src/main/resources/templates/home.html	(date 1736495638623)
+@@ -0,0 +1,15 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Title</title>
++</head>
++<body>
++<ul>
++    <li><a href="/hello">hello</a></li>
++    <li><a href="/message/1">about</a></li>
++    <li><a href="/message/2">contact</a></li>
++    <li><a href="/message/3">info</a></li>
++</ul>
++</body>
++</html>
+\ No newline at end of file
+Index: src/main/resources/templates/common/contact.html
+===================================================================
+diff --git a/src/main/resources/templates/common/contact.html b/src/main/resources/templates/common/contact.html
+new file mode 100644
+--- /dev/null	(date 1736495638620)
++++ b/src/main/resources/templates/common/contact.html	(date 1736495638620)
+@@ -0,0 +1,11 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Contact</title>
++</head>
++<body>
++    <h1>Contact🦐</h1>
++    <a href="/">홈으로</a>
++</body>
++</html>
+\ No newline at end of file

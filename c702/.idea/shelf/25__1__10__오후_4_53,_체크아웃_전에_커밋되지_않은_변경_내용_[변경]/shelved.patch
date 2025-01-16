@@ -1,0 +1,66 @@
+Index: src/main/java/kr/or/ysedu/c702/controller/MessageController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package kr.or.ysedu.c702.controller;\r\n\r\nimport kr.or.ysedu.c702.service.MessageService;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.PathVariable;\r\nimport org.springframework.web.bind.annotation.ResponseBody;\r\n\r\n@Controller\r\npublic class MessageController {\r\n\r\n    @Autowired\r\n    private MessageService messageService;\r\n\r\n    @GetMapping(\"/message/{number}\")\r\n    public String message(@PathVariable(\"number\") int myNumber) {\r\n        return messageService.choiceNum(myNumber);\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/controller/MessageController.java b/src/main/java/kr/or/ysedu/c702/controller/MessageController.java
+--- a/src/main/java/kr/or/ysedu/c702/controller/MessageController.java	(revision fab461bbc40b2e20e09f8be817805f816c5aff2e)
++++ b/src/main/java/kr/or/ysedu/c702/controller/MessageController.java	(date 1736489586792)
+@@ -11,10 +11,15 @@
+ public class MessageController {
+ 
+     @Autowired
+-    private MessageService messageService;
++    MessageService messageService;
+ 
+-    @GetMapping("/message/{number}")
+-    public String message(@PathVariable("number") int myNumber) {
+-        return messageService.choiceNum(myNumber);
++    @GetMapping("/message/{title}")
++    @ResponseBody
++    public String message(@PathVariable("title") String myTitle) {
++        // 저장 작업 요청
++        messageService.createMessage(myTitle);
++        
++        // 성공 메세지 출력
++        return "저장 성공!" + myTitle;
+     }
+ }
+Index: src/main/java/kr/or/ysedu/c702/service/MessageService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package kr.or.ysedu.c702.service;\r\n\r\nimport org.springframework.stereotype.Service;\r\n\r\n@Service\r\npublic class MessageService {\r\n\r\n    public String choiceNum(int number){\r\n        if(number == 1){\r\n            return \"common/about\";\r\n        } else if (number == 2) {\r\n            return \"common/contact\";\r\n        } else if (number == 3) {\r\n            return \"common/info\";\r\n        }else {\r\n            return \"common/404\";\r\n        }\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/service/MessageService.java b/src/main/java/kr/or/ysedu/c702/service/MessageService.java
+--- a/src/main/java/kr/or/ysedu/c702/service/MessageService.java	(revision fab461bbc40b2e20e09f8be817805f816c5aff2e)
++++ b/src/main/java/kr/or/ysedu/c702/service/MessageService.java	(date 1736486790344)
+@@ -1,19 +1,19 @@
+ package kr.or.ysedu.c702.service;
+ 
++import kr.or.ysedu.c702.mapper.MessageMapper;
++import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Service;
+ 
+ @Service
+ public class MessageService {
+ 
+-    public String choiceNum(int number){
+-        if(number == 1){
+-            return "common/about";
+-        } else if (number == 2) {
+-            return "common/contact";
+-        } else if (number == 3) {
+-            return "common/info";
+-        }else {
+-            return "common/404";
+-        }
++    @Autowired
++    MessageMapper messageMapper;
++
++    public void createMessage(String title) {
++        // 비즈니스 로직 수행
++        String newTitle = title + "-new";
++        // 데이터 베이스에 저장
++        messageMapper.insertMessage(newTitle);
+     }
+ }

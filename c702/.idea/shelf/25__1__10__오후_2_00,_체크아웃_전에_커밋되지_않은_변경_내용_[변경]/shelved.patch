@@ -1,0 +1,32 @@
+Index: src/main/java/kr/or/ysedu/c702/controller/MessageController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package kr.or.ysedu.c702.controller;\r\n\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.web.bind.annotation.GetMapping;\r\nimport org.springframework.web.bind.annotation.PathVariable;\r\nimport org.springframework.web.bind.annotation.ResponseBody;\r\n\r\n@Controller\r\npublic class MessageController {\r\n\r\n    @GetMapping(\"/message/{name}\")\r\n    @ResponseBody\r\n    public String message(@PathVariable(\"name\") String myName){\r\n        return \"message: \"+myName ;\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/controller/MessageController.java b/src/main/java/kr/or/ysedu/c702/controller/MessageController.java
+--- a/src/main/java/kr/or/ysedu/c702/controller/MessageController.java	(revision 68470f53f817d72c102b3176dd832d57047ad455)
++++ b/src/main/java/kr/or/ysedu/c702/controller/MessageController.java	(date 1736480324007)
+@@ -1,5 +1,7 @@
+ package kr.or.ysedu.c702.controller;
+ 
++import kr.or.ysedu.c702.service.MessageService;
++import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.PathVariable;
+@@ -8,9 +10,13 @@
+ @Controller
+ public class MessageController {
+ 
++    @Autowired
++    MessageService messageService;
++
+     @GetMapping("/message/{name}")
+     @ResponseBody
+-    public String message(@PathVariable("name") String myName){
+-        return "message: "+myName ;
++    public String message(@PathVariable("name") String myName) {
++        messageService.createMessage((myName));
++        return "저장 성공!";
+     }
+ }

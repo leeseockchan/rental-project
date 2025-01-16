@@ -1,0 +1,94 @@
+Index: src/main/java/kr/or/ysedu/c702/controller/HomeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package kr.or.ysedu.c702.controller;\r\n\r\npublic class HomeController {\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/kr/or/ysedu/c702/controller/HomeController.java b/src/main/java/kr/or/ysedu/c702/controller/HomeController.java
+--- a/src/main/java/kr/or/ysedu/c702/controller/HomeController.java	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ b/src/main/java/kr/or/ysedu/c702/controller/HomeController.java	(date 1736495638613)
+@@ -1,4 +1,13 @@
+ package kr.or.ysedu.c702.controller;
+ 
++import org.springframework.stereotype.Controller;
++import org.springframework.web.bind.annotation.GetMapping;
++
++@Controller
+ public class HomeController {
++
++    @GetMapping("/")
++    public String Home(){
++        return "home";
++    }
+ }
+Index: src/main/resources/templates/common/404.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <title>$Title$</title>\r\n</head>\r\n<body>\r\n$END$\r\n</body>\r\n</html>
+===================================================================
+diff --git a/src/main/resources/templates/common/404.html b/src/main/resources/templates/common/404.html
+--- a/src/main/resources/templates/common/404.html	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ b/src/main/resources/templates/common/404.html	(date 1736495638618)
+@@ -1,10 +1,11 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+-  <meta charset="UTF-8">
+-  <title>$Title$</title>
++    <meta charset="UTF-8">
++    <title>404</title>
+ </head>
+ <body>
+-$END$
++<h1>404 Error ☠</h1>
++
+ </body>
+ </html>
+\ No newline at end of file
+Index: src/main/resources/templates/common/info.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <title>$Title$</title>\r\n</head>\r\n<body>\r\n$END$\r\n</body>\r\n</html>
+===================================================================
+diff --git a/src/main/resources/templates/common/info.html b/src/main/resources/templates/common/info.html
+--- a/src/main/resources/templates/common/info.html	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ b/src/main/resources/templates/common/info.html	(date 1736495638621)
+@@ -1,10 +1,11 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+-  <meta charset="UTF-8">
+-  <title>$Title$</title>
++    <meta charset="UTF-8">
++    <title>INFO</title>
+ </head>
+ <body>
+-$END$
++<h1>INFO🐓</h1>
++<a href="/">홈으로</a>
+ </body>
+ </html>
+\ No newline at end of file
+Index: src/main/resources/templates/404.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/404.html b/src/main/resources/templates/hello.html
+rename from src/main/resources/templates/404.html
+rename to src/main/resources/templates/hello.html
+--- a/src/main/resources/templates/404.html	(revision 39ee9ceb3a2d3b06969e704e39946c2277762673)
++++ b/src/main/resources/templates/hello.html	(date 1736495638622)
+@@ -2,9 +2,10 @@
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+-    <title>404</title>
++    <title>Title</title>
+ </head>
+ <body>
+-
++<h1>ㅘ이</h1>
++<a href="/">홈으로</a>
+ </body>
+ </html>
+\ No newline at end of file
