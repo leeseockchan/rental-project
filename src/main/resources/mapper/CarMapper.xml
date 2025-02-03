@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd"
+                >
+<mapper namespace="com.road_friends.rentalcar.mapper.CarMapper">
+    <select id="findAll" resultType="com.road_friends.rentalcar.dto.CarDto">
+        SELECT * FROM car_data;
+    </select>
+</mapper>
