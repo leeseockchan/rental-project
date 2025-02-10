@@ -2,38 +2,35 @@ package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.mapper.CarMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CarService {
-    @Autowired
-    private CarMapper carMapper;
+  private final CarMapper carMapper;
 
-    //모든 차량 조회
-    public List<CarDto> getAllCars() {
-        return carMapper.findAll();
-    }
+  public CarService(CarMapper carMapper) {
+    this.carMapper = carMapper;
+  }
 
-    // 차량 ID로 조회
-    public CarDto getCarById(int carId) {
-        return carMapper.findById(carId);
-    }
+  public List<CarDto> getAllCars() {
+    return carMapper.findAll();
+  }
 
-    // 차량 추가
-    public void addCar(CarDto carDto) {
-        carMapper.insert(carDto);
-    }
+  public CarDto getCarById(Long id) {
+    return carMapper.findById(id);
+  }
 
-    // 차량 수정
-    public void updateCar(CarDto carDto) {
-        carMapper.update(carDto);
-    }
+  public void saveCar(CarDto car) {
+    carMapper.insert(car);
+  }
 
-    // 차량 삭제
-    public void deleteCar(int carId) {
-        carMapper.delete(carId);
-    }
+  public void updateCar(CarDto car) {
+    carMapper.update(car);
+  }
+
+  public void deleteCar(Long id) {
+    carMapper.delete(id);
+  }
 }

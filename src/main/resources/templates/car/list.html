@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>차량 목록</title>
+</head>
+<body>
+
+<h1>차량 목록</h1>
+
+<!-- 차량 추가 페이지로 이동하는 링크 -->
+<a href="/cars/new">차량 추가</a><br/><br/>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>차량 ID</th>
+    <th>제조사</th>
+    <th>카테고리</th>
+    <th>차량명</th>
+    <th>연도</th>
+    <th>연료</th>
+    <th>좌석 수</th>
+    <th>변속기</th>
+    <th>세부 조회</th>
+    <th>수정</th>
+    <th>삭제</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="car : ${cars}">
+    <td th:text="${car.carId}"></td>
+    <td th:text="${car.carManufacture}"></td>
+    <td th:text="${car.carCategory}"></td>
+    <td th:text="${car.carName}"></td>
+    <td th:text="${car.carYear}"></td>
+    <td th:text="${car.carFuel}"></td>
+    <td th:text="${car.carSeateNum}"></td>
+    <td th:text="${car.carTransmission}"></td>
+    <td><a th:href="@{/cars/show/{id}(id=${car.carId})}">세부 조회</a></td>
+    <td><a th:href="@{/cars/edit/{id}(id=${car.carId})}">수정</a></td>
+    <td><a th:href="@{/cars/delete/{id}(id=${car.carId})}" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

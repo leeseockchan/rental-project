@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>차량 추가</title>
+</head>
+<body>
+
+<h1>차량 추가</h1>
+
+<form th:action="@{/cars}" th:object="${car}" method="post">
+  <label for="carManufacture">제조사</label>
+  <input type="text" id="carManufacture" th:field="*{carManufacture}" placeholder="제조사 입력" required /><br/><br/>
+
+  <label for="carCategory">카테고리</label>
+  <input type="text" id="carCategory" th:field="*{carCategory}" placeholder="카테고리 입력" required /><br/><br/>
+
+  <label for="carName">차량명</label>
+  <input type="text" id="carName" th:field="*{carName}" placeholder="차량명 입력" required /><br/><br/>
+
+  <label for="carYear">연도</label>
+  <input type="text" id="carYear" th:field="*{carYear}" placeholder="연도 입력" required /><br/><br/>
+
+  <label for="carFuel">연료</label>
+  <input type="text" id="carFuel" th:field="*{carFuel}" placeholder="연료 입력" required /><br/><br/>
+
+  <label for="carSeateNum">좌석 수</label>
+  <input type="number" id="carSeateNum" th:field="*{carSeateNum}" placeholder="좌석 수 입력" required /><br/><br/>
+
+  <label for="carTransmission">변속기</label>
+  <input type="text" id="carTransmission" th:field="*{carTransmission}" placeholder="변속기 입력" required /><br/><br/>
+
+  <input type="submit" value="차량 추가하기" />
+</form>
+
+<br>
+<a href="/cars">목록으로 돌아가기</a>
+
+</body>
+</html>
