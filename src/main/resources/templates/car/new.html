@@ -8,33 +8,58 @@
 
 <h1>차량 추가</h1>
 
-<form th:action="@{/cars}" th:object="${car}" method="post">
-  <label for="carManufacture">제조사</label>
-  <input type="text" id="carManufacture" th:field="*{carManufacture}" placeholder="제조사 입력" required /><br/><br/>
+<form action="/cars" method="POST" onsubmit="return validateForm()">
 
-  <label for="carCategory">카테고리</label>
-  <input type="text" id="carCategory" th:field="*{carCategory}" placeholder="카테고리 입력" required /><br/><br/>
+  <label>차 제조사:</label><br>
+  <input type="radio" id="hyundai" name="carManufacture" value="현대">
+  <label for="hyundai">현대</label><br>
 
-  <label for="carName">차량명</label>
-  <input type="text" id="carName" th:field="*{carName}" placeholder="차량명 입력" required /><br/><br/>
+  <input type="radio" id="kia" name="carManufacture" value="기아">
+  <label for="kia">기아</label><br>
 
-  <label for="carYear">연도</label>
-  <input type="text" id="carYear" th:field="*{carYear}" placeholder="연도 입력" required /><br/><br/>
+  <input type="radio" id="genesis" name="carManufacture" value="제네시스">
+  <label for="genesis">제네시스</label><br>
 
-  <label for="carFuel">연료</label>
-  <input type="text" id="carFuel" th:field="*{carFuel}" placeholder="연료 입력" required /><br/><br/>
+  <input type="radio" id="ssangyong" name="carManufacture" value="쌍용">
+  <label for="ssangyong">쌍용</label><br><br>
 
-  <label for="carSeateNum">좌석 수</label>
-  <input type="number" id="carSeateNum" th:field="*{carSeateNum}" placeholder="좌석 수 입력" required /><br/><br/>
+  <label for="carCategory">차 종류:</label>
+  <input type="text" id="carCategory" name="carCategory"><br><br>
 
-  <label for="carTransmission">변속기</label>
-  <input type="text" id="carTransmission" th:field="*{carTransmission}" placeholder="변속기 입력" required /><br/><br/>
+  <label for="carName">차 이름:</label>
+  <input type="text" id="carName" name="carName"><br><br>
 
-  <input type="submit" value="차량 추가하기" />
+  <label for="carYear">차 연식:</label>
+  <input type="text" id="carYear" name="carYear"><br><br>
+
+  <label>차 연료:</label><br>
+  <input type="radio" id="gasoline" name="carFuel" value="가솔린">
+  <label for="gasoline">가솔린</label><br>
+
+  <input type="radio" id="diesel" name="carFuel" value="경유">
+  <label for="diesel">경유</label><br>
+
+  <input type="radio" id="lpg" name="carFuel" value="LPG">
+  <label for="lpg">LPG</label><br>
+
+  <input type="radio" id="electric" name="carFuel" value="전기">
+  <label for="electric">전기</label><br>
+
+  <input type="radio" id="hybrid" name="carFuel" value="하이브리드">
+  <label for="hybrid">하이브리드</label><br><br>
+
+  <label for="carSeateNum">차 좌석 수:</label>
+  <input type="number" id="carSeateNum" name="carSeateNum" min="1" required><br><br>
+
+  <label for="carTransmission">차 변속기:</label>
+  <input type="text" id="carTransmission" name="carTransmission"><br><br>
+
+  <button type="submit">차량 추가</button>
 </form>
 
 <br>
 <a href="/cars">목록으로 돌아가기</a>
 
 </body>
+<script src="/js/validateForm.js"></script> <!-- JS 파일 참조 -->
 </html>

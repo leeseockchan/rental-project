@@ -37,7 +37,7 @@ public class CarController {
   @GetMapping("/new")
   public String showAddForm(Model model) {
     model.addAttribute("car", new CarDto());
-    return "car/form"; // Thymeleaf 템플릿 (car/form.html)
+    return "car/new"; // Thymeleaf 템플릿 (car/form.html)
   }
 
   // 자동차 추가 처리
