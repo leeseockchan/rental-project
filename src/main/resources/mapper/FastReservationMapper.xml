@@ -12,7 +12,7 @@
     </delete>
 
     <select id="findAll">
-        select current_location_latitude, current_location_longitude, rental_location, rental_datetime,  return_location,  return_datetime
+        select reservation_id, car_id, rental_location, rental_datetime,  return_location,  return_datetime
         FROM fast_reservation
     </select>
 

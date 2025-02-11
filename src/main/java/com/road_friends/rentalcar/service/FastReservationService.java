@@ -18,6 +18,9 @@ public class FastReservationService {
         fastReservationMapper.fastReserve(fastReservationDto);
     }
 
+    public List<FastReservationDto> getReservations(){
+        return fastReservationMapper.findAll();
+    };
 
 
 }
