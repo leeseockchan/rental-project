@@ -7,4 +7,13 @@
         VALUES (#{latitude}, #{longitude}, #{rentalLocation}, #{rentalDatetime}, #{returnLocation}, #{returnDatetime});
     </insert>
 
+    <delete id="deleteReservation">
+        DELETE FROM fast_reservation WHERE reservation_id = #{reservationId};
+    </delete>
+
+    <select id="findAll">
+        select current_location_latitude, current_location_longitude, rental_location, rental_datetime,  return_location,  return_datetime
+        FROM fast_reservation
+    </select>
+
 </mapper>

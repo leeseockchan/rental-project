@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>차량목록</title>
+</head>
+<body>
+<h1>예약가능차량</h1>
+<table>
+    <tr>
+        <td>차량ID</td>
+        <td>제조사</td>
+        <td>차량 카테고리</td>
+        <td>차량 이름</td>
+        <td>연식</td>
+        <td>연료 타입</td>
+        <td>좌석 수</td>
+        <td>변속기 종류</td>
+    </tr>
+
+    <!--    반복 구간 시작    -->
+    <tr th:each="car : ${cars}">
+        <td><a th:href="@{/vehicles/{carId}(carId=${car.carId})}" th:text="${car.carId}"></a></td>
+        <td th:text="${car.carManufacture}"></td>
+        <td th:text="${car.carCategory}"></td>
+        <td th:text="${car.carName}"></td>
+        <td th:text="${car.carYear}"></td>
+        <td th:text="${car. carFuel}"></td>
+        <td th:text="${car.carSeateNum}"></td>
+        <td th:text="${car.carTransmission}"></td>
+
+
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <!--    반복 구간 끝    -->
+</table>
+</body>
+</html>

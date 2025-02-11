@@ -19,34 +19,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FastReservationController {
 
-    private final CarService carService;
     private final FastReservationService fastReservationService;
+    private final CarService carService;
 
     // 차량 목록 조회
-    @GetMapping
-    public ResponseEntity<List<CarDto>> getAllCars() {
+    @GetMapping("/vehicles")
+    public String getAllCars(Model model){
         List<CarDto> cars = carService.getAllCars();
-        return new ResponseEntity<>(cars, HttpStatus.OK);
+        model.addAttribute("cars",cars);
+        return "/car/list";
     }
 
-    // 특정 차량 조회
-    @GetMapping("/{carId}")
-    public ResponseEntity<CarDto> getCarById(@PathVariable("carId") int carId) {
-        CarDto car = carService.getCarById(carId);
-        return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
 
-    @GetMapping("/reservation")
-    public String reservation(){
-        return "reservation";
-    }
 
     // 차량 예약
-    @PostMapping("/reservation")
+    @PostMapping("/reservations")
     public void reserveation(Model model, FastReservationDto fastReservationDto){
         fastReservationService.fastReserve(fastReservationDto);
-        model.addAttribute("dto",fastReservationDto);
-//        System.out.println(fastReservationDto.toString());
     }
 
 
