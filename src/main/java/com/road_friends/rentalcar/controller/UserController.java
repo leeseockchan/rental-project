@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
   private final UserService userService;
 
-  @GetMapping("/auth/signup")
+  @GetMapping("/admin/signup")
   public String signup() {
     return "/user/signup";
   }
 
-  @PostMapping("/auth/signup")
+  @PostMapping("/admin/signup")
   public String signup(@ModelAttribute UserDTO userDTO) {
 
     userService.signup(userDTO);
@@ -26,7 +26,7 @@ public class UserController {
     return "redirect:/auth/login";
   }
 
-  @GetMapping("/auth/login")
+  @GetMapping("/admin/login")
   public String login() {
     return "/user/login";
   }
