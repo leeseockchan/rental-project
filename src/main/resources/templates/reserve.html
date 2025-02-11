@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>예약하기</title>
+</head>
+<body>
+<h1>예약하기</h1>
+
+<form id=ReservationForm th:action="@{/api/reservation}"  method="post">
+    <label for="latitude_id">위도: </label>
+    <input type="text" id="latitude_id"  name="latitude"  required>
+
+    <label for="longitude_id">경도: </label>
+    <input type="text" id="longitude_id"  name="longitude"  required>
+
+    <label for="rentalLocation_id">대여위치: </label>
+    <input type="text" id="rentalLocation_id"  name="rentalLocation"  required>
+
+    <label for="rentalTime_id">대여시간: </label>
+    <input type="text" id="rentalTime_id"  name="rentalTime"  required>
+
+    <label for="returnLocation_id">반납위치: </label>
+    <input type="text" id="returnLocation_id"  name="returnLocation"  required>
+
+    <label for="returnTime_id">반납시간: </label>
+    <input type="text" id="returnTime_id"  name="returnTime"  required>
+
+    <button type="summit">예약 등록</button>
+</form>
+</body>
+</html>
