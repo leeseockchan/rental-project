@@ -14,5 +14,8 @@ public interface AdminInquiryMapper {
 
     void updateInquiryReply(AdminInquiryDto adminInquiryDto);
 
+    void clearInquiryAnswer(AdminInquiryDto adminInquiryDto);
+
     void deleteInquiry(int inquiryId);
+
 }

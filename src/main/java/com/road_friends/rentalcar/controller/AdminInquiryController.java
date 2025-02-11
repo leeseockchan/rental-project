@@ -38,6 +38,14 @@ public class AdminInquiryController {
          return new ResponseEntity<>(adminInquiryDto, HttpStatus.OK);
      }
 
+     // 관리자 질문 답변 삭제
+     @PostMapping("/{inquiryId}/reply/clear")
+    public ResponseEntity<AdminInquiryDto> clearInquiryAnswer(@PathVariable("inquiryId") int inquiryId, @RequestBody AdminInquiryDto adminInquiryDto) {
+        adminInquiryDto.setInquiryId(inquiryId);
+        adminInquiryService.clearInquiryAnswer(adminInquiryDto);
+        return new ResponseEntity<>(adminInquiryDto, HttpStatus.OK);
+    }
+
 //     // 관리자 질문 삭제
 //     @DeleteMapping("/{inquiryId}")
 //     public ResponseEntity<Void> deleteInquiry(@PathVariable("inquiryId") int inquiryId) {

@@ -25,7 +25,12 @@ public class AdminInquiryService {
         adminInquiryMapper.updateInquiryReply(adminInquiryDto);
     }
 
+    public void clearInquiryAnswer(AdminInquiryDto adminInquiryDto) {
+        adminInquiryMapper.clearInquiryAnswer(adminInquiryDto);
+    }
+
     public void deleteInquiry(int inquiryId) {
         adminInquiryMapper.deleteInquiry(inquiryId);
     }
+
 }
