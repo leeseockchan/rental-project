@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,6 +16,9 @@ import java.sql.Timestamp;
 public class FastReservationDto {
 
     private int reservationId;
+
+    @JsonProperty("car_id")
+    private int carId;
 
     // 위도
     @JsonProperty("current_location_latitude")
@@ -28,13 +32,13 @@ public class FastReservationDto {
     private String rentalLocation;
 
     @JsonProperty("rental_datetime")
-    private String rentalDatetime;
+    private LocalDateTime rentalDatetime;
 
     @JsonProperty("return_location")
     private String returnLocation;
 
     @JsonProperty("return_datetime")
-    private String returnDatetime;
+    private LocalDateTime returnDatetime;
 
     @JsonProperty("fast_reservation_create_at")
     private Timestamp reservationTime;

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>예약상세</title>
+</head>
+<body>
+<h1>예약상세보기</h1>
+<ul>
+    <li>예약번호: <span th:text="${reservation.reservationId}"></span></li>
+    <li>대여위치: <span th:text="${reservation.rentalLocation}"></span></li>
+    <li>반납위치: <span th:text="${reservation.returnLocation}"></span></li>
+<!--    <li>대여일시: <span th:text="${reservation.rentalDatetime}"></span></li>-->
+<!--    <li>반납일시: <span th:text="${reservation.returnDateTime}"></span></li>-->
+    <li>예약시간:<span th:text="${reservation.reservationTime}"></span></li>
+</ul>
+
+<h1>예약이 완료되었습니다!</h1>
+
+</body>
+</html>

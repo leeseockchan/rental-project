@@ -3,8 +3,8 @@
 <mapper namespace="com.road_friends.rentalcar.mapper.FastReservationMapper">
 
     <insert id="fastReserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
-        INSERT INTO fast_reservation (current_location_latitude, current_location_longitude, rental_location, rental_datetime,  return_location,  return_datetime)
-        VALUES (#{latitude}, #{longitude}, #{rentalLocation}, #{rentalDatetime}, #{returnLocation}, #{returnDatetime});
+        INSERT INTO fast_reservation (car_id, current_location_latitude, current_location_longitude, rental_location, rental_datetime,  return_location,  return_datetime)
+        VALUES (#{carId},#{latitude}, #{longitude}, #{rentalLocation}, #{rentalDatetime}, #{returnLocation}, #{returnDatetime});
     </insert>
 
     <delete id="deleteReservation">

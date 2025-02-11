@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -42,10 +44,30 @@ public class FastReservationController {
     }
 
 
+    // 차량 예약 화면
+    @GetMapping("/reservations")
+    public String reserve(Model model){
+        List<CarDto> cars = carService.getAllCars();
+        model.addAttribute("cars",cars);
+        return "car/create";
+    }
+
     // 차량 예약
     @PostMapping("/reservations")
-    public void reserveation(Model model, FastReservationDto fastReservationDto){
+    public void reserveation(@RequestParam("rentalTime") String rentalDateTime,
+                             @RequestParam("returnTime") String returnDateTime,
+                             FastReservationDto fastReservationDto,
+                             Model model){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime rentaldt = LocalDateTime.parse(rentalDateTime, formatter);
+        LocalDateTime returndt = LocalDateTime.parse(returnDateTime, formatter);
+
+        fastReservationDto.setRentalDatetime(rentaldt);
+        fastReservationDto.setReturnDatetime(returndt);
+
         fastReservationService.fastReserve(fastReservationDto);
+
     }
 
 
