@@ -16,4 +16,9 @@
         FROM fast_reservation
     </select>
 
+    <select id="getReservationById" resultType="com.road_friends.rentalcar.dto.FastReservationDto">
+        select reservation_id, car_id, rental_location, rental_datetime,  return_location,  return_datetime, fast_reservation_create_at
+        from fast_reservation where reservation_id = #{reservationId}
+    </select>
+
 </mapper>

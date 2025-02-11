@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -77,6 +76,20 @@ public class FastReservationController {
         List<FastReservationDto> reservations = fastReservationService.getReservations();
         model.addAttribute("reservations", reservations);
         return "reservation/list";
+    }
+
+    // 예약 상세
+    @GetMapping("/reservation/{reservationId}")
+    public String reservation(@PathVariable("reservationId") int id, Model model){
+        FastReservationDto reservation = fastReservationService.getReservationById(id);
+
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        reservation.setFormattedReservationTime(reservation.getReservationTime().format(formatter));
+
+        CarDto car = carService.getCarById(reservation.getCarId());
+        model.addAttribute("reservation",reservation);
+        model.addAttribute("car",car);
+        return "reservation/detail";
     }
 
 

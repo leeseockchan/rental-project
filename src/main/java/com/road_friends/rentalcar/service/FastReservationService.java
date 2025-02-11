@@ -18,9 +18,16 @@ public class FastReservationService {
         fastReservationMapper.fastReserve(fastReservationDto);
     }
 
+    // 예약 목록
     public List<FastReservationDto> getReservations(){
         return fastReservationMapper.findAll();
     };
+
+    // 예약 상세
+    public FastReservationDto getReservationById(int id){
+        return fastReservationMapper.getReservationById(id);
+    }
+
 
 
 }

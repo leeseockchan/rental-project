@@ -12,4 +12,7 @@ public interface FastReservationMapper {
 
     List<FastReservationDto> findAll();
 
+    FastReservationDto getReservationById(int id);
+
+
 }
