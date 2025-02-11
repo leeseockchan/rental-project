@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.ModelMapper">
+
+    <!-- 모든 차량 목록 조회 -->
+    <select id="findAll" resultType="com.road_friends.rentalcar.dto.ModelDto">
+        SELECT model_id, model_manufacture, model_category, model_name, model_year, model_grade, model_fuel,
+        model_fuel_efficiency, model_seate_num, model_transmission, model_amount_hour, model_amount_day
+        FROM model;
+    </select>
+
+    <!-- 특정 차량 조회 -->
+    <select id="findById" resultType="com.road_friends.rentalcar.dto.ModelDto">
+        SELECT model_id, model_manufacture, model_category, model_name, model_year, model_grade, model_fuel,
+        model_fuel_efficiency, model_seate_num, model_transmission, model_amount_hour, model_amount_day
+        FROM model WHERE model_id = #{modelId};
+    </select>
+
+    <!-- 차량 추가 -->
+    <insert id="insert" parameterType="com.road_friends.rentalcar.dto.ModelDto">
+        INSERT INTO model (model_manufacture, model_category, model_name, model_year, model_grade, model_fuel,
+        model_fuel_efficiency, model_seate_num, model_transmission, model_amount_hour, model_amount_day)
+        VALUES (#{modelManufacture}, #{modelCategory}, #{modelName}, #{modelYear}, #{modelGrade}, #{modelFuel},
+        #{modelFuelEfficiency}, #{modelSeateNum}, #{modelTransmission}, #{modelAmountHour}, #{modelAmountDay});
+    </insert>
+
+    <!-- 차량 수정 -->
+    <update id="update" parameterType="com.road_friends.rentalcar.dto.ModelDto">
+        UPDATE model SET
+        model_manufacture = #{modelManufacture}, model_category = #{modelCategory},
+        model_name = #{modelName}, model_year = #{modelYear},
+        model_grade = #{modelGrade}, model_fuel = #{modelFuel},
+        model_fuel_efficiency = #{modelFuelEfficiency}, model_seate_num = #{modelSeateNum},
+        model_transmission = #{modelTransmission}, model_amount_hour = #{modelAmountHour},
+        model_amount_day = #{modelAmountDay}
+        WHERE model_id = #{modelId};
+    </update>
+
+    <!-- 차량 삭제 -->
+    <delete id="delete">
+        DELETE FROM model WHERE model_id = #{modelId};
+    </delete>
+
+</mapper>
