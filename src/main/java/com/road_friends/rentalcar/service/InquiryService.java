@@ -24,4 +24,8 @@ public class InquiryService {
     public void addInquiry(InquiryDto inquiryDto) {
         inquiryMapper.insertInquiry(inquiryDto);
     }
+
+    public void updateInquiry(InquiryDto inquiryDto) {
+        inquiryMapper.updateInquiry(inquiryDto);
+    }
 }

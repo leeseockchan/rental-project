@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InquiryDto {
 
-//    private int inquiryId;
+    private int inquiryId;
 
     @JsonProperty("inquiries_num")
     private int inquiriesNum;

@@ -37,4 +37,12 @@ public class InquiryController {
         return new ResponseEntity<>(inquiryDto, HttpStatus.CREATED);
     }
 
+    // 고객 질문 수정
+     @PostMapping("/{inquiryId}")
+     public ResponseEntity<InquiryDto> updateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestBody InquiryDto inquiryDto) {
+         inquiryDto.setInquiryId(inquiryId);
+         inquiryService.updateInquiry(inquiryDto);
+         return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
+     }
+
 }
