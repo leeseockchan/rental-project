@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.FastReservationMapper">
+
+    <insert id="fastReserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
+        INSERT INTO fast_reservation (current_location_latitude, current_location_longitude, rental_location, rental_datetime,  return_location,  return_datetime)
+        VALUES (#{latitude}, #{longitude}, #{rentalLocation}, #{rentalDatetime}, #{returnLocation}, #{returnDatetime});
+    </insert>
+
+</mapper>
