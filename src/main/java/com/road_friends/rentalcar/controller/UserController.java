@@ -30,5 +30,10 @@ public class UserController {
   public String login() {
     return "/user/login";
   }
+
+  @GetMapping("/admin/dashboard")
+  public String dashboard(){
+    return "/common/dashboard";
+  }
 }
 

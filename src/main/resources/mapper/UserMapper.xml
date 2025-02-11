@@ -8,7 +8,7 @@
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
         <result property="enabled" column="enabled"/>
-        <collection property="roles" ofType="com.road_friends.rentalcar.dto.UserDTO">
+        <collection property="roles" ofType="com.road_friends.rentalcar.dto.RoleDTO">
             <id property="id" column="role_id"/>
             <result property="name" column="role_name"/>
         </collection>
