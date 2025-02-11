@@ -46,11 +46,11 @@ public class AdminInquiryController {
         return new ResponseEntity<>(adminInquiryDto, HttpStatus.OK);
     }
 
-//     // 관리자 질문 삭제
-//     @DeleteMapping("/{inquiryId}")
-//     public ResponseEntity<Void> deleteInquiry(@PathVariable("inquiryId") int inquiryId) {
-//         adminInquiryService.deleteInquiry(inquiryId);
-//         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//     }
+     // 관리자 질문 삭제
+     @DeleteMapping("/{inquiryId}")
+     public ResponseEntity<Void> deleteInquiry(@PathVariable("inquiryId") int inquiryId) {
+         adminInquiryService.deleteInquiry(inquiryId);
+         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+     }
     
 }
