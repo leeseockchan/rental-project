@@ -23,7 +23,7 @@
 
     <!--    반복 구간 시작    -->
     <tr th:each="car : ${cars}">
-        <td><a th:href="@{/vehicles/{carId}(carId=${car.carId})}" th:text="${car.carId}"></a></td>
+        <td><a th:href="@{/api/vehicles/{carId}(carId=${car.carId})}" th:text="${car.carId}"></a></td>
         <td th:text="${car.carManufacture}"></td>
         <td th:text="${car.carCategory}"></td>
         <td th:text="${car.carName}"></td>

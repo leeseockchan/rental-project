@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>차량상세</title>
+</head>
+<body>
+<h1>차량상세보기</h1>
+<ul>
+    <li>차량ID: <span th:text="${car.carManufacture}"></span></li>
+    <li>제조사: <span th:text="${car.carCategory}"></span></li>
+    <li>차량 카테고리: <span th:text="${car.carName}"></span></li>
+    <li>차량 이름: <span th:text="${car.carYear}"></span></li>
+    <li>연식: <span th:text="${car.carFuel}"></span></li>
+    <li>좌석 수:<span th:text="${car.carSeateNum}"></span></li>
+    <li>변속기 종류: <span th:text="${car.carTransmission}"></span> </li>
+</ul>
+
+</body>
+</html>
