@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.ParkingMapper">
+
     <!--    전체 주차장 목록-->
     <select id="findAll" resultType="com.road_friends.rentalcar.dto.ParkingDto">
         SELECT parking_id, parking_name, parking_address, parking_latitude, parking_longitude, parking_type

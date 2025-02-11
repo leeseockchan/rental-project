@@ -10,5 +10,5 @@ public interface ModelMapper {
     ModelDto findById(int modelId);
     void insert(ModelDto modelDto);
     void update(ModelDto modelDto);
-    void delete(int carId);
+    void delete(int modelId);
 }
