@@ -9,7 +9,7 @@
     </select>
 
     <!--    주차장 검색-->
-    <select id="findById" resultType="com.road_friends.rentalcar.dto.ParkingDto">
+    <select id="findByParking" resultType="com.road_friends.rentalcar.dto.ParkingDto">
         SELECT parking_id, parking_name, parking_address, parking_latitude, parking_longitude, parking_type
         FROM parking WHERE parking_id = #{parkingId};
     </select>

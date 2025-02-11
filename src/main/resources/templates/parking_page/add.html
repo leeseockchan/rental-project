@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>주차장 추가하기</title>
+</head>
+<body>
+<h1> 주차장 추가 하러 잘 찾아왔어</h1>
+<form id="parkingForm">
+    <label for="parking_name">주차장 이름 : </label>
+    <input type="text" id="parking_name" name="name" required><br><br>
+
+    <label for="parking_address">주차장의 주소 : </label>
+    <input type="text" id="parking_address" name="address" required><br><br>
+
+    <label for="parking_latitude">주차장 위도 : </label>
+    <input type="text" id="parking_latitude" name="latitude" required><br><br>
+
+    <label for="parking_longitude">주차장 경도 : </label>
+    <input type="text" id="parking_longitude" name="longitude" required><br><br>
+
+    <label for="parking_type">주차장 유형 : </label>
+    <select id="parkingType">
+        <option value="공영">공영</option>
+        <option value="민영">민영</option>
+    </select>
+    <input type="text" id="parking_type" name="type" placeholder="주차장 이름을 입력해주세요" required><br><br>
+
+    <button type="submit">주차장 등록하기</button>
+</form>
+<a href="parking_page/list.html">주차장 목록으로 이동</a>
+</body>
+</html>
