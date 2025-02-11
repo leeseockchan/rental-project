@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InquiryService {
@@ -27,5 +28,9 @@ public class InquiryService {
 
     public void updateInquiry(InquiryDto inquiryDto) {
         inquiryMapper.updateInquiry(inquiryDto);
+    }
+
+    public void deleteInquiry(int inquiryId) {
+        inquiryMapper.deleteInquiry(inquiryId);
     }
 }

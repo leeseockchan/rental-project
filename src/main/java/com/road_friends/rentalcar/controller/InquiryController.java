@@ -43,6 +43,13 @@ public class InquiryController {
          inquiryDto.setInquiryId(inquiryId);
          inquiryService.updateInquiry(inquiryDto);
          return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
-     }
+    }
+
+    // 고객 질문 삭제
+    @DeleteMapping("/{inquiryId}")
+    public ResponseEntity<Void> deleteInquiry(@PathVariable("inquiryId") int inquiryId) {
+        inquiryService.deleteInquiry(inquiryId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

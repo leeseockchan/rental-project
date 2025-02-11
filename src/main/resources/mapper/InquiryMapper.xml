@@ -28,4 +28,9 @@
         WHERE inquiries_num = #{inquiryId};
     </update>
 
+    <!-- 고객 질문 삭제 -->
+    <delete id="deleteInquiry">
+        DELETE FROM inquiries WHERE inquiries_num = #{inquiryId};
+    </delete>
+
 </mapper>

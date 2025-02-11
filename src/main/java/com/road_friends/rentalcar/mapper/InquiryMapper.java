@@ -4,6 +4,7 @@ import com.road_friends.rentalcar.dto.InquiryDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface InquiryMapper {
@@ -15,4 +16,6 @@ public interface InquiryMapper {
     void insertInquiry(InquiryDto inquiryDto);
 
     void updateInquiry(InquiryDto inquiryDto);
+
+    void deleteInquiry(int inquiryId);
 }
