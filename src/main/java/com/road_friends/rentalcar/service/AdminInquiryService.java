@@ -21,8 +21,8 @@ public class AdminInquiryService {
         return adminInquiryMapper.findInquiryById(inquiryId);
     }
 
-    public void addInquiry(AdminInquiryDto adminInquiryDto) {
-        adminInquiryMapper.insertInquiry(adminInquiryDto);
+    public void updateInquiryReply(AdminInquiryDto adminInquiryDto) {
+        adminInquiryMapper.updateInquiryReply(adminInquiryDto);
     }
 
     public void deleteInquiry(int inquiryId) {

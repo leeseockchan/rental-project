@@ -30,13 +30,14 @@ public class AdminInquiryController {
          return inquiry != null ? new ResponseEntity<>(inquiry, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
      }
 
-//     // 관리자 질문 답변 작성
-//     @PostMapping("/{inquiryId}/reply")
-//     public ResponseEntity<AdminInquiryDto> addInquiry(@RequestBody AdminInquiryDto adminInquiryDto) {
-//         adminInquiryService.addInquiry(adminInquiryDto);
-//         return new ResponseEntity<>(adminInquiryDto, HttpStatus.CREATED);
-//     }
-//
+     // 관리자 질문 답변 작성
+     @PostMapping("/{inquiryId}/reply")
+     public ResponseEntity<AdminInquiryDto> updateInquiryReply(@PathVariable("inquiryId") int inquiryId, @RequestBody AdminInquiryDto adminInquiryDto) {
+         adminInquiryDto.setInquiryId(inquiryId);
+         adminInquiryService.updateInquiryReply(adminInquiryDto);
+         return new ResponseEntity<>(adminInquiryDto, HttpStatus.OK);
+     }
+
 //     // 관리자 질문 삭제
 //     @DeleteMapping("/{inquiryId}")
 //     public ResponseEntity<Void> deleteInquiry(@PathVariable("inquiryId") int inquiryId) {

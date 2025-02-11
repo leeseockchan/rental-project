@@ -12,7 +12,7 @@ public interface AdminInquiryMapper {
 
     AdminInquiryDto findInquiryById(int inquiryId);
 
-    void insertInquiry(AdminInquiryDto adminInquiryDto);
+    void updateInquiryReply(AdminInquiryDto adminInquiryDto);
 
     void deleteInquiry(int inquiryId);
 }
