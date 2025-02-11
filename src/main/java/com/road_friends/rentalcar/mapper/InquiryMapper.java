@@ -11,4 +11,6 @@ public interface InquiryMapper {
     List<InquiryDto> findAllInquiry();
 
     InquiryDto findInquiryById(int inquiryId);
+
+    void insertInquiry(InquiryDto inquiryDto);
 }

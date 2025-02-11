@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class InquiryDto {
 
-    private int inquiryId;
+//    private int inquiryId;
 
     @JsonProperty("inquiries_num")
     private int inquiriesNum;

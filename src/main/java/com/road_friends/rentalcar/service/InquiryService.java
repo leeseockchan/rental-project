@@ -20,4 +20,8 @@ public class InquiryService {
     public InquiryDto getInquiryById(int inquiryId) {
         return inquiryMapper.findInquiryById(inquiryId);
     }
+
+    public void addInquiry(InquiryDto inquiryDto) {
+        inquiryMapper.insertInquiry(inquiryDto);
+    }
 }

@@ -13,4 +13,10 @@
         SELECT inquiries_num, user_num, inquiries_q, inquiries_q_created_at FROM inquiries WHERE inquiries_num = #{inquiryId};
     </select>
 
+    <!-- 고객 질문 추가 -->
+    <insert id="insertInquiry" parameterType="com.road_friends.rentalcar.dto.InquiryDto">
+        INSERT INTO inquiries (user_num, inquiries_q)
+        VALUES (#{userNum}, #{inquiriesQ});
+    </insert>
+
 </mapper>

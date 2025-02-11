@@ -5,10 +5,7 @@ import com.road_friends.rentalcar.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,13 @@ public class InquiryController {
     public ResponseEntity<InquiryDto> getInquiryById(@PathVariable("inquiryId") int inquiryId) {
         InquiryDto inquiry = inquiryService.getInquiryById(inquiryId);
         return inquiry != null ? new ResponseEntity<>(inquiry, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // 고객 질문 추가
+    @PostMapping
+    public ResponseEntity<InquiryDto> addInquiry(@RequestBody InquiryDto inquiryDto) {
+        inquiryService.addInquiry(inquiryDto);
+        return new ResponseEntity<>(inquiryDto, HttpStatus.CREATED);
     }
 
 }
