@@ -9,4 +9,6 @@ import java.util.List;
 public interface InquiryMapper {
 
     List<InquiryDto> findAllInquiry();
+
+    InquiryDto findInquiryById(int inquiryId);
 }

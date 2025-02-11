@@ -16,4 +16,8 @@ public class InquiryService {
     public List<InquiryDto> getAllInquiry() {
         return inquiryMapper.findAllInquiry();
     }
+
+    public InquiryDto getInquiryById(int inquiryId) {
+        return inquiryMapper.findInquiryById(inquiryId);
+    }
 }

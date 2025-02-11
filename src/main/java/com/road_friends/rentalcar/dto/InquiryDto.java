@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InquiryDto {
 
-    //    private int inquiryId;
+    private int inquiryId;
 
     @JsonProperty("inquiries_num")
     private int inquiriesNum;
