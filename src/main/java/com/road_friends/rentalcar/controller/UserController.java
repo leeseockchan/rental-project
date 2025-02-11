@@ -1,6 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
-import com.road_friends.rentalcar.dto.AdminUserDTO;
+import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,9 +19,9 @@ public class UserController {
   }
 
   @PostMapping("/admin/signup")
-  public String signup(@ModelAttribute AdminUserDTO adminUserDTO) {
+  public String signup(@ModelAttribute UserDTO userDTO) {
 
-    userService.signup(adminUserDTO);
+    userService.signup(userDTO);
 
     return "redirect:/auth/login";
   }

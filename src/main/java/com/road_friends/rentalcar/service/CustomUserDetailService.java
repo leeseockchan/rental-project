@@ -3,7 +3,7 @@ package com.road_friends.rentalcar.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.road_friends.rentalcar.dto.AdminUserDTO;
+import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.mapper.UserMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,19 +21,19 @@ public class CustomUserDetailService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    AdminUserDTO adminUserDTO = userMapper.findByUsername(username);
-    if (adminUserDTO == null) {
+    UserDTO userDTO = userMapper.findByUsername(username);
+    if (userDTO == null) {
       throw new UsernameNotFoundException("User not found with username: " + username);
     }
 
-    List<GrantedAuthority> authorities = adminUserDTO.getRoles().stream()
+    List<GrantedAuthority> authorities = userDTO.getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .collect(Collectors.toList());
 
     return new org.springframework.security.core.userdetails.User(
-            adminUserDTO.getUsername(),
-            adminUserDTO.getPassword(),
-            adminUserDTO.isEnabled(),
+            userDTO.getUsername(),
+            userDTO.getPassword(),
+            userDTO.isEnabled(),
             true, true, true,
             //Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
             authorities);
