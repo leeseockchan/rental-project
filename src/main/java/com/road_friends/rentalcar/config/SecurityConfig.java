@@ -1,19 +1,34 @@
 package com.road_friends.rentalcar.config;
 
+import com.road_friends.rentalcar.component.JwtAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Slf4j
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final UserDetailsService userDetailsService;
+
+  public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService userDetailsService) {
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    this.userDetailsService = userDetailsService;
+  }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,6 +61,34 @@ public class SecurityConfig {
             );
 
     return http.build();
+  }
+
+
+  // API 서버용 시큐리티 설정 (JSON 기반)
+  @Bean
+  @Order(2)
+  public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
+    log.info("API security config...");
+
+    http
+            .securityMatcher("/api/**")  // API 요청에만 적용
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT 또는 Stateless 환경
+            )
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/public/**").permitAll() // 공개 API
+                    .requestMatchers("/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/signup").permitAll()
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    return config.getAuthenticationManager();
   }
 
   @Bean

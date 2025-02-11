@@ -1,6 +1,6 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.AdminUserDTO;
 import com.road_friends.rentalcar.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
   private final UserMapper userMapper;
 
-  public void signup(UserDTO userDTO) {
-    userDTO.setEnabled(true);
+  public void signup(AdminUserDTO adminUserDTO) {
+    adminUserDTO.setEnabled(true);
 
-    userMapper.save(userDTO);
+    userMapper.save(adminUserDTO);
   }
 
 }

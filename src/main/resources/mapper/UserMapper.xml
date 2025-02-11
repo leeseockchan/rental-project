@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.UserMapper">
-    <resultMap id="UserWithRoles" type="com.road_friends.rentalcar.dto.UserDTO">
+    <resultMap id="UserWithRoles" type="com.road_friends.rentalcar.dto.AdminUserDTO">
         <id property="id" column="user_id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -13,7 +13,7 @@
             <result property="name" column="role_name"/>
         </collection>
     </resultMap>
-    <insert id="save" parameterType="com.road_friends.rentalcar.dto.UserDTO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.road_friends.rentalcar.dto.AdminUserDTO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO users (username, password, enabled)
         VALUES (#{username}, #{password}, #{enabled})
     </insert>
