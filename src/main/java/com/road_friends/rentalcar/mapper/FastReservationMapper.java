@@ -16,4 +16,5 @@ public interface FastReservationMapper {
 
     void deleteReservation(int id);
 
+    void updateReservation(FastReservationDto fastReservationDto);
 }
