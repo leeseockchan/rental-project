@@ -20,10 +20,10 @@ public class CustomUserDetailService implements UserDetailsService {
   private final UserMapper userMapper;
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserDTO userDTO = userMapper.findByUsername(username);
+  public UserDetails loadUserByUsername(String user_name) throws UsernameNotFoundException {
+    UserDTO userDTO = userMapper.findByUsername(user_name);
     if (userDTO == null) {
-      throw new UsernameNotFoundException("User not found with username: " + username);
+      throw new UsernameNotFoundException("User not found with username: " + user_name);
     }
 
     List<GrantedAuthority> authorities = userDTO.getRoles().stream()
