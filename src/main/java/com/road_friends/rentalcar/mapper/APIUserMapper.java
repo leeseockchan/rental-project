@@ -10,6 +10,6 @@ import java.util.Optional;
 @Mapper
 public interface APIUserMapper {
   void save(UserDTO userDTO);
-  void insertUserRole(@Param("userId") int userId, @Param("roleId") int roleId);
+  void insertUserRole(@Param("userId") Long userId, @Param("roleId") int roleId);
 
 }

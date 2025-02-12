@@ -31,8 +31,8 @@ public class CustomUserDetailService implements UserDetailsService {
             .collect(Collectors.toList());
 
     return new org.springframework.security.core.userdetails.User(
-            userDTO.getUsername(),
-            userDTO.getPassword(),
+            userDTO.getUser_name(),
+            userDTO.getUser_password(),
             userDTO.isEnabled(),
             true, true, true,
             //Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));

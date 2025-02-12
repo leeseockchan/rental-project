@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
-  private final String username;
+  private final String user_name;
+  private final String user_password;
   private final List<GrantedAuthority> authorities;
 
-  public CustomUserDetails(String username, List<String> roles){
-    this.username = username;
+  public CustomUserDetails(String user_name, String user_password, List<String> roles) {
+    this.user_name = user_name;
+    this.user_password = user_password;
     this.authorities = roles.stream()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
@@ -26,12 +28,12 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getPassword() {
-    return null;  // JWT 기반 인증에서는 비밀번호 필요 없음
+    return user_password;  // 비밀번호 추가
   }
 
   @Override
   public String getUsername() {
-    return username;
+    return user_name;
   }
 
   @Override

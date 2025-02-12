@@ -14,13 +14,13 @@ public class APIUserService {
   private final PasswordEncoder passwordEncoder;
 
   public void signup(UserDTO userDTO) {
-    String encodedPw = passwordEncoder.encode(userDTO.getPassword());
-    userDTO.setPassword(encodedPw);
+    String encodedPw = passwordEncoder.encode(userDTO.getUser_password());
+    userDTO.setUser_password(encodedPw);
     userDTO.setEnabled(userDTO.isEnabled());
 
     // 사용자 등록
     apiUserMapper.save(userDTO);
     // 권한 등록
-    apiUserMapper.insertUserRole(userDTO.getId(), 1);
+    apiUserMapper.insertUserRole(userDTO.getUser_num(), 1);
   }
 }
