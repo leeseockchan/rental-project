@@ -3,6 +3,7 @@
 <mapper namespace="com.road_friends.rentalcar.mapper.UserMapper">
     <resultMap id="UserWithRoles" type="com.road_friends.rentalcar.dto.UserDTO">
         <id property="user_num" column="user_num"/> <!-- user_num으로 변경 -->
+        <result property="user_id" column="user_id"/>
         <result property="user_name" column="user_name"/> <!-- user_name으로 변경 -->
         <result property="user_password" column="user_password"/> <!-- user_password으로 변경 -->
         <result property="user_email" column="user_email"/> <!-- user_email 추가 -->
@@ -20,11 +21,13 @@
 
 
     <insert id="save" parameterType="com.road_friends.rentalcar.dto.UserDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user (username, password, enabled)
-        VALUES (#{username}, #{password}, #{enabled})
+        INSERT INTO user (user_id, username, password, enabled)
+        VALUES (#{user_id}, #{username}, #{password}, #{enabled})
     </insert>
     <select id="findByUsername" resultMap="UserWithRoles">
-        SELECT u.user_num as user_num,
+        SELECT
+        u.user_num as user_num,
+        u.user_id as user_id,
         u.user_name,
         u.user_password,
         u.enabled,
@@ -33,8 +36,9 @@
         FROM user u
         LEFT JOIN user_roles ur ON u.user_num = ur.user_id
         LEFT JOIN roles r ON ur.role_id = r.id
-        WHERE u.user_name = #{user_name}
+        WHERE u.user_id = #{user_id};
     </select>
+
 
 
 </mapper>

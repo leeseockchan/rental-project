@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class CustomUserDetailService implements UserDetailsService {
 
   private final UserMapper userMapper;
-
   @Override
   public UserDetails loadUserByUsername(String user_name) throws UsernameNotFoundException {
     UserDTO userDTO = userMapper.findByUsername(user_name);
@@ -31,7 +30,7 @@ public class CustomUserDetailService implements UserDetailsService {
             .collect(Collectors.toList());
 
     return new org.springframework.security.core.userdetails.User(
-            userDTO.getUser_name(),
+            userDTO.getUser_id(),
             userDTO.getUser_password(),
             userDTO.isEnabled(),
             true, true, true,

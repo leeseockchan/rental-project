@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
-  private final String user_name;
+  private final String user_id;
   private final String user_password;
   private final List<GrantedAuthority> authorities;
 
-  public CustomUserDetails(String user_name, String user_password, List<String> roles) {
-    this.user_name = user_name;
+  public CustomUserDetails(String user_id, String user_password, List<String> roles) {
+    this.user_id = user_id;
     this.user_password = user_password;
     this.authorities = roles.stream()
             .map(SimpleGrantedAuthority::new)
@@ -33,8 +33,9 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getUsername() {
-    return user_name;
+    return user_id;
   }
+
 
   @Override
   public boolean isAccountNonExpired() {

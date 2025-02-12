@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class UserDTO {
   private Long user_num;
+  private String user_id;
   private String user_name;
   private String user_password;
   private String user_email;

@@ -42,7 +42,7 @@ public class APIUserController {
   public Map<String, String> login(@RequestBody Map<String, String> user) {
     try {
       Authentication authentication = authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(user.get("user_name"), user.get("user_password"))
+              new UsernamePasswordAuthenticationToken(user.get("user_id"), user.get("user_password"))
       );
 
       String token = jwtUtil.generateToken(authentication.getName());

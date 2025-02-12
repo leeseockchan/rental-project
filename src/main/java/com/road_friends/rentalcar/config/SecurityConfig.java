@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -49,6 +51,8 @@ public class SecurityConfig {
             )
             .formLogin(formLogin -> formLogin
                     .loginPage("/admin/login")
+                    .usernameParameter("user_id")  // username 대신 user_id로 변경
+                    .passwordParameter("user_password")  // password 대신 user_password로 변경
                     .defaultSuccessUrl("/admin/dashboard", true)
                     .permitAll()
             )

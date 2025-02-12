@@ -21,9 +21,9 @@ public class JwtUtil {
   private long EXPIRATION_TIME;    // 1일 (ms)
 
   // JWT 토큰 생성
-  public String generateToken(String user_name) {
+  public String generateToken(String user_id) {
     return Jwts.builder()
-            .setSubject(user_name)
+            .setSubject(user_id)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
             .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
