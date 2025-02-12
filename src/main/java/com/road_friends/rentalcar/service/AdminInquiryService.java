@@ -21,12 +21,12 @@ public class AdminInquiryService {
         return adminInquiryMapper.findInquiryById(inquiryId);
     }
 
-    public void updateInquiryReply(AdminInquiryDto adminInquiryDto) {
-        adminInquiryMapper.updateInquiryReply(adminInquiryDto);
+    public void updateInquiryReply(int inquiryId, String inquiriesA) {
+        adminInquiryMapper.updateInquiryReply(inquiryId, inquiriesA);
     }
 
-    public void clearInquiryAnswer(AdminInquiryDto adminInquiryDto) {
-        adminInquiryMapper.clearInquiryAnswer(adminInquiryDto);
+    public void clearInquiryAnswer(int inquiryId) {
+        adminInquiryMapper.clearInquiryAnswer(inquiryId);
     }
 
     public void deleteInquiry(int inquiryId) {

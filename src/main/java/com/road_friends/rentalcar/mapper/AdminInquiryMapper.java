@@ -12,9 +12,9 @@ public interface AdminInquiryMapper {
 
     AdminInquiryDto findInquiryById(int inquiryId);
 
-    void updateInquiryReply(AdminInquiryDto adminInquiryDto);
+    void updateInquiryReply(int inquiryId, String inquiriesA);
 
-    void clearInquiryAnswer(AdminInquiryDto adminInquiryDto);
+    void clearInquiryAnswer(int inquiryId);
 
     void deleteInquiry(int inquiryId);
 
