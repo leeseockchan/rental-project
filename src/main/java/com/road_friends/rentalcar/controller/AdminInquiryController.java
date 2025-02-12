@@ -2,55 +2,65 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.AdminInquiryDto;
 import com.road_friends.rentalcar.service.AdminInquiryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/admin/inquiry")
 public class AdminInquiryController {
-
-    @Autowired
-    AdminInquiryService adminInquiryService;
-
-    // 관리자 질문 전체 조회
-    @GetMapping
-    public ResponseEntity<List<AdminInquiryDto>> getAllInquiry() {
-        List<AdminInquiryDto> inquiry = adminInquiryService.getAllInquiry();
-        return new ResponseEntity<>(inquiry, HttpStatus.OK);
-    }
-
-     // 관리자 질문 상세 조회
-     @GetMapping("/{inquiryId}")
-     public ResponseEntity<AdminInquiryDto> getInquiryById(@PathVariable("inquiryId") int inquiryId) {
-         AdminInquiryDto inquiry = adminInquiryService.getInquiryById(inquiryId);
-         return inquiry != null ? new ResponseEntity<>(inquiry, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-     }
-
-     // 관리자 질문 답변 작성
-     @PostMapping("/{inquiryId}/reply")
-     public ResponseEntity<AdminInquiryDto> updateInquiryReply(@PathVariable("inquiryId") int inquiryId, @RequestBody AdminInquiryDto adminInquiryDto) {
-         adminInquiryDto.setInquiryId(inquiryId);
-         adminInquiryService.updateInquiryReply(adminInquiryDto);
-         return new ResponseEntity<>(adminInquiryDto, HttpStatus.OK);
-     }
-
-     // 관리자 질문 답변 삭제
-     @PostMapping("/{inquiryId}/reply/clear")
-    public ResponseEntity<AdminInquiryDto> clearInquiryAnswer(@PathVariable("inquiryId") int inquiryId, @RequestBody AdminInquiryDto adminInquiryDto) {
-        adminInquiryDto.setInquiryId(inquiryId);
-        adminInquiryService.clearInquiryAnswer(adminInquiryDto);
-        return new ResponseEntity<>(adminInquiryDto, HttpStatus.OK);
-    }
-
-     // 관리자 질문 삭제
-     @DeleteMapping("/{inquiryId}")
-     public ResponseEntity<Void> deleteInquiry(@PathVariable("inquiryId") int inquiryId) {
-         adminInquiryService.deleteInquiry(inquiryId);
-         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-     }
     
+    @Autowired
+    private AdminInquiryService adminInquiryService;
+
+    // 문의 목록 조회 (HTML 렌더링)
+    @GetMapping
+    public String getAllInquiry(Model model) {
+        List<AdminInquiryDto> inquiries = adminInquiryService.getAllInquiry();
+        model.addAttribute("inquiries", inquiries);
+        return "inquiry/inquiry_list";  // inquiry_list.html로 이동
+    }
+
+    // 문의 상세 조회 페이지
+    @GetMapping("/{inquiryId}")
+    public String getInquiryById(@PathVariable("inquiryId") int inquiryId, Model model) {
+        AdminInquiryDto inquiry = adminInquiryService.getInquiryById(inquiryId);
+        if (inquiry == null) {
+            return "redirect:/api/admin/inquiry";  // 문의 목록으로 리디렉션
+        }
+        model.addAttribute("inquiry", inquiry);
+        return "inquiry/inquiry_list_detail";  // inquiry_list_detail.html로 이동
+    }
+
+    // 관리자 답변 등록
+    @PostMapping("/{inquiryId}/reply")
+    public String updateInquiryReply(@PathVariable("inquiryId") int inquiryId,
+                                     @RequestParam("inquiriesA") String inquiriesA,
+                                     RedirectAttributes redirectAttributes) {
+        // 답변을 등록하는 서비스 호출
+        adminInquiryService.updateInquiryReply(inquiryId, inquiriesA);
+
+        // 답변이 등록된 후, 해당 문의 상세 페이지로 리디렉션
+        redirectAttributes.addAttribute("inquiryId", inquiryId);
+        return "redirect:/api/admin/inquiry/{inquiryId}"; // 문의 상세 페이지로 리디렉션
+    }
+
+    // 관리자 답변 삭제
+    @PostMapping("/{inquiryId}/reply/clear")
+    public String clearInquiryAnswer(@PathVariable("inquiryId") int inquiryId) {
+        adminInquiryService.clearInquiryAnswer(inquiryId);
+        return "redirect:/api/admin/inquiry";
+    }
+
+    // 관리자 문의 삭제
+    @PostMapping("/{inquiryId}/delete")
+    public String deleteInquiry(@PathVariable("inquiryId") int inquiryId) {
+        adminInquiryService.deleteInquiry(inquiryId);
+        return "redirect:/api/admin/inquiry";
+    }
 }
