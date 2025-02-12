@@ -23,7 +23,7 @@ import java.util.Optional;
 @RestController
 @ResponseBody
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/auth")
 @Controller
 public class APIUserController {
 
