@@ -15,5 +15,9 @@
     <li>반납일시:<span th:text="${reservation.returnDatetime}"></span></li>
 </ul>
 
+<ul>
+    <li><a th:href="@{/api/reservation/{reservationId}/modify(reservationId=${reservation.reservationId})}">수정</a></li>
+    <li><a th:href="@{/api/reservation/{reservationId}/delete(reservationId=${reservation.reservationId})}">삭제</a></li>
+</ul>
 </body>
 </html>

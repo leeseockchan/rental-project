@@ -19,10 +19,9 @@
         <td>반납일시</td>
     </tr>
 
-
     <!--    반복 구간 시작    -->
     <tr th:each="reservation : ${reservations}">
-        <td th:text="${reservation.reservationId}"></td>
+        <td><a th:href="@{/api/reservation/{reservationId}(reservationId=${reservation.reservationId})}" th:text="${reservation.reservationId}"></a></td>
         <td th:text="${reservation.carId}"></td>
         <td th:text="${reservation.rentalLocation}"></td>
         <td th:text="${reservation.rentalDatetime}"></td>
