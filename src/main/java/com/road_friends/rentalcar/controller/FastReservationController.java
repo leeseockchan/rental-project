@@ -92,6 +92,13 @@ public class FastReservationController {
         return "reservation/detail";
     }
 
+    // 예약 삭제
+    @GetMapping("/reservation/{reservationId}/delete")
+    public String delete (@PathVariable ("reservationId") int id){
+        fastReservationService.deleteReservation(id);
+        return "redirect:/api/reservationList";
+    }
+
 
 
 }

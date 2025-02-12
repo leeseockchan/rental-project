@@ -28,6 +28,10 @@ public class FastReservationService {
         return fastReservationMapper.getReservationById(id);
     }
 
+    // 예약 삭제
+    public void deleteReservation(int id){
+        fastReservationMapper.deleteReservation(id);
+    }
 
 
 }

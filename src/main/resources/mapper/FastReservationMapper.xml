@@ -7,10 +7,6 @@
         VALUES (#{carId},#{latitude}, #{longitude}, #{rentalLocation}, #{rentalDatetime}, #{returnLocation}, #{returnDatetime});
     </insert>
 
-    <delete id="deleteReservation">
-        DELETE FROM fast_reservation WHERE reservation_id = #{reservationId};
-    </delete>
-
     <select id="findAll">
         select reservation_id, car_id, rental_location, rental_datetime,  return_location,  return_datetime
         FROM fast_reservation
@@ -20,5 +16,9 @@
         select reservation_id, car_id, rental_location, rental_datetime,  return_location,  return_datetime, fast_reservation_create_at
         from fast_reservation where reservation_id = #{reservationId}
     </select>
+
+    <delete id="deleteReservation">
+        DELETE FROM fast_reservation WHERE reservation_id = #{reservationId};
+    </delete>
 
 </mapper>
