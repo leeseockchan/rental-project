@@ -8,4 +8,5 @@ public class APIUserDto {
     private String userName;
     private String userEmail;
     private String userPhone;
+    private String userAddress;
 }

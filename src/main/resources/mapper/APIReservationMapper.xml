@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.APIReservationMapper">
+
+    <!-- 로그인한 사용자의 예약정보 조회 -->
+    <select id="getUserReservations" resultType="com.road_friends.rentalcar.dto.APIReservationDto">
+        SELECT reservation_s_id, car_id, user_num, reservation_s_start_date,
+        reservation_s_end_date, reservation_s_create_date
+        FROM reservation_s_data
+        WHERE user_num = #{userId}
+    </select>
+
+    <!-- 로그인한 사용자의 특정 예약 상세 조회 -->
+    <select id="getReservationDetail" resultType="com.road_friends.rentalcar.dto.APIReservationDto">
+        SELECT reservation_s_id, car_id, user_num, reservation_s_start_date,
+        reservation_s_end_date, reservation_s_create_date
+        FROM reservation_s_data
+        WHERE reservation_s_id = #{reservationId}
+    </select>
+
+    <!-- 예약 수정 -->
+    <update id="updateReservation">
+        UPDATE reservation_s_data
+        SET car_id = #{carId},
+        reservation_s_start_date = #{reservationSStartDate},
+        reservation_s_end_date = #{reservationSEndDate}
+        WHERE reservation_s_id = #{reservationSId} AND user_num = #{userNum}
+    </update>
+
+    <!-- 예약 취소(삭제) -->
+    <delete id="deleteReservation">
+        DELETE FROM reservation_s_data
+        WHERE reservation_s_id = #{reservationId} AND user_num = #{userNum}
+    </delete>
+
+</mapper>

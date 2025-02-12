@@ -9,7 +9,8 @@
     <!-- 로그인한 사용자 정보 수정 -->
     <update id="update">
         UPDATE user
-        SET user_name = #{userName}, user_email = #{userEmail}, user_phone = #{userPhone}
+        SET user_name = #{userName}, user_email = #{userEmail},
+        user_phone = #{userPhone} , user_address = #{userAddress}
         WHERE user_num = #{userNum}
     </update>
 
