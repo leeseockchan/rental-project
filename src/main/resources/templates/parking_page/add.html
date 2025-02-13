@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>주차장 추가하기</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/parking/parkingList.css">
+  <title>주차장 생성 하기</title>
 </head>
 <body>
-<h1> 주차장 추가 하러 잘 찾아왔어</h1>
-<form id="parkingForm">
-    <label for="parking_name">주차장 이름 : </label>
-    <input type="text" id="parking_name" name="name" required><br><br>
+<h1> 주차장을 생성 하러 잘 찾아왔어요</h1>
+
+<form id="parkingForm" method="post">
+    <input type="hidden" id="parking_id" name="id" value="parking.id">
+    <label for="parking_name" >주차장 이름 : </label>
+    <input type="text" id="parking_name" name="name"
+           placeholder="주차장의 이름을 입력해주세요" required><br><br>
 
     <label for="parking_address">주차장의 주소 : </label>
-    <input type="text" id="parking_address" name="address" required><br><br>
+    <input type="text" id="parking_address" name="address"
+           placeholder="주차장의 주소를 입력해주세요" required><br><br>
 
     <label for="parking_latitude">주차장 위도 : </label>
-    <input type="text" id="parking_latitude" name="latitude" required><br><br>
+    <input type="text" id="parking_latitude" name="latitude"
+           placeholder="위도의 값을 정확히 입력해주세요" required><br><br>
 
     <label for="parking_longitude">주차장 경도 : </label>
-    <input type="text" id="parking_longitude" name="longitude" required><br><br>
+    <input type="text" id="parking_longitude" name="longitude"
+           placeholder="경도의 값을 정확히 입력해주세요" required><br><br>
 
     <label for="parking_type">주차장 유형 : </label>
-    <select id="parkingType">
+    <select id="parking_type" required name="type">
         <option value="공영">공영</option>
         <option value="민영">민영</option>
     </select>
-    <input type="text" id="parking_type" name="type" placeholder="주차장 이름을 입력해주세요" required><br><br>
+<!--    <input type="text" id="" name="type" placeholder="주차장 이름을 입력해주세요" required><br><br>-->
 
     <button type="submit">주차장 등록하기</button>
 </form>
-<a href="parking_page/list.html">주차장 목록으로 이동</a>
+<script th:type="module" th:src="@{/js/parking_add.js}"></script>
 </body>
 </html>
