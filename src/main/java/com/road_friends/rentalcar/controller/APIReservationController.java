@@ -18,8 +18,8 @@ public class APIReservationController {
 
     // 로그인한 사용자의 모든 예약 조회
     @GetMapping
-    public List<APIReservationDto> getUserReservations(@RequestParam Long userId){
-        return apiReservationService.getUserReservations(userId);
+    public List<APIReservationDto> getUserReservations(@RequestParam Long userNum){
+        return apiReservationService.getUserReservations(userNum);
     }
 
     // 특정 예약 상세 조회
@@ -30,8 +30,9 @@ public class APIReservationController {
 
     // 예약 정보 수정
     @PutMapping("/{id}")
-    public int updateReservation(@PathVariable Long id, @RequestBody APIReservationDto apiReservationDto){
+    public int updateReservation(@PathVariable Long id, @RequestParam Long userNum, @RequestBody APIReservationDto apiReservationDto){
         apiReservationDto.setReservationSId(id);
+        apiReservationDto.setUserNum(userNum);
         return apiReservationService.updateReservation(apiReservationDto);
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface APIReservationMapper {
 
     // 로그인한 사용자의 모든 예약 조회
-    List<APIReservationDto> getUserReservations(Long userId);
+    List<APIReservationDto> getUserReservations(Long userNum);
 
     // 특정 예약 상세 조회
     APIReservationDto getReservationDetail(Long reservationId);

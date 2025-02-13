@@ -16,8 +16,8 @@ public class APIReservationService {
     }
 
     // 로그인한 사용자의 전체 예약 조회
-    public List<APIReservationDto> getUserReservations(Long userId){
-        return apiReservationMapper.getUserReservations(userId);
+    public List<APIReservationDto> getUserReservations(Long userNum){
+        return apiReservationMapper.getUserReservations(userNum);
     }
 
     // 특정 예약 상세 조회

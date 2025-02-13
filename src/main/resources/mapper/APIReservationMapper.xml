@@ -7,7 +7,7 @@
         SELECT reservation_s_id, car_id, user_num, reservation_s_start_date,
         reservation_s_end_date, reservation_s_create_date
         FROM reservation_s_data
-        WHERE user_num = #{userId}
+        WHERE user_num = #{userNum}
     </select>
 
     <!-- 로그인한 사용자의 특정 예약 상세 조회 -->
