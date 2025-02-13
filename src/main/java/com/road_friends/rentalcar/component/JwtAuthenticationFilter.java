@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,9 +39,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     if (authHeader != null && authHeader.startsWith("Bearer ")) {
       String jwtToken = authHeader.substring(7);
       String user_id = jwtUtil.extractUsername(jwtToken);
+      List<String> roles = jwtUtil.extractRoles(jwtToken);
 
       if (user_id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(user_id);
+
+        // 권한 정보 변환
+        List<GrantedAuthority> authorities = roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
 
         if (jwtUtil.validateToken(jwtToken)) {
           UsernamePasswordAuthenticationToken authToken =
