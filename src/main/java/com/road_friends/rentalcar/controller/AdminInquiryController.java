@@ -3,6 +3,7 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.dto.AdminInquiryDto;
 import com.road_friends.rentalcar.service.AdminInquiryService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,27 +52,6 @@ public class AdminInquiryController {
         redirectAttributes.addFlashAttribute("successMessage", "답변 등록 성공");  // 성공 메시지 추가
         return "redirect:/api/admin/inquiry/" + inquiryId;  // 해당 문의 상세 페이지로 리디렉션
     }
-//    @PostMapping("/{inquiryId}/reply")
-//    public String updateInquiryReply(
-//            @PathVariable("inquiryId") int inquiryId,
-//            @Validated @ModelAttribute AdminInquiryDto adminInquiryDto,  // 유효성 검사 적용
-//            BindingResult result,  // 유효성 검사 결과
-//            Model model) {
-//
-//        // 유효성 검사 실패 시
-//        if (result.hasErrors()) {
-//            // 유효성 검사 실패 메시지 처리 (검사된 필드의 오류)
-//            model.addAttribute("errorMessage", "입력값이 잘못되었습니다.");
-//            return "redirect:/api/admin/inquiry/" + inquiryId; // 유효성 검사 오류 페이지로 리디렉션
-//        }
-//
-//        // 유효성 검사 통과 시
-//        adminInquiryService.updateInquiryReply(inquiryId, adminInquiryDto);
-//        model.addAttribute("successMessage", "답변 등록 성공");
-//
-//        // 해당 문의 상세 페이지로 리디렉션
-//        return "redirect:/api/admin/inquiry/" + inquiryId;
-//    }
 
     // 관리자 답변 삭제
     @PostMapping("/{inquiryId}/reply/clear")

@@ -22,7 +22,6 @@ public class AdminInquiryService {
     }
 
     public void updateInquiryReply(int inquiryId, int adminNum, String inquiriesA) {
-        // MyBatis Mapper 호출하여 DB 업데이트
         adminInquiryMapper.updateInquiryReply(inquiryId, adminNum, inquiriesA);
     }
 

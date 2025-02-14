@@ -57,19 +57,21 @@
         </div>
 
         <div class="card-body p-4">
-            <form th:action="@{/api/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})}" method="post">
+            <form id="reply-form" th:action="@{/api/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})}" method="post" onsubmit="return validateForm()">
                 <input type="hidden" name="inquiriesNum" th:value="${inquiry.inquiriesNum}" />
 
                 <!-- 관리자 번호 입력 -->
                 <div class="mb-3">
                     <label for="adminNum" class="form-label"><strong>관리자 번호</strong></label>
-                    <input type="text" id="adminNum" class="form-control" name="adminNum" th:value="${inquiry.adminNum}" required />
+                    <input type="text" id="adminNum" class="form-control" name="adminNum" th:value="${inquiry.adminNum}" required oninput="validateAdminNum()" />
+                    <span id="error-adminNum" style="color: red;"></span>
                 </div>
 
                 <!-- 답변 내용 입력 -->
                 <div class="mb-3">
                     <label for="inquiriesA" class="form-label"><strong>답변 내용</strong></label>
-                    <textarea id="inquiriesA" class="form-control" name="inquiriesA" rows="5" required th:text="${inquiry.inquiriesA}"></textarea>
+                    <textarea id="inquiriesA" class="form-control" name="inquiriesA" rows="5" required th:text="${inquiry.inquiriesA}" oninput="validateInquiriesA()"></textarea>
+                    <span id="error-inquiriesA" style="color: red;"></span>
                 </div>
 
                 <!-- 답변 작성 완료 버튼 -->
@@ -127,46 +129,43 @@
 
 
 // 유효성 검사
-        document.getElementById('reply-form').onsubmit = function(event) {
-    // 관리자 번호 확인
-    var adminNum = document.getElementById('adminNum').value.trim();
-    if (adminNum === "") {
-        alert("관리자 번호를 입력하세요.");
-        event.preventDefault();  // 폼 제출을 막음
+function validateAdminNum() {
+    const adminNum = document.getElementById("adminNum").value.trim();
+    const errorAdminNum = document.getElementById("error-adminNum");
+
+    if (!adminNum) {
+        errorAdminNum.textContent = "관리자 번호는 필수 입력값입니다.";
+        return false;
+    } else if (!/^\d+$/.test(adminNum) || parseInt(adminNum, 10) < 1) {
+        errorAdminNum.textContent = "관리자 번호는 1 이상의 숫자여야 합니다.";
+        return false;
+    } else {
+        errorAdminNum.textContent = "";
+        return true;
+    }
+}
+
+function validateInquiriesA() {
+    const inquiriesA = document.getElementById("inquiriesA").value.trim();
+    const errorInquiriesA = document.getElementById("error-inquiriesA");
+
+    if (!inquiriesA) {
+        errorInquiriesA.textContent = "답변 내용을 입력해야 합니다.";
+        return false;
+    } else {
+        errorInquiriesA.textContent = "";
+        return true;
+    }
+}
+
+// 폼 제출 방지 및 리디렉트
+document.getElementById("reply-form").onsubmit = function(event) {
+    if (!validateAdminNum() || !validateInquiriesA()) {
+        event.preventDefault();  // 폼 제출 방지
+        alert("폼을 제출하지 못했습니다.");
+        window.location.reload();  // 현재 페이지 새로고침 (리디렉트)
         return false;
     }
-
-    // 관리자 번호가 숫자인지 확인
-    if (isNaN(adminNum)) {
-        alert("관리자 번호는 숫자만 입력해야 합니다.");
-        event.preventDefault();  // 폼 제출을 막음
-        return false;
-    }
-
-    // 숫자 외의 문자나 특수기호가 들어가지 않도록 추가 검사
-    if (!/^[0-9]+$/.test(adminNum)) {
-        alert("관리자 번호에는 숫자만 입력할 수 있습니다.");
-        event.preventDefault();
-        return false;
-    }
-
-    // 관리자 번호가 특정 범위 내에 있는지 확인
-    var adminNumValue = parseInt(adminNum, 10);  // 숫자 형태로 변환
-    if (adminNumValue < 1 || adminNumValue > 99) {
-        alert("관리자 번호는 1 이상 99 이하의 숫자여야 합니다.");
-        event.preventDefault();  // 폼 제출을 막음
-        return false;
-    }
-
-    // 답변 내용 확인
-    var inquiriesA = document.getElementById('inquiriesA').value.trim();
-    if (inquiriesA === "") {
-        alert("답변 내용을 입력하세요.");
-        event.preventDefault();  // 폼 제출을 막음
-        return false;
-    }
-
-    return true; // 모든 검사를 통과하면 폼을 제출
 };
 
     </script>

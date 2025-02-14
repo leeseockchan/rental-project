@@ -3,7 +3,6 @@ package com.road_friends.rentalcar.mapper;
 import com.road_friends.rentalcar.dto.AdminInquiryDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
