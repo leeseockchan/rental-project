@@ -23,7 +23,7 @@ public class FastReservationDto {
 
     // 사용자 번호
     @JsonProperty("user_num")
-    private int user_num;
+    private int userNum;
 
     // 대여위치
     @JsonProperty("rental_location")
