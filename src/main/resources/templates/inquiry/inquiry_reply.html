@@ -124,6 +124,51 @@
             }
         });
         });
+
+
+// 유효성 검사
+        document.getElementById('reply-form').onsubmit = function(event) {
+    // 관리자 번호 확인
+    var adminNum = document.getElementById('adminNum').value.trim();
+    if (adminNum === "") {
+        alert("관리자 번호를 입력하세요.");
+        event.preventDefault();  // 폼 제출을 막음
+        return false;
+    }
+
+    // 관리자 번호가 숫자인지 확인
+    if (isNaN(adminNum)) {
+        alert("관리자 번호는 숫자만 입력해야 합니다.");
+        event.preventDefault();  // 폼 제출을 막음
+        return false;
+    }
+
+    // 숫자 외의 문자나 특수기호가 들어가지 않도록 추가 검사
+    if (!/^[0-9]+$/.test(adminNum)) {
+        alert("관리자 번호에는 숫자만 입력할 수 있습니다.");
+        event.preventDefault();
+        return false;
+    }
+
+    // 관리자 번호가 특정 범위 내에 있는지 확인
+    var adminNumValue = parseInt(adminNum, 10);  // 숫자 형태로 변환
+    if (adminNumValue < 1 || adminNumValue > 99) {
+        alert("관리자 번호는 1 이상 99 이하의 숫자여야 합니다.");
+        event.preventDefault();  // 폼 제출을 막음
+        return false;
+    }
+
+    // 답변 내용 확인
+    var inquiriesA = document.getElementById('inquiriesA').value.trim();
+    if (inquiriesA === "") {
+        alert("답변 내용을 입력하세요.");
+        event.preventDefault();  // 폼 제출을 막음
+        return false;
+    }
+
+    return true; // 모든 검사를 통과하면 폼을 제출
+};
+
     </script>
 
 </div>
