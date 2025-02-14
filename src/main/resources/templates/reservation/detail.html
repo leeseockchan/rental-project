@@ -8,7 +8,7 @@
 <h1>예약상세보기</h1>
 <ul>
     <li>예약번호: <span th:text="${reservation.reservationId}"></span></li>
-    <li>예약차량: <span th:text="${car.carId}"></span></li>
+    <li>예약차량: <span th:text="${reservation.carName}"></span></li>
     <li>대여장소: <span th:text="${reservation.rentalLocation}"></span></li>
     <li>대여일시: <span th:text="${reservation.rentalDatetime}"></span></li>
     <li>반납장소: <span th:text="${reservation.returnLocation}"></span></li>

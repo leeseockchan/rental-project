@@ -15,7 +15,7 @@ public class FastReservationService {
 
     // 빠른 예약
     public void fastReserve(FastReservationDto fastReservationDto){
-        fastReservationMapper.fastReserve(fastReservationDto);
+        fastReservationMapper.create(fastReservationDto);
     }
 
     // 예약 목록
@@ -25,13 +25,15 @@ public class FastReservationService {
 
     // 예약 상세
     public FastReservationDto getReservationById(int id){
-        return fastReservationMapper.getReservationById(id);
+        return fastReservationMapper.findById(id);
     }
 
     // 예약 삭제
     public void deleteReservation(int id){
-        fastReservationMapper.deleteReservation(id);
+        fastReservationMapper.delete(id);
     }
 
-
+    public void updateReservation(FastReservationDto fastReservationDto){
+        fastReservationMapper.update(fastReservationDto);
+    }
 }

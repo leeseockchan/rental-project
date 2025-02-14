@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.FastReservationMapper">
 
-    <insert id="fastReserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
+    <insert id="create" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
         INSERT INTO fast_reservation (car_id, current_location_latitude, current_location_longitude, rental_location, rental_datetime,  return_location,  return_datetime)
         VALUES (#{carId},#{latitude}, #{longitude}, #{rentalLocation}, #{rentalDatetime}, #{returnLocation}, #{returnDatetime});
     </insert>
@@ -12,13 +12,20 @@
         FROM fast_reservation
     </select>
 
-    <select id="getReservationById" resultType="com.road_friends.rentalcar.dto.FastReservationDto">
+    <select id="findById" resultType="com.road_friends.rentalcar.dto.FastReservationDto">
         select reservation_id, car_id, rental_location, rental_datetime,  return_location,  return_datetime, fast_reservation_create_at
         from fast_reservation where reservation_id = #{reservationId}
     </select>
 
-    <delete id="deleteReservation">
+    <delete id="delete">
         DELETE FROM fast_reservation WHERE reservation_id = #{reservationId};
     </delete>
+
+    <update id="update" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
+        UPDATE fast_reservation
+        SET car_id = #{carId}, current_location_latitude = #{latitude},current_location_longitude = #{longitude},
+            rental_location = #{rentalLocation}, rental_datetime = #{rentalDatetime}, return_location = #{returnLocation}, return_datetime = #{returnDatetime}
+        WHERE reservation_id = #{reservationId};
+    </update>
 
 </mapper>

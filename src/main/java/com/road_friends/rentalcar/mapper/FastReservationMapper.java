@@ -8,12 +8,14 @@ import java.util.List;
 @Mapper
 public interface FastReservationMapper {
 
-    void fastReserve(FastReservationDto fastReservationDto);
+    void create(FastReservationDto fastReservationDto);
 
     List<FastReservationDto> findAll();
 
-    FastReservationDto getReservationById(int id);
+    FastReservationDto findById(int id);
 
-    void deleteReservation(int id);
+    void delete(int id);
+
+    void update(FastReservationDto fastReservationDto);
 
 }

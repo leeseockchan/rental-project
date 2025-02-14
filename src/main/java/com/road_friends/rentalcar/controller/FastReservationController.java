@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/api")
@@ -54,10 +56,14 @@ public class FastReservationController {
 
     // 차량 예약
     @PostMapping("/reservations")
-    public void reserveation(@RequestParam("rentalTime") String rentalDateTime,
+    public String reserveation(@RequestParam("rentalTime") String rentalDateTime,
                              @RequestParam("returnTime") String returnDateTime,
                              FastReservationDto fastReservationDto,
-                             Model model){
+                               Model model){
+
+        List<FastReservationDto> reservationList = fastReservationService.getReservations();
+        model.addAttribute("reservations",reservationList);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         LocalDateTime rentaldt = LocalDateTime.parse(rentalDateTime, formatter);
@@ -68,6 +74,7 @@ public class FastReservationController {
 
         fastReservationService.fastReserve(fastReservationDto);
 
+        return "redirect:/api/reservationList";
     }
 
     // 예약 목록
@@ -86,9 +93,10 @@ public class FastReservationController {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //        reservation.setFormattedReservationTime(reservation.getReservationTime().format(formatter));
 
-        CarDto car = carService.getCarById(reservation.getCarId());
+        String carName = carService.getCarById(reservation.getCarId()).getCarName();
+        reservation.setCarName(carName);
+
         model.addAttribute("reservation",reservation);
-        model.addAttribute("car",car);
         return "reservation/detail";
     }
 
@@ -97,6 +105,36 @@ public class FastReservationController {
     public String delete (@PathVariable ("reservationId") int id){
         fastReservationService.deleteReservation(id);
         return "redirect:/api/reservationList";
+    }
+
+
+    // 예약 수정
+    @GetMapping("/reservation/{reservationId}/modify")
+    public String modify(@PathVariable("reservationId") int id, Model model){
+        FastReservationDto fastReservationDto = fastReservationService.getReservationById(id);
+        List<CarDto> cars = carService.getAllCars();
+        model.addAttribute("cars",cars);
+        model.addAttribute("reservation",fastReservationDto);
+        return "reservation/modify";
+    }
+
+    @PostMapping("/reservation/{reservationId}/modify")
+    public String modifyReservation(@PathVariable("reservationId") int id,
+                                    @RequestParam("rentalTime") String rentalDateTime,
+                                    @RequestParam("returnTime") String returnDateTime,
+                                    FastReservationDto fastReservationDto
+    ){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime rentaldt = LocalDateTime.parse(rentalDateTime, formatter);
+        LocalDateTime returndt = LocalDateTime.parse(returnDateTime, formatter);
+
+        fastReservationDto.setRentalDatetime(rentaldt);
+        fastReservationDto.setReturnDatetime(returndt);
+
+        fastReservationService.updateReservation(fastReservationDto);
+
+        return "redirect:/api/reservation/" + fastReservationDto.getReservationId();
     }
 
 

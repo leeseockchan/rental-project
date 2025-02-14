@@ -42,4 +42,6 @@ public class FastReservationDto {
 
     @JsonProperty("fast_reservation_create_at")
     private Timestamp reservationTime;
+
+    private String carName;
 }
