@@ -46,11 +46,11 @@ public class APIUserController {
   public Map<String, String> login(@RequestBody Map<String, String> user) {
     try {
       Authentication authentication = authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(user.get("user_id"), user.get("user_password"))
+              new UsernamePasswordAuthenticationToken(user.get("userId"), user.get("userPassword"))
       );
 
       // 인증된 사용자 정보 가져오기
-      UserDetails userDetails = customUserDetailService.loadUserByUsername(user.get("user_id"));
+      UserDetails userDetails = customUserDetailService.loadUserByUsername(user.get("userId"));
 
       // 사용자의 권한(role) 가져오기
       List<String> roles = userDetails.getAuthorities()

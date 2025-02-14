@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.UserMapper">
     <resultMap id="UserWithRoles" type="com.road_friends.rentalcar.dto.UserDTO">
-        <id property="user_num" column="user_num"/> <!-- user_num으로 변경 -->
-        <result property="user_id" column="user_id"/>
-        <result property="user_name" column="user_name"/> <!-- user_name으로 변경 -->
-        <result property="user_password" column="user_password"/> <!-- user_password으로 변경 -->
-        <result property="user_email" column="user_email"/> <!-- user_email 추가 -->
-        <result property="user_phone" column="user_phone"/> <!-- user_phone 추가 -->
-        <result property="user_gender" column="user_gender"/> <!-- user_gender 추가 -->
-        <result property="user_birth" column="user_birth"/> <!-- user_birth 추가 -->
-        <result property="user_address" column="user_address"/> <!-- user_address 추가 -->
-        <result property="user_status" column="user_status"/> <!-- user_status 추가 -->
+        <id property="userNum" column="user_num"/> <!-- user_num으로 변경 -->
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/> <!-- user_name으로 변경 -->
+        <result property="userPassword" column="user_password"/> <!-- user_password으로 변경 -->
+        <result property="userEmail" column="user_email"/> <!-- user_email 추가 -->
+        <result property="userPhone" column="user_phone"/> <!-- user_phone 추가 -->
+        <result property="userGender" column="user_gender"/> <!-- user_gender 추가 -->
+        <result property="userBirth" column="user_birth"/> <!-- user_birth 추가 -->
+        <result property="userAddress" column="user_address"/> <!-- user_address 추가 -->
+        <result property="userStatus" column="user_status"/> <!-- user_status 추가 -->
         <result property="enabled" column="enabled"/> <!-- enabled 필드 추가 -->
         <collection property="roles" ofType="com.road_friends.rentalcar.dto.RoleDTO">
             <id property="id" column="role_id"/>
@@ -19,10 +19,9 @@
         </collection>
     </resultMap>
 
-
-    <insert id="save" parameterType="com.road_friends.rentalcar.dto.UserDTO" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.road_friends.rentalcar.dto.UserDTO" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user (user_id, username, password, enabled)
-        VALUES (#{user_id}, #{username}, #{password}, #{enabled})
+        VALUES (#{userId}, #{userName}, #{userPassword}, #{enabled})
     </insert>
     <select id="findByUsername" resultMap="UserWithRoles">
         SELECT
@@ -36,9 +35,6 @@
         FROM user u
         LEFT JOIN user_roles ur ON u.user_num = ur.user_id
         LEFT JOIN roles r ON ur.role_id = r.id
-        WHERE u.user_id = #{user_id};
+        WHERE u.user_id = #{userId};
     </select>
-
-
-
 </mapper>

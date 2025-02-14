@@ -21,9 +21,9 @@ public class JwtUtil {
   private long EXPIRATION_TIME;    // 1일 (ms)
 
   // JWT 토큰 생성
-  public String generateToken(String user_id, List<String> roles) {
+  public String generateToken(String userID, List<String> roles) {
     return Jwts.builder()
-            .setSubject(user_id)
+            .setSubject(userID)
             .claim("roles", roles) // 권한 정보 추가
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

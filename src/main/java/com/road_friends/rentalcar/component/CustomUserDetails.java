@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
-  private final String user_id;
-  private final String user_password;
+  private final String userId;
+  private final String userPassword;
   private final List<GrantedAuthority> authorities;
 
-  public CustomUserDetails(String user_id, String user_password, List<String> roles) {
-    this.user_id = user_id;
-    this.user_password = user_password;
+  public CustomUserDetails(String userId, String userPassword, List<String> roles) {
+    this.userId = userId;
+    this.userPassword = userPassword;
     this.authorities = roles.stream()
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
@@ -28,12 +28,12 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public String getPassword() {
-    return user_password;  // 비밀번호 추가
+    return userPassword;  // 비밀번호 추가
   }
 
   @Override
   public String getUsername() {
-    return user_id;
+    return userId;
   }
 
 

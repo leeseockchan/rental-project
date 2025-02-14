@@ -51,8 +51,8 @@ public class SecurityConfig {
             )
             .formLogin(formLogin -> formLogin
                     .loginPage("/admin/login")
-                    .usernameParameter("user_id")  // username 대신 user_id로 변경
-                    .passwordParameter("user_password")  // password 대신 user_password로 변경
+                    .usernameParameter("userId")  // username 대신 user_id로 변경
+                    .passwordParameter("userPassword")  // password 대신 user_password로 변경
                     .defaultSuccessUrl("/admin/dashboard", true)
                     .permitAll()
             )

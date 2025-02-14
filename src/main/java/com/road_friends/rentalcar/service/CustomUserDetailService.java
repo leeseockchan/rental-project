@@ -19,10 +19,10 @@ public class CustomUserDetailService implements UserDetailsService {
 
   private final UserMapper userMapper;
   @Override
-  public UserDetails loadUserByUsername(String user_name) throws UsernameNotFoundException {
-    UserDTO userDTO = userMapper.findByUsername(user_name);
+  public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    UserDTO userDTO = userMapper.findByUsername(userId);
     if (userDTO == null) {
-      throw new UsernameNotFoundException("User not found with username: " + user_name);
+      throw new UsernameNotFoundException("User not found with username: " + userId);
     }
 
     List<GrantedAuthority> authorities = userDTO.getRoles().stream()
@@ -30,8 +30,8 @@ public class CustomUserDetailService implements UserDetailsService {
             .collect(Collectors.toList());
 
     return new org.springframework.security.core.userdetails.User(
-            userDTO.getUser_id(),
-            userDTO.getUser_password(),
+            userDTO.getUserId(),
+            userDTO.getUserPassword(),
             userDTO.isEnabled(),
             true, true, true,
             //Collections.singletonList(new SimpleGrantedAuthority(user.getRole())));
