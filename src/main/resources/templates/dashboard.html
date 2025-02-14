@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>대시보드</title>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1, h2 { color: #333; }
+    table { width: 80%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+
+<h1>📊 대시보드</h1>
+
+<!-- 전체 회원 통계 -->
+<h2>👥 전체 회원 수</h2>
+<p>총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
+
+<!-- 성별 통계 -->
+<h2>📌 성별 통계</h2>
+<table>
+  <tr>
+    <th>성별</th>
+    <th>인원 수</th>
+  </tr>
+  <tr th:each="gender : ${userStats.genderStats}">
+    <td th:text="${gender['user_gender'] == 1 ? '남성' : '여성'}"></td>
+    <td th:text="${gender['count']}"></td>
+  </tr>
+</table>
+
+<!-- 연령대 통계 -->
+<h2>🎂 연령대별 통계</h2>
+<table>
+  <tr>
+    <th>연령대</th>
+    <th>인원 수</th>
+  </tr>
+  <tr th:each="entry : ${userStats.ageGroups}">
+    <td th:text="${entry.key}"></td>
+    <td th:text="${entry.value}"></td>
+  </tr>
+</table>
+
+<!-- 가장 많이 대여된 지역 -->
+<h2>🚗 가장 많이 대여한 지역 TOP 5</h2>
+<table>
+  <tr>
+    <th>지역</th>
+    <th>대여 횟수</th>
+  </tr>
+  <tr th:each="rental : ${rentalStats}">
+    <td th:text="${rental['rental_location']}"></td>
+    <td th:text="${rental['count']}"></td>
+  </tr>
+</table>
+
+<!-- 가장 많이 반납한 지역 -->
+<h2>🔄 가장 많이 반납한 지역 TOP 5</h2>
+<table>
+  <tr>
+    <th>지역</th>
+    <th>반납 횟수</th>
+  </tr>
+  <tr th:each="returnData : ${returnStats}">
+    <td th:text="${returnData['return_location']}"></td>
+    <td th:text="${returnData['count']}"></td>
+  </tr>
+</table>
+
+<!-- 가장 인기 있는 차량 -->
+<h2>🔥 가장 인기 있는 차량 TOP 5</h2>
+<table>
+  <tr>
+    <th>차량명</th>
+    <th>예약 횟수</th>
+  </tr>
+  <tr th:each="car : ${popularCars}">
+    <td th:text="${car['car_name']}"></td>
+    <td th:text="${car['count']}"></td>
+  </tr>
+</table>
+
+</body>
+</html>

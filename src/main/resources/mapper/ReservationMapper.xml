@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.roadfriends.mapper.ReservationMapper">
+
+    <!-- 대여가 많은 지역 조회 -->
+    <select id="getTopRentalLocations" resultType="map">
+        SELECT rental_location, COUNT(*) AS count
+        FROM fast_reservation
+        GROUP BY rental_location
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 반납이 많은 지역 조회 -->
+    <select id="getTopReturnLocations" resultType="map">
+        SELECT return_location, COUNT(*) AS count
+        FROM fast_reservation
+        GROUP BY return_location
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 인기 차량 조회 -->
+    <select id="getPopularCars" resultType="map">
+        SELECT car_id, COUNT(*) AS count
+        FROM fast_reservation
+        GROUP BY reservation_id
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+</mapper>
