@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.APIUserAdminMapper">
+
+    <!-- 모든 사용자 조회 (관리자용)-->
+    <select id="getAllUsers" resultType="com.road_friends.rentalcar.dto.APIUserDto">
+        SELECT user_num, user_name, user_email, user_phone, user_address,
+        user_status, user_gender, user_birth
+        FROM User
+    </select>
+
+    <!-- 특정 사용자 상세 조회 (관리자용) -->
+    <select id="getUserDetail" parameterType="int" resultType="com.road_friends.rentalcar.dto.APIUserDto">
+        SELECT user_num, user_name, user_email, user_phone, user_address,
+        user_status, user_gender, user_birth
+        FROM User
+        WHERE user_num = #{userNum}
+    </select>
+
+    <!-- 특정 사용자 정보 수정 (관리자용) -->
+    <update id="updateUser" parameterType="com.road_friends.rentalcar.dto.APIUserDto">
+        UPDATE User
+        SET user_name = #{userName},
+            user_email = #{userEmail},
+            user_phone = #{userPhone},
+            user_address = #{userAddress},
+            user_status = #{userStatus},
+            user_birth = #{userBirth}
+        WHERE user_num = #{userNum}
+    </update>
+
+</mapper>

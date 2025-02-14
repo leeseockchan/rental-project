@@ -9,4 +9,7 @@ public class APIUserDto {
     private String userEmail;
     private String userPhone;
     private String userAddress;
+    private int userStatus;
+    private int userGender;
+    private String userBirth;
 }
