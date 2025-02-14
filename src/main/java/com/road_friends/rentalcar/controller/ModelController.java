@@ -29,7 +29,7 @@ public class ModelController {
 
     // 특정 차량 조회
     @GetMapping("/{modelId}")
-    public ResponseEntity<ModelDto> getmodelById(@PathVariable("modelId") int modelId) {
+    public ResponseEntity<ModelDto> getmodelById(@PathVariable("modelId") String modelId) {
         ModelDto model = modelService.getmodelById(modelId);
         return model != null ? new ResponseEntity<>(model, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -43,7 +43,7 @@ public class ModelController {
 
     // 차량 수정
     @PutMapping("/{modelId}")
-    public ResponseEntity<ModelDto> updatemodel(@PathVariable("modelId") int modelId, @RequestBody ModelDto modelDto) {
+    public ResponseEntity<ModelDto> updatemodel(@PathVariable("modelId") String modelId, @RequestBody ModelDto modelDto) {
         modelDto.setModelId(modelId); // modelId를 request body에 포함된 modelDto의 modelId로 설정
         modelService.updatemodel(modelDto);
         return new ResponseEntity<>(modelDto, HttpStatus.OK);
@@ -51,7 +51,7 @@ public class ModelController {
 
     // 차량 삭제
     @DeleteMapping("/{modelId}")
-    public ResponseEntity<Void> deletemodel(@PathVariable("modelId") int modelId) {
+    public ResponseEntity<Void> deletemodel(@PathVariable("modelId") String modelId) {
         modelService.deletemodel(modelId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

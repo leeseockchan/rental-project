@@ -11,31 +11,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModelDto {
-    private Integer modelId;  // model_id -> modelId
+    private String modelId;  // model_id -> modelId
 
-    @JsonProperty("model_manufacture")
+    @JsonProperty("model_brand")
     private String modelManufacture;  // model_manufacture -> modelManufacture
-
-    @JsonProperty("model_category")
-    private String modelCategory;
 
     @JsonProperty("model_name")
     private String modelName;
 
-    @JsonProperty("model_year")
-    private String modelYear;
-
-    @JsonProperty("model_grade")
-    private String modelGrade;
-
-    @JsonProperty("model_fuel")
-    private String modelFuel;
-
-    @JsonProperty("model_fuel_efficiency")
-    private String modelFuelEfficiency;
+    @JsonProperty("model_category")
+    private String modelCategory;
 
     @JsonProperty("model_seate_num")
-    private int modelSeateNum;
+    private String modelSeateNum;
 
     @JsonProperty("model_transmission")
     private String modelTransmission;

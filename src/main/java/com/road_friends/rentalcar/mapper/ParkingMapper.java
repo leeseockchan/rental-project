@@ -8,11 +8,15 @@ import java.util.List;
 
 @Mapper
 public interface ParkingMapper {
-
+//    주차장 목록 메소드
     List<ParkingDto> findAll();
+//    주차장 상세보기
     ParkingDto findByParking(int parkingId);
+//    주차장 추가
     void addParking(ParkingDto parkingDto);
+//    주차장 수정
     void updateParking(ParkingDto parkingDto);
+//    주차장 삭제
     void deleteParking(int parkingId);
 
 }

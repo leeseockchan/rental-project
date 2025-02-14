@@ -65,7 +65,7 @@ public class ParkingController {
 
     //      차량 삭제
     @DeleteMapping("/parking/{parkingId}/delete")
-    public String deleteParking(@PathVariable("parkingId") int parkingId) {
+    public String deleteParking(@PathVariable int parkingId) {
         parkingService.deleteParking(parkingId);
         return "redirect:/parking_page/list";  // 삭제 후 목록 페이지로 리디렉션
     }

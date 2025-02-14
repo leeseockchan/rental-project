@@ -7,8 +7,8 @@ import java.util.List;
 @Mapper
 public interface ModelMapper {
     List<ModelDto> findAll();
-    ModelDto findById(int modelId);
+    ModelDto findById(String modelId);
     void insert(ModelDto modelDto);
     void update(ModelDto modelDto);
-    void delete(int modelId);
+    void delete(String modelId);
 }

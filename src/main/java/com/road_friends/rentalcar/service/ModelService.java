@@ -18,7 +18,7 @@ public class ModelService {
     }
 
     // 차량 ID로 조회
-    public ModelDto getmodelById(int modelId) {
+    public ModelDto getmodelById(String modelId) {
         return modelMapper.findById(modelId);
     }
 
@@ -33,7 +33,7 @@ public class ModelService {
     }
 
     // 차량 삭제
-    public void deletemodel(int modelId) {
+    public void deletemodel(String modelId) {
         modelMapper.delete(modelId);
     }
 }
