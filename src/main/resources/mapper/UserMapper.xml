@@ -10,12 +10,12 @@
 
     <!-- 성별 통계 조회 -->
     <select id="getGenderStats" resultType="map">
-        SELECT user_gender, COUNT(*) AS count FROM user GROUP BY user_gender
+        SELECT userGender, COUNT(*) AS count FROM user GROUP BY userGender
     </select>
 
     <!-- 연령대 통계 (생년월일 기준) -->
     <select id="getUserBirthDates" resultType="java.util.Date">
-        SELECT user_birth FROM user
+        SELECT userBirth FROM user
     </select>
 
 </mapper>

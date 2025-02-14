@@ -1,5 +1,3 @@
-package com.road_friends.rentalcar.controller;
-
 import com.road_friends.rentalcar.dto.ReservationDto;
 import com.road_friends.rentalcar.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +11,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationController {
     private final ReservationService reservationService;
+
+    @GetMapping("/average-rental-duration")
+    public ResponseEntity<List<ReservationDto>> getAverageRentalDurations() {
+        return ResponseEntity.ok(reservationService.getAverageRentalDurations());
+    }
 
     @GetMapping("/rental-locations")
     public ResponseEntity<List<ReservationDto>> getRentalStats() {
@@ -29,3 +32,4 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getPopularCars());
     }
 }
+

@@ -11,16 +11,16 @@ import java.util.List;
 @Setter
 @Data
 public class UserDto {
-    private Long user_num;
-    private String user_id;
-    private String user_name;
-    private String user_password;
-    private String user_email;
-    private String user_phone;
-    private int user_gender;
-    private LocalDate user_birth;
-    private String user_address;
-    private int user_status;
+    private Long userNum;
+    private String userId;
+    private String userName;
+    private String userPassword;
+    private String userEmail;
+    private String userPhone;
+    private int userGender;
+    private LocalDate userBirth;
+    private String userAddress;
+    private int userStatus;
     private boolean enabled = true;
     private List<RoleDto> roles;
 }

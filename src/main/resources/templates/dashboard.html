@@ -54,18 +54,18 @@
   </tr>
 </table>
 
-<!-- 평균 렌트 시간대 -->
-<h2>↔️ 평균 렌트 시간 TOP 5</h2>
+<h2>⏳ 평균 렌트 시간 TOP 5</h2>
 <table>
   <tr>
-    <th>렌트 시간</th>
-    <th>평균 렌트 횟수</th>
+    <th>차량명</th>
+    <th>평균 렌트 시간</th>
   </tr>
-  <tr th:each="hour : ${averageRentalHours}">
-    <td th:text="${hour.label + '시'}"></td>
-    <td th:text="${hour.count}"></td>
+  <tr th:each="rental : ${averageRentalDurations}">
+    <td th:text="${rental.label}"></td>
+    <td th:text="${rental.count + '시간'}"></td>
   </tr>
 </table>
+
 
 <!-- 가장 많이 대여된 지역 -->
 <h2>🚗 가장 많이 대여한 지역 TOP 5</h2>
