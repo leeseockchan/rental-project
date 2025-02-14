@@ -33,9 +33,5 @@ public class FastReservationService {
         fastReservationMapper.deleteReservation(id);
     }
 
-    // 예약 수정
-    public void updateReservation(FastReservationDto fastReservationDto){
-        fastReservationMapper.updateReservation(fastReservationDto);
-    }
 
 }

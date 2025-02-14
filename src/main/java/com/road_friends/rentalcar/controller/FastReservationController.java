@@ -100,26 +100,5 @@ public class FastReservationController {
     }
 
 
-    // 예약 수정
-    @GetMapping("/reservation/{reservationId}/modify")
-    public String modify(@PathVariable("reservationId") int id, Model model){
-        try{
-            FastReservationDto fastReservationDto = fastReservationService.getReservationById(id);
-            List<CarDto> cars = carService.getAllCars();
-            model.addAttribute("reservation",fastReservationDto);
-            model.addAttribute("cars",cars);
-        }catch(IllegalStateException e){
-            model.addAttribute("message",e.getMessage());
-            return "common/error/404";
-        }
-        return "reservation/modify";
-    }
-
-    @PostMapping("/reservation/{reservationId}/modify")
-    public String modify(FastReservationDto reservationDto, Model model){
-        model.addAttribute("reservation", reservationDto);
-        fastReservationService.updateReservation(reservationDto);
-        return "redirect:/reservation/{reservationId}";
-    }
 
 }

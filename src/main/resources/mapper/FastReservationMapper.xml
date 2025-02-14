@@ -21,11 +21,4 @@
         DELETE FROM fast_reservation WHERE reservation_id = #{reservationId};
     </delete>
 
-    <update id="updateReservation" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
-        UPDATE car_data
-        SET car_id = #{carId}, current_location_latitude = #{latitude}, current_location_longitude = #{longitude},
-            rental_location = #{rentalLocation}, rental_datetime = #{rentalDatetime}, return_location = #{returnLocation}, return_datetime = #{returnDatetime}
-        WHERE reservation_id = #{reservationId};
-    </update>
-
 </mapper>
