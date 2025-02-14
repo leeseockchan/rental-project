@@ -25,22 +25,3 @@
 //           alert('오류가 발생했습니다.');
 //       };
 //   };
-//
-//
-//   $(document).ready(function(){
-//    let result =
-//
-//  function buttonAlert(result){
-//        if(result ===''){
-//            return;
-//        }
-//        if(result === 'add'){
-//            alert("추가 되었습니다.");
-//        }if(result === 'upadate'){
-//            alert("수정 되었습니다.");
-//        }if(result === 'delete'){
-//            alert("삭제 되었습니다.")
-//        }
-//      }
-//     });
-//

@@ -7,6 +7,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @SpringBootApplication
 public class RentalcarApplication {
+
 	//hidden method(put, delete)사용하기 위해 작성
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {

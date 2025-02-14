@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/parking/parkingList.css">
-  <title>주차장 생성 하기</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/parking/parking.css">
+    <title>주차장 생성 하기</title>
 </head>
 <body>
 <h1> 주차장을 생성 하러 잘 찾아왔어요</h1>
 
-<form id="parkingForm" method="post">
-    <input type="hidden" id="parking_id" name="id" value="parking.id">
-    <label for="parking_name" >주차장 이름 : </label>
-    <input type="text" id="parking_name" name="name"
+<form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
+    <input type="hidden" id="parkingId" name="id" value="parking.parkingId">
+    <label for="parkingName">주차장 이름 : </label>
+    <input type="text" id="parkingName" name="parkingName"
            placeholder="주차장의 이름을 입력해주세요" required><br><br>
 
-    <label for="parking_address">주차장의 주소 : </label>
-    <input type="text" id="parking_address" name="address"
+    <label for="parkingAddress">주차장의 주소 : </label>
+    <input type="text" id="parkingAddress" name="parkingAddress"
            placeholder="주차장의 주소를 입력해주세요" required><br><br>
 
-    <label for="parking_latitude">주차장 위도 : </label>
-    <input type="text" id="parking_latitude" name="latitude"
+    <label for="parkingLatitude">주차장 위도 : </label>
+    <input type="text" id="parkingLatitude" name="parkingLatitude"
            placeholder="위도의 값을 정확히 입력해주세요" required><br><br>
 
-    <label for="parking_longitude">주차장 경도 : </label>
-    <input type="text" id="parking_longitude" name="longitude"
+    <label for="parkingLongtitude">주차장 경도 : </label>
+    <input type="text" id="parkingLongtitude" name="parkingLongtitude"
            placeholder="경도의 값을 정확히 입력해주세요" required><br><br>
 
-    <label for="parking_type">주차장 유형 : </label>
-    <select id="parking_type" required name="type">
-        <option value="공영">공영</option>
-        <option value="민영">민영</option>
-    </select>
-<!--    <input type="text" id="" name="type" placeholder="주차장 이름을 입력해주세요" required><br><br>-->
-
+    <label for="parkingProvince">주차장 시 : </label>
+    <select id="parkingProvince" required name="parkingProvince">
+        <option value="경기도">경기도</option>
+        <option value="서울 특별시">서울 특별시</option>
+    </select><br><br>
+    <label for="parkingDistrict">주차장 도시 : </label>
+    <input type="text" id="parkingDistrict" name="parkingDistrict"
+           placeholder="도시의 이름을 입력해주세요" required>
     <button type="submit">주차장 등록하기</button>
 </form>
-<script th:type="module" th:src="@{/js/parking_add.js}"></script>
 </body>
 </html>

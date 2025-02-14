@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/parking/parking.css">
+    <title>수정 페이지</title>
+</head>
+<body>
+<h2>주차장 정보 수정</h2>
+<form th:action="@{/api/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}" method="post">
+    <input type="hidden" name="_method" value="PUT">
+
+    <table>
+        <tr>
+            <td><label for="parkingName">이름:</label></td>
+            <td><input  type="text" id="parkingName" name="parkingName" th:value="${modify.parkingName}" required></td>
+        </tr>
+        <tr>
+            <td><label for="parkingAddress">주소:</label></td>
+            <td><input type="text" id="parkingAddress" name="parkingAddress" th:value="${modify.parkingAddress}"
+                       required></td>
+        </tr>
+        <tr>
+            <td><label for="parkingLatitude">위도:</label></td>
+            <td><input type="text" id="parkingLatitude" name="parkingLatitude" th:value="${modify.parkingLatitude}">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="parkingLongitude">경도:</label></td>
+            <td><input type="text" id="parkingLongtitude" name="parkingLongtitude" th:value="${modify.parkingLongtitude}">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="parkingProvince"주차장 시 : </label></td>
+            <td>
+                <select name="parkingProvince" id="parking_province">
+                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '서울 특별시'}">서울 특별시</option>
+                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경기도'}">경기도</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="parkingDistrict">도시:</label></td>
+            <td><input type="text" id="parkingDistrict" name="parkingDistrict" th:value="${modify.parkingDistrict}">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">수정 완료</button>
+                <a th:href="@{/api/admin/parkings/{parkingId}(parkingId=${modify.parkingId})}">
+                    <button type="button">취소</button>
+                </a>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

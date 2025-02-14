@@ -14,12 +14,13 @@ public class ParkingService {
     private ParkingMapper parkingMapper;
 
     //     전체 주차장 목록
-    public List<ParkingDto> getAllParkings() {
+    public List<ParkingDto> findAll() {
         List<ParkingDto> parkingList = parkingMapper.findAll();
         return parkingList.stream()
                 .map(parking -> new ParkingDto(parking.getParkingId(), parking.getParkingName(),
                         parking.getParkingAddress(), parking.getParkingLatitude(),
-                        parking.getParkingLongitude(), parking.getParkingType()))
+                        parking.getParkingLongtitude(), parking.getParkingProvince(),
+                        parking.getParkingDistrict()))
                 .collect(Collectors.toList());
     }
 
@@ -34,8 +35,8 @@ public class ParkingService {
     }
 
     //    주차장 수정하기
-    public void updateParking(ParkingDto parkingDto) {
-        parkingMapper.updateParking(parkingDto);
+    public void modifyParking(ParkingDto parkingDto) {
+        parkingMapper.modifyParking(parkingDto);
     }
 
     //    주차장 삭제하기

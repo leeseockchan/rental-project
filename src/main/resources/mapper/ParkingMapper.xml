@@ -4,27 +4,32 @@
 
     <!--    전체 주차장 목록-->
     <select id="findAll" resultType="com.road_friends.rentalcar.dto.ParkingDto">
-        SELECT parking_id, parking_name, parking_address, parking_latitude, parking_longitude, parking_type
-        FROM parking;
+        SELECT * FROM parking;
     </select>
 
     <!--    주차장 검색-->
     <select id="findByParking" resultType="com.road_friends.rentalcar.dto.ParkingDto">
-        SELECT parking_id, parking_name, parking_address, parking_latitude, parking_longitude, parking_type
-        FROM parking WHERE parking_id = #{parkingId};
+        SELECT * FROM parking WHERE parking_id = #{parkingId};
     </select>
 
     <!--    새로운 주차장 추가-->
     <insert id="addParking" parameterType="com.road_friends.rentalcar.dto.ParkingDto">
-        INSERT INTO parking (parking_name, parking_address, parking_latitude, parking_longitude, parking_type)
-        VALUES (#{parkingName},#{parkingAddress}, #{parkingLatitude}, #{parkingLongitude}, #{parkingType});
+        INSERT INTO parking (parking_name, parking_address, parking_latitude, parking_longtitude,
+        parking_province, parking_district)
+        VALUES (#{parkingName},#{parkingAddress}, #{parkingLatitude}, #{parkingLongtitude},
+        #{parkingProvince}, #{parkingDistrict});
     </insert>
 
     <!--    주차장 수정-->
-    <insert id="updateParking" parameterType="com.road_friends.rentalcar.dto.ParkingDto">
+    <insert id="modifyParking" parameterType="com.road_friends.rentalcar.dto.ParkingDto">
         UPDATE parking
-        SET parking_name = #{parkingName}, parking_address = #{parkingAddress}, parking_latitude = #{parkingLatitude},
-        parking_longitude = #{parkingLongitude}, parking_type=#{parkingType} WHERE parking_id = #{parkingId};
+        SET parking_name = #{parkingName},
+        parking_address = #{parkingAddress},
+        parking_latitude = #{parkingLatitude},
+        parking_longtitude = #{parkingLongtitude}
+        parking_province =  #{parkingProvince},
+        parking_district =  #{parkingDistrict}
+        WHERE parking_id = #{parkingId};
     </insert>
 
     <!--    주차장 삭제-->
