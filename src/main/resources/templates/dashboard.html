@@ -3,37 +3,34 @@
 <head>
   <title>대시보드</title>
   <meta charset="UTF-8">
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1, h2 { color: #333; }
-    table { width: 80%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-    th { background-color: #f4f4f4; }
-  </style>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<h1>📊 대시보드</h1>
+<h1>📊 DASH BOARD</h1>
 
 <!-- 전체 회원 통계 -->
 <h2>👥 전체 회원 수</h2>
-<p>총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
+<p class="total-users">총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
 
 <!-- 성별 통계 -->
-<h2>📌 성별 통계</h2>
+<h2>🚻 성별 통계</h2>
 <table>
   <tr>
     <th>성별</th>
-    <th>인원 수</th>
+    <th>남성</th>
+    <th>여성</th>
   </tr>
-  <tr th:each="gender : ${userStats.genderStats}">
-    <td th:text="${gender['user_gender'] == 1 ? '남성' : '여성'}"></td>
-    <td th:text="${gender['count']}"></td>
+  <tr>
+    <td>인원 수</td>
+    <td th:text="${userStats.genderStats[0]['count']}"></td>
+    <td th:text="${userStats.genderStats[1]['count']}"></td>
   </tr>
 </table>
 
+
 <!-- 연령대 통계 -->
-<h2>🎂 연령대별 통계</h2>
+<h2>📌 연령대별 통계</h2>
 <table>
   <tr>
     <th>연령대</th>
