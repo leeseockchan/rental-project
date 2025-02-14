@@ -17,9 +17,11 @@
     </select>
 
     <!-- 관리자 질문 답변 작성 -->
-    <update id="updateInquiryReply" parameterType="com.road_friends.rentalcar.dto.AdminInquiryDto">
+    <update id="updateInquiryReply" >
         UPDATE inquiries
-        SET admin_num = #{adminNum}, inquiries_a = #{inquiriesA}, inquiries_a_created_at = NOW()
+        SET admin_num = #{adminNum},
+        inquiries_a = #{inquiriesA},
+        inquiries_a_created_at = NOW()
         WHERE inquiries_num = #{inquiryId};
     </update>
 
