@@ -32,7 +32,7 @@
         WHERE inquiries_num = #{inquiryId};
     </update>
 
-    <!-- 관리자 질문 전체 삭제 -->
+    <!-- 관리자 질문 게시글 삭제 -->
     <delete id="deleteInquiry">
         DELETE FROM inquiries WHERE inquiries_num = #{inquiryId};
     </delete>

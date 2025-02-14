@@ -14,6 +14,12 @@
 <body>
 
 <div class="container mt-4">
+
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="card shadow-sm border-0 rounded-3">
         <div class="card-header bg-primary text-white">
             <h4 class="mb-0">문의 목록</h4>
@@ -56,15 +62,16 @@
 
                             <!-- 답변 삭제 버튼 -->
                             <form th:action="@{/api/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}" method="post">
-                                <button type="submit" class="btn btn-warning btn-sm d-flex align-items-center justify-content-center">
+                                <button type="submit" class="btn btn-warning btn-sm d-flex align-items-center justify-content-center"
+                                        onclick="return confirm('정말 답변을 삭제하시겠습니까?');">
                                     <i class="bi bi-x-circle-fill me-1"></i> 답변 삭제
                                 </button>
                             </form>
 
                             <!-- 문의 삭제 버튼 -->
-                            <form th:action="@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}" method="post">
+                            <form th:action="@{/api/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}" method="post">
                                 <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
-                                        onclick="return confirm('삭제하시겠습니까?');">
+                                        onclick="return confirm('정말 문의를 삭제하시겠습니까?');">
                                     <i class="bi bi-trash-fill me-1"></i> 문의 삭제
                                 </button>
                             </form>

@@ -46,21 +46,25 @@ public class AdminInquiryController {
             RedirectAttributes redirectAttributes) {
 
         adminInquiryService.updateInquiryReply(inquiryId, adminNum, inquiriesA);
-        redirectAttributes.addFlashAttribute("successMessage", "답변 등록 성공");
-        return "redirect:/api/admin/inquiry/" + inquiryId;
+        redirectAttributes.addFlashAttribute("successMessage", "답변 등록 성공");  // 성공 메시지 추가
+        return "redirect:/api/admin/inquiry/" + inquiryId;  // 해당 문의 상세 페이지로 리디렉션
     }
 
     // 관리자 답변 삭제
     @PostMapping("/{inquiryId}/reply/clear")
-    public String clearInquiryAnswer(@PathVariable("inquiryId") int inquiryId) {
+    public String clearInquiryAnswer(@PathVariable("inquiryId") int inquiryId,
+                                     RedirectAttributes redirectAttributes) {
         adminInquiryService.clearInquiryAnswer(inquiryId);
+        redirectAttributes.addFlashAttribute("successMessage", "답변이 삭제되었습니다.");
         return "redirect:/api/admin/inquiry";
     }
 
-    // 관리자 문의 삭제
+    // 관리자 문의 게시글 삭제
     @PostMapping("/{inquiryId}/delete")
-    public String deleteInquiry(@PathVariable("inquiryId") int inquiryId) {
+    public String deleteInquiry(@PathVariable("inquiryId") int inquiryId,
+                                RedirectAttributes redirectAttributes) {
         adminInquiryService.deleteInquiry(inquiryId);
+        redirectAttributes.addFlashAttribute("successMessage", "문의가 삭제되었습니다.");
         return "redirect:/api/admin/inquiry";
     }
 }
