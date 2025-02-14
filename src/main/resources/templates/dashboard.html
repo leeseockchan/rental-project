@@ -13,20 +13,23 @@
 <h2>👥 전체 회원 수</h2>
 <p class="total-users">총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
 
-<!-- 성별 통계 -->
+<!--  성별 통계 -->
 <h2>🚻 성별 통계</h2>
 <table>
   <tr>
     <th>성별</th>
     <th>남성</th>
     <th>여성</th>
+    <th>미지정</th>
   </tr>
   <tr>
     <td>인원 수</td>
-    <td th:text="${userStats.genderStats[0].count}"></td>
-    <td th:text="${userStats.genderStats[1].count}"></td>
+    <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 0 ? userStats.genderStats[0].count : 0}">0</td>
+    <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 1 ? userStats.genderStats[1].count : 0}">0</td>
+    <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 2 ? userStats.genderStats[2].count : 0}">0</td>
   </tr>
 </table>
+
 
 <!-- 연령대 통계 -->
 <h2>📌 연령대별 통계</h2>
