@@ -15,6 +15,19 @@
                 alert(successMessage);
             }
         };
+
+        // 커서 깜박임 방지
+        document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener("mousedown", function (event) {
+            const target = event.target;
+
+            // input과 textarea가 아닌 경우 포커스를 body로 이동
+            if (target.tagName !== "INPUT" && target.tagName !== "TEXTAREA") {
+                document.activeElement.blur();
+                event.preventDefault(); // 기본 동작 방지
+            }
+        });
+        });
     </script>
 
 </head>
