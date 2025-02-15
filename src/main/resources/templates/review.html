@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>리뷰 작성</title>
+    <title>리뷰 관리</title>
     <script>
         async function submitReview() {
             const reviewData = {
@@ -16,7 +16,7 @@
             };
 
             try {
-                const response = await fetch('http://localhost:8080/api/review', {
+                const response = await fetch('http://localhost:8080/api/review/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(reviewData)
@@ -26,16 +26,61 @@
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
-                const result = await response.text();
                 alert('리뷰 제출 성공!');
             } catch (error) {
                 alert('리뷰 제출 실패: ' + error.message);
             }
         }
+
+        async function updateReview() {
+            const reviewId = document.getElementById('updateReviewId').value;
+            const updatedData = {
+                carConditionSatisfactionRating: parseInt(document.getElementById('updateCarCondition').value, 10),
+                reservationProcessSatisfactionRating: parseInt(document.getElementById('updateReservationProcess').value, 10),
+                priceSatisfactionSatisfactionRating: parseInt(document.getElementById('updatePriceSatisfaction').value, 10),
+                reviewContent: document.getElementById('updateReviewContent').value.trim()
+            };
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/review/${reviewId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                alert('리뷰 업데이트 성공!');
+            } catch (error) {
+                alert('리뷰 업데이트 실패: ' + error.message);
+            }
+        }
+
+        async function deleteReview() {
+            const reviewId = document.getElementById('deleteReviewId').value;
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/review/${reviewId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                alert('리뷰 삭제 성공!');
+            } catch (error) {
+                alert('리뷰 삭제 실패: ' + error.message);
+            }
+        }
     </script>
 </head>
 <body>
-<h2>리뷰 작성</h2>
+<h2>리뷰 관리</h2>
+
+<h3>리뷰 추가</h3>
 <form onsubmit="event.preventDefault(); submitReview();">
     <label>사용자 번호: <input type="number" id="userNum" required></label><br>
     <label>차량 ID: <input type="number" id="carId" required></label><br>
@@ -45,5 +90,19 @@
     <label>리뷰 내용: <textarea id="reviewContent" required></textarea></label><br>
     <button type="submit">리뷰 제출</button>
 </form>
+
+<h3>리뷰 업데이트</h3>
+<form onsubmit="event.preventDefault(); updateReview();">
+    <label>리뷰 ID: <input type="number" id="updateReviewId" required></label><br>
+    <label>차량 상태 만족도 (1~5): <input type="number" id="updateCarCondition" min="1" max="5" required></label><br>
+    <label>예약 과정 만족도 (1~5): <input type="number" id="updateReservationProcess" min="1" max="5" required></label><br>
+    <label>가격 만족도 (1~5): <input type="number" id="updatePriceSatisfaction" min="1" max="5" required></label><br>
+    <label>리뷰 내용: <textarea id="updateReviewContent" required></textarea></label><br>
+    <button type="submit">리뷰 업데이트</button>
+</form>
+
+<h3>리뷰 삭제</h3>
+<label>리뷰 ID: <input type="number" id="deleteReviewId" required></label><br>
+<button onclick="deleteReview()">리뷰 삭제</button>
 </body>
 </html>
