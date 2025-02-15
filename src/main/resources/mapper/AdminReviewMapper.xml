@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.AdminReviewMapper">
+
+    <!-- 전체 리뷰 조회 -->
+    <select id="findAllReviews" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
+        SELECT * FROM review
+    </select>
+
+    <!-- 특정 리뷰 조회 -->
+    <select id="findByReviewId" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
+        SELECT * FROM review WHERE review_id = #{id}
+    </select>
+
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview">
+        DELETE FROM review WHERE review_id = #{id}
+    </delete>
+
+</mapper>
