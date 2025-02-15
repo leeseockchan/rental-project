@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 리뷰 관리</title>
+    <script>
+        async function fetchReviews() {
+            try {
+                const response = await fetch('http://localhost:8080/api/admin/reviews');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const reviews = await response.json();
+                document.getElementById('reviewList').innerHTML = JSON.stringify(reviews, null, 2);
+            } catch (error) {
+                alert('리뷰 목록 조회 실패: ' + error.message);
+            }
+        }
+
+        async function fetchReviewById() {
+            const reviewId = document.getElementById('fetchReviewId').value;
+            try {
+                const response = await fetch(`http://localhost:8080/api/admin/reviews/${reviewId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const review = await response.json();
+                document.getElementById('reviewDetails').innerHTML = JSON.stringify(review, null, 2);
+            } catch (error) {
+                alert('리뷰 상세 조회 실패: ' + error.message);
+            }
+        }
+    </script>
+</head>
+<body>
+<h2>관리자 리뷰 관리</h2>
+
+<h3>리뷰 목록 조회</h3>
+<button onclick="fetchReviews()">리뷰 목록 가져오기</button>
+<pre id="reviewList"></pre>
+
+<h3>리뷰 상세 조회</h3>
+<label>리뷰 ID: <input type="number" id="fetchReviewId" required></label>
+<button onclick="fetchReviewById()">리뷰 상세 조회</button>
+<pre id="reviewDetails"></pre>
+</body>
+</html>
