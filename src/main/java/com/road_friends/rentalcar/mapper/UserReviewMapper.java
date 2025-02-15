@@ -8,21 +8,22 @@ import java.util.List;
 @Mapper
 public interface UserReviewMapper {
 
-    // 리뷰 작성
-    @Insert("INSERT INTO review (user_id, car_name, rating, title, content, created_date) " +
-            "VALUES (#{userId}, #{carName}, #{rating}, #{title}, #{content}, #{createdDate})")
+    @Insert("INSERT INTO review (user_num, car_id, car_condition_satisfaction_rating, " +
+            "reservation_process_satisfaction_rating, price_satisfaction_satisfaction_rating, " +
+            "review_content, review_created_at) VALUES (#{userNum}, #{carId}, #{carConditionSatisfactionRating}, " +
+            "#{reservationProcessSatisfactionRating}, #{priceSatisfactionSatisfactionRating}, " +
+            "#{reviewContent}, NOW())")
     int insertReview(ReviewDTO review);
 
-    // 리뷰 수정
-    @Update("UPDATE review SET rating = #{rating}, title = #{title}, content = #{content} " + "WHERE id = #{id}")
+    @Update("UPDATE review SET car_condition_satisfaction_rating = #{carConditionSatisfactionRating}, " +
+            "reservation_process_satisfaction_rating = #{reservationProcessSatisfactionRating}, " +
+            "price_satisfaction_satisfaction_rating = #{priceSatisfactionSatisfactionRating}, " +
+            "review_content = #{reviewContent} WHERE review_id = #{reviewId}")
     int updateReview(ReviewDTO review);
 
-    // 리뷰 삭제
-    @Delete("DELETE FROM review WHERE id = #{id} ")
-    int deleteReview(@Param("id") Long id);
+    @Delete("DELETE FROM review WHERE review_id = #{reviewId}")
+    int deleteReview(@Param("reviewId") Long reviewId);
 
-    // 특정 리뷰 조회
-    @Select("SELECT * FROM review WHERE id = #{id}")
-    ReviewDTO findByReviewId(@Param("id") Long id);
-
+    @Select("SELECT * FROM review WHERE review_id = #{reviewId}")
+    ReviewDTO findByReviewId(@Param("reviewId") Long reviewId);
 }
