@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰 작성</title>
+    <script>
+        async function submitReview() {
+            const reviewData = {
+                userNum: parseInt(document.getElementById('userNum').value, 10),
+                carId: parseInt(document.getElementById('carId').value, 10),
+                carConditionSatisfactionRating: parseInt(document.getElementById('carCondition').value, 10),
+                reservationProcessSatisfactionRating: parseInt(document.getElementById('reservationProcess').value, 10),
+                priceSatisfactionSatisfactionRating: parseInt(document.getElementById('priceSatisfaction').value, 10),
+                reviewContent: document.getElementById('reviewContent').value.trim()
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/api/review', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reviewData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.text();
+                alert('리뷰 제출 성공!');
+            } catch (error) {
+                alert('리뷰 제출 실패: ' + error.message);
+            }
+        }
+    </script>
+</head>
+<body>
+<h2>리뷰 작성</h2>
+<form onsubmit="event.preventDefault(); submitReview();">
+    <label>사용자 번호: <input type="number" id="userNum" required></label><br>
+    <label>차량 ID: <input type="number" id="carId" required></label><br>
+    <label>차량 상태 만족도 (1~5): <input type="number" id="carCondition" min="1" max="5" required></label><br>
+    <label>예약 과정 만족도 (1~5): <input type="number" id="reservationProcess" min="1" max="5" required></label><br>
+    <label>가격 만족도 (1~5): <input type="number" id="priceSatisfaction" min="1" max="5" required></label><br>
+    <label>리뷰 내용: <textarea id="reviewContent" required></textarea></label><br>
+    <button type="submit">리뷰 제출</button>
+</form>
+</body>
+</html>
