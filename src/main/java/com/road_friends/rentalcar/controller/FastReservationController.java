@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -54,5 +52,11 @@ public class FastReservationController {
         return new ResponseEntity<>(fastReservationDto, HttpStatus.CREATED);
     }
 
+    // 예약 취소
+    @DeleteMapping("/reservations/{reservationId}")
+    public ResponseEntity<Void> deleteCar(@PathVariable("reservationId") int reservationId) {
+        fastReservationService.deleteReservation(reservationId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

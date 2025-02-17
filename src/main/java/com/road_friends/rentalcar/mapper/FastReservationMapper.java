@@ -14,4 +14,5 @@ public interface FastReservationMapper {
     List<CarDto> getAllCars();
     CarDto getCarById(int id);
     void reserve(FastReservationDto fastReservationDto);
+    void deleteReservation(int reservationId);
 }

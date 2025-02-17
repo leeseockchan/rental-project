@@ -31,4 +31,9 @@
         INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num)
         VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum});
     </insert>
+
+    <!--    예약취소    -->
+    <delete id="deleteReservation">
+        DELETE FROM fast_reservation WHERE reservation_id=#{reservationId};
+    </delete>
 </mapper>
