@@ -9,16 +9,18 @@ import java.util.List;
 public interface UserReviewMapper {
 
     @Insert("INSERT INTO review (user_num, car_id, car_condition_satisfaction_rating, " +
-            "reservation_process_satisfaction_rating, price_satisfaction_satisfaction_rating, " +
+            "reservation_process_satisfaction_rating, price_satisfaction_rating, " +
             "review_content, review_created_at) VALUES (#{userNum}, #{carId}, #{carConditionSatisfactionRating}, " +
-            "#{reservationProcessSatisfactionRating}, #{priceSatisfactionSatisfactionRating}, " +
+            "#{reservationProcessSatisfactionRating}, #{priceSatisfactionRating}, " +
             "#{reviewContent}, NOW())")
+    @Options(useGeneratedKeys = true, keyProperty = "reviewId")
     int insertReview(ReviewDTO review);
 
     @Update("UPDATE review SET car_condition_satisfaction_rating = #{carConditionSatisfactionRating}, " +
             "reservation_process_satisfaction_rating = #{reservationProcessSatisfactionRating}, " +
-            "price_satisfaction_satisfaction_rating = #{priceSatisfactionSatisfactionRating}, " +
-            "review_content = #{reviewContent} WHERE review_id = #{reviewId}")
+            "price_satisfaction_rating = #{priceSatisfactionRating}, " +
+            "review_content = #{reviewContent}, review_created_at = NOW() " +
+            "WHERE review_id = #{reviewId}")
     int updateReview(ReviewDTO review);
 
     @Delete("DELETE FROM review WHERE review_id = #{reviewId}")

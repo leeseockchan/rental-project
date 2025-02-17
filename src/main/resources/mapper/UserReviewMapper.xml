@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.road_friends.rentalcar.mapper.CarMapper">
+<mapper namespace="com.road_friends.rentalcar.mapper.UserReviewMapper">
 
     <!-- 리뷰 작성 -->
-    <insert id="insertReview" parameterType="com.road_friends.rentalcar.dto.ReviewDTO">
+    <insert id="insertUserReview" parameterType="com.road_friends.rentalcar.dto.ReviewDTO">
         INSERT INTO review (user_id, car_name, rating, title, content, created_date)
         VALUES (#{userId}, #{carName}, #{rating}, #{title}, #{content}, #{createdDate})
     </insert>
 
     <!-- 리뷰 수정 -->
-    <update id="updateReview">
+    <update id="updateUserReview">
         UPDATE review
         SET rating = #{rating}, title = #{title}, content = #{content}
-        WHERE id = #{id}
+        WHERE review_id = #{reviewId}
     </update>
 
     <!-- 리뷰 삭제 -->
-    <delete id="deleteReview">
-        DELETE FROM review WHERE id = #{id}
+    <delete id="deleteUserReview">
+        DELETE FROM review WHERE review_id = #{reviewId}
     </delete>
 
     <!-- 리뷰 조회 -->
-    <select id="findByReviewId" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
-        SELECT * FROM review WHERE id = #{id}
+    <select id="findUserReviewById" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
+        SELECT * FROM review WHERE review_id = #{reviewId}
     </select>
 
 </mapper>

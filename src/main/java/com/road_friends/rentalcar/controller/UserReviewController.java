@@ -2,7 +2,10 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.ReviewDTO;
 import com.road_friends.rentalcar.service.UserReviewService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/review")
@@ -15,26 +18,26 @@ public class UserReviewController {
     }
 
     @PostMapping
-    public String createReview(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<Map<String, String>> createReview(@RequestBody ReviewDTO reviewDTO) {
         reviewService.createReview(reviewDTO);
-        return "리뷰 작성 성공!";
+        return ResponseEntity.ok(Map.of("message", "리뷰 작성 성공!"));
     }
 
     @PutMapping("/{reviewId}")
-    public String updateReview(@PathVariable Long reviewId, @RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<Map<String, String>> updateReview(@PathVariable Long reviewId, @RequestBody ReviewDTO reviewDTO) {
         reviewDTO.setReviewId(reviewId);
         reviewService.updateReview(reviewDTO);
-        return "리뷰 업데이트 성공!";
+        return ResponseEntity.ok(Map.of("message", "리뷰 업데이트 성공!"));
     }
 
     @DeleteMapping("/{reviewId}")
-    public String deleteReview(@PathVariable Long reviewId) {
+    public ResponseEntity<Map<String, String>> deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
-        return "리뷰 삭제 성공!";
+        return ResponseEntity.ok(Map.of("message", "리뷰 삭제 성공!"));
     }
 
     @GetMapping("/{reviewId}")
-    public ReviewDTO getReviewById(@PathVariable Long reviewId) {
-        return reviewService.getReviewById(reviewId);
+    public ResponseEntity<ReviewDTO> getReviewById(@PathVariable Long reviewId) {
+        return ResponseEntity.ok(reviewService.getReviewById(reviewId));
     }
 }

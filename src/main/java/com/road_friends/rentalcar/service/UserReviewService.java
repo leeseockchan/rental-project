@@ -3,7 +3,7 @@ package com.road_friends.rentalcar.service;
 import com.road_friends.rentalcar.dto.ReviewDTO;
 import com.road_friends.rentalcar.mapper.UserReviewMapper;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserReviewService {
@@ -18,6 +18,9 @@ public class UserReviewService {
     }
 
     public void updateReview(ReviewDTO reviewDTO) {
+        if (reviewDTO.getReviewId() == null) {
+            throw new IllegalArgumentException("리뷰 ID가 필요합니다.");
+        }
         reviewMapper.updateReview(reviewDTO);
     }
 
@@ -26,6 +29,7 @@ public class UserReviewService {
     }
 
     public ReviewDTO getReviewById(Long reviewId) {
-        return reviewMapper.findByReviewId(reviewId);
+        return Optional.ofNullable(reviewMapper.findByReviewId(reviewId))
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
     }
 }

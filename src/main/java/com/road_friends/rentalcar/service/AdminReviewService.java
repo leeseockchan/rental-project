@@ -5,6 +5,7 @@ import com.road_friends.rentalcar.mapper.AdminReviewMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminReviewService {
@@ -15,17 +16,15 @@ public class AdminReviewService {
         this.adminReviewMapper = adminReviewMapper;
     }
 
-    // 전체 리뷰 조회
     public List<ReviewDTO> getAllReviews() {
         return adminReviewMapper.findAllReviews();
     }
 
-    // 특정 리뷰 상세 조회
     public ReviewDTO getReviewById(Long id) {
-        return adminReviewMapper.findByReviewId(id);
+        return Optional.ofNullable(adminReviewMapper.findByReviewId(id))
+                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
     }
 
-    // 리뷰 삭제
     public void deleteReview(Long id) {
         adminReviewMapper.deleteReview(id);
     }
