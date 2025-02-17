@@ -29,7 +29,7 @@
         UPDATE inquiries
         SET admin_num = #{adminNum},
         inquiries_a = #{inquiriesA},
-        inquiries_a_created_at = NOW()
+        inquiries_a_created_at = CONVERT_TZ(NOW(), @@global.time_zone, 'Asia/Seoul')
         WHERE inquiries_num = #{inquiryId};
     </update>
 
