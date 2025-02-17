@@ -2,7 +2,6 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.service.ModelService;
-import com.road_friends.rentalcar.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +28,11 @@ public class ModelController {
 
     // 특정 차량 조회
     @GetMapping("/{modelId}")
-    public String findByModel(@PathVariable("modelId") String modelId, Model model) {
+    public String findByModel(@PathVariable String modelId, Model model) {
             ModelDto modelDetail = modelService.getmodelById(modelId);
             model.addAttribute("model", modelDetail);
             return "model_page/detail";
     }
-    // 차량 상세보기
-
 
     // 차량 추가
     @PostMapping
@@ -53,7 +50,7 @@ public class ModelController {
     }
 
     // 차량 삭제
-    @DeleteMapping("/{modelId}")
+    @DeleteMapping("/{modelId}/delete")
     public ResponseEntity<Void> deletemodel(@PathVariable("modelId") String modelId) {
         modelService.deletemodel(modelId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

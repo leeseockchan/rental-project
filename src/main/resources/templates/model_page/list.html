@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/model/model.css">
     <title>차량 정보</title>
 </head>
 <body>
@@ -15,8 +16,10 @@
         <td>차 종</td>
         <td>차량 정원</td>
         <td>차량 변속</td>
-        <td>렌트 요금(시간)</td>
+        <td>렌트 요금(1시간)</td>
         <td>렌트 요금(1일)</td>
+        <td>수정</td>
+        <td>삭제</td>
     </tr>
     </thead>
     <tr th:each="model: ${models}">
@@ -27,7 +30,8 @@
         <td th:text="${model.modelTransmission}"></td>
         <td th:text="${model.modelAmountHour}"></td>
         <td th:text="${model.modelAmountDay}"></td>
-        <td><a id="model_detail" th:href="@{/api/models/{id}(id=${model.modelId})}">상세보기</a></td>
+        <td><a id="model_modify" a th:href="@{/api/models/{id}/modify(id=${model.modelId})}">수정하기</a></td>
+        <td><a id="model_delete" href="#" th:data-model-modelId="${model.modelId}" onclick="confirmDelete(this); return false;">삭제하기</a></td>
 
     </tr>
 </table>
