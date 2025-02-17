@@ -22,53 +22,55 @@
         </div>
         <div class="card-body p-4">
             <table class="table table-bordered table-hover align-middle">
-                <thead class="table-dark text-center">
+                <thead class="table-dark text-center align-middle">
                 <tr>
-                    <th class="py-3 px-2">문의 번호</th>
-                    <th class="py-3 px-2">사용자 번호</th>
-                    <th class="py-3 px-2">관리자 번호</th>
-                    <th class="py-3 px-2">질문</th>
-                    <th class="py-3 px-2">답변</th>
-                    <th class="py-3 px-2">질문 작성일</th>
-                    <th class="py-3 px-2">답변 작성일</th>
-                    <th class="py-3 px-2 text-center">관리</th>
+                    <th class="py-3 px-2" style="width: 50px;">문의 번호</th>
+                    <th class="py-3 px-2" style="width: 50px;">사용자 번호</th>
+                    <th class="py-3 px-2" style="width: 50px;">관리자 번호</th>
+                    <th class="py-3 px-2" style="width: 180px;">질문</th>
+                    <th class="py-3 px-2" style="width: 180px;">답변</th>
+                    <th class="py-3 px-2" style="width: 120px;">질문 작성일</th>
+                    <th class="py-3 px-2" style="width: 120px;">답변 작성일</th>
+                    <th class="py-3 px-2 text-center" style="width: 100px;">관리</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="inquiry : ${pageDto.items}">
-                    <td class="py-2 px-2 text-center fw-bold" th:text="${inquiry.inquiriesNum}"></td>
-                    <td class="py-2 px-2 text-center" th:text="${inquiry.userNum}"></td>
-                    <td class="py-2 px-2 text-center" th:text="${inquiry.adminNum}"></td>
+                    <td class="py-2 px-2 text-center fw-bold" th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
+                    <td class="py-2 px-2 text-center" th:text="${inquiry.userNum}" style="max-width: 50px;"></td>
+                    <td class="py-2 px-2 text-center" th:text="${inquiry.adminNum}" style="max-width: 50px;"></td>
                     <td class="py-2 px-2">
                         <a th:href="@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
                            th:text="${inquiry.inquiriesQ}"
-                           class="text-decoration-none text-primary fw-bold text-nowrap"></a>
+                           class="text-decoration-none text-primary fw-bold text-truncate d-block" style="max-width: 180px;">
+                        </a>
                     </td>
-                    <td class="py-2 px-2 text-secondary text-nowrap" th:text="${inquiry.inquiriesA}"></td>
-                    <td class="py-2 px-2 text-center text-muted text-nowrap" th:text="${inquiry.inquiriesQCreatedAt}"></td>
-                    <td class="py-2 px-2 text-center text-muted text-nowrap" th:text="${inquiry.inquiriesACreatedAt}"></td>
-                    <td class="py-2 px-2 text-center">
+                    <td class="py-2 px-2 text-secondary text-truncate" th:text="${inquiry.inquiriesA}" style="max-width: 180px;"></td>
+                    <td class="py-2 px-2 text-center text-muted text-truncate" th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
+                    <td class="py-2 px-2 text-center text-muted text-truncate" th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
+
+                    <td class="py-2 px-2 text-center" style="max-width: 100px;">
                         <!-- 버튼 그룹 -->
-                        <div class="d-flex flex-column gap-2">
+                        <div class="d-flex flex-column gap-3">
                             <!-- 답변하기 버튼 -->
                             <a th:href="@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
-                               class="btn btn-success btn-sm d-flex align-items-center justify-content-center">
-                                <i class="bi bi-reply-fill me-1"></i>답변 작성
+                               class="btn btn-success btn-sm w-100 d-flex align-items-center justify-content-center">
+                                <i class="bi bi-reply-fill me-1"></i> 답변하기
                             </a>
 
                             <!-- 답변 삭제 버튼 -->
                             <form th:action="@{/api/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}" method="post">
-                                <button type="submit" class="btn btn-warning btn-sm d-flex align-items-center justify-content-center"
+                                <button type="submit" class="btn btn-warning btn-sm w-100 d-flex align-items-center justify-content-center"
                                         onclick="return confirm('정말 답변을 삭제하시겠습니까?');">
-                                    <i class="bi bi-x-circle-fill me-1"></i>답변 삭제
+                                    <i class="bi bi-x-circle-fill me-1"></i> 답변 삭제
                                 </button>
                             </form>
 
                             <!-- 문의 삭제 버튼 -->
                             <form th:action="@{/api/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}" method="post">
-                                <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center justify-content-center"
+                                <button type="submit" class="btn btn-danger btn-sm w-100 d-flex align-items-center justify-content-center"
                                         onclick="return confirm('정말 문의를 삭제하시겠습니까?');">
-                                    <i class="bi bi-trash-fill me-1"></i>문의 삭제
+                                    <i class="bi bi-trash-fill me-1"></i> 문의 삭제
                                 </button>
                             </form>
                         </div>
