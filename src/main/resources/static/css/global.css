@@ -1,0 +1,32 @@
+.container{
+    margin: 0 auto;
+    display: flex;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+/* 사이드바 */
+.sidebar{
+    width: 200px;
+    height: 100vh;
+    background-color: #3A3D50;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    border-right: 1px solid #e0e0e0;
+    /* 사이드바 내부의 요소들을 세로로 배치 */
+    display: flex;
+    flex-direction: column;
+
+    /* 사이드바 내부의 요소들을 위아래로 정렬 */
+    justify-content: space-between;
+}
+
+
+/* 메인 콘텐츠 */
+.content{
+    flex: 1;
+    padding: 20px;
+}
