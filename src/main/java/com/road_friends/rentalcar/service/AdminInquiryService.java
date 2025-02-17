@@ -5,10 +5,12 @@ import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.mapper.AdminInquiryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class AdminInquiryService {
 
     @Autowired
@@ -18,7 +20,6 @@ public class AdminInquiryService {
         int offset = (page - 1) * size;
         List<AdminInquiryDto> items = adminInquiryMapper.findAllInquiry(size, offset);
         int totalElements = adminInquiryMapper.countTotal();
-
         return new PageDto(page, size, totalElements, items);
     }
 
