@@ -32,4 +32,9 @@ public class FastReservationService {
     public FastReservationDto getReservationById(int id){
         return fastReservationMapper.getReservationById(id);
     }
+
+    public void reserve(FastReservationDto fastReservationDto){
+        fastReservationMapper.reserve(fastReservationDto);
+    }
+
 }

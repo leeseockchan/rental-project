@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -25,6 +27,7 @@ public class FastReservationController {
     public ResponseEntity<List<CarDto>> getAllCars() {
         List<CarDto> cars = fastReservationService.getAllCars();
         return new ResponseEntity<>(cars, HttpStatus.OK);
+
     }
 
     // 특정 차량 조회
@@ -41,6 +44,15 @@ public class FastReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
+    // 예약
+    @PostMapping("/reservations")
+    public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
+
+        fastReservationService.reserve(fastReservationDto);
+        System.out.println(fastReservationDto.toString());
+
+        return new ResponseEntity<>(fastReservationDto, HttpStatus.CREATED);
+    }
 
 
 }

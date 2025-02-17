@@ -26,4 +26,9 @@
         FROM car WHERE car_id = #{carId};
     </select>
 
+    <!--     예약하기     -->
+    <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
+        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num)
+        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum});
+    </insert>
 </mapper>
