@@ -26,7 +26,7 @@ public class AdminReviewViewController {
                                 Model model) {
         PageDto<ReviewDTO> pageDto = adminReviewService.getAllReviews(page, size);
         model.addAttribute("pageDto", pageDto);
-        return "items/reviewList"; // `src/main/resources/templates/items/list.html` 렌더링
+        return "reviews/admin/reviewListA";
     }
 }
 
