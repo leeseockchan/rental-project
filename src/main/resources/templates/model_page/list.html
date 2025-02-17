@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>차량 정보</title>
+</head>
+<body>
+<h1>차량 정보</h1>
+<table>
+    <thead>
+    <tr>
+        <td>차량 브랜드</td>
+        <td>차량 명</td>
+        <td>차 종</td>
+        <td>차량 정원</td>
+        <td>차량 변속</td>
+        <td>렌트 요금(시간)</td>
+        <td>렌트 요금(1일)</td>
+    </tr>
+    </thead>
+    <tr th:each="model: ${models}">
+        <td th:text="${model.modelBrand}"></td>
+        <td th:text="${model.modelName}"></td>
+        <td th:text="${model.modelCategory}"></td>
+        <td th:text="${model.modelSeateNum}"></td>
+        <td th:text="${model.modelTransmission}"></td>
+        <td th:text="${model.modelAmountHour}"></td>
+        <td th:text="${model.modelAmountDay}"></td>
+        <td><a id="model_detail" th:href="@{/api/models/{id}(id=${model.modelId})}">상세보기</a></td>
+
+    </tr>
+</table>
+</body>
+</html>

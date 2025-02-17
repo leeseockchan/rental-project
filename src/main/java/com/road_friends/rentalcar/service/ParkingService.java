@@ -23,7 +23,6 @@ public class ParkingService {
                         parking.getParkingDistrict()))
                 .collect(Collectors.toList());
     }
-
     //      특정 주차장 조회
     public ParkingDto findByParking(int parkingId) {
         return parkingMapper.findByParking(parkingId);

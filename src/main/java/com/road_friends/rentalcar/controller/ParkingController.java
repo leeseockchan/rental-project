@@ -3,8 +3,6 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.dto.ParkingDto;
 import com.road_friends.rentalcar.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,6 @@ public class ParkingController {
         model.addAttribute("parkingList", parkingList);
         return "parking_page/list";
     }
-
 
     //    검색한 주차장 조회
 //    @GetMapping("/{parkingId}")

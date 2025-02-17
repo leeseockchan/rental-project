@@ -22,4 +22,6 @@ public class ParkingDto {
     private String parkingProvince;
     // 지역(시)
     private String parkingDistrict;
+
+
 }

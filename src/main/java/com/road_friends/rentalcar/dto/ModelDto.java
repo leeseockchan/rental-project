@@ -13,8 +13,7 @@ import lombok.Setter;
 public class ModelDto {
     private String modelId;  // model_id -> modelId
 
-    @JsonProperty("model_brand")
-    private String modelManufacture;  // model_manufacture -> modelManufacture
+    private String modelBrand;
 
     private String modelName;
 

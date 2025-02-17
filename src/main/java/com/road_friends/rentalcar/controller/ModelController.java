@@ -2,37 +2,40 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.service.ModelService;
+import com.road_friends.rentalcar.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/models")
 public class ModelController {
 
-    private final ModelService modelService;
-
     @Autowired
-    public ModelController(ModelService modelService) {
-        this.modelService = modelService;
-    }
+    ModelService modelService;
 
     // 모든 차량 목록 조회
     @GetMapping
-    public ResponseEntity<List<ModelDto>> getAllmodels() {
+    public String showAllmodel(Model model){
         List<ModelDto> models = modelService.getAllmodels();
-        return new ResponseEntity<>(models, HttpStatus.OK);
+        model.addAttribute("models", models);
+        return "model_page/list";
     }
 
     // 특정 차량 조회
     @GetMapping("/{modelId}")
-    public ResponseEntity<ModelDto> getmodelById(@PathVariable("modelId") String modelId) {
-        ModelDto model = modelService.getmodelById(modelId);
-        return model != null ? new ResponseEntity<>(model, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public String findByModel(@PathVariable("modelId") String modelId, Model model) {
+            ModelDto modelDetail = modelService.getmodelById(modelId);
+            model.addAttribute("model", modelDetail);
+            return "model_page/detail";
     }
+    // 차량 상세보기
+
 
     // 차량 추가
     @PostMapping
