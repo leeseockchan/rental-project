@@ -30,7 +30,7 @@ public class FastReservationDto {
 
     // 대여위치
     @JsonProperty("rental_location")
-    private String rentalLocation;
+    private int rentalLocation;
 
     // 대여일시
     @JsonProperty("rental_datetime")
@@ -40,7 +40,7 @@ public class FastReservationDto {
 
     // 반납위치
     @JsonProperty("return_location")
-    private String returnLocation;
+    private int returnLocation;
 
     // 반납일시
     @JsonProperty("return_datetime")
