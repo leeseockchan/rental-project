@@ -1,7 +1,9 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.ReviewDTO;
 import com.road_friends.rentalcar.service.AdminReviewService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +18,14 @@ public class AdminReviewController {
         this.adminReviewService = adminReviewService;
     }
 
-    // 리뷰 목록 조회
+    // 페이징된 리뷰 목록 조회
     @GetMapping
-    public List<ReviewDTO> getAllReviews() {
-        return adminReviewService.getAllReviews();
+    public ResponseEntity<PageDto<ReviewDTO>> getAllReviews(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PageDto<ReviewDTO> pageDto = adminReviewService.getAllReviews(page, size);
+        return ResponseEntity.ok(pageDto);
     }
 
     // 특정 리뷰 상세 조회

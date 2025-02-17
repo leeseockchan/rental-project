@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.service;
 
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.ReviewDTO;
 import com.road_friends.rentalcar.mapper.AdminReviewMapper;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,14 @@ public class AdminReviewService {
         this.adminReviewMapper = adminReviewMapper;
     }
 
-    public List<ReviewDTO> getAllReviews() {
-        return adminReviewMapper.findAllReviews();
+    // 페이징된 리뷰 목록 조회
+    public PageDto<ReviewDTO> getAllReviews(int page, int size) {
+        int totalElements = adminReviewMapper.countReviews();
+        int offset = (page - 1) * size;
+
+        List<ReviewDTO> reviews = adminReviewMapper.findAllReviews(size, offset);
+
+        return new PageDto<>(page, size, totalElements, reviews);
     }
 
     public ReviewDTO getReviewById(Long id) {

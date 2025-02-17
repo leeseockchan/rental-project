@@ -2,9 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.AdminReviewMapper">
 
-    <!-- 전체 리뷰 조회 -->
+    <!-- 페이징된 리뷰 목록 조회 -->
     <select id="findAllReviews" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
         SELECT * FROM review
+        ORDER BY review_created_at DESC
+            LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 전체 리뷰 개수 조회 -->
+    <select id="countReviews" resultType="int">
+        SELECT COUNT(*) FROM review
     </select>
 
     <!-- 특정 리뷰 조회 (필수 추가) -->
