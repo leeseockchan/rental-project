@@ -36,4 +36,13 @@
     <delete id="deleteReservation">
         DELETE FROM fast_reservation WHERE reservation_id=#{reservationId};
     </delete>
+
+    <!--    예약수정    -->
+    <update id="updateReservation" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
+        UPDATE fast_reservation
+        SET car_id=#{carId}, rental_location=#{rentalLocation}, rental_datetime=#{rentalDatetime}, return_location=#{returnLocation},return_datetime= #{returnDatetime}
+        WHERE reservation_id=#{reservationId};
+    </update>
+
+
 </mapper>

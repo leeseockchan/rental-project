@@ -59,4 +59,13 @@ public class FastReservationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    // 예약 수정
+    @PutMapping("/reservations/{reservationId}")
+    public ResponseEntity<FastReservationDto> updateReservation(@PathVariable("reservationId") int reservationId,
+                                                                @RequestBody FastReservationDto fastReservationDto){
+        fastReservationDto.setReservationId(reservationId);
+        fastReservationService.updateReservation(fastReservationDto);
+        return new ResponseEntity<>(fastReservationDto, HttpStatus.OK);
+    }
+
 }

@@ -40,4 +40,8 @@ public class FastReservationService {
     public void deleteReservation(int reservationId) {
         fastReservationMapper.deleteReservation(reservationId);
     }
+
+    public void updateReservation(FastReservationDto fastReservationDto) {
+        fastReservationMapper.updateReservation(fastReservationDto);
+    }
 }
