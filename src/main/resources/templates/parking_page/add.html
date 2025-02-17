@@ -10,7 +10,7 @@
 <h1> 주차장을 생성 하러 잘 찾아왔어요</h1>
 
 <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
-    <input type="hidden" id="parkingId" name="id" value="parking.parkingId">
+    <input type="hidden" id="parkingId" name="parkingId" th:value="${parkingDto.parkingId}">
     <label for="parkingName">주차장 이름 : </label>
     <input type="text" id="parkingName" name="parkingName"
            placeholder="주차장의 이름을 입력해주세요" required><br><br>
@@ -27,17 +27,13 @@
     <input type="text" id="parkingLongtitude" name="parkingLongtitude"
            placeholder="경도의 값을 정확히 입력해주세요" required><br><br>
 
-    <label for="parkingProvince">주차장 시 : </label>
-    <select id="parkingProvince" required name="parkingProvince">
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '서울 특별시'}">서울 특별시</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경기도'}">경기도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '충청북도'}">충청북도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '충청남도'}">충청남도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경상북도'}">경상북도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경상남도'}">경상남도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '전라북도'}">전라북도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '전라남도'}">전라남도</option>
-        <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '제주도'}">제주도</option>
+    <label for="parkingProvince">주차장 지역 : </label>
+    <select name="parkingProvince" id="parkingProvince" required>
+        <option th:each="province : ${provinceList}"
+                th:value="${province}"
+                th:text="${province}"
+                th:selected="${parkingDto.parkingProvince == province}">
+        </option>
     </select><br><br>
     <label for="parkingDistrict">주차장 도시 : </label>
     <input type="text" id="parkingDistrict" name="parkingDistrict"

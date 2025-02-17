@@ -15,13 +15,7 @@ public class ParkingService {
 
     //     전체 주차장 목록
     public List<ParkingDto> findAll() {
-        List<ParkingDto> parkingList = parkingMapper.findAll();
-        return parkingList.stream()
-                .map(parking -> new ParkingDto(parking.getParkingId(), parking.getParkingName(),
-                        parking.getParkingAddress(), parking.getParkingLatitude(),
-                        parking.getParkingLongtitude(), parking.getParkingProvince(),
-                        parking.getParkingDistrict()))
-                .collect(Collectors.toList());
+        return parkingMapper.findAll();
     }
     //      특정 주차장 조회
     public ParkingDto findByParking(int parkingId) {

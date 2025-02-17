@@ -3,8 +3,9 @@ package com.road_friends.rentalcar.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Getter
-@Setter
+import java.util.List;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParkingDto {
@@ -22,6 +23,5 @@ public class ParkingDto {
     private String parkingProvince;
     // 지역(시)
     private String parkingDistrict;
-
 
 }

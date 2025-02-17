@@ -26,7 +26,7 @@
         SET parking_name = #{parkingName},
         parking_address = #{parkingAddress},
         parking_latitude = #{parkingLatitude},
-        parking_longtitude = #{parkingLongtitude}
+        parking_longtitude = #{parkingLongtitude},
         parking_province =  #{parkingProvince},
         parking_district =  #{parkingDistrict}
         WHERE parking_id = #{parkingId};

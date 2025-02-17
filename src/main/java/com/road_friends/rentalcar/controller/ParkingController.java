@@ -17,7 +17,13 @@ public class ParkingController {
     @Autowired
     ParkingService parkingService;
 
-    //     등록된 주차장 목록
+//    주차 지역 리스트
+    private List<String> getProvinceList() {
+        return List.of("서울 특별시", "경기도", "충청북도", "충청남도",
+                "경상북도", "경상남도", "전라북도", "전라남도", "제주도");
+    }
+
+    //    주차장 전체 목록
     @GetMapping
     public String showAllParking(Model model) {
         List<ParkingDto> parkingList = parkingService.findAll();
@@ -42,10 +48,12 @@ public class ParkingController {
 
     //    주차장 추가하기
     @GetMapping("/add")
-    public String addParking() {
+    public String addParking(Model model) {
+        model.addAttribute("provinceList", getProvinceList());
+        model.addAttribute("parkingDto", new ParkingDto());
         return "parking_page/add";
     }
-    @PostMapping
+    @PostMapping("/add")
     public String add(@ModelAttribute ParkingDto parkingDto){
         parkingService.addParking(parkingDto);
         return "redirect:/api/admin/parkings";
@@ -55,13 +63,13 @@ public class ParkingController {
     @GetMapping("/{parkingId}/modify")
     public String modify(@PathVariable int parkingId, Model model) {
         ParkingDto parkingDto = parkingService.findByParking(parkingId);
+        model.addAttribute("provinceList", getProvinceList());
         model.addAttribute("modify", parkingDto);
         return "parking_page/modify";
     }
     @PutMapping("/{parkingId}/modify")
     public String modifyParking(@PathVariable int parkingId,
-                                @ModelAttribute ParkingDto parkingDto,
-                                RedirectAttributes redirectAttributes) {
+                                @ModelAttribute ParkingDto parkingDto) {
         parkingDto.setParkingId(parkingId);
         parkingService.modifyParking(parkingDto);
         return "redirect:/api/admin/parkings/" + parkingId;

@@ -27,4 +27,5 @@ public class ModelDto {
 
     private int modelAmountDay;
 
+
 }

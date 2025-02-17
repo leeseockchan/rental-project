@@ -8,13 +8,13 @@
 </head>
 <body>
 <h2>주차장 정보 수정</h2>
-<form th:action="@{/api/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}" method="post">
+<form id="parkingModify" th:action="@{/api/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
+      method="post">
     <input type="hidden" name="_method" value="PUT">
-
     <table>
         <tr>
             <td><label for="parkingName">이름:</label></td>
-            <td><input  type="text" id="parkingName" name="parkingName" th:value="${modify.parkingName}" required></td>
+            <td><input type="text" id="parkingName" name="parkingName" th:value="${modify.parkingName}" required></td>
         </tr>
         <tr>
             <td><label for="parkingAddress">주소:</label></td>
@@ -23,33 +23,31 @@
         </tr>
         <tr>
             <td><label for="parkingLatitude">위도:</label></td>
-            <td><input type="text" id="parkingLatitude" name="parkingLatitude" th:value="${modify.parkingLatitude}">
+            <td><input type="text" id="parkingLatitude" name="parkingLatitude" th:value="${modify.parkingLatitude}" required>
             </td>
         </tr>
         <tr>
             <td><label for="parkingLongtitude">경도:</label></td>
-            <td><input type="text" id="parkingLongtitude" name="parkingLongtitude" th:value="${modify.parkingLongtitude}">
+            <td><input type="text" id="parkingLongtitude" name="parkingLongtitude"
+                       th:value="${modify.parkingLongtitude}" required>
             </td>
         </tr>
         <tr>
             <td><label for="parkingProvince"> 주차장 시 : </label></td>
             <td>
                 <select name="parkingProvince" id="parkingProvince" required>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '서울 특별시'}">서울 특별시</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경기도'}">경기도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '충청북도'}">충청북도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '충청남도'}">충청남도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경상북도'}">경상북도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '경상남도'}">경상남도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '전라북도'}">전라북도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '전라남도'}">전라남도</option>
-                    <option value="modify.parkingProvince" th:selected="${modify.parkingProvince == '제주도'}">제주도</option>
+                    <option th:each="province : ${provinceList}"
+                            th:value="${province}"
+                            th:text="${province}"
+                            th:selected="${modify.parkingProvince == province}">
+                    </option>
                 </select>
             </td>
         </tr>
         <tr>
             <td><label for="parkingDistrict">도시:</label></td>
-            <td><input type="text" id="parkingDistrict" name="parkingDistrict" th:value="${modify.parkingDistrict}" required>
+            <td><input type="text" id="parkingDistrict" name="parkingDistrict" th:value="${modify.parkingDistrict}"
+                       required>
             </td>
         </tr>
         <tr>
@@ -62,6 +60,6 @@
         </tr>
     </table>
 </form>
-<script th:src="@{/js/parking/items_modify.js}"></script>
+<!--<script th:src="@{/js/parking/items_modify.js}"></script>-->
 </body>
 </html>
