@@ -1,9 +1,9 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.AdminInquiryDto;
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.service.AdminInquiryService;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +22,13 @@ public class AdminInquiryController {
     private AdminInquiryService adminInquiryService;
 
     // 문의 목록 조회 (HTML 렌더링)
+    // 요청URL 형식: /items?page=1&size=10
     @GetMapping
-    public String getAllInquiry(Model model) {
-        List<AdminInquiryDto> inquiries = adminInquiryService.getAllInquiry();
-        model.addAttribute("inquiries", inquiries);
+    public String getAllInquiry(@RequestParam(name="page", defaultValue = "1") int page,
+                               @RequestParam(name="size", defaultValue = "10") int size,
+                               Model model) {
+        PageDto pageDto = adminInquiryService.getAllInquiry(page, size);
+        model.addAttribute("pageDto", pageDto);
         return "inquiry/inquiry_list";  // inquiry_list.html로 이동
     }
 

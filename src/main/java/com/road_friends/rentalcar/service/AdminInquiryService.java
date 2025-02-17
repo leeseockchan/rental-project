@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.AdminInquiryDto;
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.mapper.AdminInquiryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,12 @@ public class AdminInquiryService {
     @Autowired
     AdminInquiryMapper adminInquiryMapper;
 
-    public List<AdminInquiryDto> getAllInquiry() {
-        return adminInquiryMapper.findAllInquiry();
+    public PageDto getAllInquiry(int page, int size) {
+        int offset = (page - 1) * size;
+        List<AdminInquiryDto> items = adminInquiryMapper.findAllInquiry(size, offset);
+        int totalElements = adminInquiryMapper.countTotal();
+
+        return new PageDto(page, size, totalElements, items);
     }
 
     public AdminInquiryDto getInquiryById(int inquiryId) {

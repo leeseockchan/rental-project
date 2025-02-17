@@ -9,13 +9,12 @@ import java.util.List;
 @Mapper
 public interface AdminInquiryMapper {
 
-    List<AdminInquiryDto> findAllInquiry();
+    List<AdminInquiryDto> findAllInquiry(@Param("size") int size, @Param("offset") int offset);
+    int countTotal();
 
     AdminInquiryDto findInquiryById(int inquiryId);
 
-//    void updateInquiryReply(int inquiryId, int adminNum, String inquiriesA);
-
-void updateInquiryReply(@Param("inquiryId") int inquiryId,
+    void updateInquiryReply(@Param("inquiryId") int inquiryId,
                         @Param("adminNum") int adminNum,
                         @Param("inquiriesA") String inquiriesA);
 
