@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.CarMapper">
+
+    <!-- 차량 관리 페이지 -->
+    <!--  수원시 주차장에 있는 차량들 조회  -->
+    <select id="findAllCar" resultType="com.road_friends.rentalcar.dto.CarDto">
+        SELECT c.* FROM car c
+        JOIN parking p ON c.rental_station = p.parking_id
+        WHERE p.parking_district = '수원시';
+    </select>
+
+    <!-- 차량 관리 수정 -->
+    <update id="modifyCar" parameterType="com.road_friends.rentalcar.dto.CarDto">
+        UPDATE car SET
+        model_id = #{modelId},
+        car_category = #{carCategory},
+        car_status = #{carStatus},
+        car_year = #{carYear},
+        car_fuel = #{carFuel},
+        car_grade = #{carGrade},
+        car_options = #{carOptions},
+        rental_station = #{rentalStation},
+        WHERE car_id = #{CarId};
+    </update>
+
+    <!-- 차량 관리 항목 삭제 -->
+    <delete id="deleteCar">
+        DELETE FROM car WHERE car_id = #{carId};
+    </delete>
+</mapper>
