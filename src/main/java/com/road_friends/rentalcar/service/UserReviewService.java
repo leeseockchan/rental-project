@@ -31,4 +31,20 @@ public class UserReviewService {
         return Optional.ofNullable(userReviewMapper.findByReviewId(id))
                 .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
     }
+
+    // 리뷰 생성
+    public void createReview(ReviewDTO reviewDTO) {
+        userReviewMapper.insertReview(reviewDTO);
+    }
+
+    // 리뷰 업데이트
+    public void updateReview(ReviewDTO reviewDTO) {
+        userReviewMapper.updateReview(reviewDTO);
+    }
+
+    // 리뷰 삭제
+    public void deleteReview(Long id) {
+        userReviewMapper.deleteReview(id);
+    }
+
 }

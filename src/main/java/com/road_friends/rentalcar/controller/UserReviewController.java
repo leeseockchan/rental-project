@@ -32,4 +32,27 @@ public class UserReviewController {
     public ResponseEntity<ReviewDTO> getReviewById(@PathVariable Long id) {
         return ResponseEntity.ok(userReviewService.getReviewById(id));
     }
+
+    // 리뷰 생성
+    @PostMapping
+    public ResponseEntity<String> createReview(@RequestBody ReviewDTO reviewDTO) {
+        userReviewService.createReview(reviewDTO);
+        return ResponseEntity.ok("리뷰 작성 성공!");
+    }
+
+    // 리뷰 업데이트
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateReview(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO) {
+        reviewDTO.setReviewId(id);  // URL에서 받은 ID를 DTO에 설정
+        userReviewService.updateReview(reviewDTO);
+        return ResponseEntity.ok("리뷰 업데이트 성공!");
+    }
+
+    // 리뷰 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long id) {
+        userReviewService.deleteReview(id);
+        return ResponseEntity.ok("리뷰 삭제 성공!");
+    }
+
 }

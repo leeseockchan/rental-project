@@ -25,6 +25,10 @@ public interface UserReviewMapper {
             "WHERE review_id = #{reviewId}")
     int updateReview(ReviewDTO review);
 
+    // 리뷰 삭제
+    @Delete("DELETE FROM review WHERE review_id = #{reviewId}")
+    int deleteReview(@Param("reviewId") Long reviewId);
+
     // 특정 리뷰 조회
     @Select("SELECT * FROM review WHERE review_id = #{reviewId}")
     ReviewDTO findByReviewId(@Param("reviewId") Long reviewId);
