@@ -11,10 +11,7 @@ public class HelloController {
     return "/hello";
   }
 
-  @GetMapping("/")
-  public String layout(){
-    return "/common/home";
-  }
+//  출력 확인용. 추후 삭제.
   @GetMapping("/con")
   public String layout2(){
     return "/admin/content1";
