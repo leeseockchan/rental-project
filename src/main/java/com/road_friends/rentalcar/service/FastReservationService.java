@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -27,6 +28,9 @@ public class FastReservationService {
         return fastReservationMapper.getCarById(carId);
     }
 
+    public List<CarDto> getCarListByRegion(String rentalLocation){
+        return fastReservationMapper.getCarListByRegion(rentalLocation);
+    }
     // 예약 목록
     public List<FastReservationDto> getReservations(){
         return fastReservationMapper.getAllReservations();
@@ -38,10 +42,6 @@ public class FastReservationService {
 
     public void reserve(FastReservationDto fastReservationDto){
 
-        LocalDateTime rentalDateTime = fastReservationDto.getRentalDatetime();
-        LocalDateTime returnDateTime = fastReservationDto.getReturnDatetime();
-
-
 
         fastReservationMapper.reserve(fastReservationDto);
     }
@@ -52,5 +52,11 @@ public class FastReservationService {
 
     public void updateReservation(FastReservationDto fastReservationDto) {
         fastReservationMapper.updateReservation(fastReservationDto);
+    }
+
+
+    public List<CarDto> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime) {
+
+        return fastReservationMapper.getAvailableCars(province,district,rentalDatetime, returnDateTime);
     }
 }

@@ -3,11 +3,14 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
 import com.road_friends.rentalcar.service.FastReservationService;
+import org.apache.coyote.Request;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/quick-rent")
@@ -20,13 +23,19 @@ public class FastReservationController {
 
     }
 
-    // 모든 차량 목록 조회
-    @GetMapping("/cars")
-    public ResponseEntity<List<CarDto>> getAllCars() {
-        List<CarDto> cars = fastReservationService.getAllCars();
-        return new ResponseEntity<>(cars, HttpStatus.OK);
 
+    // 입력받은 지역, 시간으로 이용 가능한 차량 조회
+    @PostMapping("/cars")
+    public ResponseEntity<List<CarDto>> selectCars(@RequestBody Map<String, Object> requestBody) {
+        String province = (String) requestBody.get("province");
+        String district = (String) requestBody.get("district");
+        LocalDateTime rentalDatetime = LocalDateTime.parse((String) requestBody.get("rental_datetime"));
+        LocalDateTime returnDatetime = LocalDateTime.parse((String) requestBody.get("return_datetime"));
+
+        List<CarDto> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime);
+        return ResponseEntity.ok(availableCars);
     }
+
 
     // 특정 차량 조회
     @GetMapping("/cars/{carId}")
@@ -45,6 +54,7 @@ public class FastReservationController {
     // 예약
     @PostMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
+
 
         fastReservationService.reserve(fastReservationDto);
         System.out.println(fastReservationDto.toString());
@@ -67,5 +77,6 @@ public class FastReservationController {
         fastReservationService.updateReservation(fastReservationDto);
         return new ResponseEntity<>(fastReservationDto, HttpStatus.OK);
     }
+
 
 }

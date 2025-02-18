@@ -38,6 +38,6 @@ public class CarDto {
     @JsonProperty("rental_station")
     private int rentalStation;
 
-
+    private ModelDto model;
 
 }
