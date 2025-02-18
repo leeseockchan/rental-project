@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/model/model.css">
+    <title>차량 정보 추가</title>
+</head>
+<body>
+<h1>차량 정보 생성</h1>
+<form th:action="@{/api/admin/models/add}" method="post">
+    <table>
+        <thead>
+        <tr>
+            <th><label for="modelId">차량 번호</label></th>
+            <th><label for="modelBrand">차량 브랜드</label></th>
+            <th><label for="modelName">차량 이름</label></th>
+            <th><label for="modelCategory">차 종</label></th>
+            <th><label for="modelSeateNum">차량 정원</label></th>
+            <th><label for="modelTransmission">차량 변속기</label></th>
+            <th><label for="modelAmountHour">렌트 요금(1시간)</label></th>
+            <th><label for="modelAmountDay">렌트 요금(1일)</label></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><input type="text" id="modelId" name="modelId" required></td>
+            <td><input type="text" id="modelBrand" name="modelBrand" required></td>
+            <td><input type="text" id="modelName" name="modelName" required></td>
+            <td><input type="text" id="modelCategory" name="modelCategory" required></td>
+            <td><input type="number" id="modelSeateNum" name="modelSeateNum" required></td>
+            <td><input type="text" id="modelTransmission" name="modelTransmission" required></td>
+            <td><input type="number" id="modelAmountHour" name="modelAmountHour" required></td>
+            <td><input type="number" id="modelAmountDay" name="modelAmountDay" required></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit">차량 추가</button>
+    <button type="button" onclick="window.location.href='/api/admin/models'">취소</button>
+</form>
+
+</body>
+</html>

@@ -7,7 +7,7 @@
     <title>주차장 생성 하기</title>
 </head>
 <body>
-<h1> 주차장을 생성 하러 잘 찾아왔어요</h1>
+<h1>주차장 생성</h1>
 
 <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
     <input type="hidden" id="parkingId" name="parkingId" th:value="${parkingDto.parkingId}">

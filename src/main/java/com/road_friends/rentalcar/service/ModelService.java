@@ -18,22 +18,22 @@ public class ModelService {
     }
 
     // 차량 ID로 조회
-    public ModelDto getmodelById(String modelId) {
+    public ModelDto getModelById(String modelId) {
         return modelMapper.findById(modelId);
     }
 
     // 차량 추가
-    public void addmodel(ModelDto modelDto) {
+    public void addModel(ModelDto modelDto) {
         modelMapper.insert(modelDto);
     }
 
     // 차량 수정
-    public void updatemodel(ModelDto modelDto) {
-        modelMapper.update(modelDto);
+    public void modifyModel(ModelDto modelDto) {
+        modelMapper.modify(modelDto);
     }
 
     // 차량 삭제
-    public void deletemodel(String modelId) {
+    public void deleteModel(String modelId) {
         modelMapper.delete(modelId);
     }
 }

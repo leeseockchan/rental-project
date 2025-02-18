@@ -9,6 +9,6 @@ public interface ModelMapper {
     List<ModelDto> findAll();
     ModelDto findById(String modelId);
     void insert(ModelDto modelDto);
-    void update(ModelDto modelDto);
+    void modify(ModelDto modelDto);
     void delete(String modelId);
 }

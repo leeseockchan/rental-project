@@ -14,14 +14,14 @@
 
     <!-- 차량 추가 -->
     <insert id="insert" parameterType="com.road_friends.rentalcar.dto.ModelDto">
-        INSERT INTO model (model_brand, model_name, model_category, model_seate_num, model_transmission,
+        INSERT INTO model (model_id, model_brand, model_name, model_category, model_seate_num, model_transmission,
         model_amount_hour, model_amount_day)
-       VALUES ( #{modelBrand}, #{modelName}, #{modelCategory}, #{modelSeateNum},
+        VALUES (#{modelId}, #{modelBrand}, #{modelName}, #{modelCategory}, #{modelSeateNum},
         #{modelTransmission}, #{modelAmountHour}, #{modelAmountDay});
     </insert>
 
     <!-- 차량 수정 -->
-    <update id="update" parameterType="com.road_friends.rentalcar.dto.ModelDto">
+    <update id="modify" parameterType="com.road_friends.rentalcar.dto.ModelDto">
         UPDATE model SET
         model_brand = #{modelBrand},
         model_name = #{modelName},
@@ -37,5 +37,4 @@
     <delete id="delete">
         DELETE FROM model WHERE model_id = #{modelId};
     </delete>
-
 </mapper>
