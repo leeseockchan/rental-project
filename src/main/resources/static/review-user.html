@@ -11,12 +11,12 @@
                 carId: parseInt(document.getElementById('carId').value, 10),
                 carConditionSatisfactionRating: parseInt(document.getElementById('carCondition').value, 10),
                 reservationProcessSatisfactionRating: parseInt(document.getElementById('reservationProcess').value, 10),
-                priceSatisfactionSatisfactionRating: parseInt(document.getElementById('priceSatisfaction').value, 10),
+                priceSatisfactionRating: parseInt(document.getElementById('priceSatisfaction').value, 10),
                 reviewContent: document.getElementById('reviewContent').value.trim()
             };
 
             try {
-                const response = await fetch('http://localhost:8080/api/review', {
+                const response = await fetch('http://localhost:8080/api/user/reviews', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(reviewData)
@@ -37,12 +37,12 @@
             const updatedData = {
                 carConditionSatisfactionRating: parseInt(document.getElementById('updateCarCondition').value, 10),
                 reservationProcessSatisfactionRating: parseInt(document.getElementById('updateReservationProcess').value, 10),
-                priceSatisfactionSatisfactionRating: parseInt(document.getElementById('updatePriceSatisfaction').value, 10),
+                priceSatisfactionRating: parseInt(document.getElementById('updatePriceSatisfaction').value, 10),
                 reviewContent: document.getElementById('updateReviewContent').value.trim()
             };
 
             try {
-                const response = await fetch(`http://localhost:8080/api/review/${reviewId}`, {
+                const response = await fetch(`http://localhost:8080/api/user/reviews/${reviewId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedData)
@@ -62,7 +62,7 @@
             const reviewId = document.getElementById('deleteReviewId').value;
 
             try {
-                const response = await fetch(`http://localhost:8080/api/review/${reviewId}`, {
+                const response = await fetch(`http://localhost:8080/api/user/reviews/${reviewId}`, {
                     method: 'DELETE'
                 });
 
@@ -79,7 +79,7 @@
         async function fetchReviewById() {
             const reviewId = document.getElementById('fetchReviewId').value;
             try {
-                const response = await fetch(`http://localhost:8080/api/review/${reviewId}`);
+                const response = await fetch(`http://localhost:8080/api/user/reviews/${reviewId}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
