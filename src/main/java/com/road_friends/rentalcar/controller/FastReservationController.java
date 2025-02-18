@@ -3,7 +3,6 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
 import com.road_friends.rentalcar.service.FastReservationService;
-import org.apache.coyote.Request;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +32,7 @@ public class FastReservationController {
         LocalDateTime returnDatetime = LocalDateTime.parse((String) requestBody.get("return_datetime"));
 
         List<CarDto> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime);
+
         return ResponseEntity.ok(availableCars);
     }
 
@@ -55,9 +55,11 @@ public class FastReservationController {
     @PostMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
 
+        // 가격 계산
+        Long price = fastReservationService.getPrice(fastReservationDto);
 
         fastReservationService.reserve(fastReservationDto);
-        System.out.println(fastReservationDto.toString());
+        System.out.println(price);
 
         return new ResponseEntity<>(fastReservationDto, HttpStatus.CREATED);
     }

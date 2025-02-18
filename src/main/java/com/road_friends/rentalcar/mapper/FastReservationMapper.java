@@ -25,5 +25,7 @@ public interface FastReservationMapper {
                                   @Param("returnDatetime") LocalDateTime returnDatetime);
 
 
-    List<CarDto> getCarListByRegion(String rentalLocation);
+    int getAmountHour(int carId);
+
+    int getAmountDay(int carId);
 }

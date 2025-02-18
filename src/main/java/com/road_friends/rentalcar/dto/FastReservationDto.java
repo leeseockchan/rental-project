@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @ToString
 public class FastReservationDto {
 
-
+    @JsonProperty("reservation_id")
     private int reservationId;
 
     // 차량 id
@@ -26,7 +26,7 @@ public class FastReservationDto {
 
     // 사용자 번호
     @JsonProperty("user_num")
-    private int userNum;
+    private Long userNum;
 
     // 대여위치
     @JsonProperty("rental_location")
