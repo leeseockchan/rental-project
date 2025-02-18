@@ -13,7 +13,7 @@ public class HelloController {
 
   @GetMapping("/")
   public String layout(){
-    return "/layout/layout";
+    return "/common/home";
   }
   @GetMapping("/con")
   public String layout2(){
