@@ -6,8 +6,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HelloController {
 
-  @GetMapping("/")
+  @GetMapping("/hello")
   public String hello(){
     return "/hello";
+  }
+
+  @GetMapping("/")
+  public String layout(){
+    return "/layout/layout";
+  }
+  @GetMapping("/con")
+  public String layout2(){
+    return "/admin/content1";
   }
 }
