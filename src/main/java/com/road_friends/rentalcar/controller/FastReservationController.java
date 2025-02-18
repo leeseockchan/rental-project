@@ -56,10 +56,10 @@ public class FastReservationController {
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
 
         // 가격 계산
-        Long price = fastReservationService.getPrice(fastReservationDto);
+        Long totalPrice = fastReservationService.getPrice(fastReservationDto);
 
         fastReservationService.reserve(fastReservationDto);
-        System.out.println(price);
+        System.out.println(totalPrice);
 
         return new ResponseEntity<>(fastReservationDto, HttpStatus.CREATED);
     }
