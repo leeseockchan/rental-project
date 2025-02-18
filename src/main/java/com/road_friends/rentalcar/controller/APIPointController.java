@@ -21,13 +21,13 @@ public class APIPointController {
 
     // 총 포인트 조회
     @GetMapping("/total")
-    public int getTotalPoints(@RequestParam Long userNum){
+    public int getTotalPoints(@RequestParam("userNum") Long userNum){
         return apiPointService.getTotalPoints(userNum);
     }
 
     // 포인트 적립 내역 조회
     @GetMapping("/history")
-    public List<APIPointDto> getPointHistory(@RequestParam Long userNum){
+    public List<APIPointDto> getPointHistory(@RequestParam("userNum") Long userNum){
         return apiPointService.getPointHistory(userNum);
     }
 }

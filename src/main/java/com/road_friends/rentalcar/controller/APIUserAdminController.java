@@ -26,15 +26,17 @@ public class APIUserAdminController {
 
     // 특정 사용자 상세 조회 (관리자용)
     @GetMapping("/{userNum}")
-    public APIUserDto getUserDetail(@PathVariable int userNum){
+    public APIUserDto getUserDetail(@PathVariable("userNum") Long userNum){
         return apiUserAdminService.getUserDetail(userNum);
     }
 
     // 특정 사용자 정보 수정 (관리자용)
     @PutMapping("/{userNum}")
-    public int updateUser(@PathVariable int userNum, @RequestBody APIUserDto apiUserDto){
-        apiUserDto.setUserNum(userNum); // userNum 설정
-        return apiUserAdminService.updateUser(apiUserDto);
+    public String updateUser(@PathVariable("userNum") Long userNum, @RequestBody APIUserDto apiUserDto){
+        apiUserDto.setUserNum(userNum);
+        boolean updated = apiUserAdminService.updateUser(apiUserDto);
+        return updated ? "회원 정보가 수정되었습니다." : "회원 정보 수정 실패";
+
     }
 
 }

@@ -12,7 +12,7 @@ public interface APIUserAdminMapper {
     List<APIUserDto> getAllUsers();
 
     // 특정 사용자 상세 조회 (관리자용)
-    APIUserDto getUserDetail(int userNum);
+    APIUserDto getUserDetail(Long userNum);
 
     // 특정 사용자 정보 수정 (관리자용)
     int updateUser(APIUserDto apiUserDto);

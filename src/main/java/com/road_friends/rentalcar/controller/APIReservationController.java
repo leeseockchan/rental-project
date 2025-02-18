@@ -18,28 +18,28 @@ public class APIReservationController {
 
     // 로그인한 사용자의 모든 예약 조회
     @GetMapping
-    public List<APIReservationDto> getUserReservations(@RequestParam Long userNum){
+    public List<APIReservationDto> getUserReservations(@RequestParam("userNum") Long userNum){
         return apiReservationService.getUserReservations(userNum);
     }
 
     // 특정 예약 상세 조회
-    @GetMapping("/{id}")
-    public APIReservationDto getReservationDetail(@PathVariable Long id){
-        return apiReservationService.getReservationDetail(id);
+    @GetMapping("/{reservationId}")
+    public APIReservationDto getReservationDetail(@PathVariable("reservationId") int reservationSId){
+        return apiReservationService.getReservationDetail(reservationSId);
     }
 
     // 예약 정보 수정
-    @PutMapping("/{id}")
-    public int updateReservation(@PathVariable Long id, @RequestParam Long userNum, @RequestBody APIReservationDto apiReservationDto){
-        apiReservationDto.setReservationSId(id);
+    @PutMapping("/{reservationId}")
+    public int updateReservation(@PathVariable("reservationId") int reservationSId, @RequestParam("userNum") Long userNum, @RequestBody APIReservationDto apiReservationDto){
+        apiReservationDto.setReservationSId(reservationSId);
         apiReservationDto.setUserNum(userNum);
         return apiReservationService.updateReservation(apiReservationDto);
     }
 
     // 예약 취소(삭제)
-    @DeleteMapping("/{id}")
-    public int deleteReservation(@PathVariable Long id, @RequestParam Long userNum){
-        return apiReservationService.deleteReservation(id,userNum);
+    @DeleteMapping("/{reservationId}")
+    public int deleteReservation(@PathVariable("reservationId") int reservationSId, @RequestParam("userNum") Long userNum){
+        return apiReservationService.deleteReservation(reservationSId,userNum);
     }
 
 

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.APIFastReservationMapper">
+
     <!-- 로그인한 사용자의 전체 빠른 예약 조회 -->
     <select id="getUserFastReservations" resultType="com.road_friends.rentalcar.dto.APIFastReservationDto">
-        SELECT reservation_id, user_num, current_location_latitude, current_location_longitude,
-        rental_location, rental_datetime, return_location, return_datetime, fast_reservation_create_at
+        SELECT reservation_id, car_id, rental_location, rental_datetime, return_location,
+               return_datetime, user_num, fast_reservation_create_at
         FROM fast_reservation
         WHERE user_num = #{userNum}
     </select>
 
     <!-- 특정 빠른 예약 상세 조회 -->
     <select id="getFastReservationDetail" resultType="com.road_friends.rentalcar.dto.APIFastReservationDto">
-        SELECT reservation_id, user_num, current_location_latitude, current_location_longitude,
-        rental_location, rental_datetime, return_location, return_datetime, fast_reservation_create_at
+        SELECT reservation_id, car_id, rental_location, rental_datetime, return_location,
+               return_datetime, user_num, fast_reservation_create_at
         FROM fast_reservation
         WHERE reservation_id = #{reservationId}
     </select>
@@ -21,18 +22,17 @@
     <update id="updateFastReservation">
         UPDATE fast_reservation
         SET
-        rental_location = #{rentalLocation},
-        rental_datetime = #{rentalDatetime},
-        return_location = #{returnLocation},
-        return_datetime = #{returnDatetime}
+            rental_location = #{rentalLocation},
+            rental_datetime = #{rentalDatetime},
+            return_location = #{returnLocation},
+            return_datetime = #{returnDatetime}
         WHERE reservation_id = #{reservationId} AND user_num = #{userNum}
     </update>
 
     <!-- 빠른 예약 취소 (삭제) -->
     <delete id="deleteFastReservation">
         DELETE FROM fast_reservation
-        WHERE reservation_id = #{reservationId}
-        AND user_num = #{userNum}
+        WHERE reservation_id = #{reservationId} AND user_num = #{userNum}
     </delete>
 
 </mapper>

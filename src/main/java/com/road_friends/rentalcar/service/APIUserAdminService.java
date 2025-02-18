@@ -11,22 +11,23 @@ public class APIUserAdminService {
 
     private final APIUserAdminMapper apiUserAdminMapper;
 
-    public  APIUserAdminService(APIUserAdminMapper apiUserAdminMapper){
+    public APIUserAdminService(APIUserAdminMapper apiUserAdminMapper) {
         this.apiUserAdminMapper = apiUserAdminMapper;
     }
 
+
     // 모든 사용자 조회 (관리자용)
-    public List<APIUserDto> getAllUsers(){
+    public List<APIUserDto> getAllUsers() {
         return apiUserAdminMapper.getAllUsers();
     }
 
     // 특정 사용자 상세 조회 (관리자용)
-    public APIUserDto getUserDetail(int userNum){
+    public APIUserDto getUserDetail(Long userNum) {
         return apiUserAdminMapper.getUserDetail(userNum);
     }
 
     // 특정 사용자 정보 수정 (관리자용)
-    public int updateUser(APIUserDto apiUserDto){
-        return apiUserAdminMapper.updateUser(apiUserDto);
+    public boolean updateUser(APIUserDto apiUserDto) {
+        return apiUserAdminMapper.updateUser(apiUserDto) > 0;
     }
 }

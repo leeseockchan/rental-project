@@ -21,8 +21,8 @@ public class APIReservationService {
     }
 
     // 특정 예약 상세 조회
-    public APIReservationDto getReservationDetail(Long reservationId){
-        return apiReservationMapper.getReservationDetail(reservationId);
+    public APIReservationDto getReservationDetail(int reservationSId){
+        return apiReservationMapper.getReservationDetail(reservationSId);
     }
 
     // 예약 수정
@@ -31,7 +31,7 @@ public class APIReservationService {
     }
 
     // 예약 취소 (삭제)
-    public int deleteReservation(Long reservationId, Long userNum){
-        return apiReservationMapper.deleteReservation(reservationId, userNum);
+    public int deleteReservation(int reservationSId, Long userNum){
+        return apiReservationMapper.deleteReservation(reservationSId, userNum);
     }
 }

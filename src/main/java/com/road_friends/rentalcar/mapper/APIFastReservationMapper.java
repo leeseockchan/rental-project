@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.APIFastReservationDto;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface APIFastReservationMapper {
     int updateFastReservation(APIFastReservationDto apiFastReservationDto);
 
     // 빠른 예약 취소
-    int deleteFastReservation(Long reservationId, Long userNum);
+    int deleteFastReservation(@Param("reservationId") Long reservationId, @Param("userNum") Long userNum);
 }

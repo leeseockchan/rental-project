@@ -21,29 +21,29 @@ public class APIFastReservationController {
 
     // 로그인한 사용자의 빠른 예약 전체 조회
     @GetMapping
-    public List<APIFastReservationDto> getUserFastReservations(@RequestParam Long userNum){
+    public List<APIFastReservationDto> getUserFastReservations(@RequestParam("userNum") Long userNum){
         return  apiFastReservationService.getUserFastReservations(userNum);
     }
 
     // 특정 빠른 예약 상세 조회
-    @GetMapping("/{id}")
-    public APIFastReservationDto getFastReservationDetail(@PathVariable Long id){
-        return apiFastReservationService.getFastReservationDetail(id);
+    @GetMapping("/{reservationId}")
+    public APIFastReservationDto getFastReservationDetail(@PathVariable("reservationId") Long reservationId){
+        return apiFastReservationService.getFastReservationDetail(reservationId);
     }
 
     // 예약 정보 수정
-    @PutMapping("/{id}")
-    public int updateFastReservation(@PathVariable Long id, @RequestParam Long userNum,
+    @PutMapping("/{reservationId}")
+    public int updateFastReservation(@PathVariable("reservationId") Long reservationId, @RequestParam("userNum") Long userNum,
                                  @RequestBody APIFastReservationDto apiFastReservationDto){
-        apiFastReservationDto.setReservationId(id);
+        apiFastReservationDto.setReservationId(reservationId);
         apiFastReservationDto.setUserNum(userNum);
         return apiFastReservationService.updateFastReservation(apiFastReservationDto);
     }
 
     // 예약 취소(삭제)
-    @DeleteMapping("/{id}")
-    public int deleteReservation(@PathVariable Long id, @RequestParam Long userNum){
-        return apiFastReservationService.deleteFastReservation(id, userNum);
+    @DeleteMapping("/{reservationId}")
+    public int deleteReservation(@PathVariable("reservationId") Long reservationId, @RequestParam("userNum") Long userNum){
+        return apiFastReservationService.deleteFastReservation(reservationId, userNum);
     }
 
 

@@ -10,30 +10,31 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/user")
 public class APIUserController {
 
-    private final APIUserService userService;
+    private final APIUserService apiUserService;
 
-    public APIUserController(APIUserService userService) {
-        this.userService = userService;
+    public APIUserController(APIUserService apiUserService) {
+        this.apiUserService = apiUserService;
     }
 
     // 로그인한 사용자의 정보 조회
     @GetMapping("/{userId}")
-    public APIUserDto getUserInfo(@PathVariable("userId") int userId) {
-        return userService.getUserInfo(userId);
+    public APIUserDto getUserInfo(@PathVariable("userId") String userId) {
+        return apiUserService.getUserInfo(userId);
     }
 
     // 로그인한 사용자의 정보 수정
     @PutMapping("/{userId}")
-    public String updateUserInfo(@PathVariable("userId") int userId, @RequestBody APIUserDto userDto) {
-        userService.updateUserInfo(userId, userDto);
+    public String updateUserInfo(@PathVariable("userId") String userId, @RequestBody APIUserDto apiUserDto) {
+        apiUserDto.setUserId(userId);
+        apiUserService.updateUserInfo(apiUserDto);
         return "회원정보가 수정되었습니다.";
     }
 
-    // 로그인한 사용자의 탈퇴
+    // 로그인한 사용자의 탈퇴 (enabled 값을 false 변경)
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable("userId") int userId) {
-        userService.deleteUser(userId);
-        return "회원 탈퇴신청이 완료되었습니다. 이용해주셔서 감사합니다.";
+    public String disableUser(@PathVariable("userId") String userId) {
+        apiUserService.disableUser(userId);
+        return "회원 탈퇴처리가 완료되었습니다.";
     }
 
 

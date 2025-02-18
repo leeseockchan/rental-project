@@ -8,26 +8,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class APIUserService {
 
-    private final APIUserMapper userMapper;
+    private final APIUserMapper apiuserMapper;
 
-    public APIUserService(APIUserMapper userMapper) {
-        this.userMapper = userMapper;
+    public APIUserService(APIUserMapper apiuserMapper) {
+        this.apiuserMapper = apiuserMapper;
     }
 
     // 로그인한 사용자의 정보 조회
-    public APIUserDto getUserInfo(int userId) {
-        return userMapper.findById(userId);
+    public APIUserDto getUserInfo(String userId) {
+        return apiuserMapper.findById(userId);
     }
 
     // 로그인한 사용자의 정보 수정
-    public void updateUserInfo(int userId, APIUserDto userDto) {
-        userDto.setUserNum(userId);  // 수정할 사용자의 ID 설정
-        userMapper.update(userDto);
+    public void updateUserInfo( APIUserDto apiuserDto) {
+        apiuserMapper.update(apiuserDto);
     }
 
     // 로그인한 사용자의 탈퇴
-    public void deleteUser(int userId) {
-        userMapper.delete(userId);
+    public void disableUser(String userId) {
+        apiuserMapper.disable(userId);
     }
 
 
