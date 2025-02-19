@@ -107,7 +107,7 @@
     <th>차량명</th>
     <th>예약 횟수</th>
   </tr>
-  <tr th:each="car : ${TopPopularCars}">
+  <tr th:each="car : ${topPopularCars}">
     <td th:text="${car.label}"></td>
     <td th:text="${car.count}"></td>
   </tr>

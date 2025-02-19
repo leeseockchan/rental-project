@@ -39,7 +39,7 @@ public class DashboardController {
         model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
 
         // 🔥 가장 인기 있는 차량 TOP 5
-        model.addAttribute("getTopPopularCars", reservationService.getTopPopularCars());
+        model.addAttribute("topPopularCars", reservationService.getTopPopularCars());
 
 
         return "dashboard";
