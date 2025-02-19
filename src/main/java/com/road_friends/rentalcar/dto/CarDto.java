@@ -18,10 +18,16 @@ public class CarDto {
         private String carOptions;
         private int rentalStation;
 
-
         private String modelBrand;
         private String modelName;
+        private String modelCategory;
+        private String modelTransmission;
+        private String modelSeateNum;
+        private int modelAmountHour;
+        private int modelAmountDay;
+
         private String parkingName;
+        private String parkingDistrict;
 
         @Override
         public String toString() {

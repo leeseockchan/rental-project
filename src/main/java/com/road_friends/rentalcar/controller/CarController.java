@@ -16,6 +16,8 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+
+
 //    차량 관리 목록 조회(수원시 차량들)
     @GetMapping
     public String showCarStatus(Model model){
@@ -27,7 +29,8 @@ public class CarController {
 //    차량 관리 상세보기
     @GetMapping("/{carId}")
     public String detailCarStatus(@PathVariable int carId, Model model){
-        CarDto detailCar = carService.findByCarId(carId);
+        CarDto car = carService.findByCarId(carId);
+        model.addAttribute("car", car);
         return "car_page/detail";
     }
 
@@ -47,6 +50,12 @@ public class CarController {
     @GetMapping("/modify/{carId}")
     public String modifyCarStatus(@PathVariable int carId, Model model){
         CarDto modifyCar = carService.findByCarId(carId);
+        model.addAttribute("gradeList", carService.carGradeList());
+        model.addAttribute("categoryList", carService.carCategoryList());
+        model.addAttribute("statusList", carService.carStatusList());
+        model.addAttribute("fuelList", carService.carFuelList());
+        model.addAttribute("yearList", carService.carYearList());
+        model.addAttribute("brandList", carService.carBrandList());
         model.addAttribute("modify", modifyCar);
         return "car_page/modify";
     }
@@ -56,7 +65,7 @@ public class CarController {
                                       @ModelAttribute CarDto carDto){
         carDto.setCarId(carId);
         carService.modifyCarStatus(carDto);
-        return "redirect:/api/admin/vehicles";
+        return "redirect:/api/admin/vehicles" + carId;
     }
 
 //    차량 상태 관리 삭제

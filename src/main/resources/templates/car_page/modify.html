@@ -1,11 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>차량 관리 수정페이지</title>
 </head>
 <body>
-
+<h1>차량 관리</h1>
+<h2>차량 관리>차량 상세조회>차량 관리 수정</h2>
+<form id="model_modify" th:action="@{/api/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
+      method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <table>
+        <tr th:text="|${modify.carId}번 차량 수정|"></tr>
+        <tr>
+            <th><label for="carGrade">등급</label></th>
+            <th><label for="carCategory">카테고리</label></th>
+            <th><label for="carStatus">차량현황</label></th>
+            <th><label for="carOptions">옵션</label></th>
+            <th><label for="carFuel">연료</label></th>
+            <th><label for="carYear">연식</label></th>
+            <th><label for="carParking">위치</label></th>
+            <th><label for="carBrand">제조사</label></th>
+            <th><label for="carModelName">모델명</label></th>
+            <th><label for="carModelCategory">차 종</label></th>
+            <th><label for="carTransmission">변속 방식</label></th>
+            <th><label for="carSeatNum">좌석 수</label></th>
+            <th><label for="carHour">1시간 대여료</label></th>
+            <th><label for="carDay">1일 대여료</label></th>
+        </tr>
+        <tr th:each="modifyCar : ${modify}">
+            <td>
+                <select id="carGrade" name="grade">
+                    <option th:each="grade: ${gradeList}"
+                            th:value="${grade}"
+                            th:text="${grade}"
+                            th:selected="${modifyCar.carGrade == grade}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carCategory" name="carCategory">
+                    <option th:each="category : ${categoryList}"
+                            th:value="${category}"
+                            th:text="${category}"
+                            th:selected="${modify.carCategory == category}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carStatus" name="status">
+                    <option th:each="status: ${statusList}"
+                            th:value="${status}"
+                            th:text="${status}"
+                            th:selected="${modifyCar.carStatus == status}">
+                    </option>
+                </select>
+            </td>
+            <td id="carOptions" th:text="${modifyCar.carOptions}"></td>
+            <td>
+                <select id="carFuel" name="fuelList">
+                    <option th:each="fuelList: ${fuelList}"
+                            th:value="${fuelList}"
+                            th:text="${fuelList}"
+                            th:selected="${modifyCar.carFuel == fuelList}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carYear" name="yearList">
+                    <option th:each="yearList: ${yearList}"
+                            th:value="${yearList}"
+                            th:text="${yearList}"
+                            th:selected="${modifyCar.carYear == yearList}">
+                    </option>
+                </select>
+            </td>
+            <td id="carParking" th:text="${modifyCar.parkingName}"></td>
+            <td>
+                <select id="carBrand" name="brandList">
+                    <option th:each="brandList: ${brandList}"
+                            th:value="${brandList}"
+                            th:text="${brandList}"
+                            th:selected="${modifyCar.carBrand == brandList}">
+                    </option>
+                </select>
+            </td>
+            <td id="carModelName" th:text="${modifyCar.modelName}"></td>
+            <td id="carModelCategory" th:text="${modifyCar.modelCategory}"></td>
+            <td id="carTransmission" th:text="${modifyCar.modelTransmission}"></td>
+            <td id="carSeatNum" th:text="${modifyCar.modelSeateNum}"></td>
+            <td id="carHour" th:text="${modifyCar.modelAmountHour}"></td>
+            <td id="carDay" th:text="${modifyCar.modelAmountDay}"></td>
+        </tr>
+        <tr>
+            <button type="submit">수정 완료</button>
+        </tr>
+        <td>
+            <a th:href="@{/api/admin/vehicles/{carId}(carId=${modify.carId}}">
+                <button type="button">취소</button>
+            </a>
+        </td>
+    </table>
+</form>
 </body>
 </html>
