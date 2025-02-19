@@ -18,4 +18,22 @@ public class CarDto {
         private String carOptions;
         private int rentalStation;
 
+
+        private String modelBrand;
+        private String modelName;
+        private String parkingName;
+
+        @Override
+        public String toString() {
+                return "CarDto{" +
+                        "carId=" + carId +
+                        ", modelBrand='" + modelBrand + '\'' +
+                        ", modelName='" + modelName + '\'' +
+                        ", carGrade='" + carGrade + '\'' +
+                        ", carCategory=" + carCategory +
+                        ", carStatus=" + carStatus +
+                        ", parkingName='" + parkingName + '\'' +
+                        '}';
+        }
 }
+

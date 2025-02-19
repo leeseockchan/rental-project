@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>차량 상태 관리 목록페이지</title>
+</head>
+<body>
+
+<h1>차량 상세 검색</h1>
+<table>
+    <thead>
+    <tr>
+    <td>도/시</td>
+    <td>지역</td>
+    <td >
+        <button type="button">신규 차량 등록</button>
+    </td>
+    </tr>
+    <tr>
+        <th>차량번호</th>
+        <th>제조사</th>
+        <th>모델명</th>
+        <th>등급</th>
+        <th>카테고리</th>
+        <th>차량 현황</th>
+        <th>현위치 주차장</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car : ${cars}">
+        <td th:text="${car.carId}"></td>
+        <td th:text="${car.modelBrand}"></td>
+        <td th:text="${car.modelName}"></td>
+        <td th:text="${car.carGrade}"></td>
+        <td th:text="${car.carCategory}"></td>
+        <td th:text="${car.carStatus}"></td>
+        <td th:text="${car.parkingName}"></td>
+    </tr>
+    </tbody>
+</table>
+<!--페이징 번호 구현-->
+</body>
+</html>

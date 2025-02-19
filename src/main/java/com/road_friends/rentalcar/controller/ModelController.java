@@ -14,9 +14,9 @@ import java.util.List;
 public class ModelController {
 
     @Autowired
-    ModelService modelService;
+    private ModelService modelService;
 
-    // 모든 차량 목록 조회
+    // 모든 차량정보 목록 조회
     @GetMapping
     public String showAllmodel(Model model) {
         List<ModelDto> models = modelService.getAllmodels();
@@ -24,7 +24,7 @@ public class ModelController {
         return "model_page/list";
     }
 
-    // 차량 추가
+    // 차량정보 추가
     @GetMapping("/add")
     public String addModel(Model model){
         model.addAttribute("modelDto", new ModelDto());
@@ -36,7 +36,7 @@ public class ModelController {
         return "redirect:/api/admin/models";
     }
 
-    //     차량 수정
+    //     차량정보 수정
     @GetMapping("/{modelId}/modify")
     public String modelModify(@PathVariable String modelId, Model model) {
         ModelDto modelDto = modelService.getModelById(modelId);

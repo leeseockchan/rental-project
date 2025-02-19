@@ -5,9 +5,27 @@
     <!-- 차량 관리 페이지 -->
     <!--  수원시 주차장에 있는 차량들 조회  -->
     <select id="findAllCar" resultType="com.road_friends.rentalcar.dto.CarDto">
-        SELECT c.* FROM car c
-        JOIN parking p ON c.rental_station = p.parking_id
+        SELECT
+        c.car_id,
+        m.model_brand,
+        m.model_name,
+        c.car_grade,
+        c.car_category,
+        c.car_status,
+        p.parking_name
+        FROM car c
+        LEFT JOIN model m ON c.model_id = m.model_id
+        LEFT JOIN parking p ON c.rental_station = p.parking_id
         WHERE p.parking_district = '수원시';
+    </select>
+
+    <!--  차량 조회 -->
+    <select id="findById" resultType="com.road_friends.rentalcar.dto.CarDto">
+        SELECT c.car_id, c.car_fuel, m.model_name, m.model_brand, p.parking_name
+        FROM car c
+        LEFT JOIN model m ON c.model_id = m.model_id
+        LEFT JOIN parking p ON c.rental_station = p.parking_id
+        WHERE c.car_id = #{carId}
     </select>
 
     <!-- 차량 관리 수정 -->
@@ -24,8 +42,17 @@
         WHERE car_id = #{CarId};
     </update>
 
+    <!--    차량 관리 추가-->
+    <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.CarDto">
+        INSERT INTO car (car_id, car_category, car_status, car_year, car_fuel, car_grade, car_options, rental_station)
+        VALUES (#{carId}, #{modelBrand}, #{carCategory}, #{carStatus}, #{carYear},
+        #{carFuel}, #{carGrade}, #{carOptions}, #{rentalStation});
+    </insert>
+
     <!-- 차량 관리 항목 삭제 -->
     <delete id="deleteCar">
         DELETE FROM car WHERE car_id = #{carId};
     </delete>
+
+
 </mapper>
