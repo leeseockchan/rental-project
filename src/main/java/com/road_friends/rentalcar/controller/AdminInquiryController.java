@@ -24,7 +24,9 @@ public class AdminInquiryController {
                                @RequestParam(name="size", defaultValue = "10") int size,
                                Model model) {
         PageDto pageDto = adminInquiryService.getAllInquiry(page, size);
+        AdminInquiryDto counts = adminInquiryService.getInquiryCounts();
         model.addAttribute("pageDto", pageDto);
+        model.addAttribute("counts", counts);
         return "inquiry/inquiry_list";  // inquiry_list.html로 이동
     }
 

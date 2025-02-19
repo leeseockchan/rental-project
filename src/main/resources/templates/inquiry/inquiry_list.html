@@ -18,25 +18,25 @@
         </div>
 
         <div class="info">
-            <div class="header-sm">문의사항 게시판 정보</div>
+            <div class="header-sm">문의사항 정보</div>
             <div class="info-box-big">
                 <div class="info-box box1">
                     <div class="info-box-title">전체 문의 게시글 수</div>
-                    <div class="info-box-content">000개</div>
+                    <div class="info-box-content"><span th:text="${counts.total}"></span> 개</div>
                 </div>
                 <div class="info-box box2">
-                    <div class="info-box-title">미답변 게시글</div>
-                    <div class="info-box-content">00개</div>
+                    <div class="info-box-title">답변완료 게시글</div>
+                    <div class="info-box-content"><span th:text="${counts.answered}"></span> 개</div>
                 </div>
                 <div class="info-box box3">
-                    <div class="info-box-title">답변 완료 게시글</div>
-                    <div class="info-box-content">00개</div>
+                    <div class="info-box-title">미답변 게시글</div>
+                    <div class="info-box-content"><span th:text="${counts.unanswered}"></span> 개</div>
                 </div>
             </div>
         </div>
 
         <div class="list">
-            <div class="header-sm">문의사항 게시글 목록</div>
+            <div class="header-sm">문의사항 목록</div>
 
             <table class="table-box">
                 <thead>

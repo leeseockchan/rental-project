@@ -52,4 +52,19 @@
         DELETE FROM inquiries WHERE inquiries_num = #{inquiryId};
     </delete>
 
+    <!-- 총 게시글 개수 -->
+    <select id="countTotalInquiries" resultType="long">
+        SELECT COUNT(*) FROM inquiries;
+    </select>
+
+    <!-- 답변 완료 게시글 개수 (inquiriesA가 NULL이 아닌 경우) -->
+    <select id="countAnsweredInquiries" resultType="long">
+        SELECT COUNT(*) FROM inquiries WHERE inquiries_a IS NOT NULL;
+    </select>
+
+    <!-- 미답변 게시글 개수 (inquiriesA가 NULL인 경우) -->
+    <select id="countUnansweredInquiries" resultType="long">
+        SELECT COUNT(*) FROM inquiries WHERE inquiries_a IS NULL;
+    </select>
+
 </mapper>

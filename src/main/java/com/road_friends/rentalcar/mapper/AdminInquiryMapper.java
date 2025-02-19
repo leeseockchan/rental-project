@@ -24,4 +24,9 @@ public interface AdminInquiryMapper {
 
     void deleteInquiry(int inquiryId);
 
+    long countTotalInquiries();
+
+    long countAnsweredInquiries();
+
+    long countUnansweredInquiries();
 }

@@ -43,4 +43,11 @@ public class AdminInquiryService {
         adminInquiryMapper.deleteInquiry(inquiryId);
     }
 
+    public AdminInquiryDto getInquiryCounts() {
+        long total = adminInquiryMapper.countTotalInquiries();
+        long answered = adminInquiryMapper.countAnsweredInquiries();
+        long unanswered = adminInquiryMapper.countUnansweredInquiries();
+
+        return new AdminInquiryDto(total, answered, unanswered);
+    }
 }

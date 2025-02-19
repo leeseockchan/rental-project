@@ -1,10 +1,8 @@
 package com.road_friends.rentalcar.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,4 +24,15 @@ public class AdminInquiryDto {
     private String inquiriesQCreatedAt;
 
     private String inquiriesACreatedAt;
+
+    // 차트용
+    private long total;
+    private long answered;
+    private long unanswered;
+
+    public AdminInquiryDto(long total, long answered, long unanswered) {
+        this.total = total;
+        this.answered = answered;
+        this.unanswered = unanswered;
+    }
 }
