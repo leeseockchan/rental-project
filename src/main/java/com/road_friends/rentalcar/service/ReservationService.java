@@ -24,6 +24,7 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
+    // 기존 메서드들
     public List<ReservationDto> getTopRentalLocations() {
         return convertToDto(reservationMapper.getTopRentalLocations());
     }
@@ -36,11 +37,20 @@ public class ReservationService {
         return convertToDto(reservationMapper.getPopularCars());
     }
 
-    public List<ReservationDto> getAverageRentalDurations() {
-        return convertToDto(reservationMapper.getAverageRentalDurations());
-    }
-
     public List<ReservationDto> getTopRentalHours() {
         return convertToDto(reservationMapper.getTopRentalHours());
+    }
+
+    // 새로운 메서드들 추가
+    public List<ReservationDto> getTopCarRentalDuration() {
+        return convertToDto(reservationMapper.getTopCarRentalDuration());
+    }
+
+    public List<ReservationDto> getTopRegionRentalDuration() {
+        return convertToDto(reservationMapper.getTopRegionRentalDuration());
+    }
+
+    public List<ReservationDto> getTopUserRentalDuration() {
+        return convertToDto(reservationMapper.getTopUserRentalDuration());
     }
 }

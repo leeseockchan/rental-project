@@ -29,7 +29,15 @@ public class DashboardController {
         model.addAttribute("topRentalLocations", reservationService.getTopRentalLocations());
         model.addAttribute("topReturnLocations", reservationService.getTopReturnLocations());
         model.addAttribute("popularCars", reservationService.getPopularCars());
-        model.addAttribute("averageRentalDurations", reservationService.getAverageRentalDurations());
+
+        // 🚗 차량별 평균 렌트 시간 Top 5
+        model.addAttribute("topCarRentalDuration", reservationService.getTopCarRentalDuration());
+
+        // 📍 지역별 평균 렌트 시간 Top 5
+        model.addAttribute("topRegionRentalDuration", reservationService.getTopRegionRentalDuration());
+
+        // 👤 사용자별 평균 렌트 시간 Top 5
+        model.addAttribute("topUserRentalDuration", reservationService.getTopUserRentalDuration());
 
         return "dashboard";
     }

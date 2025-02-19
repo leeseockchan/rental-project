@@ -39,9 +39,21 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getPopularCars());
     }
 
-    // 🚀 평균 렌트 시간 TOP 5
-    @GetMapping("/average-rental-duration")
-    public ResponseEntity<List<ReservationDto>> getAverageRentalDurations() {
-        return ResponseEntity.ok(reservationService.getAverageRentalDurations());
+    // 🚀 차량별 평균 렌트 시간 TOP 5
+    @GetMapping("/car-rental-duration")
+    public ResponseEntity<List<ReservationDto>> getCarRentalDuration() {
+        return ResponseEntity.ok(reservationService.getTopCarRentalDuration());
+    }
+
+    // 🚀 지역별 평균 렌트 시간 TOP 5
+    @GetMapping("/region-rental-duration")
+    public ResponseEntity<List<ReservationDto>> getRegionRentalDuration() {
+        return ResponseEntity.ok(reservationService.getTopRegionRentalDuration());
+    }
+
+    // 🚀 사용자별 평균 렌트 시간 TOP 5
+    @GetMapping("/user-rental-duration")
+    public ResponseEntity<List<ReservationDto>> getUserRentalDuration() {
+        return ResponseEntity.ok(reservationService.getTopUserRentalDuration());
     }
 }

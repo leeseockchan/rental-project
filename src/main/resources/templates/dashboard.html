@@ -7,13 +7,13 @@
 </head>
 <body>
 
-<h1>📊 DASH BOARD</h1>
+<h1>📊 DASHBOARD</h1>
 
 <!-- 전체 회원 통계 -->
 <h2>👥 전체 회원 수</h2>
 <p class="total-users">총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
 
-<!--  성별 통계 -->
+<!-- 성별 통계 -->
 <h2>🚻 성별 통계</h2>
 <table>
   <tr>
@@ -27,7 +27,6 @@
     <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 1 ? userStats.genderStats[1].count : 0}">0</td>
   </tr>
 </table>
-
 
 <!-- 연령대 통계 -->
 <h2>📌 연령대별 통계</h2>
@@ -55,18 +54,6 @@
   </tr>
 </table>
 
-<h2>⏳ 평균 렌트 시간 TOP 5</h2>
-<table>
-  <tr>
-    <th>차량명</th>
-    <th>평균 렌트 시간</th>
-  </tr>
-  <tr th:each="rental : ${averageRentalDurations}">
-    <td th:text="${rental.label}"></td>
-    <td th:text="${rental.count + '시간'}"></td>
-  </tr>
-</table>
-
 <!-- 가장 많이 대여된 지역 -->
 <h2>🚗 가장 많이 대여한 지역 TOP 5</h2>
 <table>
@@ -74,12 +61,13 @@
     <th>지역</th>
     <th>대여 횟수</th>
   </tr>
-  <tr th:each="rental : ${rentalStats}">
+  <tr th:each="rental : ${topRentalLocations}">
     <td th:text="${rental.label}"></td>
     <td th:text="${rental.count}"></td>
   </tr>
 </table>
 
+<!-- 가장 많이 반납한 지역 -->
 <h2>🔄 가장 많이 반납한 지역 TOP 5</h2>
 <table>
   <tr>
@@ -92,13 +80,40 @@
   </tr>
 </table>
 
-<h2>⏳ 평균 렌트 시간 TOP 5</h2>
+<!-- 차량별 평균 렌트 시간 -->
+<h2>⏳ 차량별 평균 렌트 시간 TOP 5</h2>
 <table>
   <tr>
     <th>차량명</th>
     <th>평균 렌트 시간</th>
   </tr>
-  <tr th:each="rental : ${averageRentalDurations}">
+  <tr th:each="rental : ${topCarRentalDuration}">
+    <td th:text="${rental.label}"></td>
+    <td th:text="${rental.count + '시간'}"></td>
+  </tr>
+</table>
+
+<!-- 지역별 평균 렌트 시간 -->
+<h2>⏳ 지역별 평균 렌트 시간 TOP 5</h2>
+<table>
+  <tr>
+    <th>지역</th>
+    <th>평균 렌트 시간</th>
+  </tr>
+  <tr th:each="rental : ${topRegionRentalDuration}">
+    <td th:text="${rental.label}"></td>
+    <td th:text="${rental.count + '시간'}"></td>
+  </tr>
+</table>
+
+<!-- 사용자별 평균 렌트 시간 -->
+<h2>⏳ 사용자별 평균 렌트 시간 TOP 5</h2>
+<table>
+  <tr>
+    <th>사용자</th>
+    <th>평균 렌트 시간</th>
+  </tr>
+  <tr th:each="rental : ${topUserRentalDuration}">
     <td th:text="${rental.label}"></td>
     <td th:text="${rental.count + '시간'}"></td>
   </tr>

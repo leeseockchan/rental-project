@@ -41,8 +41,6 @@ public interface ReservationMapper {
     """)
     List<DataPoint> getTopReturnLocations();
 
-
-
     // 가장 인기 있는 차량 TOP 5
     @Select("""
     SELECT m.model_name AS label, COUNT(*) AS count
@@ -55,17 +53,42 @@ public interface ReservationMapper {
     """)
     List<DataPoint> getPopularCars();
 
-
-    // 평균 렌트 시간 TOP 5
+    // 차량별 평균 렌트 시간 TOP 5
     @Select("""
-    SELECT m.model_name AS label, AVG(TIMESTAMPDIFF(HOUR, rental_datetime, return_datetime)) AS count
+    SELECT m.model_name AS label, AVG(TIMESTAMPDIFF(HOUR, fr.rental_datetime, fr.return_datetime)) AS count
     FROM fast_reservation fr
     JOIN car c ON fr.car_id = c.car_id
-    JOIN model m ON c.model_id = m.model_id
-    WHERE return_datetime IS NOT NULL
+    JOIN model m ON c.model_id = m.model_id  -- 모델명을 가져오기 위해 model 테이블을 JOIN
+    WHERE fr.return_datetime IS NOT NULL
     GROUP BY m.model_name
     ORDER BY count DESC
     LIMIT 5
     """)
-    List<DataPoint> getAverageRentalDurations();
+    List<DataPoint> getTopCarRentalDuration();
+
+
+    // 지역별 평균 렌트 시간 TOP 5
+    @Select("""
+    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, AVG(TIMESTAMPDIFF(HOUR, fr.rental_datetime, fr.return_datetime)) AS count
+    FROM fast_reservation fr
+    JOIN parking p ON fr.rental_location = p.parking_id
+    WHERE fr.return_datetime IS NOT NULL
+    GROUP BY p.parking_province, p.parking_district
+    ORDER BY count DESC
+    LIMIT 5
+    """)
+    List<DataPoint> getTopRegionRentalDuration();
+
+    // 사용자별 평균 렌트 시간 TOP 5
+    @Select("""
+    SELECT u.user_name AS label, AVG(TIMESTAMPDIFF(HOUR, fr.rental_datetime, fr.return_datetime)) AS count
+    FROM fast_reservation fr
+    JOIN user u ON fr.user_num = u.user_num
+    WHERE fr.return_datetime IS NOT NULL
+    GROUP BY u.user_name
+    ORDER BY count DESC
+    LIMIT 5
+    """)
+    List<DataPoint> getTopUserRentalDuration();
+
 }
