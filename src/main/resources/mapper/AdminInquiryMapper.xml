@@ -25,6 +25,13 @@
     </select>
 
     <!-- 관리자 질문 답변 작성 -->
+    <select id="findInquiryReplyById" resultType="com.road_friends.rentalcar.dto.AdminInquiryDto">
+        SELECT inquiries_num, user_num, admin_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at
+        FROM inquiries
+        WHERE inquiries_num = #{inquiryId};
+    </select>
+
+    <!-- 관리자 질문 답변 등록 -->
     <update id="updateInquiryReply" >
         UPDATE inquiries
         SET admin_num = #{adminNum},

@@ -27,6 +27,10 @@ public class AdminInquiryService {
         return adminInquiryMapper.findInquiryById(inquiryId);
     }
 
+    public AdminInquiryDto getInquiryReplyById(int inquiryId) {
+        return adminInquiryMapper.findInquiryReplyById(inquiryId);
+    }
+
     public void updateInquiryReply(int inquiryId, int adminNum, String inquiriesA) {
         adminInquiryMapper.updateInquiryReply(inquiryId, adminNum, inquiriesA);
     }

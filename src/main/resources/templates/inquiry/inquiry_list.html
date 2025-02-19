@@ -3,11 +3,11 @@
     layout:decorate="~{layout/layout}">
 
 <head>
-    <title>문의 목록</title>
-    <script th:src="@{/js/inquiry.js}" defer></script>
+    <title>문의사항 목록</title>
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/inquiry.css}">
+        <link rel="stylesheet" th:href="@{/css/inquiry_list.css}">
     </th:block>
+    <script th:src="@{/js/inquiry.js}" defer></script>
 </head>
 
 <body>
@@ -68,7 +68,6 @@
                         <th style="width: 180px;">답변</th>
                         <th style="width: 120px;">질문 작성일</th>
                         <th style="width: 120px;">답변 작성일</th>
-                        <th style="width: 100px;">관리</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,30 +81,6 @@
                         <td th:text="${inquiry.inquiriesA}" style="max-width: 180px;"></td>
                         <td th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
                         <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
-                        <td style="max-width: 100px;">
-                            <!-- 버튼 그룹 -->
-                            <div class="btn-group">
-                                <!-- 답변 삭제 버튼 -->
-                                <form
-                                    th:action="@{/api/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}"
-                                    method="post">
-                                    <button type="submit" class="btn-delete-reply"
-                                        onclick="return confirm('정말 답변을 삭제하시겠습니까?');">
-                                        답변 삭제
-                                    </button>
-                                </form>
-
-                                <!-- 문의 삭제 버튼 -->
-                                <form
-                                    th:action="@{/api/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}"
-                                    method="post">
-                                    <button type="submit" class="btn-delete-all"
-                                        onclick="return confirm('정말 문의를 삭제하시겠습니까?');">
-                                        문의 삭제
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -113,16 +88,17 @@
             <!-- 페이지네이션 -->
             <div class="pagination">
                 <a th:href="@{/api/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
-                   th:if="${pageDto.prev}">
+                    th:if="${pageDto.prev}">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
                 </a>
                 <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-                    <a th:href="@{/api/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"></a>
+                    <a th:href="@{/api/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
                 </span>
                 <a th:href="@{/api/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
-                   th:if="${pageDto.next}">
+                    th:if="${pageDto.next}">
                     <span class="material-symbols-outlined">
                         chevron_right
                     </span>
@@ -134,98 +110,3 @@
 </body>
 
 </html>
-
-<!-- <body>
-
-<div class="container mt-4 mb-4" layout:fragment="content">
-
-    <div th:if="${successMessage}" class="alert alert-primary alert-dismissible fade show mt-3" role="alert">
-        <span th:text="${successMessage}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <div class="card shadow-sm border-0 rounded-3">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">문의 목록</h4>
-        </div>
-        <div class="card-body p-4">
-            <table class="table table-bordered table-hover align-middle">
-                <thead class="table-dark text-center align-middle">
-                <tr>
-                    <th class="py-3 px-2" style="width: 50px;">문의 번호</th>
-                    <th class="py-3 px-2" style="width: 50px;">사용자 번호</th>
-                    <th class="py-3 px-2" style="width: 50px;">관리자 번호</th>
-                    <th class="py-3 px-2" style="width: 180px;">질문</th>
-                    <th class="py-3 px-2" style="width: 180px;">답변</th>
-                    <th class="py-3 px-2" style="width: 120px;">질문 작성일</th>
-                    <th class="py-3 px-2" style="width: 120px;">답변 작성일</th>
-                    <th class="py-3 px-2 text-center" style="width: 100px;">관리</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="inquiry : ${pageDto.items}">
-                    <td class="py-2 px-2 text-center fw-bold" th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
-                    <td class="py-2 px-2 text-center" th:text="${inquiry.userNum}" style="max-width: 50px;"></td>
-                    <td class="py-2 px-2 text-center" th:text="${inquiry.adminNum}" style="max-width: 50px;"></td>
-                    <td class="py-2 px-2">
-                        <a th:href="@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
-                           th:text="${inquiry.inquiriesQ}"
-                           class="text-decoration-none text-primary fw-bold text-truncate d-block" style="max-width: 180px;">
-                        </a>
-                    </td>
-                    <td class="py-2 px-2 text-secondary text-truncate" th:text="${inquiry.inquiriesA}" style="max-width: 180px;"></td>
-                    <td class="py-2 px-2 text-center text-muted text-truncate" th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
-                    <td class="py-2 px-2 text-center text-muted text-truncate" th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
-
-                    <td class="py-2 px-2 text-center" style="max-width: 100px;">
-                        <div class="d-flex flex-column gap-3">
-                            <a th:href="@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
-                               class="btn btn-success btn-sm w-100 d-flex align-items-center justify-content-center">
-                                <i class="bi bi-reply-fill me-1"></i> 답변하기
-                            </a>
-
-                            <form th:action="@{/api/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}" method="post">
-                                <button type="submit" class="btn btn-warning btn-sm w-100 d-flex align-items-center justify-content-center"
-                                        onclick="return confirm('정말 답변을 삭제하시겠습니까?');">
-                                    <i class="bi bi-x-circle-fill me-1"></i> 답변 삭제
-                                </button>
-                            </form>
-
-                            <form th:action="@{/api/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}" method="post">
-                                <button type="submit" class="btn btn-danger btn-sm w-100 d-flex align-items-center justify-content-center"
-                                        onclick="return confirm('정말 문의를 삭제하시겠습니까?');">
-                                    <i class="bi bi-trash-fill me-1"></i> 문의 삭제
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:classappend="${!pageDto.prev} ? 'disabled'">
-                    <a class="page-link" th:href="@{/api/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-
-                <li class="page-item" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}"
-                    th:classappend="${pageNum == pageDto.page} ? 'active'">
-                    <a class="page-link" th:href="@{/api/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"></a>
-                </li>
-
-                <li class="page-item" th:classappend="${!pageDto.next} ? 'disabled'">
-                    <a class="page-link" th:href="@{/api/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-    </div>
-</div>
-</body>
-</html> -->

@@ -1,14 +1,14 @@
 // 커서 깜박임 방지
-document.addEventListener("DOMContentLoaded", function () {
-    document.body.addEventListener("mousedown", function (event) {
-        const target = event.target;
-
-        if (target.tagName !== "INPUT" && target.tagName !== "TEXTAREA") {
-            document.activeElement.blur();
-            event.preventDefault();
-        }
-    });
-});
+//document.addEventListener("DOMContentLoaded", function () {
+//    document.body.addEventListener("mousedown", function (event) {
+//        const target = event.target;
+//
+//        if (target.tagName !== "INPUT" && target.tagName !== "TEXTAREA") {
+//            document.activeElement.blur();
+//            event.preventDefault();
+//        }
+//    });
+//});
 
 // 유효성 검사
 function validateAdminNum() {

@@ -36,6 +36,14 @@ public class AdminInquiryController {
             return "redirect:/api/admin/inquiry";
         }
         model.addAttribute("inquiry", inquiry);
+        return "inquiry/inquiry_detail";
+    }
+
+    // 관리자 답변 입력
+    @GetMapping("/{inquiryId}/reply")
+    public String getInquiryReplyById(@PathVariable("inquiryId") int inquiryId, Model model) {
+        AdminInquiryDto inquiry = adminInquiryService.getInquiryReplyById(inquiryId);
+        model.addAttribute("inquiry", inquiry);
         return "inquiry/inquiry_reply";
     }
 
@@ -48,7 +56,7 @@ public class AdminInquiryController {
             RedirectAttributes redirectAttributes) {
 
         adminInquiryService.updateInquiryReply(inquiryId, adminNum, inquiriesA);
-        redirectAttributes.addFlashAttribute("successMessage", "답변 등록 성공");  // 성공 메시지 추가
+        redirectAttributes.addFlashAttribute("successMessage", "답변을 등록하였습니다.");  // 성공 메시지 추가
         return "redirect:/api/admin/inquiry/" + inquiryId;  // 해당 문의 상세 페이지로 리디렉션
     }
 
