@@ -6,8 +6,10 @@ import com.road_friends.rentalcar.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/api/admin")
 public class DashboardController {
 
     private final UserService userService;
@@ -24,21 +26,38 @@ public class DashboardController {
         UserStatsDto userStats = userService.getUserStats();
         model.addAttribute("userStats", userStats);
 
-        // ⏳ 예약 및 렌트 관련 데이터
-        model.addAttribute("topRentalHours", reservationService.getTopRentalHours());
-        model.addAttribute("topRentalLocations", reservationService.getTopRentalLocations());
-        model.addAttribute("topReturnLocations", reservationService.getTopReturnLocations());
-        model.addAttribute("popularCars", reservationService.getPopularCars());
+        // ⏳ 빠른 예약 관련 데이터
+        model.addAttribute("topFastRentalHours", reservationService.getTopFastRentalHours());
+        model.addAttribute("topFastRentalLocations", reservationService.getTopFastRentalLocations());
+        model.addAttribute("topFastReturnLocations", reservationService.getTopFastReturnLocations());
+        model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
 
-        // 🚗 차량별 평균 렌트 시간 Top 5
-        model.addAttribute("topCarRentalDuration", reservationService.getTopCarRentalDuration());
+        // ⏳ 단기 예약 관련 데이터
+        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
+//        model.addAttribute("topShortRentalLocations", reservationService.getTopShortRentalLocations());
+//        model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
+        model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
 
-        // 📍 지역별 평균 렌트 시간 Top 5
-        model.addAttribute("topRegionRentalDuration", reservationService.getTopRegionRentalDuration());
+        // 🔥 가장 인기 있는 차량 TOP 5
+        model.addAttribute("getTopPopularCars", reservationService.getTopPopularCars());
 
-        // 👤 사용자별 평균 렌트 시간 Top 5
-        model.addAttribute("topUserRentalDuration", reservationService.getTopUserRentalDuration());
 
         return "dashboard";
     }
+    @GetMapping("/fast-reservation")
+    public String fast(Model model){
+        model.addAttribute("topFastCarRentalDuration", reservationService.getTopFastCarRentalDuration());
+        model.addAttribute("topFastRegionRentalDuration", reservationService.getTopFastRegionRentalDuration());
+        model.addAttribute("topFastUserRentalDuration", reservationService.getTopFastUserRentalDuration());
+        return "/fast-reservation";
+    }
+
+//    @GetMapping("/short-reservation")
+//    public String short(Model model){
+//        model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
+//        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
+//        model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
+//        return "/short-reservation";
+//    }
+
 }
