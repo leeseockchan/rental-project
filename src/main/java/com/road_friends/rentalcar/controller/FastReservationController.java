@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,14 +25,23 @@ public class FastReservationController {
 
 
     // 입력받은 지역, 시간으로 이용 가능한 차량 조회
-    @PostMapping("/cars")
+    @GetMapping("/cars")
     public ResponseEntity<List<CarDto>> selectCars(@RequestBody Map<String, Object> requestBody) {
+
+        // 차량 조회
         String province = (String) requestBody.get("province");
         String district = (String) requestBody.get("district");
         LocalDateTime rentalDatetime = LocalDateTime.parse((String) requestBody.get("rental_datetime"));
         LocalDateTime returnDatetime = LocalDateTime.parse((String) requestBody.get("return_datetime"));
 
-        List<CarDto> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime);
+        // 특정 조건으로 차량 검색 (필터링)
+        String modelCategory = (String) requestBody.get("model_category");
+        String modelName = (String) requestBody.get("model_name");
+//        int modelAmountHour = (int) requestBody.get("modelAmountHour");
+//        int modelAmountDay = (int) requestBody.get("modelAmountDay");
+
+        List<CarDto> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime,
+                                                         modelCategory,modelName);
 
         return ResponseEntity.ok(availableCars);
     }

@@ -54,9 +54,11 @@ public class FastReservationService {
     }
 
 
-    public List<CarDto> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime) {
+    public List<CarDto> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
+                                         String modelCategory, String modelName) {
 
-        return fastReservationMapper.getAvailableCars(province,district,rentalDatetime, returnDateTime);
+        return fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime,
+                modelCategory,modelName);
     }
 
 
@@ -111,5 +113,9 @@ public class FastReservationService {
             System.out.println(dayPrice);
         }
         return totalPrice;
+    }
+
+    public List<CarDto> searchAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime, String modelCategory, String modelName) {
+        return fastReservationMapper.searchAvailableCars(province,district,rentalDatetime, returnDateTime,modelCategory,modelName);
     }
 }

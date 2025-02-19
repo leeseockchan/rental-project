@@ -22,10 +22,18 @@ public interface FastReservationMapper {
     List<CarDto> getAvailableCars(@Param("province") String province,
                                   @Param("district") String district,
                                   @Param("rentalDatetime") LocalDateTime rentalDatetime,
-                                  @Param("returnDatetime") LocalDateTime returnDatetime);
+                                  @Param("returnDatetime") LocalDateTime returnDatetime,
+                                  @Param("modelCategory") String modelCategory,
+                                  @Param("modelName") String modelName
+//                                  @Param("modelAmountHour") int modelAmountHour,
+//                                  @Param("modelAmountDay") int modelAmountDay
+    );
 
 
     int getAmountHour(int carId);
 
     int getAmountDay(int carId);
+
+    List<CarDto> searchAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime,
+                                     String modelCategory, String modelName);
 }
