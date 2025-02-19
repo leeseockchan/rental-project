@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ModelDto {
 
     @JsonProperty("model_id")
-    private int ModelId;
+    private Integer modelId;
 
     @JsonProperty("model_name")
     private String modelName;
@@ -21,8 +21,8 @@ public class ModelDto {
     private String modelTransmission;
 
     @JsonProperty("model_amount_hour")
-    private int modelAmountHour;
+    private Integer modelAmountHour;
 
     @JsonProperty("model_amount_day")
-    private int modelAmountDay;
+    private Integer modelAmountDay;
 }

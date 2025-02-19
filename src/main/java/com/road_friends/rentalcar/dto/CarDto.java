@@ -12,19 +12,19 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CarDto {
 
-    private int carId;  // car_id -> carId
+    private Integer carId;  // car_id -> carId
 
     @JsonProperty("model_id")
     private String modelId;
 
     @JsonProperty("car_category")
-    private int carCategory;
+    private Integer carCategory;
 
     @JsonProperty("car_status")
-    private int carStatus;
+    private Integer carStatus;
 
     @JsonProperty("car_year")
-    private int carYear;
+    private Integer carYear;
 
     @JsonProperty("car_fuel")
     private String carFuel;
@@ -36,7 +36,7 @@ public class CarDto {
     private String carOptions;
 
     @JsonProperty("rental_station")
-    private int rentalStation;
+    private Integer rentalStation;
 
     private ModelDto model;
 
