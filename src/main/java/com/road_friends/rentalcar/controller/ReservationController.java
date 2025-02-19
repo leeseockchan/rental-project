@@ -1,3 +1,5 @@
+package com.road_friends.rentalcar.controller;
+
 import com.road_friends.rentalcar.dto.ReservationDto;
 import com.road_friends.rentalcar.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -10,26 +12,36 @@ import java.util.List;
 @RequestMapping("/api/stats/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
+
     private final ReservationService reservationService;
 
-    @GetMapping("/average-rental-duration")
-    public ResponseEntity<List<ReservationDto>> getAverageRentalDurations() {
-        return ResponseEntity.ok(reservationService.getAverageRentalDurations());
+    // 🚀 예약이 많은 시간대 TOP 5
+    @GetMapping("/top-rental-hours")
+    public ResponseEntity<List<ReservationDto>> getTopRentalHours() {
+        return ResponseEntity.ok(reservationService.getTopRentalHours());
     }
 
+    // 🚀 가장 많이 대여된 지역 TOP 5
     @GetMapping("/rental-locations")
     public ResponseEntity<List<ReservationDto>> getRentalStats() {
         return ResponseEntity.ok(reservationService.getTopRentalLocations());
     }
 
+    // 🚀 가장 많이 반납된 지역 TOP 5
     @GetMapping("/return-locations")
     public ResponseEntity<List<ReservationDto>> getReturnStats() {
         return ResponseEntity.ok(reservationService.getTopReturnLocations());
     }
 
+    // 🚀 가장 인기 있는 차량 TOP 5
     @GetMapping("/popular-cars")
     public ResponseEntity<List<ReservationDto>> getPopularCars() {
         return ResponseEntity.ok(reservationService.getPopularCars());
     }
-}
 
+    // 🚀 평균 렌트 시간 TOP 5
+    @GetMapping("/average-rental-duration")
+    public ResponseEntity<List<ReservationDto>> getAverageRentalDurations() {
+        return ResponseEntity.ok(reservationService.getAverageRentalDurations());
+    }
+}

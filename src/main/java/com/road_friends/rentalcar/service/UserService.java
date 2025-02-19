@@ -1,40 +1,51 @@
 package com.road_friends.rentalcar.service;
 
+import com.road_friends.rentalcar.dto.DataPoint;
+import com.road_friends.rentalcar.dto.UserStatsDto;
 import com.road_friends.rentalcar.mapper.UserMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
+
     private final UserMapper userMapper;
 
-    public Map<String, Object> getUserStats() {
-        int totalUsers = userMapper.getTotalUsers();
-        List<Map<String, Object>> genderStats = userMapper.getGenderStats();
-        List<LocalDate> birthDates = userMapper.getUserBirthDates();
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
-        // 연령대 계산
-        Map<String, Integer> ageGroups = new HashMap<>();
-        int currentYear = LocalDate.now().getYear();
+    public UserStatsDto getUserStats() {
+        UserStatsDto stats = new UserStatsDto();
 
-        for (LocalDate birth : birthDates) {
-            if (birth != null) { // NULL 체크 추가
-                int age = currentYear - birth.getYear();
-                String ageGroup = (age / 10 * 10) + "대";
-                ageGroups.put(ageGroup, ageGroups.getOrDefault(ageGroup, 0) + 1);
-            }
-        }
+        // 👥 전체 회원 수
+        stats.setTotalUsers(userMapper.getTotalUsers());
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("totalUsers", totalUsers);
-        result.put("genderStats", genderStats);
-        result.put("ageGroups", ageGroups);
-        return result;
+        // 🚻 성별 통계
+        stats.setGenderStats(userMapper.getGenderStats());
+
+        // 📌 연령대별 데이터 변환
+        List<Map<String, Object>> ageData = userMapper.getUserAgeGroups();
+        Map<String, Integer> ageGroups = ageData.stream()
+                .collect(Collectors.toMap(
+                        entry -> (String) entry.get("label"),
+                        entry -> ((Long) entry.get("count")).intValue()
+                ));
+        stats.setAgeGroups(ageGroups);
+
+        return stats;
+    }
+
+    public Map<String, Object> getUserStatsAsMap() {
+        UserStatsDto stats = getUserStats();
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalUsers", stats.getTotalUsers());
+        response.put("genderStats", stats.getGenderStats());
+        response.put("ageGroups", stats.getAgeGroups());
+        return response;
     }
 }

@@ -1,23 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.road_friends.rentalcar.mapper.ReservationMapper">
 
-    <!-- 평균 렌트 시간 TOP 5 -->
-    <select id="getAverageRentalDurations" resultType="com.road_friends.rentalcar.dto.ReservationDto">
-        SELECT
-        c.car_name AS label,
-        AVG(TIMESTAMPDIFF(HOUR, f.rental_datetime, f.return_datetime)) AS count
-        FROM fast_reservation f
-        JOIN car_data c ON f.car_id = c.car_id
-        GROUP BY c.car_name
+    <!-- 예약이 많은 시간대 TOP 5 -->
+    <select id="getTopRentalHours" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT HOUR(rental_datetime) AS label, COUNT(*) AS count
+        FROM fast_reservation
+        GROUP BY HOUR(rental_datetime)
         ORDER BY count DESC
         LIMIT 5
     </select>
 
-    <!-- 대여가 많은 지역 조회 -->
-    <select id="getTopRentalLocations" resultType="com.road_friends.rentalcar.dto.ReservationDto">
+    <!-- 가장 많이 대여된 지역 TOP 5 -->
+    <select id="getTopRentalLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
         SELECT rental_location AS label, COUNT(*) AS count
         FROM fast_reservation
         GROUP BY rental_location
@@ -25,21 +23,11 @@
         LIMIT 5
     </select>
 
-    <!-- 반납이 많은 지역 조회 -->
-    <select id="getTopReturnLocations" resultType="com.road_friends.rentalcar.dto.ReservationDto">
-        SELECT return_location AS label, COUNT(*) AS count
+    <!-- 가장 인기 있는 차량 TOP 5 -->
+    <select id="getPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT car_id AS label, COUNT(*) AS count
         FROM fast_reservation
-        GROUP BY return_location
-        ORDER BY count DESC
-        LIMIT 5
-    </select>
-
-    <!-- 인기 차량 조회 -->
-    <select id="getPopularCars" resultType="com.road_friends.rentalcar.dto.ReservationDto">
-        SELECT c.car_name AS label, COUNT(*) AS count
-        FROM fast_reservation f
-        JOIN car_data c ON f.car_id = c.car_id
-        GROUP BY c.car_name
+        GROUP BY car_id
         ORDER BY count DESC
         LIMIT 5
     </select>

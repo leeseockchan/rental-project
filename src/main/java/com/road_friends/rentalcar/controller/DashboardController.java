@@ -1,26 +1,36 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.dto.UserStatsDto;
 import com.road_friends.rentalcar.service.ReservationService;
 import com.road_friends.rentalcar.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/dashboard")
-@RequiredArgsConstructor
 public class DashboardController {
+
     private final UserService userService;
     private final ReservationService reservationService;
 
-    @GetMapping
-    public String dashboard(Model model) {
-        model.addAttribute("userStats", userService.getUserStats());
-        model.addAttribute("rentalStats", reservationService.getTopRentalLocations());
-        model.addAttribute("returnStats", reservationService.getTopReturnLocations());
+    public DashboardController(UserService userService, ReservationService reservationService) {
+        this.userService = userService;
+        this.reservationService = reservationService;
+    }
+
+    @GetMapping("/dashboard")
+    public String getDashboard(Model model) {
+        // 👥 사용자 통계 데이터
+        UserStatsDto userStats = userService.getUserStats();
+        model.addAttribute("userStats", userStats);
+
+        // ⏳ 예약 및 렌트 관련 데이터
+        model.addAttribute("topRentalHours", reservationService.getTopRentalHours());
+        model.addAttribute("topRentalLocations", reservationService.getTopRentalLocations());
+        model.addAttribute("topReturnLocations", reservationService.getTopReturnLocations());
         model.addAttribute("popularCars", reservationService.getPopularCars());
-        return "dashboard";  // `dashboard.html` 렌더링
+        model.addAttribute("averageRentalDurations", reservationService.getAverageRentalDurations());
+
+        return "dashboard";
     }
 }

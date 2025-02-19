@@ -20,13 +20,11 @@
     <th>성별</th>
     <th>남성</th>
     <th>여성</th>
-    <th>미지정</th>
   </tr>
   <tr>
     <td>인원 수</td>
     <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 0 ? userStats.genderStats[0].count : 0}">0</td>
     <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 1 ? userStats.genderStats[1].count : 0}">0</td>
-    <td th:text="${userStats.genderStats != null and userStats.genderStats.size() > 2 ? userStats.genderStats[2].count : 0}">0</td>
   </tr>
 </table>
 
@@ -69,7 +67,6 @@
   </tr>
 </table>
 
-
 <!-- 가장 많이 대여된 지역 -->
 <h2>🚗 가장 많이 대여한 지역 TOP 5</h2>
 <table>
@@ -83,16 +80,27 @@
   </tr>
 </table>
 
-<!-- 가장 많이 반납한 지역 -->
 <h2>🔄 가장 많이 반납한 지역 TOP 5</h2>
 <table>
   <tr>
     <th>지역</th>
     <th>반납 횟수</th>
   </tr>
-  <tr th:each="returnData : ${returnStats}">
+  <tr th:each="returnData : ${topReturnLocations}">
     <td th:text="${returnData.label}"></td>
     <td th:text="${returnData.count}"></td>
+  </tr>
+</table>
+
+<h2>⏳ 평균 렌트 시간 TOP 5</h2>
+<table>
+  <tr>
+    <th>차량명</th>
+    <th>평균 렌트 시간</th>
+  </tr>
+  <tr th:each="rental : ${averageRentalDurations}">
+    <td th:text="${rental.label}"></td>
+    <td th:text="${rental.count + '시간'}"></td>
   </tr>
 </table>
 

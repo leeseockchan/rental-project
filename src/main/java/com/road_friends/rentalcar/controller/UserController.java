@@ -16,12 +16,12 @@ public class UserController {
     // 전체 회원 통계 (회원 수, 연령대, 성별 통계)
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> getUserStats() {
-        return ResponseEntity.ok(userService.getUserStats());
+        return ResponseEntity.ok(userService.getUserStatsAsMap());
     }
 
     // 연령대 및 성별 통계
     @GetMapping("/age-gender")
     public ResponseEntity<Map<String, Object>> getUserAgeGenderStats() {
-        return ResponseEntity.ok(userService.getUserStats()); // 같은 데이터 반환 가능
+        return ResponseEntity.ok(userService.getUserStatsAsMap());
     }
 }
