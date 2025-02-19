@@ -16,18 +16,21 @@
 
     <!-- 가장 많이 대여된 지역 TOP 5 -->
     <select id="getTopRentalLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
-        SELECT rental_location AS label, COUNT(*) AS count
-        FROM fast_reservation
-        GROUP BY rental_location
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+        FROM fast_reservation fr
+        JOIN parking p ON fr.rental_location = p.parking_id
+        GROUP BY p.parking_province, p.parking_district
         ORDER BY count DESC
         LIMIT 5
     </select>
 
     <!-- 가장 인기 있는 차량 TOP 5 -->
     <select id="getPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
-        SELECT car_id AS label, COUNT(*) AS count
-        FROM fast_reservation
-        GROUP BY car_id
+        SELECT m.model_name AS label, COUNT(*) AS count
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name
         ORDER BY count DESC
         LIMIT 5
     </select>
