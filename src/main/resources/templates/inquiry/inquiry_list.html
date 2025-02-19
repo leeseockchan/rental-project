@@ -6,7 +6,7 @@
     <title>문의 목록</title>
     <script th:src="@{/js/inquiry.js}" defer></script>
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/content.css}">
+        <link rel="stylesheet" th:href="@{/css/inquiry.css}">
     </th:block>
 </head>
 
@@ -84,13 +84,7 @@
                         <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
                         <td style="max-width: 100px;">
                             <!-- 버튼 그룹 -->
-                            <div>
-                                <!-- 답변하기 버튼 -->
-                                <a th:href="@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
-                                    class="btn-reply">
-                                    답변하기
-                                </a>
-
+                            <div class="btn-group">
                                 <!-- 답변 삭제 버튼 -->
                                 <form
                                     th:action="@{/api/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}"

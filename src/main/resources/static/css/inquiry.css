@@ -120,6 +120,32 @@
     width: 100%;
 }
 
+.btn-group form button{
+    width : 90%;
+    padding : 5px;
+    margin : 2px;
+    border : none;
+    border-radius : 10px;
+    transition : 0.1s all;
+}
+
+.btn-delete-reply{
+    color : #000;
+    background-color : #ffc107;
+}
+
+.btn-delete-all{
+    color : #fff;
+    background-color : #dc3545;
+}
+
+.btn-delete-reply:hover,
+.btn-delete-all:hover{
+    color: #AFFF4F;
+    background-color: #3A3D50;
+    cursor : pointer;
+}
+
 /* 페이지네이션 */
 .pagination {
     display: flex;
