@@ -59,7 +59,6 @@ public class FastReservationController {
         Long totalPrice = fastReservationService.getPrice(fastReservationDto);
 
         fastReservationService.reserve(fastReservationDto);
-        System.out.println(totalPrice);
 
         return new ResponseEntity<>(fastReservationDto, HttpStatus.CREATED);
     }

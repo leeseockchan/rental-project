@@ -65,32 +65,50 @@ public class FastReservationService {
         LocalDateTime startTime = fastReservationDto.getRentalDatetime();
         LocalDateTime endTime = fastReservationDto.getReturnDatetime();
 
+        if(startTime ==null || endTime==null){
+            throw new NullPointerException("대여 시작 시간과 종료 시작은 필수 입력 값");
+        }
+
         Long totalPrice = 0L;
 
         Long hoursBetween =  ChronoUnit.HOURS.between(startTime,endTime);
         Long daysBetween = ChronoUnit.DAYS.between(startTime,endTime);
+        Long minutesBetween = ChronoUnit.MINUTES.between(startTime,endTime)%60;
 
-        System.out.println("hoursBetween: "+hoursBetween);
-        System.out.println("daysBetween: "+daysBetween);
+        if(hoursBetween <4){
+            throw new IllegalArgumentException("최소 4시간 이상 예약 가능");
+        }
+        if(daysBetween > 14){
+            throw new IllegalArgumentException("최대 14일까지 예약 가능");
+        }
+        if(minutesBetween!=30){
+            throw new IllegalArgumentException("30분 단위로 예약 가능");
+        }
 
-        if( daysBetween<1 && hoursBetween<24 && hoursBetween>=4 ){
+        System.out.println("hoursBetween: "+hoursBetween+ " daysBetween: "+daysBetween + "  minutesBetween: "+minutesBetween);
+
+        if( hoursBetween<24 ){
+
+            double hoursBetweenResult; // 30분 단위 예약의 시간 차
+
             // 4시간~하루 미만 예약일 때
             int hourPrice = fastReservationMapper.getAmountHour(fastReservationDto.getCarId());
-            totalPrice = hourPrice * hoursBetween;
-            System.out.println(hourPrice);
 
+            if(minutesBetween==30){
+                hoursBetweenResult =  hoursBetween + 0.5; // 30분 단위 예약일 경우 0.5시간 추가
+                System.out.println("30분 계산 후 hoursBetween: "+hoursBetweenResult);
+                totalPrice = (long) (hoursBetweenResult * hourPrice);
+            }
+            else{
+                totalPrice = hoursBetween * hourPrice;
+            }
+            System.out.println("시간 당 가격: "+ hourPrice+ "    총 가격: "+totalPrice);
         }
-        else if(daysBetween>=1 &&daysBetween<=14){
+        else{
             // 하루 이상 예약일 때
             int dayPrice = fastReservationMapper.getAmountDay(fastReservationDto.getCarId());
             totalPrice = dayPrice * daysBetween;
             System.out.println(dayPrice);
-        }
-        else if(daysBetween<1 && hoursBetween<24 && hoursBetween<4){
-            System.out.println("4시간 이상 예약 가능");
-        }
-        else if(daysBetween>14){
-            System.out.println("최대 14일 예약 가능");
         }
         return totalPrice;
     }
