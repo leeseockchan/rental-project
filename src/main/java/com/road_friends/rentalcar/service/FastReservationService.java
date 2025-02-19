@@ -75,7 +75,7 @@ public class FastReservationService {
 
         Long hoursBetween =  ChronoUnit.HOURS.between(startTime,endTime);
         Long daysBetween = ChronoUnit.DAYS.between(startTime,endTime);
-        Long minutesBetween = ChronoUnit.MINUTES.between(startTime,endTime)%60;
+
 
         if(hoursBetween <4){
             throw new IllegalArgumentException("최소 4시간 이상 예약 가능");
@@ -83,39 +83,19 @@ public class FastReservationService {
         if(daysBetween > 14){
             throw new IllegalArgumentException("최대 14일까지 예약 가능");
         }
-        if(minutesBetween!=30){
-            throw new IllegalArgumentException("30분 단위로 예약 가능");
-        }
-
-        System.out.println("hoursBetween: "+hoursBetween+ " daysBetween: "+daysBetween + "  minutesBetween: "+minutesBetween);
 
         if( hoursBetween<24 ){
-
-            double hoursBetweenResult; // 30분 단위 예약의 시간 차
-
             // 4시간~하루 미만 예약일 때
             int hourPrice = fastReservationMapper.getAmountHour(fastReservationDto.getCarId());
-
-            if(minutesBetween==30){
-                hoursBetweenResult =  hoursBetween + 0.5; // 30분 단위 예약일 경우 0.5시간 추가
-                System.out.println("30분 계산 후 hoursBetween: "+hoursBetweenResult);
-                totalPrice = (long) (hoursBetweenResult * hourPrice);
-            }
-            else{
-                totalPrice = hoursBetween * hourPrice;
-            }
-            System.out.println("시간 당 가격: "+ hourPrice+ "    총 가격: "+totalPrice);
+            totalPrice = hourPrice * hoursBetween;
         }
         else{
             // 하루 이상 예약일 때
             int dayPrice = fastReservationMapper.getAmountDay(fastReservationDto.getCarId());
             totalPrice = dayPrice * daysBetween;
-            System.out.println(dayPrice);
         }
+        System.out.println(totalPrice);
         return totalPrice;
     }
 
-    public List<CarDto> searchAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime, String modelCategory, String modelName) {
-        return fastReservationMapper.searchAvailableCars(province,district,rentalDatetime, returnDateTime,modelCategory,modelName);
-    }
 }
