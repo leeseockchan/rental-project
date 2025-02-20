@@ -2,34 +2,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Noto Sans KR", serif;
+    font-family: "Noto Sans KR", sans-serif;
 }
 
-body{
+body {
     text-align: center;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
-ul,
-li {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    background-color: #F8F9FA;
 }
 
 /* 테이블 스타일 */
 table {
-    width: 100%;
+    width: 90%;
+    margin: 20px auto;
     border-collapse: collapse;
-    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-th,
-td {
+th, td {
     padding: 12px;
     text-align: center;
     border: 1px solid #ddd;
@@ -46,14 +38,51 @@ td {
     color: #333;
 }
 
+/* 링크 컨테이너 스타일 */
+.links-container {
+    display: flex;
+    flex-wrap: wrap;  /* ✅ 자동 줄바꿈 */
+    justify-content: center;
+    gap: 15px;  /* ✅ 버튼 간 간격 */
+    max-width: 800px;  /* ✅ 컨테이너 크기 조정 */
+    margin: 20px auto;
+}
+
+/* 링크 버튼 스타일 */
+.links-container a {
+    flex-basis: 45%;  /* ✅ 각 버튼이 45%를 차지하여 두 개씩 정렬됨 */
+    text-align: center;
+    padding: 12px 20px;
+    border: 2px solid #3A3D50;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+    color: #3A3D50;
+}
+
+/* 호버 효과 */
+.links-container a:hover {
+    background-color: #3A3D50;
+    color: white;
+}
+
+/* 반응형: 화면이 작아지면 1열 정렬 */
+@media (max-width: 600px) {
+    .links-container a {
+        flex-basis: 100%;  /* ✅ 작은 화면에서는 한 줄씩 배치 */
+    }
+}
+
 /* 버튼 스타일 */
 button {
-    padding: 5px 10px;
+    padding: 8px 14px;
     border: 1px solid transparent;
     border-radius: 5px;
     background-color: #AFFF4F;
     cursor: pointer;
-    transition: 0.1s;
+    transition: 0.3s;
 }
 
 button:hover {
@@ -61,16 +90,27 @@ button:hover {
     color: #fff;
 }
 
-/* 링크 스타일 */
-a {
-    color: #3A3D50;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 10px;
+/* 대시보드로 돌아가기 버튼 컨테이너 */
+.back-to-dashboard {
+    text-align: center;
+    margin-top: 20px;
 }
 
-a:hover {
-    background-color: #F9FEF5;
+/* 대시보드로 돌아가기 버튼 스타일 */
+.dashboard-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background-color: #3A3D50;
+    border: 2px solid #3A3D50;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.dashboard-btn:hover {
+    background-color: white;
     color: #3A3D50;
-    border-radius: 5px;
 }

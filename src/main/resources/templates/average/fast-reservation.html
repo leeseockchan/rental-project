@@ -48,8 +48,12 @@
     </tr>
 </table>
 
-<!-- 대시보드로 돌아가기 링크 -->
-<a href="/api/admin/dashboard">대시보드로 돌아가기</a>
+<!-- 대시보드로 돌아가기 버튼 -->
+<div class="back-to-dashboard">
+    <a th:href="@{/api/admin/dashboard}" class="dashboard-btn">
+        ⬅️ 대시보드로 돌아가기
+    </a>
+</div>
 
 </body>
 </html>

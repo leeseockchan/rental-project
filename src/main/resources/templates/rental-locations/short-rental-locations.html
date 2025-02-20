@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>🚗 단기 예약 - 가장 많이 대여한 지역 TOP 5</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>🚗 단기 예약 - 가장 많이 대여한 지역 TOP 5</h1>
+
+<table>
+  <tr>
+    <th>지역</th>
+    <th>대여 횟수</th>
+  </tr>
+  <tr th:each="rental : ${TopShortRentalLocations}">
+    <td th:text="${rental.label}"></td>
+    <td th:text="${rental.count}"></td>
+  </tr>
+</table>
+
+<!-- 대시보드로 돌아가기 버튼 -->
+<div class="back-to-dashboard">
+  <a th:href="@{/api/admin/dashboard}" class="dashboard-btn">
+    ⬅️ 대시보드로 돌아가기
+  </a>
+</div>
+
+
+</body>
+</html>

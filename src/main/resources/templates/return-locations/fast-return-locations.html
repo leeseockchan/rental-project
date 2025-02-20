@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>🔄 빠른 예약 - 가장 많이 반납한 지역 TOP 5</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>🔄 빠른 예약 - 가장 많이 반납한 지역 TOP 5</h1>
+
+<table>
+  <tr>
+    <th>지역</th>
+    <th>반납 횟수</th>
+  </tr>
+  <tr th:each="returnData : ${TopFastReturnLocations}">
+    <td th:text="${return.label}"></td>
+    <td th:text="${return.count}"></td>
+  </tr>
+</table>
+
+<!-- 대시보드로 돌아가기 버튼 -->
+<div class="back-to-dashboard">
+  <a th:href="@{/api/admin/dashboard}" class="dashboard-btn">
+    ⬅️ 대시보드로 돌아가기
+  </a>
+</div>
+
+
+</body>
+</html>

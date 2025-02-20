@@ -27,15 +27,15 @@ public class DashboardController {
         model.addAttribute("userStats", userStats);
 
         // ⏳ 빠른 예약 관련 데이터
-        model.addAttribute("topFastRentalHours", reservationService.getTopFastRentalHours());
-        model.addAttribute("topFastRentalLocations", reservationService.getTopFastRentalLocations());
-        model.addAttribute("topFastReturnLocations", reservationService.getTopFastReturnLocations());
+
+
+
         model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
 
         // ⏳ 단기 예약 관련 데이터
-        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
-//        model.addAttribute("topShortRentalLocations", reservationService.getTopShortRentalLocations());
-//        model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
+
+
+
         model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
 
         // 🔥 가장 인기 있는 차량 TOP 5
@@ -44,12 +44,49 @@ public class DashboardController {
 
         return "dashboard";
     }
+
+    @GetMapping("/fast-reservation-hours")
+    public String fasthour(Model model){
+        model.addAttribute("topFastRentalHours", reservationService.getTopFastRentalHours());
+        return "hours/fast-reservation-hours";
+    }
+
+    @GetMapping("/short-reservation-hours")
+    public String shorthour(Model model){
+        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
+        return "hours/short-reservation-hours";
+    }
+
+    @GetMapping("/fast-rental-locations")
+    public String fastlocations(Model model){
+        model.addAttribute("topFastRentalLocations", reservationService.getTopFastRentalLocations());
+        return "rental-locations/fast-rental-locations";
+    }
+
+    @GetMapping("/short-rental-locations")
+    public String shortlocations(Model model){
+        //model.addAttribute("topShortRentalLocations", reservationService.getTopShortRentalLocations());
+        return "rental-locations/short-rental-locations";
+    }
+
+    @GetMapping("/fast-return-locations")
+    public String fastreturn(Model model){
+        model.addAttribute("topFastReturnLocations", reservationService.getTopFastReturnLocations());
+        return "return-locations/fast-return-locations";
+    }
+
+    @GetMapping("/short-return-locations")
+    public String shortreturn(Model model){
+        //model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
+        return "return-locations/short-return-locations";
+    }
+
     @GetMapping("/fast-reservation")
     public String fast(Model model){
         model.addAttribute("topFastCarRentalDuration", reservationService.getTopFastCarRentalDuration());
         model.addAttribute("topFastRegionRentalDuration", reservationService.getTopFastRegionRentalDuration());
         model.addAttribute("topFastUserRentalDuration", reservationService.getTopFastUserRentalDuration());
-        return "reservation/fast-reservation";
+        return "average/fast-reservation";
     }
 
     @GetMapping("/short-reservation")
@@ -57,7 +94,7 @@ public class DashboardController {
         model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
 //        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
         model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
-        return "reservation/short-reservation";
+        return "average/short-reservation";
     }
 
 }
