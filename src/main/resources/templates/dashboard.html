@@ -96,8 +96,8 @@
 <!-- 평균 렌트 시간 링크 -->
 <h2>⏳ 평균 렌트 시간</h2>
 <p>
-  <a href="/api/admin/fast-reservation" th:text="'빠른 예약 평균 렌트 시간'"></a>
-  <a href="/api/admin/short-reservation" th:text="'단기 예약 평균 렌트 시간'"></a>
+  <a th:href="@{/api/admin/fast-reservation}" th:text="'빠른 예약 평균 렌트 시간'"></a>
+  <a th:href="@{/api/admin/short-reservation}" th:text="'단기 예약 평균 렌트 시간'"></a>
 </p>
 
 <!-- 가장 인기 있는 차량 -->

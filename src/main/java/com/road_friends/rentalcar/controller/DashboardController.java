@@ -49,7 +49,7 @@ public class DashboardController {
         model.addAttribute("topFastCarRentalDuration", reservationService.getTopFastCarRentalDuration());
         model.addAttribute("topFastRegionRentalDuration", reservationService.getTopFastRegionRentalDuration());
         model.addAttribute("topFastUserRentalDuration", reservationService.getTopFastUserRentalDuration());
-        return "/fast-reservation";
+        return "reservation/fast-reservation";
     }
 
     @GetMapping("/short-reservation")
@@ -57,7 +57,7 @@ public class DashboardController {
         model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
 //        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
         model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
-        return "/short-reservation";
+        return "reservation/short-reservation";
     }
 
 }
