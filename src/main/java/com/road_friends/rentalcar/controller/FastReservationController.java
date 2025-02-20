@@ -2,13 +2,13 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.ParkingDto;
 import com.road_friends.rentalcar.service.FastReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +33,8 @@ public class FastReservationController {
         String district = (String) requestBody.get("district");
         LocalDateTime rentalDatetime = LocalDateTime.parse((String) requestBody.get("rental_datetime"));
         LocalDateTime returnDatetime = LocalDateTime.parse((String) requestBody.get("return_datetime"));
+        Integer returnLocation = (Integer) requestBody.get("return_location") ;
+
 
         // 특정 조건으로 차량 검색 (필터링)
         String modelCategory = (String) requestBody.get("model_category");
@@ -47,11 +49,12 @@ public class FastReservationController {
     }
 
 
-    // 특정 차량 조회
+    // 특정 차량 상세 정보 조회 + 반납 주차장 조회
     @GetMapping("/cars/{carId}")
     public ResponseEntity<CarDto> getCarById(@PathVariable("carId") int carId) {
-        CarDto car = fastReservationService.getCarById(carId);
-        return car != null ? new ResponseEntity<>(car, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        CarDto carDetail = fastReservationService.getCarById(carId);
+
+        return carDetail != null ? new ResponseEntity<>(carDetail, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // 예약 정보 조회
@@ -62,6 +65,13 @@ public class FastReservationController {
     }
 
     // 예약
+    @GetMapping("/reservations")
+    public ResponseEntity<List<ParkingDto>> reserve(){
+        // 반납 가능 장소 목록
+        List<ParkingDto> parkingList = fastReservationService.getParkingStation();
+        return new ResponseEntity<>(parkingList, HttpStatus.OK);
+    }
+
     @PostMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
 

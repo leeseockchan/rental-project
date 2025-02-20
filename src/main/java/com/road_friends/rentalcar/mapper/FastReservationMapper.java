@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.ParkingDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -36,4 +37,6 @@ public interface FastReservationMapper {
 
     List<CarDto> searchAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime,
                                      String modelCategory, String modelName);
+
+    List<ParkingDto> getParkingStation();
 }
