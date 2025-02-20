@@ -16,7 +16,7 @@ public class ParkingController {
     @Autowired
     ParkingService parkingService;
 
-//    주차 지역 리스트
+//    주차 도/시 리스트
     private List<String> getProvinceList() {
         return List.of("서울 특별시", "경기도", "충청북도", "충청남도",
                 "경상북도", "경상남도", "전라북도", "전라남도", "제주도");

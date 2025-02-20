@@ -14,7 +14,9 @@
     <td>도/시</td>
     <td>지역</td>
     <td >
+        <a id="add_car" th:href="@{/api/admin/vehicles/add}" >
         <button type="button">신규 차량 등록</button>
+        </a>
     </td>
     </tr>
     <tr>
@@ -28,8 +30,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="car : ${cars}">
-        <td th:text="${car.carId}"></td>
+    <tr th:each="car : ${cars}"  th:onclick="|location.href='@{/api/admin/vehicles/{carId}(carId=${car.carId})}'|" style="cursor: pointer;">
+        <td th:text="${car.carId}"> </td>
         <td th:text="${car.modelBrand}"></td>
         <td th:text="${car.modelName}"></td>
         <td th:text="${car.carGrade}"></td>

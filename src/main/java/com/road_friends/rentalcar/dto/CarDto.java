@@ -27,6 +27,7 @@ public class CarDto {
         private int modelAmountDay;
 
         private String parkingName;
+        private String parkingProvince;
         private String parkingDistrict;
 
         @Override
@@ -41,5 +42,7 @@ public class CarDto {
                         ", parkingName='" + parkingName + '\'' +
                         '}';
         }
+
+
 }
 

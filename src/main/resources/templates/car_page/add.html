@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>차량 관리 추가 페이지</title>
 </head>
 <body>
+<h1>차량 관리</h1>
+<h2>차량 관리>신규 차량 등록</h2>
+<form id="add_carData" th:action="@{/api/admin/vehicles}" method="post">
+    <input type="hidden" id="carId" name="carId" th:value="${addCar.carId}">
+    <table>
+        <tr>
+            <th><label for="carBrand">제조사</label></th>
+            <th><label for="carModelName">모델명</label></th>
+            <th><label for="carYear">연식</label></th>
+            <th><label for="carFuel">연료</label></th>
+            <th><label for="carGrade">등급</label></th>
+        </tr>
+        <tr>
+            <td>
+                <select id="carBrand" name="modelBrand">
+                    <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}"
+                            th:selected="${addCar.modelBrand == brand}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carModelName" name="modelName">
+                    <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}"
+                            th:selected="${addCar.modelName == mName}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carYear" name="carYear">
+                    <option th:each="yearList: ${yearList}" th:value="${yearList}" th:text="${yearList}"
+                            th:selected="${addCar.carYear == yearList}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carFuel" name="carFuel">
+                    <option th:each="fuel : ${fuelList}" th:value="${fuel}" th:text="${fuel}"
+                            th:selected="${addCar.carFuel == fuel}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="carGrade" name="carGrade">
+                    <option th:each="grade : ${gradeList}" th:value="${grade}" th:text="${grade}"
+                            th:selected="${addCar.carGrade == grade}">
+                    </option>
+                </select>
+            </td>
+        </tr>
 
+        <tr>
+            <th><label for="parkingProvince">도/시</label></th>
+            <th><label for="parkingDistrict">행정구역</label></th>
+            <th><label for="carParking">주차장 이름</label></th>
+        </tr>
+        <tr>
+            <td>
+                <select id="parkingProvince" name="parkingProvince">
+                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
+                            th:selected="${addCar.parkingProvince == province}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <select id="parkingDistrict" name="parkingDistrict">
+                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}"
+                            th:selected="${addCar.parkingDistrict == district}">
+                    </option>
+                </select>
+            </td>
+            <td>
+                <input type="text" id="carParking" name="parkingName" th:value="${addCar.parkingName}"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align: center;">
+                <button type="submit">등록하기</button>
+                <a th:href="@{/api/admin/vehicles}">
+                    <button type="button">취소</button>
+                </a>
+            </td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>
