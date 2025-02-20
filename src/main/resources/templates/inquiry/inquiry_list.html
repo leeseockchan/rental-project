@@ -18,25 +18,28 @@
         </div>
 
         <div class="info">
-            <div class="header-sm">문의사항 정보</div>
+            <div class="info-header">문의사항 정보</div>
             <div class="info-box-big">
-                <div class="info-box box1">
-                    <div class="info-box-title">전체 문의 게시글 수</div>
-                    <div class="info-box-content"><span th:text="${counts.total}"></span> 개</div>
-                </div>
-                <div class="info-box box2">
-                    <div class="info-box-title">답변완료 게시글</div>
-                    <div class="info-box-content"><span th:text="${counts.answered}"></span> 개</div>
-                </div>
-                <div class="info-box box3">
-                    <div class="info-box-title">미답변 게시글</div>
-                    <div class="info-box-content"><span th:text="${counts.unanswered}"></span> 개</div>
+                <div class="info-box-big-header">문의사항 게시판 통계</div>
+                <div class="info-box-sm">
+                    <div class="info-box box1">
+                        <div class="info-box-title">전체 문의 게시글 수</div>
+                        <div class="info-box-content"><span th:text="${counts.total}"></span> 개</div>
+                    </div>
+                    <div class="info-box box2">
+                        <div class="info-box-title">답변완료 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.answered}"></span> 개</div>
+                    </div>
+                    <div class="info-box box3">
+                        <div class="info-box-title">미답변 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.unanswered}"></span> 개</div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="list">
-            <div class="header-sm">문의사항 목록</div>
+            <div class="info-header">문의사항 목록</div>
 
             <table class="table-box">
                 <thead>
@@ -57,8 +60,8 @@
                         <td th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
                         <td th:text="${inquiry.userNum}" style="max-width: 60px;"></td>
                         <td th:text="${inquiry.adminNum}" style="max-width: 60px;"></td>
-                        <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px;"></td>
-                        <td th:text="${inquiry.inquiriesA}" style="max-width: 180px;"></td>
+                        <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px; text-align: left;"></td>
+                        <td th:text="${inquiry.inquiriesA}" style="max-width: 180px; text-align: left;"></td>
                         <td th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
                         <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
                     </tr>
