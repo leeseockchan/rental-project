@@ -13,7 +13,13 @@ public class HelloController {
 
 //  출력 확인용. 추후 삭제.
   @GetMapping("/con")
-  public String layout2(){
+  public String layout1(){
     return "/admin/content1";
   }
+
+  @GetMapping("/car-list")
+  public String layout2(){
+    return "/car/car-list";
+  }
+
 }
