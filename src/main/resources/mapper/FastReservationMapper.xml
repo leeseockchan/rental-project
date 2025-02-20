@@ -27,7 +27,7 @@
     <!-- 특정 차량 조회 + 주차장 리스트 -->
     <select id="getCarById" resultMap="CarDetailResultMap">
         SELECT
-            c.car_id, c.car_year, c.car_fuel, c.car_grade, c.car_options,
+            c.car_id, c.car_year, c.car_fuel, c.car_grade, c.car_options, c.rental_station,
             m.model_id, m.model_brand, m.model_name, m.model_category,
             m.model_amount_hour, m.model_amount_day,
             m.model_seate_num, m.model_transmission,
@@ -48,6 +48,7 @@
         <result property="carFuel" column="car_fuel"/>
         <result property="carGrade" column="car_grade"/>
         <result property="carOptions" column="car_options"/>
+        <result property="rentalStation" column="rental_station"/>
 
         <association property="model" javaType="com.road_friends.rentalcar.dto.ModelDto">
             <id property="modelId" column="model_id"/>
