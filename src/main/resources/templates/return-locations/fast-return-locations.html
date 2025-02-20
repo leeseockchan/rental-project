@@ -14,9 +14,9 @@
     <th>지역</th>
     <th>반납 횟수</th>
   </tr>
-  <tr th:each="returnData : ${TopFastReturnLocations}">
-    <td th:text="${return.label}"></td>
-    <td th:text="${return.count}"></td>
+  <tr th:each="returnData : ${topFastReturnLocations}">
+    <td th:text="${returnData.label}"></td>  <!-- ✅ 변수명 수정 -->
+    <td th:text="${returnData.count}"></td>  <!-- ✅ 변수명 수정 -->
   </tr>
 </table>
 
@@ -26,7 +26,6 @@
     ⬅️ 대시보드로 돌아가기
   </a>
 </div>
-
 
 </body>
 </html>

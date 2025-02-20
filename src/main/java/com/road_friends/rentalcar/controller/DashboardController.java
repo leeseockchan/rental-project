@@ -27,20 +27,13 @@ public class DashboardController {
         model.addAttribute("userStats", userStats);
 
         // ⏳ 빠른 예약 관련 데이터
-
-
-
         model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
 
         // ⏳ 단기 예약 관련 데이터
-
-
-
         model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
 
         // 🔥 가장 인기 있는 차량 TOP 5
         model.addAttribute("topPopularCars", reservationService.getTopPopularCars());
-
 
         return "dashboard";
     }

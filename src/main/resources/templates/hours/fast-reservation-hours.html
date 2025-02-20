@@ -14,7 +14,7 @@
     <th>시간대</th>
     <th>예약 횟수</th>
   </tr>
-  <tr th:each="hour : ${TopFastRentalHours}">
+  <tr th:each="hour : ${topFastRentalHours}">
     <td th:text="${hour.label + '시'}"></td>
     <td th:text="${hour.count}"></td>
   </tr>

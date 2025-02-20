@@ -12,6 +12,7 @@ public interface ReservationMapper {
     @Select("""
     SELECT HOUR(rental_datetime) AS label, COUNT(*) AS count
     FROM fast_reservation
+    WHERE rental_datetime IS NOT NULL
     GROUP BY HOUR(rental_datetime)
     ORDER BY count DESC
     LIMIT 5
@@ -22,11 +23,13 @@ public interface ReservationMapper {
     @Select("""
     SELECT HOUR(reservation_s_start_date) AS label, COUNT(*) AS count
     FROM short_reservation
+    WHERE reservation_s_start_date IS NOT NULL
     GROUP BY HOUR(reservation_s_start_date)
     ORDER BY count DESC
     LIMIT 5
     """)
     List<DataPoint> getTopShortRentalHours();
+
 
     // 가장 많이 대여된 지역 TOP 5 (빠른 예약)
     @Select("""

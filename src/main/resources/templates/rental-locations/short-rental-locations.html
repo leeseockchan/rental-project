@@ -14,7 +14,7 @@
     <th>지역</th>
     <th>대여 횟수</th>
   </tr>
-  <tr th:each="rental : ${TopShortRentalLocations}">
+  <tr th:each="rental : ${topShortRentalLocations}">
     <td th:text="${rental.label}"></td>
     <td th:text="${rental.count}"></td>
   </tr>

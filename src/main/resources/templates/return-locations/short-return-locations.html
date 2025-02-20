@@ -14,7 +14,7 @@
     <th>지역</th>
     <th>반납 횟수</th>
   </tr>
-  <tr th:each="returnData : ${TopShortReturnLocations}">
+  <tr th:each="returnData : ${topShortReturnLocations}">
     <td th:text="${returnData.label}"></td>
     <td th:text="${returnData.count}"></td>
   </tr>

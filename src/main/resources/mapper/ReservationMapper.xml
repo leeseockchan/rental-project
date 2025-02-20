@@ -5,22 +5,22 @@
 
     <!-- 예약이 많은 시간대 TOP 5 (빠른 예약) -->
     <select id="getTopFastRentalHours" resultType="com.road_friends.rentalcar.dto.DataPoint">
-        <!-- 빠른 예약의 예약이 많은 시간대 상위 5개 -->
         SELECT HOUR(rental_datetime) AS label, COUNT(*) AS count
         FROM fast_reservation
+        WHERE rental_datetime IS NOT NULL
         GROUP BY HOUR(rental_datetime)
         ORDER BY count DESC
-        LIMIT 5
+        LIMIT 5;
     </select>
 
     <!-- 예약이 많은 시간대 TOP 5 (단기 예약) -->
     <select id="getTopShortRentalHours" resultType="com.road_friends.rentalcar.dto.DataPoint">
-        <!-- 단기 예약의 예약이 많은 시간대 상위 5개 -->
         SELECT HOUR(reservation_s_start_date) AS label, COUNT(*) AS count
         FROM short_reservation
+        WHERE reservation_s_start_date IS NOT NULL
         GROUP BY HOUR(reservation_s_start_date)
         ORDER BY count DESC
-        LIMIT 5
+        LIMIT 5;
     </select>
 
     <!-- 가장 많이 대여된 지역 TOP 5 (빠른 예약) -->
