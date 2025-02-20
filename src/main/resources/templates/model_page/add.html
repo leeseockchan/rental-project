@@ -9,10 +9,10 @@
 <body>
 <h1>차량 정보 생성</h1>
 <form th:action="@{/api/admin/models/add}" method="post">
+    <input type="hidden" id="modelId" name="modelId" th:value="${modelDto.modelId}">
     <table>
         <thead>
         <tr>
-            <th><label for="modelId">차량 번호</label></th>
             <th><label for="modelBrand">차량 브랜드</label></th>
             <th><label for="modelName">차량 이름</label></th>
             <th><label for="modelCategory">차 종</label></th>
@@ -24,7 +24,7 @@
         </thead>
         <tbody>
         <tr>
-            <td><input type="text" id="modelId" name="modelId" required></td>
+
             <td><input type="text" id="modelBrand" name="modelBrand" required></td>
             <td><input type="text" id="modelName" name="modelName" required></td>
             <td><input type="text" id="modelCategory" name="modelCategory" required></td>

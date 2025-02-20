@@ -8,7 +8,7 @@
 <body>
 <h1>차량 관리</h1>
 <h2>차량 관리>신규 차량 등록</h2>
-<form id="add_carData" th:action="@{/api/admin/vehicles}" method="post">
+<form id="add_carData" th:action="@{/api/admin/vehicles/add}" method="post">
     <input type="hidden" id="carId" name="carId" th:value="${addCar.carId}">
     <table>
         <tr>
@@ -82,10 +82,11 @@
         </tr>
         <tr>
             <td colspan="5" style="text-align: center;">
-                <button type="submit">등록하기</button>
                 <a th:href="@{/api/admin/vehicles}">
-                    <button type="button">취소</button>
+                    <button type="button">목록</button>
                 </a>
+                <button type="submit">등록하기</button>
+
             </td>
         </tr>
     </table>
