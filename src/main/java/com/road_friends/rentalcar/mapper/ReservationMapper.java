@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.DataPoint;
+import com.road_friends.rentalcar.dto.ShortReservationDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import java.util.List;
@@ -21,14 +22,15 @@ public interface ReservationMapper {
 
     // 예약이 많은 시간대 TOP 5 (단기 예약)
     @Select("""
-    SELECT HOUR(reservation_s_start_date) AS label, COUNT(*) AS count
-    FROM short_reservation
-    WHERE reservation_s_start_date IS NOT NULL
-    GROUP BY HOUR(reservation_s_start_date)
+    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+    FROM short_reservation sr
+    JOIN parking p ON sr.rental_station_start = p.parking_id
+    WHERE sr.rental_station_start IS NOT NULL
+    GROUP BY p.parking_province, p.parking_district
     ORDER BY count DESC
     LIMIT 5
     """)
-    List<DataPoint> getTopShortRentalHours();
+    List<ShortReservationDto> getTopShortRentalLocations();
 
 
     // 가장 많이 대여된 지역 TOP 5 (빠른 예약)
@@ -43,6 +45,16 @@ public interface ReservationMapper {
     List<DataPoint> getTopFastRentalLocations();
 
     // 가장 많이 대여된 지역 TOP 5 (단기 예약)
+    @Select("""
+    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+    FROM `short_reservation` sr
+    JOIN `parking` p ON sr.`rental_station_start` = p.`parking_id`
+    GROUP BY p.`parking_province`, p.`parking_district`
+    ORDER BY count DESC
+    LIMIT 5
+    """)
+    List<ShortReservationDto> getTopShortRentalLocations();
+
 
     // 가장 많이 반납된 지역 TOP 5 (빠른 예약)
     @Select("""
@@ -57,6 +69,17 @@ public interface ReservationMapper {
     List<DataPoint> getTopFastReturnLocations();
 
     // 가장 많이 반납된 지역 TOP 5 (단기 예약)
+    @Select("""
+    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+    FROM short_reservation sr
+    JOIN parking p ON sr.return_station_end = p.parking_id
+    WHERE sr.return_station_end IS NOT NULL
+    GROUP BY p.parking_province, p.parking_district
+    ORDER BY count DESC
+    LIMIT 5
+    """)
+    List<ShortReservationDto> getTopShortReturnLocations();
+
 
     // 가장 인기 있는 차량 TOP 5 (빠른 예약)
     @Select("""
@@ -122,6 +145,19 @@ public interface ReservationMapper {
     List<DataPoint> getTopFastRegionRentalDuration();
 
     // 지역별 평균 렌트 시간 TOP 5 (단기 예약)
+    @Select("""
+    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label,
+           AVG(TIMESTAMPDIFF(HOUR, sr.reservation_s_start_date, sr.reservation_s_end_date)) AS count
+    FROM short_reservation sr
+    JOIN parking p ON sr.rental_station_start = p.parking_id
+    WHERE sr.reservation_s_end_date IS NOT NULL
+    GROUP BY p.parking_province, p.parking_district
+    ORDER BY count DESC
+    LIMIT 5
+    """)
+    List<ShortReservationDto> getTopShortRegionRentalDuration();
+
+
 
     // 사용자별 평균 렌트 시간 TOP 5 (빠른 예약)
     @Select("""
@@ -160,6 +196,5 @@ public interface ReservationMapper {
     LIMIT 5
     """)
     List<DataPoint> getTopPopularCars();
-
 
 }
