@@ -27,7 +27,7 @@ public class AdminInquiryController {
         AdminInquiryDto counts = adminInquiryService.getInquiryCounts();
         model.addAttribute("pageDto", pageDto);
         model.addAttribute("counts", counts);
-        return "inquiry/inquiry_list";  // inquiry_list.html로 이동
+        return "inquiry/inquiry-list";  // inquiry_list.html로 이동
     }
 
     // 문의 상세 조회
@@ -38,7 +38,7 @@ public class AdminInquiryController {
             return "redirect:/api/admin/inquiry";
         }
         model.addAttribute("inquiry", inquiry);
-        return "inquiry/inquiry_detail";
+        return "inquiry/inquiry-detail";
     }
 
     // 관리자 답변 입력
@@ -46,7 +46,7 @@ public class AdminInquiryController {
     public String getInquiryReplyById(@PathVariable("inquiryId") int inquiryId, Model model) {
         AdminInquiryDto inquiry = adminInquiryService.getInquiryReplyById(inquiryId);
         model.addAttribute("inquiry", inquiry);
-        return "inquiry/inquiry_reply";
+        return "inquiry/inquiry-reply";
     }
 
     // 관리자 답변 등록
