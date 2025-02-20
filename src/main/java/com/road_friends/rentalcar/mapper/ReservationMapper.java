@@ -39,16 +39,7 @@ public interface ReservationMapper {
     """)
     List<DataPoint> getTopFastRentalLocations();
 
-//    // 가장 많이 대여된 지역 TOP 5 (단기 예약)
-//    @Select("""
-//    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
-//    FROM short_reservation sr
-//    JOIN parking p ON sr.rental_station_start = p.parking_id  -- 확인된 컬럼명 사용
-//    GROUP BY p.parking_province, p.parking_district
-//    ORDER BY count DESC
-//    LIMIT 5
-//    """)
-//    List<DataPoint> getTopShortRentalLocations();
+    // 가장 많이 대여된 지역 TOP 5 (단기 예약)
 
     // 가장 많이 반납된 지역 TOP 5 (빠른 예약)
     @Select("""
@@ -62,17 +53,7 @@ public interface ReservationMapper {
     """)
     List<DataPoint> getTopFastReturnLocations();
 
-//    // 가장 많이 반납된 지역 TOP 5 (단기 예약)
-//    @Select("""
-//    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
-//    FROM short_reservation sr
-//    JOIN parking p ON sr.return_station_end = p.parking_id  -- 확인된 컬럼명 사용
-//    WHERE sr.return_station_end IS NOT NULL
-//    GROUP BY p.parking_province, p.parking_district
-//    ORDER BY count DESC
-//    LIMIT 5
-//    """)
-//    List<DataPoint> getTopShortReturnLocations();
+    // 가장 많이 반납된 지역 TOP 5 (단기 예약)
 
     // 가장 인기 있는 차량 TOP 5 (빠른 예약)
     @Select("""
@@ -138,17 +119,6 @@ public interface ReservationMapper {
     List<DataPoint> getTopFastRegionRentalDuration();
 
     // 지역별 평균 렌트 시간 TOP 5 (단기 예약)
-//    @Select("""
-//    SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label,
-//           AVG(TIMESTAMPDIFF(HOUR, sr.reservation_s_start_date, sr.reservation_s_end_date)) AS count
-//    FROM short_reservation sr
-//    JOIN parking p ON sr.rental_station_start = p.parking_id
-//    WHERE sr.reservation_s_end_date IS NOT NULL
-//    GROUP BY p.parking_province, p.parking_district
-//    ORDER BY count DESC
-//    LIMIT 5
-//    """)
-//    List<DataPoint> getTopShortRegionRentalDuration();
 
     // 사용자별 평균 렌트 시간 TOP 5 (빠른 예약)
     @Select("""
@@ -187,4 +157,6 @@ public interface ReservationMapper {
     LIMIT 5
     """)
     List<DataPoint> getTopPopularCars();
+
+
 }

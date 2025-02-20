@@ -79,7 +79,7 @@ public class ReservationService {
         return convertToDto(reservationMapper.getTopFastRegionRentalDuration());
     }
 
-    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
+//    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
 //    public List<ReservationDto> getTopShortRegionRentalDuration() {
 //        return convertToDto(reservationMapper.getTopShortRegionRentalDuration());
 //    }

@@ -52,12 +52,12 @@ public class DashboardController {
         return "/fast-reservation";
     }
 
-//    @GetMapping("/short-reservation")
-//    public String short(Model model){
-//        model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
+    @GetMapping("/short-reservation")
+    public String reservation(Model model){
+        model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
 //        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
-//        model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
-//        return "/short-reservation";
-//    }
+        model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
+        return "/short-reservation";
+    }
 
 }

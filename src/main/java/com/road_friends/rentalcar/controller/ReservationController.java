@@ -82,7 +82,7 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getTopFastRegionRentalDuration());
     }
 
-    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
+//    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
 //    @GetMapping("/top-short-region-rental-duration")
 //    public ResponseEntity<List<ReservationDto>> getTopShortRegionRentalDuration() {
 //        return ResponseEntity.ok(reservationService.getTopShortRegionRentalDuration());
