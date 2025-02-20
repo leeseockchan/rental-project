@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CarDto {
 
+    @JsonProperty("car_id")
     private Integer carId;  // car_id -> carId
 
     @JsonProperty("model_id")
