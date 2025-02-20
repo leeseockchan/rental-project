@@ -25,9 +25,13 @@ public class FastReservationService {
         return fastReservationMapper.getAllCars();
     }
 
-    // 차량 정보 조회
+    // 차량 상세 정보 조회
     public CarDto getCarById(int carId) {
-        return fastReservationMapper.getCarById(carId);
+        CarDto car =  fastReservationMapper.getCarById(carId);
+        car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
+        car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
+
+        return car;
     }
 
 
@@ -55,18 +59,22 @@ public class FastReservationService {
     }
 
 
+    // 차량 조회 + 가격 계산
     public List<CarDto> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
                                          String modelCategory, String modelName) {
-
-        return fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime,
+        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime,
                 modelCategory,modelName);
+
+        for (CarDto car : availableCars){
+            Long price = getPrice(car.getCarId(), car.getCarGrade(), rentalDatetime, returnDatetime);
+            car.setCalculatedPrice(price);
+        }
+        return availableCars;
     }
 
 
-    // 가격
-    public Long getPrice(FastReservationDto fastReservationDto) {
-        LocalDateTime startTime = fastReservationDto.getRentalDatetime();
-        LocalDateTime endTime = fastReservationDto.getReturnDatetime();
+    // 가격 계산 로직
+    public Long getPrice(int carId, String carGrade, LocalDateTime startTime, LocalDateTime endTime) {
 
         if(startTime ==null || endTime==null){
             throw new NullPointerException("대여 시작 시간과 종료 시작은 필수 입력 값");
@@ -87,15 +95,19 @@ public class FastReservationService {
 
         if( hoursBetween<24 ){
             // 4시간~하루 미만 예약일 때
-            int hourPrice = fastReservationMapper.getAmountHour(fastReservationDto.getCarId());
+            int hourPrice = fastReservationMapper.getAmountHour(carId);
             totalPrice = hourPrice * hoursBetween;
+            System.out.println("하루 가격:"+hourPrice);
         }
         else{
             // 하루 이상 예약일 때
-            int dayPrice = fastReservationMapper.getAmountDay(fastReservationDto.getCarId());
+            int dayPrice = fastReservationMapper.getAmountDay(carId);
             totalPrice = dayPrice * daysBetween;
+            System.out.println("하루 가격:"+dayPrice);
         }
-        System.out.println(totalPrice);
+
+
+        System.out.println("총 금액: "+totalPrice);
         return totalPrice;
     }
 

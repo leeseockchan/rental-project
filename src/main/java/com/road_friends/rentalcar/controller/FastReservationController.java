@@ -25,7 +25,7 @@ public class FastReservationController {
 
 
     // 입력받은 지역, 시간으로 이용 가능한 차량 조회
-    @GetMapping("/cars")
+    @PostMapping("/cars")
     public ResponseEntity<List<CarDto>> selectCars(@RequestBody Map<String, Object> requestBody) {
 
         // 차량 조회
@@ -33,7 +33,6 @@ public class FastReservationController {
         String district = (String) requestBody.get("district");
         LocalDateTime rentalDatetime = LocalDateTime.parse((String) requestBody.get("rental_datetime"));
         LocalDateTime returnDatetime = LocalDateTime.parse((String) requestBody.get("return_datetime"));
-        Integer returnLocation = (Integer) requestBody.get("return_location") ;
 
 
         // 특정 조건으로 차량 검색 (필터링)
@@ -51,8 +50,19 @@ public class FastReservationController {
 
     // 특정 차량 상세 정보 조회 + 반납 주차장 조회
     @GetMapping("/cars/{carId}")
-    public ResponseEntity<CarDto> getCarById(@PathVariable("carId") int carId) {
+    public ResponseEntity<CarDto> getCarById(@PathVariable("carId") int carId,
+                                             @RequestParam("rental_datetime") String rentalDatetimeStr,
+                                             @RequestParam("return_datetime") String returnDatetimeStr) {
+        // String을 LocalDateTime으로 변환
+        LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr);
+        LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr);
+
+        // 차량 상세 정보 조회
         CarDto carDetail = fastReservationService.getCarById(carId);
+
+        // 가격 계산 (carId -> modelId 여야 정상 출력)
+        Long totalPrice = fastReservationService.getPrice(carDetail.getModel().getModelId(), carDetail.getCarGrade(), rentalDatetime, returnDatetime);
+        carDetail.setCalculatedPrice(totalPrice);
 
         return carDetail != null ? new ResponseEntity<>(carDetail, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -74,9 +84,6 @@ public class FastReservationController {
 
     @PostMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
-
-        // 가격 계산
-        Long totalPrice = fastReservationService.getPrice(fastReservationDto);
 
         fastReservationService.reserve(fastReservationDto);
 

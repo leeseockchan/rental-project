@@ -29,6 +29,7 @@
         SELECT
             c.car_id, c.car_year, c.car_fuel, c.car_grade, c.car_options,
             m.model_id, m.model_brand, m.model_name, m.model_category,
+            m.model_amount_hour, m.model_amount_day,
             m.model_seate_num, m.model_transmission,
             p.parking_id, p.parking_name, p.parking_address
         FROM car c
