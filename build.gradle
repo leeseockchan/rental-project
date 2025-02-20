@@ -26,22 +26,15 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-<<<<<<< HEAD
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-	implementation 'mysql:mysql-connector-java:8.0.33'
-=======
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
->>>>>>> origin/feat/admin/page-design
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-<<<<<<< HEAD
-	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
-=======
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
->>>>>>> origin/feat/admin/page-design
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
