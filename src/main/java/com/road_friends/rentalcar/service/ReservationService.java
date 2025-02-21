@@ -3,21 +3,23 @@ package com.road_friends.rentalcar.service;
 import com.road_friends.rentalcar.dto.DataPoint;
 import com.road_friends.rentalcar.dto.ReservationDto;
 import com.road_friends.rentalcar.mapper.ReservationMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ReservationService {
-
     private final ReservationMapper reservationMapper;
 
-    public ReservationService(ReservationMapper reservationMapper) {
-        this.reservationMapper = reservationMapper;
+    public List<ReservationDto> getTopShortUserRentalDuration() {
+        List<DataPoint> dataPoints = reservationMapper.getTopShortUserRentalDuration();
+        System.out.println("📌 DB에서 조회된 데이터: " + dataPoints); // 로그 출력
+        return convertToDto(dataPoints);
     }
 
-    // 🚀 DataPoint → ReservationDto 변환 메서드 추가
     private List<ReservationDto> convertToDto(List<DataPoint> dataPoints) {
         return dataPoints.stream()
                 .map(dp -> new ReservationDto(dp.getLabel(), dp.getCount()))
@@ -39,20 +41,20 @@ public class ReservationService {
         return convertToDto(reservationMapper.getTopFastRentalLocations());
     }
 
-//    // 🚀 가장 많이 대여된 지역 TOP 5 (단기 예약)
-//    public List<ReservationDto> getTopShortRentalLocations() {
-//        return convertToDto(reservationMapper.getTopShortRentalLocations());
-//    }
+    // 🚀 가장 많이 대여된 지역 TOP 5 (단기 예약)
+    public List<ReservationDto> getTopShortRentalLocations() {
+        return convertToDto(reservationMapper.getTopShortRentalLocations());
+    }
 
     // 🚀 가장 많이 반납된 지역 TOP 5 (빠른 예약)
     public List<ReservationDto> getTopFastReturnLocations() {
         return convertToDto(reservationMapper.getTopFastReturnLocations());
     }
 
-//    // 🚀 가장 많이 반납된 지역 TOP 5 (단기 예약)
-//    public List<ReservationDto> getTopShortReturnLocations() {
-//        return convertToDto(reservationMapper.getTopShortReturnLocations());
-//    }
+    // 🚀 가장 많이 반납된 지역 TOP 5 (단기 예약)
+    public List<ReservationDto> getTopShortReturnLocations() {
+        return convertToDto(reservationMapper.getTopShortReturnLocations());
+    }
 
     // 🚀 가장 인기 있는 차량 TOP 5 (빠른 예약)
     public List<ReservationDto> getTopFastPopularCars() {
@@ -79,20 +81,20 @@ public class ReservationService {
         return convertToDto(reservationMapper.getTopFastRegionRentalDuration());
     }
 
-//    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
-//    public List<ReservationDto> getTopShortRegionRentalDuration() {
-//        return convertToDto(reservationMapper.getTopShortRegionRentalDuration());
-//    }
+    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
+    public List<ReservationDto> getTopShortRegionRentalDuration() {
+        return convertToDto(reservationMapper.getTopShortRegionRentalDuration());
+    }
 
     // 🚀 사용자별 평균 렌트 시간 TOP 5 (빠른 예약)
     public List<ReservationDto> getTopFastUserRentalDuration() {
         return convertToDto(reservationMapper.getTopFastUserRentalDuration());
     }
 
-    // 🚀 사용자별 평균 렌트 시간 TOP 5 (단기 예약)
-    public List<ReservationDto> getTopShortUserRentalDuration() {
-        return convertToDto(reservationMapper.getTopShortUserRentalDuration());
-    }
+//    // 🚀 사용자별 평균 렌트 시간 TOP 5 (단기 예약)
+//    public List<ReservationDto> getTopShortUserRentalDuration() {
+//        return convertToDto(reservationMapper.getTopShortUserRentalDuration());
+//    }
 
     // 가장 인기 있는 차량 TOP 5
     public List<DataPoint> getTopPopularCars() {

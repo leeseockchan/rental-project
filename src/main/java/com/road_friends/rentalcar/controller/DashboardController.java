@@ -85,7 +85,7 @@ public class DashboardController {
     @GetMapping("/short-reservation")
     public String reservation(Model model){
         model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
-//        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
+       // model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
         model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
         return "average/short-reservation";
     }
