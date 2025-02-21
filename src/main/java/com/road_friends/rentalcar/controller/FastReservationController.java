@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.dto.ParkingDto;
 import com.road_friends.rentalcar.service.FastReservationService;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class FastReservationController {
     }
 
 
-    // 특정 차량 상세 정보 조회 + 반납 주차장 조회
+    // 특정 차량 상세 정보 조회
     @GetMapping("/cars/{carId}")
     public ResponseEntity<CarDto> getCarById(@PathVariable("carId") int carId,
                                              @RequestParam("rental_datetime") String rentalDatetimeStr,
@@ -78,19 +79,37 @@ public class FastReservationController {
 
     // 예약
     @GetMapping("/reservations")
-    public ResponseEntity<List<ParkingDto>> reserve(@RequestParam("car_id") int carId,
+    public ResponseEntity<FastReservationDto> reserve(@RequestParam("car_id") int carId,
                                                     @RequestParam("rental_datetime") String rentalDatetimeStr,
-                                                    @RequestParam("return_datetime") String returnDatetimeStr){
+                                                    @RequestParam("return_datetime") String returnDatetimeStr ){
 
-        // 날짜 포맷 지정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+//        // 날짜 포맷 지정
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
-        LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr,formatter);
-        LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr,formatter);
+        LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr);
+        LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr);
 
         // 반납 가능 장소 조회
         List<ParkingDto> parkingList = fastReservationService.getParkingStation(rentalDatetime,returnDatetime,carId);
-        return new ResponseEntity<>(parkingList, HttpStatus.OK);
+
+        // 차량 정보 조회
+        CarDto car = fastReservationService.getCarById(carId);
+
+        // 모델 정보 조회
+        ModelDto model = fastReservationService.getModelById(car.getModel().getModelId());
+
+        FastReservationDto reservation = new FastReservationDto();
+
+        reservation.setCarId(carId);
+        reservation.setRentalDatetime(rentalDatetime);
+        reservation.setReturnDatetime(returnDatetime);
+        reservation.setRentalLocation(car.getRentalStation());
+        reservation.setParkingList(parkingList);
+        reservation.setCarDto(car);
+        reservation.setModelDto(model);
+
+
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @PostMapping("/reservations")

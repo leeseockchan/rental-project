@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.dto.ParkingDto;
 import com.road_friends.rentalcar.mapper.FastReservationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class FastReservationService {
         return car;
     }
 
+    // model 조회
+    public ModelDto getModelById(Integer modelId) {
+        return fastReservationMapper.getModelById(modelId);
+    }
 
     // 예약 목록
     public List<FastReservationDto> getReservations(){
@@ -128,4 +133,6 @@ public class FastReservationService {
         }
         return parkingList;
     }
+
+
 }
