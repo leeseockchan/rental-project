@@ -34,11 +34,11 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getTopFastRentalLocations());
     }
 
-//    // 🚀 가장 많이 대여된 지역 TOP 5 (단기 예약)
-//    @GetMapping("/top-short-rental-locations")
-//    public ResponseEntity<List<ReservationDto>> getTopShortRentalLocations() {
-//        return ResponseEntity.ok(reservationService.getTopShortRentalLocations());
-//    }
+    // 🚀 가장 많이 대여된 지역 TOP 5 (단기 예약)
+    @GetMapping("/top-short-rental-locations")
+    public ResponseEntity<List<ReservationDto>> getTopShortRentalLocations() {
+        return ResponseEntity.ok(reservationService.getTopShortRentalLocations());
+    }
 
     // 🚀 가장 많이 반납된 지역 TOP 5 (빠른 예약)
     @GetMapping("/top-fast-return-locations")
@@ -46,11 +46,11 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getTopFastReturnLocations());
     }
 
-//    // 🚀 가장 많이 반납된 지역 TOP 5 (단기 예약)
-//    @GetMapping("/top-short-return-locations")
-//    public ResponseEntity<List<ReservationDto>> getTopShortReturnLocations() {
-//        return ResponseEntity.ok(reservationService.getTopShortReturnLocations());
-//    }
+    // 🚀 가장 많이 반납된 지역 TOP 5 (단기 예약)
+    @GetMapping("/top-short-return-locations")
+    public ResponseEntity<List<ReservationDto>> getTopShortReturnLocations() {
+        return ResponseEntity.ok(reservationService.getTopShortReturnLocations());
+    }
 
     // 🚀 가장 인기 있는 차량 TOP 5 (빠른 예약)
     @GetMapping("/top-fast-popular-cars")
@@ -82,11 +82,11 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getTopFastRegionRentalDuration());
     }
 
-//    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
-//    @GetMapping("/top-short-region-rental-duration")
-//    public ResponseEntity<List<ReservationDto>> getTopShortRegionRentalDuration() {
-//        return ResponseEntity.ok(reservationService.getTopShortRegionRentalDuration());
-//    }
+    // 🚀 지역별 평균 렌트 시간 TOP 5 (단기 예약)
+    @GetMapping("/top-short-region-rental-duration")
+    public ResponseEntity<List<ReservationDto>> getTopShortRegionRentalDuration() {
+        return ResponseEntity.ok(reservationService.getTopShortRegionRentalDuration());
+    }
 
     // 🚀 사용자별 평균 렌트 시간 TOP 5 (빠른 예약)
     @GetMapping("/top-fast-user-rental-duration")
