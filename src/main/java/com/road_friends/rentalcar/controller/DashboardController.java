@@ -45,11 +45,11 @@ public class DashboardController {
         return "hours/fast-reservation-hours";
     }
 
-//    @GetMapping("/short-reservation-hours")
-//    public String shorthour(Model model){
-//        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
-//        return "hours/short-reservation-hours";
-//    }
+    @GetMapping("/short-reservation-hours")
+    public String shorthour(Model model){
+        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
+        return "hours/short-reservation-hours";
+    }
 
     @GetMapping("/fast-rental-locations")
     public String fastlocations(Model model){

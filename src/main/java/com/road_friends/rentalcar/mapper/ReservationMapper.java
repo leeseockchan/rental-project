@@ -15,7 +15,7 @@ public interface ReservationMapper {
     List<DataPoint> getTopFastRentalHours();
 
     // 예약이 많은 시간대 TOP 5 (단기 예약)
-//    List<DataPoint> getTopShortRentalLocations();
+    List<DataPoint> getTopShortRentalHours();
 
 
     // 가장 많이 대여된 지역 TOP 5 (빠른 예약)
