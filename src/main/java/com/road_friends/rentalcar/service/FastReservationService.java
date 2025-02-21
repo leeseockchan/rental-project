@@ -36,10 +36,6 @@ public class FastReservationService {
         return car;
     }
 
-    // model 조회
-    public ModelDto getModelById(Integer modelId) {
-        return fastReservationMapper.getModelById(modelId);
-    }
 
     // 예약 목록
     public List<FastReservationDto> getReservations(){

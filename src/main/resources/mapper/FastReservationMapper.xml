@@ -55,14 +55,6 @@
 
     </resultMap>
 
-<!--    모델 테이블 조회   -->
-    <select id="getModelById" resultType="com.road_friends.rentalcar.dto.ModelDto">
-        SELECT m.model_id, m.model_brand, m.model_name, m.model_category,
-               m.model_seate_num, m.model_transmission
-        FROM model m
-        WHERE m.model_id = #{modelId}
-    </select>
-
 
     <!--     예약하기     -->
     <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">

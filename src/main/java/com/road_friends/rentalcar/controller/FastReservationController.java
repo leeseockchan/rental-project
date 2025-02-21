@@ -95,9 +95,6 @@ public class FastReservationController {
         // 차량 정보 조회
         CarDto car = fastReservationService.getCarById(carId);
 
-        // 모델 정보 조회
-        ModelDto model = fastReservationService.getModelById(car.getModel().getModelId());
-
         FastReservationDto reservation = new FastReservationDto();
 
         reservation.setCarId(carId);
@@ -106,7 +103,6 @@ public class FastReservationController {
         reservation.setRentalLocation(car.getRentalStation());
         reservation.setParkingList(parkingList);
         reservation.setCarDto(car);
-        reservation.setModelDto(model);
 
 
         return new ResponseEntity<>(reservation, HttpStatus.OK);
