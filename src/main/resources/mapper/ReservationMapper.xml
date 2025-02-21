@@ -56,6 +56,15 @@
     </select>
 
     <!-- 가장 많이 반납된 지역 TOP 5 (단기 예약) -->
+    <select id="getTopShortReturnLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+        FROM short_reservation sr
+        JOIN parking p ON sr.return_station_end = p.parking_id
+        WHERE sr.return_station_end IS NOT NULL
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
 
 
     <!-- 가장 인기 있는 차량 TOP 5 (빠른 예약) -->
@@ -162,14 +171,23 @@
     </select>
 
     <!-- 가장 인기 있는 차량 TOP 5 -->
-    <select id="getTopPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
+    <select id="getTopAllPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT label, count
+        FROM (
         SELECT m.model_name AS label, COUNT(*) AS count
         FROM fast_reservation fr
         JOIN car c ON fr.car_id = c.car_id
         JOIN model m ON c.model_id = m.model_id
         GROUP BY m.model_name
+        UNION ALL
+        SELECT m.model_name AS label, COUNT(*) AS count
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name
+        ) AS combined_data
         ORDER BY count DESC
-        LIMIT 5
+        LIMIT 5;
     </select>
 
 </mapper>

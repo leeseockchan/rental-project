@@ -49,7 +49,7 @@ public class ReservationService {
         return convertToDto(reservationMapper.getTopFastReturnLocations());
     }
 
-//    // 🚀 가장 많이 반납된 지역 TOP 5 (단기 예약)
+    // 🚀 가장 많이 반납된 지역 TOP 5 (단기 예약)
     public List<ReservationDto> getTopShortReturnLocations() {
         return convertToDto(reservationMapper.getTopShortReturnLocations());
     }
@@ -95,7 +95,7 @@ public class ReservationService {
     }
 
     // 가장 인기 있는 차량 TOP 5
-    public List<DataPoint> getTopPopularCars() {
-        return reservationMapper.getTopPopularCars();
+    public List<DataPoint> getTopAllPopularCars() {
+        return reservationMapper.getTopAllPopularCars();
     }
 }

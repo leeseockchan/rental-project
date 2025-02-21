@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>🔥 단기 예약 인기 차량</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -16,6 +18,12 @@
     <td th:text="${car.count}"></td>
   </tr>
 </table>
+
+<div class="back-to-dashboard">
+  <a th:href="@{/api/admin/dashboard}" class="dashboard-btn">
+    ⬅️ 대시보드로 돌아가기
+  </a>
+</div>
 
 </body>
 </html>

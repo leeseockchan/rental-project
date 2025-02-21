@@ -41,6 +41,7 @@
   </tr>
 </table>
 
+
 <!-- 예약 관련 링크 -->
 <h2>📋 예약 통계</h2>
 <div class="links-container">
@@ -66,17 +67,22 @@
 </div>
 
 <!-- 가장 인기 있는 차량 -->
+<h2>🔥 가장 인기 있는 차량</h2>
+<div class="links-container">
+  <a th:href="@{/api/admin/fast-popular-cars}">🔥 빠른 예약 가장 인기 있는 차량</a>
+  <a th:href="@{/api/admin/short-popular-cars}">🔥 단기 예약 가장 인기 있는 차량</a>
+</div>
+
 <h2>🔥 가장 인기 있는 차량 TOP 5</h2>
 <table>
   <tr>
     <th>차량명</th>
     <th>예약 횟수</th>
   </tr>
-  <tr th:each="car : ${topPopularCars}">
+  <tr th:each="car : ${topAllPopularCars}">
     <td th:text="${car.label}"></td>
     <td th:text="${car.count}"></td>
   </tr>
 </table>
-
 </body>
 </html>

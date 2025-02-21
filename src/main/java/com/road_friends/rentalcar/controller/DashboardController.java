@@ -3,38 +3,30 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.dto.UserStatsDto;
 import com.road_friends.rentalcar.service.ReservationService;
 import com.road_friends.rentalcar.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/api/admin")
+@RequiredArgsConstructor
 public class DashboardController {
 
     private final UserService userService;
     private final ReservationService reservationService;
 
-    public DashboardController(UserService userService, ReservationService reservationService) {
-        this.userService = userService;
-        this.reservationService = reservationService;
-    }
-
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
-        // 👥 사용자 통계 데이터
         UserStatsDto userStats = userService.getUserStats();
         model.addAttribute("userStats", userStats);
 
-        // ⏳ 빠른 예약 관련 데이터
-        model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
-
-
-        // ⏳ 단기 예약 관련 데이터
-        model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
-
-        // 🔥 가장 인기 있는 차량 TOP 5
-        model.addAttribute("topPopularCars", reservationService.getTopPopularCars());
+        model.addAttribute("topAllPopularCars", reservationService.getTopAllPopularCars());
 
         return "dashboard";
     }
@@ -71,7 +63,7 @@ public class DashboardController {
 
     @GetMapping("/short-return-locations")
     public String shortreturn(Model model){
-//        model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
+        model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
         return "return-locations/short-return-locations";
     }
 
@@ -91,4 +83,15 @@ public class DashboardController {
         return "average/short-reservation";
     }
 
+    @GetMapping("/fast-popular-cars")
+    public String fastpop(Model model){
+        model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
+        return "PopularCars/fast-popular-cars";
+    }
+
+    @GetMapping("/short-popular-cars")
+    public String shortpop(Model model){
+        model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
+        return "PopularCars/short-popular-cars";
+    }
 }

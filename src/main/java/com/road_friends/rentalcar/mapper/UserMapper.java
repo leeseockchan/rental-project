@@ -2,7 +2,6 @@ package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.DataPoint;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import java.util.List;
 import java.util.Map;
 
