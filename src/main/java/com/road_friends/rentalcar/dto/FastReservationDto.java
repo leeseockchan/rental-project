@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,11 +11,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FastReservationDto {
 
     @JsonProperty("reservation_id")
@@ -50,5 +53,9 @@ public class FastReservationDto {
 
     @JsonProperty("fast_reservation_create_at")
     private Timestamp reservationTime;
+
+    private CarDto carDto;
+    private ModelDto modelDto;
+    private List<ParkingDto> parkingList;
 
 }
