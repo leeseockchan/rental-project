@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -77,9 +78,18 @@ public class FastReservationController {
 
     // 예약
     @GetMapping("/reservations")
-    public ResponseEntity<List<ParkingDto>> reserve(){
-        // 반납 가능 장소 목록
-        List<ParkingDto> parkingList = fastReservationService.getParkingStation();
+    public ResponseEntity<List<ParkingDto>> reserve(@RequestParam("car_id") int carId,
+                                                    @RequestParam("rental_datetime") String rentalDatetimeStr,
+                                                    @RequestParam("return_datetime") String returnDatetimeStr){
+
+        // 날짜 포맷 지정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+        LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr,formatter);
+        LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr,formatter);
+
+        // 반납 가능 장소 조회
+        List<ParkingDto> parkingList = fastReservationService.getParkingStation(rentalDatetime,returnDatetime,carId);
         return new ResponseEntity<>(parkingList, HttpStatus.OK);
     }
 
