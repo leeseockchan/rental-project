@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -27,13 +29,19 @@ public class FastReservationService {
         return fastReservationMapper.getAllCars();
     }
 
-    // 차량 상세 정보 조회
-    public CarDto getCarById(int carId) {
-        CarDto car =  fastReservationMapper.getCarById(carId);
+    // 차량 상세 정보 + 대여 가격 조회
+    public Map<String, Object> getCarInfo(int carId, LocalDateTime startTime, LocalDateTime endTime) {
+        CarDto car = fastReservationMapper.getCarById(carId);
         car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
         car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
 
-        return car;
+        Long price = getTotalPrice(car, startTime, endTime);
+
+        Map<String, Object> carDetail = new HashMap<>();
+        carDetail.put("car", car);
+        carDetail.put("totalPrice", price);
+
+        return carDetail;
     }
 
 
@@ -62,58 +70,22 @@ public class FastReservationService {
 
 
     // 차량 조회 + 가격 계산
-    public List<CarDto> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
-                                         String modelCategory, String modelName) {
-        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime,
-                modelCategory,modelName);
+    public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
+                                              String modelCategory, String modelName) {
+        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName);
 
-        for (CarDto car : availableCars){
-            Long price = getPrice(car.getCarId(), car.getCarGrade(), rentalDatetime, returnDatetime);
-            car.setCalculatedPrice(price);
+        Map<String, Object> carList = new HashMap<>();
+
+        for (CarDto car : availableCars) {
+            Long price = getTotalPrice(car, rentalDatetime, returnDatetime);
+            carList.put("car",car);
+            carList.put("totalPrice",price);
         }
-        return availableCars;
+
+        return carList;
     }
 
 
-    // 가격 계산 로직
-    public Long getPrice(int carId, String carGrade, LocalDateTime startTime, LocalDateTime endTime) {
-
-        if(startTime ==null || endTime==null){
-            throw new NullPointerException("대여 시작 시간과 종료 시작은 필수 입력 값");
-        }
-
-        Long totalPrice = 0L;
-
-        Long hoursBetween =  ChronoUnit.HOURS.between(startTime,endTime);
-        Long daysBetween = ChronoUnit.DAYS.between(startTime,endTime);
-
-
-        if(hoursBetween <4){
-            throw new IllegalArgumentException("최소 4시간 이상 예약 가능");
-        }
-        if(daysBetween > 14){
-            throw new IllegalArgumentException("최대 14일까지 예약 가능");
-        }
-
-        int hourPrice = fastReservationMapper.getAmountHour(carId);
-        int dayPrice = fastReservationMapper.getAmountDay(carId);
-
-        if( hoursBetween<24 ){
-            // 4시간~하루 미만 예약일 때
-            totalPrice = hourPrice * hoursBetween;
-        }
-        else{
-            // 하루 이상 예약일 때
-            totalPrice = dayPrice * daysBetween + hourPrice * (hoursBetween%24);
-        }
-
-        if(carGrade.equalsIgnoreCase("Premium")){
-            totalPrice = (long) (totalPrice *1.2);
-        }
-
-        System.out.println("총 금액: "+totalPrice);
-        return totalPrice;
-    }
 
     // 반납 주차장 조회하기
     public List<ParkingDto> getParkingStation(LocalDateTime startTime, LocalDateTime endTime,int carId) {
@@ -133,4 +105,41 @@ public class FastReservationService {
     }
 
 
+    // 가격 로직
+    public Long getTotalPrice(CarDto carDto, LocalDateTime rentalDatetime, LocalDateTime returnDatetime) {
+        if (rentalDatetime == null || returnDatetime == null) {
+            throw new NullPointerException("대여 시작 시간과 종료 시간은 필수 입력 값");
+        }
+
+        Long totalPrice = 0L;
+        Long hoursBetween = ChronoUnit.HOURS.between(rentalDatetime, returnDatetime);
+        Long daysBetween = ChronoUnit.DAYS.between(rentalDatetime, returnDatetime);
+
+        if (hoursBetween < 4) {
+            throw new IllegalArgumentException("최소 4시간 이상 예약 가능");
+        }
+        if (daysBetween > 14) {
+            throw new IllegalArgumentException("최대 14일까지 예약 가능");
+        }
+
+        int hourPrice = carDto.getModel().getModelAmountHour();
+        int dayPrice = carDto.getModel().getModelAmountDay();
+
+        if (hoursBetween < 24) {
+            totalPrice = hourPrice * hoursBetween;
+        } else {
+            totalPrice = dayPrice * daysBetween + hourPrice * (hoursBetween % 24);
+        }
+
+        if (carDto.getCarGrade().equalsIgnoreCase("Premium")) {
+            totalPrice = (long) (totalPrice * 1.2);
+        }
+
+        return totalPrice;
+    }
+
+
+    public CarDto getCarById(int carId) {
+        return fastReservationMapper.getCarById(carId);
+    }
 }

@@ -47,6 +47,5 @@ public class CarDto {
 
     private List<ParkingDto> parkingList;
 
-    private Long calculatedPrice;  // 대여 가격
 
 }

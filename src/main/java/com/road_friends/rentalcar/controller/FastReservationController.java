@@ -29,7 +29,7 @@ public class FastReservationController {
 
     // 입력받은 지역, 시간으로 이용 가능한 차량 조회
     @PostMapping("/cars")
-    public ResponseEntity<List<CarDto>> selectCars(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity <Map<String, Object>> selectCars(@RequestBody Map<String, Object> requestBody) {
 
         // 차량 조회
         String province = (String) requestBody.get("province");
@@ -44,8 +44,7 @@ public class FastReservationController {
 //        int modelAmountHour = (int) requestBody.get("modelAmountHour");
 //        int modelAmountDay = (int) requestBody.get("modelAmountDay");
 
-        List<CarDto> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime,
-                                                         modelCategory,modelName);
+        Map<String, Object> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory,modelName);
 
         return ResponseEntity.ok(availableCars);
     }
@@ -53,19 +52,17 @@ public class FastReservationController {
 
     // 특정 차량 상세 정보 조회
     @GetMapping("/cars/{carId}")
-    public ResponseEntity<CarDto> getCarById(@PathVariable("carId") int carId,
+    public ResponseEntity <Map<String, Object>> getCarById(@PathVariable("carId") int carId,
                                              @RequestParam("rental_datetime") String rentalDatetimeStr,
                                              @RequestParam("return_datetime") String returnDatetimeStr) {
+
         // String을 LocalDateTime으로 변환
         LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr);
         LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr);
 
-        // 차량 상세 정보 조회
-        CarDto carDetail = fastReservationService.getCarById(carId);
+        // 차량 상세 정보 + 대여 가격 조회
+        Map<String, Object> carDetail = fastReservationService.getCarInfo(carId,rentalDatetime,returnDatetime);
 
-        // 가격 계산 (carId -> modelId 여야 정상 출력)
-        Long totalPrice = fastReservationService.getPrice(carDetail.getModel().getModelId(), carDetail.getCarGrade(), rentalDatetime, returnDatetime);
-        carDetail.setCalculatedPrice(totalPrice);
 
         return carDetail != null ? new ResponseEntity<>(carDetail, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -83,9 +80,6 @@ public class FastReservationController {
                                                     @RequestParam("rental_datetime") String rentalDatetimeStr,
                                                     @RequestParam("return_datetime") String returnDatetimeStr ){
 
-//        // 날짜 포맷 지정
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
         LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr);
         LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr);
 
@@ -95,10 +89,6 @@ public class FastReservationController {
         // 차량 정보 조회
         CarDto carDetail = fastReservationService.getCarById(carId);
 
-        // 가격 계산
-        Long totalPrice = fastReservationService.getPrice(carDetail.getModel().getModelId(), carDetail.getCarGrade(), rentalDatetime, returnDatetime);
-        carDetail.setCalculatedPrice(totalPrice);
-
         FastReservationDto reservation = new FastReservationDto();
 
         reservation.setCarId(carId);
@@ -107,9 +97,10 @@ public class FastReservationController {
         reservation.setRentalLocation(carDetail.getRentalStation());
         reservation.setParkingList(parkingList);
         reservation.setCarDto(carDetail);
+        reservation.setTotalPrice(fastReservationService.getTotalPrice(carDetail,rentalDatetime,returnDatetime));
 
 
-        return new ResponseEntity<>(reservation, HttpStatus.OK);
+        return new ResponseEntity<> (reservation, HttpStatus.OK);
     }
 
     @PostMapping("/reservations")
