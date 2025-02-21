@@ -9,7 +9,7 @@
     </th:block>
     <script th:src="@{/js/car/car.js}" defer></script>
     <!--    아래 태그 추후 삭제. css 확인용.-->
-    <link rel="stylesheet" href="../../static/css/car/car-detail.css">
+<!--    <link rel="stylesheet" href="../../static/css/car/car-detail.css">-->
 
 </head>
 
@@ -26,11 +26,11 @@
                 <div class="btn-group">
                     <!-- 수정 -->
                     <button type="button" class="btn-update"
-                        th:onclick="">
+                        onclick="">
                         수정
                     </button>
                     <!-- 삭제 -->
-                    <form th:action=""
+                    <form action=""
                         method="post">
                         <button type="submit" class="btn-delete-all" onclick="return confirm('정말 차량 정보를 삭제하시겠습니까?');">
                             삭제
@@ -46,31 +46,31 @@
                             <tbody>
                                 <tr>
                                     <th>등급</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>카테고리</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>대여상태</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>옵션</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>연료</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>연식</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>위치</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -83,31 +83,31 @@
                             <tbody>
                                 <tr>
                                     <th>제조사</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>모델명</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>사이즈</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>변속방식</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>좌석 수</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>1시간 대여료</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                                 <tr>
                                     <th>1일 대여료</th>
-                                    <td th:text="">00</td>
+                                    <td text="">00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -116,7 +116,7 @@
             </div>
             <div class="btn-group">
                 <button type="button" class="btn-go-back"
-                    th:onclick="">
+                    onclick="">
                     목록으로
                 </button>
             </div>

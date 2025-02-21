@@ -19,7 +19,7 @@ public class HelloController {
 
   @GetMapping("/car")
   public String layout2(){
-    return "/car/car-list";
+    return "/car/car-update";
   }
 
 }
