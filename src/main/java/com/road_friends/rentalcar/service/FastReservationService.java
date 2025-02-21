@@ -95,19 +95,18 @@ public class FastReservationService {
             throw new IllegalArgumentException("최대 14일까지 예약 가능");
         }
 
+        int hourPrice = fastReservationMapper.getAmountHour(carId);
+        int dayPrice = fastReservationMapper.getAmountDay(carId);
+
         if( hoursBetween<24 ){
             // 4시간~하루 미만 예약일 때
-            int hourPrice = fastReservationMapper.getAmountHour(carId);
             totalPrice = hourPrice * hoursBetween;
-            System.out.println("하루 가격:"+hourPrice);
         }
         else{
             // 하루 이상 예약일 때
-            int dayPrice = fastReservationMapper.getAmountDay(carId);
-            totalPrice = dayPrice * daysBetween;
-            System.out.println("하루 가격:"+dayPrice);
+            totalPrice = dayPrice * daysBetween + hourPrice * (hoursBetween%24);
+            System.out.println(dayPrice);
         }
-
 
         System.out.println("총 금액: "+totalPrice);
         return totalPrice;
