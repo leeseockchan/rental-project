@@ -86,24 +86,33 @@
 }
 
 /* 정보 통계 - 차트 박스 */
-.echart-box{
+.chart-box{
 
 }
 
-.echart-content.echart1{
-    width : 300px;
-    height : 150px;
+.chart-content.chart1{
+    width : 400px;
+    height : 200px;
 }
 
-.echart-content.echart2{
+.chart-content.chart2{
     width : 300px;
     height : 300px;
 }
 
-.echart-content.echart3{
+.chart-content.chart3{
     width : 800px;
     height : 250px;
 }
+
+.chart-container{
+width: 600px; height: 400px; margin: 30px auto;
+}
+#chart1, #chart2, #chart3 {
+            width: 600px;
+            height: 400px;
+            margin: 20px;
+        }
 
 /* 정보 입력창 */
 .form-control{

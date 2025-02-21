@@ -17,7 +17,7 @@ public class HelloController {
     return "/admin/content1";
   }
 
-  @GetMapping("/car-list")
+  @GetMapping("/car")
   public String layout2(){
     return "/car/car-list";
   }
