@@ -92,16 +92,20 @@ public class FastReservationController {
         List<ParkingDto> parkingList = fastReservationService.getParkingStation(rentalDatetime,returnDatetime,carId);
 
         // 차량 정보 조회
-        CarDto car = fastReservationService.getCarById(carId);
+        CarDto carDetail = fastReservationService.getCarById(carId);
+
+        // 가격 계산
+        Long totalPrice = fastReservationService.getPrice(carDetail.getModel().getModelId(), carDetail.getCarGrade(), rentalDatetime, returnDatetime);
+        carDetail.setCalculatedPrice(totalPrice);
 
         FastReservationDto reservation = new FastReservationDto();
 
         reservation.setCarId(carId);
         reservation.setRentalDatetime(rentalDatetime);
         reservation.setReturnDatetime(returnDatetime);
-        reservation.setRentalLocation(car.getRentalStation());
+        reservation.setRentalLocation(carDetail.getRentalStation());
         reservation.setParkingList(parkingList);
-        reservation.setCarDto(car);
+        reservation.setCarDto(carDetail);
 
 
         return new ResponseEntity<>(reservation, HttpStatus.OK);
