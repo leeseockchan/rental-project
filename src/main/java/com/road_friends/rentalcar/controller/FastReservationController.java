@@ -88,6 +88,8 @@ public class FastReservationController {
 
         // 차량 정보 조회
         CarDto carDetail = fastReservationService.getCarById(carId);
+        ModelDto model = fastReservationService.getModelById(carId);
+        carDetail.setModel(model);
 
         FastReservationDto reservation = new FastReservationDto();
 
@@ -107,7 +109,6 @@ public class FastReservationController {
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
 
         fastReservationService.reserve(fastReservationDto);
-
         return new ResponseEntity<>(fastReservationDto, HttpStatus.CREATED);
     }
 

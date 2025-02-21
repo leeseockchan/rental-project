@@ -163,4 +163,14 @@
         FROM parking p
                  JOIN car c ON c.rental_station = p.parking_id
     </select>
+
+<!--     모델 조회       -->
+    <select id="getModelById" parameterType="int" resultType="com.road_friends.rentalcar.dto.ModelDto">
+        SELECT m.model_id, m.model_name, m.model_category, m.model_seate_num,
+               m.model_transmission, m.model_amount_day, m.model_amount_hour
+        FROM model m
+        WHERE m.model_id = (SELECT model_id FROM car WHERE car_id = #{carId});
+    </select>
+
+
 </mapper>
