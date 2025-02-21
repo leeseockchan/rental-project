@@ -105,7 +105,10 @@ public class FastReservationService {
         else{
             // 하루 이상 예약일 때
             totalPrice = dayPrice * daysBetween + hourPrice * (hoursBetween%24);
-            System.out.println(dayPrice);
+        }
+
+        if(carGrade.equalsIgnoreCase("Premium")){
+            totalPrice = (long) (totalPrice *1.2);
         }
 
         System.out.println("총 금액: "+totalPrice);
@@ -117,7 +120,7 @@ public class FastReservationService {
 
         Long hoursBetween =  ChronoUnit.HOURS.between(startTime,endTime);
 
-        List<ParkingDto> parkingList = new ArrayList<>();
+        List<ParkingDto> parkingList;
 
         // 4시간 예약일 경우 같은 도시 내의 주차장에서만 반납 가능
         if(hoursBetween==4){
