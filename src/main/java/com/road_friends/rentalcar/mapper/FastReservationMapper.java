@@ -2,7 +2,6 @@ package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
-import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.dto.ParkingDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
