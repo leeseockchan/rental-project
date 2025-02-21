@@ -56,7 +56,6 @@ public class FastReservationService {
 
     public void reserve(FastReservationDto fastReservationDto){
 
-
         fastReservationMapper.reserve(fastReservationDto);
     }
 
@@ -141,5 +140,9 @@ public class FastReservationService {
 
     public CarDto getCarById(int carId) {
         return fastReservationMapper.getCarById(carId);
+    }
+
+    public ModelDto getModelById(int carId) {
+        return fastReservationMapper.getModelById(carId);
     }
 }
