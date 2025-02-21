@@ -29,6 +29,7 @@ public class DashboardController {
         // ⏳ 빠른 예약 관련 데이터
         model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
 
+
         // ⏳ 단기 예약 관련 데이터
         model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
 
@@ -44,11 +45,11 @@ public class DashboardController {
         return "hours/fast-reservation-hours";
     }
 
-    @GetMapping("/short-reservation-hours")
-    public String shorthour(Model model){
-        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
-        return "hours/short-reservation-hours";
-    }
+//    @GetMapping("/short-reservation-hours")
+//    public String shorthour(Model model){
+//        model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
+//        return "hours/short-reservation-hours";
+//    }
 
     @GetMapping("/fast-rental-locations")
     public String fastlocations(Model model){
@@ -58,7 +59,7 @@ public class DashboardController {
 
     @GetMapping("/short-rental-locations")
     public String shortlocations(Model model){
-        //model.addAttribute("topShortRentalLocations", reservationService.getTopShortRentalLocations());
+        model.addAttribute("topShortRentalLocations", reservationService.getTopShortRentalLocations());
         return "rental-locations/short-rental-locations";
     }
 
@@ -70,7 +71,7 @@ public class DashboardController {
 
     @GetMapping("/short-return-locations")
     public String shortreturn(Model model){
-        //model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
+//        model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
         return "return-locations/short-return-locations";
     }
 
@@ -85,7 +86,7 @@ public class DashboardController {
     @GetMapping("/short-reservation")
     public String reservation(Model model){
         model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
-//        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
+        model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
         model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
         return "average/short-reservation";
     }

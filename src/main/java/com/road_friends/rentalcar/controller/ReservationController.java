@@ -23,10 +23,10 @@ public class ReservationController {
     }
 
     // 🚀 예약이 많은 시간대 TOP 5 (단기 예약)
-    @GetMapping("/top-short-rental-hours")
-    public ResponseEntity<List<ReservationDto>> getTopShortRentalHours() {
-        return ResponseEntity.ok(reservationService.getTopShortRentalHours());
-    }
+//    @GetMapping("/top-short-rental-hours")
+//    public ResponseEntity<List<ReservationDto>> getTopShortRentalHours() {
+//        return ResponseEntity.ok(reservationService.getTopShortRentalHours());
+//    }
 
     // 🚀 가장 많이 대여된 지역 TOP 5 (빠른 예약)
     @GetMapping("/top-fast-rental-locations")
