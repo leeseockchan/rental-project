@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -111,7 +112,20 @@ public class FastReservationService {
         return totalPrice;
     }
 
-    public List<ParkingDto> getParkingStation() {
-        return fastReservationMapper.getParkingStation();
+    // 반납 주차장 조회하기
+    public List<ParkingDto> getParkingStation(LocalDateTime startTime, LocalDateTime endTime,int carId) {
+
+        Long hoursBetween =  ChronoUnit.HOURS.between(startTime,endTime);
+
+        List<ParkingDto> parkingList = new ArrayList<>();
+
+        // 4시간 예약일 경우 같은 도시 내의 주차장에서만 반납 가능
+        if(hoursBetween==4){
+            parkingList = fastReservationMapper.getParkingStationBelow4hours(carId);
+        }
+        else{
+            parkingList = fastReservationMapper.getAllParkingStation(carId);
+        }
+        return parkingList;
     }
 }

@@ -38,5 +38,8 @@ public interface FastReservationMapper {
     List<CarDto> searchAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDateTime,
                                      String modelCategory, String modelName);
 
-    List<ParkingDto> getParkingStation();
+    // 동일 도시 내의 주차장 조회 (4시간)
+    List<ParkingDto> getParkingStationBelow4hours(int carId);
+    // 모든 주차장 조회
+    List<ParkingDto> getAllParkingStation(int carId);
 }
