@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>🔥 빠른 예약 인기 차량</title>
+</head>
+<body>
+
+<h2>🔥 빠른 예약 - 가장 인기 있는 차량 TOP 5</h2>
+<table>
+  <tr>
+    <th>차량명</th>
+    <th>예약 횟수</th>
+  </tr>
+  <tr th:each="car : ${topFastPopularCars}">
+    <td th:text="${car.label}"></td>
+    <td th:text="${car.count}"></td>
+  </tr>
+</table>
+
+</body>
+</html>
