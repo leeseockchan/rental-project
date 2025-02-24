@@ -14,13 +14,7 @@
 
     <th:block layout:fragment="js">
         <script th:inline="javascript" defer>
-            var fuelData = /*[[${fuelData}]]*/ '[]';
-            var categoryData = /*[[${categoryData}]]*/ '[]';
-            var manufacturerData = /*[[${manufacturerData}]]*/ '[]';
 
-            var fuelDataParsed = JSON.parse(fuelData);
-            var categoryDataParsed = JSON.parse(categoryData);
-            var manufacturerDataParsed = JSON.parse(manufacturerData);
         </script>
 
         <script th:inline="javascript" th:src="@{/js/car/chart.js}" defer></script>
