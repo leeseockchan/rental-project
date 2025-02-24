@@ -45,14 +45,14 @@
         <td th:text="${car.carOptions}"></td>
         <td th:text="${car.carFuel}"></td>
         <td th:text="${car.carYear}"></td>
-        <td th:text="${car.parkingName}"></td>
-        <td th:text="${car.modelBrand}"></td>
-        <td th:text="${car.modelName}"></td>
-        <td th:text="${car.modelCategory}"></td>
-        <td th:text="${car.modelTransmission}"></td>
-        <td th:text="${car.modelSeateNum}"></td>
-        <td th:text="${car.modelAmountHour}"></td>
-        <td th:text="${car.modelAmountDay}"></td>
+        <td th:text="${car.parking.parkingName}"></td>
+        <td th:text="${car.model.modelBrand}"></td>
+        <td th:text="${car.model.modelName}"></td>
+        <td th:text="${car.model.modelCategory}"></td>
+        <td th:text="${car.model.modelTransmission}"></td>
+        <td th:text="${car.model.modelSeateNum}"></td>
+        <td th:text="${car.model.modelAmountHour}"></td>
+        <td th:text="${car.model.modelAmountDay}"></td>
     </tr>
 </table>
 <a th:href="@{/api/admin/vehicles}">

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,7 @@ public class CarController {
     //    차량 관리 목록 조회(경기도 차량들)
     @GetMapping
     public String showCarStatus(Model model) {
-        List<CarDto> cars = carService.showCarStatusList();
+        List<CarDto> cars = carService.findAllCar();
         model.addAttribute("cars", cars);
         return "car_page/list";
     }
@@ -41,38 +42,24 @@ public class CarController {
     //    차량 관리 추가
     @GetMapping("/add")
     public String addCarStatus(Model model) {
-
-        model.addAttribute("addCar", new CarDto());
         model.addAttribute("mBrandList", carService.carBrandList());
         model.addAttribute("mNameList", carService.modelNameList());
         model.addAttribute("yearList", carService.carYearList());
         model.addAttribute("fuelList", carService.carFuelList());
         model.addAttribute("gradeList", carService.carGradeList());
         model.addAttribute("provinceList", carService.parkingProvinceList());
-        model.addAttribute("districtList", carService.parkingDistrictList());
+        model.addAttribute("districtList", new ArrayList<String>());
+
+        CarDto newCar = new CarDto();
+        newCar.setModel(new ModelDto());
+        newCar.setParking(new ParkingDto());
+        model.addAttribute("newCar", newCar);
+
         return "car_page/add";
     }
     @PostMapping("/add")
-    public String addCarStatus(@ModelAttribute CarDto carDto,
-                               @RequestParam("parkingProvince") String parkingProvince,
-                               @RequestParam("parkingDistrict") String parkingDistrict,
-                               @RequestParam("parkingName") String parkingName,
-                               @RequestParam("modelBrand") String modelBrand,
-                               @RequestParam("modelName") String modelName) {
-
-        // 주차장 정보 ParkingDto 객체에 생성
-        ParkingDto parkingDto = new ParkingDto();
-        parkingDto.setParkingProvince(parkingProvince);
-        parkingDto.setParkingDistrict(parkingDistrict);
-        parkingDto.setParkingName(parkingName);
-
-        // 모델 정보를 별도로 ModelDto 객체에 세팅
-        ModelDto modelDto = new ModelDto();
-        modelDto.setModelBrand(modelBrand);
-        modelDto.setModelName(modelName);
-
-        // 차량 정보를 처리
-        carService.insertCarStatus(carDto, parkingDto, modelDto); // 서비스 메소드에서 처리
+    public String addCarStatus(@ModelAttribute CarDto carDto) {
+        carService.insertCar(carDto);
         return "redirect:/api/admin/vehicles";
     }
 
@@ -80,16 +67,15 @@ public class CarController {
     @GetMapping("/modify/{carId}")
     public String modifyCarStatus(@PathVariable int carId, Model model) {
         CarDto modifyCar = carService.findByCarId(carId);
-
         model.addAttribute("mBrandList", carService.carBrandList());
         model.addAttribute("mNameList", carService.modelNameList());
         model.addAttribute("yearList", carService.carYearList());
         model.addAttribute("fuelList", carService.carFuelList());
         model.addAttribute("gradeList", carService.carGradeList());
-        model.addAttribute("modify", modifyCar);
 
         model.addAttribute("provinceList", carService.parkingProvinceList());
         model.addAttribute("districtList", carService.parkingDistrictList());
+        model.addAttribute("modify", modifyCar);
         return "car_page/modify";
     }
 
@@ -100,13 +86,6 @@ public class CarController {
         carService.modifyCarStatus(carDto);
         return "redirect:/api/admin/vehicles";
     }
-
-//    // AJAX로 행정구역 반환
-//    @ResponseBody
-//    @GetMapping("/regions")
-//    public List<String> getRegions(@RequestParam("city") String city) {
-//        return parkingService.findByParking();
-//    }
 
     //    차량 상태 관리 삭제
     @DeleteMapping("/{carId}")

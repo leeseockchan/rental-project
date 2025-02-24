@@ -30,14 +30,14 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="car : ${cars}"  th:onclick="|location.href='@{/api/admin/vehicles/{carId}(carId=${car.carId})}'|" style="cursor: pointer;">
+    <tr th:each="car : ${cars}" th:onclick="|location.href='@{/api/admin/vehicles/{carId}(carId=${car.carId})}'|" style="cursor: pointer;">
         <td th:text="${car.carId}"> </td>
-        <td th:text="${car.modelBrand}"></td>
-        <td th:text="${car.modelName}"></td>
+        <td th:text="${car.model.modelBrand}"></td>
+        <td th:text="${car.model.modelName}"></td>
         <td th:text="${car.carGrade}"></td>
         <td th:text="${car.carCategory}"></td>
         <td th:text="${car.carStatus}"></td>
-        <td th:text="${car.parkingName}"></td>
+        <td th:text="${car.parking.parkingName}"></td>
     </tr>
     </tbody>
 </table>

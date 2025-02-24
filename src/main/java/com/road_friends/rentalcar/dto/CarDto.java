@@ -1,47 +1,36 @@
 package com.road_friends.rentalcar.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDto {
         private int carId;
-        private String modelId;
         private int carCategory;
         private int carStatus;
         private int carYear;
         private String carFuel;
         private String carGrade;
         private String carOptions;
-        private int rentalStation;
 
-        private String modelBrand;
-        private String modelName;
-        private String modelCategory;
-        private String modelTransmission;
-        private String modelSeateNum;
-        private int modelAmountHour;
-        private int modelAmountDay;
-
-        private String parkingName;
-        private String parkingProvince;
-        private String parkingDistrict;
+        private ModelDto model;
+        private ParkingDto parking;
 
         @Override
         public String toString() {
                 return "CarDto{" +
                         "carId=" + carId +
-                        ", modelBrand='" + modelBrand + '\'' +
-                        ", modelName='" + modelName + '\'' +
                         ", carGrade='" + carGrade + '\'' +
                         ", carCategory=" + carCategory +
                         ", carStatus=" + carStatus +
-                        ", parkingName='" + parkingName + '\'' +
+                        ", carYear=" + carYear +
+                        ", carFuel='" + carFuel + '\'' +
+                        ", model=" + model +   // ModelDto 전체 출력
+                        ", parking=" + parking + // ParkingDto 전체 출력
                         '}';
         }
+
 
 
 }

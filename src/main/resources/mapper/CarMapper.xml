@@ -2,9 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.CarMapper">
 
+    <resultMap id="CarResultMap" type="com.road_friends.rentalcar.dto.CarDto">
+        <!--CarDto 필드 -->
+        <id property="carId" column="car_id"/>
+        <result property="carCategory" column="car_category"/>
+        <result property="carStatus" column="car_status"/>
+        <result property="carYear" column="car_year"/>
+        <result property="carFuel" column="car_fuel"/>
+        <result property="carGrade" column="car_grade"/>
+        <result property="carOptions" column="car_options"/>
+
+        <!-- ModelDto 매핑 -->
+        <association property="model" javaType="com.road_friends.rentalcar.dto.ModelDto">
+            <id property="modelId" column="model_id"/>
+            <result property="modelBrand" column="model_brand"/>
+            <result property="modelName" column="model_name"/>
+            <result property="modelCategory" column="model_category"/>
+            <result property="modelTransmission" column="model_transmission"/>
+            <result property="modelSeateNum" column="model_seate_num"/>
+            <result property="modelAmountHour" column="model_amount_hour"/>
+            <result property="modelAmountDay" column="model_amount_day"/>
+        </association>
+
+        <!-- ParkingDto 매핑 -->
+        <association property="parking" javaType="com.road_friends.rentalcar.dto.ParkingDto">
+            <id property="parkingId" column="parking_id"/>
+            <result property="parkingName" column="parking_name"/>
+            <result property="parkingAddress" column="parking_address"/>
+            <result property="parkingLatitude" column="parking_latitude"/>
+            <result property="parkingLongitude" column="parking_longitude"/>
+            <result property="parkingProvince" column="parking_province"/>
+            <result property="parkingDistrict" column="parking_district"/>
+        </association>
+    </resultMap>
+
     <!-- 차량 관리 페이지 -->
-    <!--  수원시 주차장에 있는 차량들 조회  -->
-    <select id="findAllCar" resultType="com.road_friends.rentalcar.dto.CarDto">
+    <!-- 결기도 주차장에 있는 차량들 조회  -->
+    <select id="findAllCar" resultType="com.road_friends.rentalcar.dto.CarDto" resultMap="CarResultMap">
         SELECT
         c.car_id,
         m.model_brand,
@@ -21,68 +55,54 @@
     </select>
 
     <!--  차량 조회 -->
-    <select id="findByCarId" resultType="com.road_friends.rentalcar.dto.CarDto">
+    <select id="findByCarId" resultType="com.road_friends.rentalcar.dto.CarDto" resultMap="CarResultMap">
         SELECT
-        c.car_id,
-        c.car_grade, c.car_category,
-        c.car_status, c.car_options,
-        c.car_fuel, c.car_year,
-        p.parking_name,
-        m.model_brand, m.model_name,
+        c.car_id, c.car_grade, c.car_category,
+        c.car_status, c.car_options, c.car_fuel, c.car_year,
+        m.model_id, m.model_brand, m.model_name,
         m.model_category, m.model_transmission,
-        m.model_seate_num, m.model_amount_hour,
-        m.model_amount_day
+        m.model_seate_num, m.model_amount_hour, m.model_amount_day,
+        p.parking_id, p.parking_name, p.parking_province, p.parking_district
         FROM car c
         LEFT JOIN parking p ON c.rental_station = p.parking_id
         LEFT JOIN model m ON c.model_id = m.model_id
         WHERE c.car_id = #{carId};
-
     </select>
 
     <!-- 차량 관리 수정 -->
     <update id="modifyCar" parameterType="com.road_friends.rentalcar.dto.CarDto">
-        UPDATE car c
-        LEFT JOIN parking p ON c.rental_station = p.parking_id
-        LEFT JOIN model m ON c.model_id = m.model_id
+        UPDATE car
         SET
-        m.model_brand = #{modelBrand},
-        m.model_name = #{modelName},
-        c.car_year = #{carYear},
-        c.car_fuel = #{carFuel},
-        c.car_grade = #{carGrade},
-        p.parking_province = #{parkingProvince},
-        p.parking_district = #{parkingDistrict},
-        p.parking_name = #{parkingName}
+        car_year = #{carYear},
+        car_fuel = #{carFuel},
+        car_grade = #{carGrade},
+        model_id = (SELECT model_id FROM model
+        WHERE model_name = #{model.modelName}),
+        rental_station = (SELECT parking_id FROM parking
+        WHERE parking_province = #{parking.parkingProvince}
+        AND parking_district = #{parking.parkingDistrict}
+        AND parking_name = #{parking.parkingName})
         WHERE car_id = #{carId};
     </update>
 
     <!--    차량 관리 추가-->
     <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.CarDto">
-        INSERT INTO car (
-        model_id,
-        car_year,
-        car_fuel,
-        car_grade,
-        rental_station
-        )
-        SELECT
-        m.model_id,
+        INSERT INTO car (car_year, car_fuel, car_grade, model_id, rental_station)
+        VALUES (
         #{carYear},
         #{carFuel},
         #{carGrade},
-        p.parking_id
-        FROM model m
-        LEFT JOIN parking p
-        ON p.parking_province = #{parkingProvince}
-        AND p.parking_district = #{parkingDistrict}
-        AND p.parking_name = #{parkingName}
-        WHERE m.model_brand = #{modelBrand} AND m.model_name = #{modelName};
+        (SELECT model_id FROM model WHERE model_name = #{model.modelName}),
+        (SELECT parking_id FROM parking
+        WHERE parking_province = #{parking.parkingProvince}
+        AND parking_district = #{parking.parkingDistrict}
+        AND parking_name = #{parking.parkingName})
+        );
     </insert>
 
     <!-- 차량 관리 항목 삭제 -->
     <delete id="deleteCar">
         DELETE FROM car WHERE car_id = #{carId};
     </delete>
-
 
 </mapper>

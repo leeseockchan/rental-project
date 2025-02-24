@@ -9,7 +9,6 @@
 <h1>차량 관리</h1>
 <h2>차량 관리>신규 차량 등록</h2>
 <form id="add_carData" th:action="@{/api/admin/vehicles/add}" method="post">
-    <input type="hidden" id="carId" name="carId" th:value="${addCar.carId}">
     <table>
         <tr>
             <th><label for="carBrand">제조사</label></th>
@@ -20,37 +19,37 @@
         </tr>
         <tr>
             <td>
-                <select id="carBrand" name="modelBrand">
+                <select id="carBrand" name="model.modelBrand">
                     <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}"
-                            th:selected="${addCar.modelBrand == brand}">
+                            th:selected="${newCar.model.modelBrand == brand}">
                     </option>
                 </select>
             </td>
             <td>
-                <select id="carModelName" name="modelName">
+                <select id="carModelName" name="model.modelName">
                     <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}"
-                            th:selected="${addCar.modelName == mName}">
+                            th:selected="${newCar.model.modelName == mName}">
                     </option>
                 </select>
             </td>
             <td>
                 <select id="carYear" name="carYear">
                     <option th:each="yearList: ${yearList}" th:value="${yearList}" th:text="${yearList}"
-                            th:selected="${addCar.carYear == yearList}">
+                            th:selected="${newCar.carYear == yearList}">
                     </option>
                 </select>
             </td>
             <td>
                 <select id="carFuel" name="carFuel">
                     <option th:each="fuel : ${fuelList}" th:value="${fuel}" th:text="${fuel}"
-                            th:selected="${addCar.carFuel == fuel}">
+                            th:selected="${newCar.carFuel == fuel}">
                     </option>
                 </select>
             </td>
             <td>
                 <select id="carGrade" name="carGrade">
                     <option th:each="grade : ${gradeList}" th:value="${grade}" th:text="${grade}"
-                            th:selected="${addCar.carGrade == grade}">
+                            th:selected="${newCar.carGrade == grade}">
                     </option>
                 </select>
             </td>
@@ -63,33 +62,38 @@
         </tr>
         <tr>
             <td>
-                <select id="parkingProvince" name="parkingProvince">
+                <select id="parkingProvince" name="parking.parkingProvince">
                     <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
-                            th:selected="${addCar.parkingProvince == province}">
+                            th:selected="${newCar.parking.parkingProvince == province}">
                     </option>
                 </select>
             </td>
             <td>
-                <select id="parkingDistrict" name="parkingDistrict">
-                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}"
-                            th:selected="${addCar.parkingDistrict == district}">
-                    </option>
-                </select>
+            <select id="parkingDistrict" name="parking.parkingDistrict">
+                <option value="">행정구역 선택</option>
+                <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}">
+                </option>
+            </select>
             </td>
             <td>
-                <input type="text" id="carParking" name="parkingName" th:value="${addCar.parkingName}"/>
+<!--                <select id="carParking" name="parking.parkingName">-->
+<!--                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}"-->
+<!--                            th:selected="${newCar.parkingDistrict == district}">-->
+<!--                    </option>-->
+<!--                </select>-->
+                <input type="text" id="carParking" name="parking.parkingName" th:value="${newCar.parking.parkingName}"/>
             </td>
         </tr>
         <tr>
             <td colspan="5" style="text-align: center;">
-                <a th:href="@{/api/admin/vehicles}">
-                    <button type="button">목록</button>
-                </a>
+                <button type="button" onclick="location.href='/api/admin/vehicles'">목록</button>
+            </td>
+            <td>
                 <button type="submit">등록하기</button>
-
             </td>
         </tr>
     </table>
 </form>
+<script src="/static/js/car/carAdd.js"></script>
 </body>
 </html>

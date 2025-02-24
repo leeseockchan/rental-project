@@ -27,6 +27,7 @@
     </tr>
     </thead>
         <tr th:each="model: ${models}">
+        <td th:text="${model.modelId}"></td>
         <td th:text="${model.modelBrand}"></td>
         <td th:text="${model.modelName}"></td>
         <td th:text="${model.modelCategory}"></td>
