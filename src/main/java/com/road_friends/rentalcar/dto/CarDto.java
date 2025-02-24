@@ -23,7 +23,7 @@ public class CarDto {
     private String modelId;
 
     @JsonProperty("car_category")
-    private Integer carCategory;
+    private String carCategory;
 
     @JsonProperty("car_status")
     private Integer carStatus;
