@@ -90,15 +90,25 @@ public class FastReservationService {
 
         List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName);
 
-        Map<String, Object> carList = new HashMap<>();
+        // 여러 개의 차량 정보를 담을 리스트
+        List<Map<String, Object>> carList = new ArrayList<>();
 
         for (CarDto car : availableCars) {
             Long price = getTotalPrice(car, rentalDatetime, returnDatetime);
-            carList.put("car",car);
-            carList.put("totalPrice",price);
 
+            // 각 차량 정보를 Map 으로 저장
+            Map<String, Object> carInfo = new HashMap<>();
+            carInfo.put("car", car);
+            carInfo.put("totalPrice", price);
+
+            // 리스트에 추가
+            carList.add(carInfo);
         }
-        return carList;
+
+        Map<String, Object> carListMap = new HashMap<>();
+        carListMap.put("cars", carList);
+
+        return carListMap;
     }
 
 
