@@ -1,306 +1,182 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
-    layout:decorate="~{layout/layout}">
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
 
 <head>
     <title>차량 관리 목록</title>
+
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/car/car-list.css}">
     </th:block>
-    <!--    <script th:src="@{/js/car/car.js}" defer></script>-->
+
     <!--    아파치 E차트-->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
-    <!--    아래 태그 추후 삭제. css 확인용.-->
-   <link rel="stylesheet" href="../../static/css/car/car-list.css">
+
+    <th:block layout:fragment="js">
+        <script th:inline="javascript" defer>
+            var fuelData = /*[[${fuelData}]]*/ '[]';
+            var categoryData = /*[[${categoryData}]]*/ '[]';
+            var manufacturerData = /*[[${manufacturerData}]]*/ '[]';
+
+            var fuelDataParsed = JSON.parse(fuelData);
+            var categoryDataParsed = JSON.parse(categoryData);
+            var manufacturerDataParsed = JSON.parse(manufacturerData);
+        </script>
+
+        <script th:inline="javascript" th:src="@{/js/car/chart.js}" defer></script>
+    </th:block>
 
 </head>
 
 <body>
-    <div class="content" layout:fragment="content">
+<div class="content" layout:fragment="content">
 
-        <div class="header">
-            차량 관리
+    <div class="header">
+        차량 관리
+    </div>
+
+    <div class="info">
+        <div class="info-header">보유 차량 통계</div>
+
+        <div class="info-box-big-group">
+            <div class="info-box-big only-text-box-big">
+                <div class="info-box-big-header">전체 차량 대수</div>
+                <div class="info-box-sm">
+                    <div class="info-box box1">
+                        <div class="info-box-title">전체 보유 차량</div>
+                        <div class="info-box-content"><span text="">00</span> 대</div>
+                    </div>
+                    <div class="info-box box2">
+                        <div class="info-box-title">현재 대여중인 차량</div>
+                        <div class="info-box-content"><span text="">00</span> 대</div>
+                    </div>
+                    <div class="info-box box3">
+                        <div class="info-box-title">수리중인 차량</div>
+                        <div class="info-box-content"><span text="">00</span> 대</div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box-big semi-circle-box-big">
+                <div class="info-box-big-header" style="margin-bottom : 0">차량 등급별 보유 현황</div>
+                <div class="chart-box semi-circle-box">
+                    <div class="chart-content chart1" id="chart-container1"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="info">
-            <div class="info-header">보유 차량 통계</div>
-
-            <div class="info-box-big-group">
-                <div class="info-box-big">
-                    <div class="info-box-big-header">전체 차량 대수</div>
-                    <div class="info-box-sm">
-                        <div class="info-box box1">
-                            <div class="info-box-title">전체 보유 차량</div>
-                            <div class="info-box-content"><span text="">00</span> 대</div>
-                        </div>
-                        <div class="info-box box2">
-                            <div class="info-box-title">현재 대여중인 차량</div>
-                            <div class="info-box-content"><span text="">00</span> 대</div>
-                        </div>
-                        <div class="info-box box3">
-                            <div class="info-box-title">수리중인 차량</div>
-                            <div class="info-box-content"><span text="">00</span> 대</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-box-big" style="flex-direction: row;">
-                    <div class="info-box-big-header">차량 등급별 보유 현황</div>
-                    <div class="chart-box">
-                        <div class="chart-content chart1" id="chart-container1"></div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="info-box-big-group">
-                <div class="info-box-big">
-                    <div class="info-box-big-header">보유 차량 순위</div>
-                    <div class="chart-box">
-                        <div class="chart-content chart2" id="chart-container2"></div>
-                    </div>
-                </div>
-                <div class="info-box-big">
-                    <div class="info-box-big-header">제조사 별 차량 대수</div>
-                    <div class="chart-box">
-                        <div class="chart-content chart3" id="chart-container3"></div>
+        <div class="info-box-big-group">
+            <div class="info-box-big">
+                <div class="info-box-big-header">보유 차량 순위</div>
+                <div class="chart-box">
+                    <div class="chart-content chart2" id="chart-container2">
                     </div>
                 </div>
             </div>
-
+            <div class="info-box-big">
+                <div class="info-box-big-header">제조사 별 차량 대수</div>
+                <div class="chart-box">
+                    <div class="chart-content chart3" id="chart-container3"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="list">
-            <div class="info-header">차량 상세 검색</div>
+    </div>
 
-            <div class="filter-box-big">
-                <div class="filter-box">
-                    <label for="filter-local-1">도/시</label>
-                    <select id="filter-local-1" name="selectLocal1">
-                        <option value="local1">서울특별시</option>
-                        <option value="local2">경기도</option>
-                        <option value="local3">강원도</option>
-                        <option value="local4">충청도</option>
-                        <option value="local5">전라도</option>
-                        <option value="local6">경상도</option>
-                    </select>
-                    <label for="filter-local-2">지역</label>
-                    <select id="filter-local-2" name="selectLocal2">
-                        <option value="local1">지역1</option>
-                        <option value="local2">지역2</option>
-                        <option value="local3">지역3</option>
-                        <option value="local4">지역4</option>
-                        <option value="local5">지역5</option>
-                        <option value="local6">지역6</option>
-                    </select>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn-update" onclick="">
-                        신규 차량 등록
-                    </button>
-                </div>
+    <div class="list">
+        <div class="info-header">차량 상세 검색</div>
+
+        <div class="filter-box-big">
+            <div class="filter-box">
+                <label for="filter-local-1">도/시</label>
+                <select id="filter-local-1" name="selectLocal1">
+                    <option value="local1">서울특별시</option>
+                    <option value="local2">경기도</option>
+                    <option value="local3">강원도</option>
+                    <option value="local4">충청도</option>
+                    <option value="local5">전라도</option>
+                    <option value="local6">경상도</option>
+                </select>
+                <label for="filter-local-2">지역</label>
+                <select id="filter-local-2" name="selectLocal2">
+                    <option value="local1">지역1</option>
+                    <option value="local2">지역2</option>
+                    <option value="local3">지역3</option>
+                    <option value="local4">지역4</option>
+                    <option value="local5">지역5</option>
+                    <option value="local6">지역6</option>
+                </select>
             </div>
+            <div class="btn-group">
+                <button type="button" class="btn-update" onclick="">
+                    신규 차량 등록
+                </button>
+            </div>
+        </div>
 
-            <table class="table-box">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">차량 번호</th>
-                        <th style="width: 60px;">제조사</th>
-                        <th style="width: 60px;">모델명</th>
-                        <th style="width: 60px;">등급</th>
-                        <th style="width: 180px;">카테고리</th>
-                        <th style="width: 180px;">대여 상태</th>
-                        <th style="width: 120px;">현재 위치한 주차장</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                        <td text="" style="max-width: 50px;">1</td>
-                        <td text="" style="max-width: 60px;">기아</td>
-                        <td text="" style="max-width: 60px;">셀토스</td>
-                        <td text="" style="max-width: 180px;">프리미엄</td>
-                        <td text="" style="max-width: 180px;">빠른예약</td>
-                        <td text="" style="max-width: 120px;">대여중</td>
-                        <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
-                    </tr>
-                    <!--            더미 데이터 시작. 추후 삭제-->
-                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                        <td text="" style="max-width: 50px;">1</td>
-                        <td text="" style="max-width: 60px;">기아</td>
-                        <td text="" style="max-width: 60px;">셀토스</td>
-                        <td text="" style="max-width: 180px;">프리미엄</td>
-                        <td text="" style="max-width: 180px;">빠른예약</td>
-                        <td text="" style="max-width: 120px;">대여중</td>
-                        <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
-                    </tr>
-                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                        <td text="" style="max-width: 50px;">1</td>
-                        <td text="" style="max-width: 60px;">기아</td>
-                        <td text="" style="max-width: 60px;">셀토스</td>
-                        <td text="" style="max-width: 180px;">프리미엄</td>
-                        <td text="" style="max-width: 180px;">빠른예약</td>
-                        <td text="" style="max-width: 120px;">대여중</td>
-                        <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
-                    </tr>
-                    <!--            더미 데이터 끝-->
-                </tbody>
-            </table>
+        <table class="table-box">
+            <thead>
+            <tr>
+                <th style="width: 50px;">차량 번호</th>
+                <th style="width: 60px;">제조사</th>
+                <th style="width: 60px;">모델명</th>
+                <th style="width: 60px;">등급</th>
+                <th style="width: 180px;">카테고리</th>
+                <th style="width: 180px;">대여 상태</th>
+                <th style="width: 120px;">현재 위치한 주차장</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+                <td text="" style="max-width: 50px;">1</td>
+                <td text="" style="max-width: 60px;">기아</td>
+                <td text="" style="max-width: 60px;">셀토스</td>
+                <td text="" style="max-width: 180px;">프리미엄</td>
+                <td text="" style="max-width: 180px;">빠른예약</td>
+                <td text="" style="max-width: 120px;">대여중</td>
+                <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
+            </tr>
+            <!--            더미 데이터 시작. 추후 삭제-->
+            <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+                <td text="" style="max-width: 50px;">1</td>
+                <td text="" style="max-width: 60px;">기아</td>
+                <td text="" style="max-width: 60px;">셀토스</td>
+                <td text="" style="max-width: 180px;">프리미엄</td>
+                <td text="" style="max-width: 180px;">빠른예약</td>
+                <td text="" style="max-width: 120px;">대여중</td>
+                <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
+            </tr>
+            <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+                <td text="" style="max-width: 50px;">1</td>
+                <td text="" style="max-width: 60px;">기아</td>
+                <td text="" style="max-width: 60px;">셀토스</td>
+                <td text="" style="max-width: 180px;">프리미엄</td>
+                <td text="" style="max-width: 180px;">빠른예약</td>
+                <td text="" style="max-width: 120px;">대여중</td>
+                <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
+            </tr>
+            <!--            더미 데이터 끝-->
+            </tbody>
+        </table>
 
-            <!-- 페이지네이션 -->
-            <div class="pagination">
-                <a href="" if="">
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <a href="" if="">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
-                </a>
-                <span class="page-number" each="">
+            </a>
+            <span class="page-number" each="">
                     <a href="" text="" classappend=""></a>
                 </span>
-                <a href="" if="">
+            <a href="" if="">
                     <span class="material-symbols-outlined">
                         chevron_right
                     </span>
-                </a>
-            </div>
-
+            </a>
         </div>
+
     </div>
-
-    <!--    아파치 E차트용 더미 데이터-->
-    <script th:inline="javascript">
-        // 그래프를 표시할 DOM 요소 선택
-        var chartDom = document.getElementById("chart-container1");
-        var myChart = echarts.init(chartDom);
-
-        // 원형 그래프 설정
-        var option = {
-            title: {
-                text: "",
-                left: "center",
-            },
-            tooltip: {
-                trigger: "item",
-            },
-            legend: {
-                top: '50%',
-                left: 'left',
-            },
-            series: [
-                {
-                    name: "예약 비율",
-                    type: "pie", // ★ 반원형 그래프 설정 ★
-                    radius: ['40%', '70%'],
-                    center: ['50%', '70%'],
-                    startAngle: 180,
-                    endAngle: 360,
-                    itemStyle: {
-                        borderRadius: 10,
-                        borderColor: "#fff",
-                        borderWidth: 2,
-                    },
-                    data: [
-                        {
-                            value: 40, name: "소형차",
-                            itemStyle: {
-                                color: '#a90000'
-                            }
-                        },
-                        { value: 30, name: "중형차" }
-                    ],
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: "rgba(0, 0, 0, 0.5)",
-                        },
-                    },
-                },
-            ],
-        };
-
-        // 옵션 적용하여 차트 렌더링
-        myChart.setOption(option);
-    </script>
-
-    <script th:inline="javascript">
-        // 그래프를 표시할 DOM 요소 선택
-        var chartDom = document.getElementById("chart-container2");
-        var myChart = echarts.init(chartDom);
-
-        // 원형 그래프 설정
-        var option = {
-            title: {
-                text: "",
-                left: "center",
-            },
-            tooltip: {
-                trigger: "item",
-            },
-            legend: {
-                orient: "vertical",
-                left: "left",
-            },
-            series: [
-                {
-                    name: "예약 비율",
-                    type: "pie", // ★ 원형 그래프 설정 ★
-                    radius: "50%", // 그래프 크기 (50% = 반지름 기준)
-                    radius: ["40%", "70%"],
-                    avoidLabelOverlap: false,
-                    itemStyle: {
-                        borderRadius: 10,
-                        borderColor: "#fff",
-                        borderWidth: 2,
-                    },
-                    data: [
-                        { value: 40, name: "소형차" },
-                        { value: 30, name: "중형차" },
-                        { value: 20, name: "대형차" },
-                        { value: 10, name: "SUV" },
-                    ],
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: "rgba(0, 0, 0, 0.5)",
-                        },
-                    },
-                },
-            ],
-        };
-
-        // 옵션 적용하여 차트 렌더링
-        myChart.setOption(option);
-    </script>
-
-    <script th:inline="javascript">
-        // Initialize the echarts instance based on the prepared dom
-        var myChart = echarts.init(document.getElementById('chart-container3'));
-
-        // Specify the configuration items and data for the chart
-        var option = {
-            title: {
-                text: ''
-            },
-            tooltip: {},
-            legend: {
-                data: ['sales']
-            },
-            xAxis: {
-                data: ['Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks']
-            },
-            yAxis: {},
-            series: [
-                {
-                    name: 'sales',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }
-            ]
-        };
-
-        // Display the chart using the configuration items and data just specified.
-        myChart.setOption(option);
-    </script>
+</div>
 
 </body>
 
