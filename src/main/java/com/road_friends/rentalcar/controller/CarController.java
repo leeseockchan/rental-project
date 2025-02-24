@@ -74,7 +74,7 @@ public class CarController {
         model.addAttribute("gradeList", carService.carGradeList());
 
         model.addAttribute("provinceList", carService.parkingProvinceList());
-        model.addAttribute("districtList", carService.parkingDistrictList());
+        model.addAttribute("districtList", new ArrayList<String>());
         model.addAttribute("modify", modifyCar);
         return "car_page/modify";
     }
@@ -86,12 +86,19 @@ public class CarController {
         carService.modifyCarStatus(carDto);
         return "redirect:/api/admin/vehicles";
     }
-
+   
     //    차량 상태 관리 삭제
     @DeleteMapping("/{carId}")
     public String deleteCarStatus(@PathVariable int carId) {
         carService.deleteCarStatus(carId);
         return "redirect:/api/admin/vehicles";
+    }
+    
+    // 행정 지역 가져오기 엔드포인트
+    @GetMapping("/api/districts/{province}")
+    @ResponseBody
+    public List<String> getDistrictsByProvince(@PathVariable String province) {
+        return carService.getDistrictsByProvince(province); // 도/시에 해당하는 행정구역 반환
     }
 
 }

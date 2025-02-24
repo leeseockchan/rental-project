@@ -65,16 +65,14 @@
         </tr>
         <tr>
             <td>
-                <select id="parkingProvince" name="parking.parkingProvince">
-                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
-                            th:selected="${modify.parking.parkingProvince == province}">
+                <select id="parkingProvince" name="parking.parkingProvince" onchange="updateDistricts()">
+                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}">
                     </option>
                 </select>
             </td>
             <td>
                 <select id="parkingDistrict" name="parking.parkingDistrict">
-                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}"
-                            th:selected="${modify.parking.parkingDistrict == district}">
+                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}">
                     </option>
                 </select>
             </td>
@@ -95,8 +93,8 @@
             </td>
         </tr>
     </table>
-<script src="/static/js/car/carModify.js"></script>
 </form>
+<script src="/js/car/carModify.js"></script>
 
 </body>
 </html>

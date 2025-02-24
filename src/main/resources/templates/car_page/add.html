@@ -63,14 +63,12 @@
         <tr>
             <td>
                 <select id="parkingProvince" name="parking.parkingProvince">
-                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
-                            th:selected="${newCar.parking.parkingProvince == province}">
+                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}">
                     </option>
                 </select>
             </td>
             <td>
             <select id="parkingDistrict" name="parking.parkingDistrict">
-                <option value="">행정구역 선택</option>
                 <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}">
                 </option>
             </select>
@@ -94,6 +92,6 @@
         </tr>
     </table>
 </form>
-<script src="/static/js/car/carAdd.js"></script>
+<script src="/js/car/carAdd.js"></script>
 </body>
 </html>
