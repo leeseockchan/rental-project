@@ -1,5 +1,7 @@
 package com.road_friends.rentalcar.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
 import com.road_friends.rentalcar.dto.ModelDto;
@@ -56,8 +58,22 @@ public class FastReservationService {
 
     public void reserve(FastReservationDto fastReservationDto){
 
+        CarDto car = getCarById(fastReservationDto.getCarId());
+//        ModelDto model = getModelById(fastReservationDto.getCarId());
+        fastReservationDto.setCarDto(car);
+//        fastReservationDto.setModelDto(model);
+
+        car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
+        car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
+
+        Long price = getTotalPrice(car, fastReservationDto.getRentalDatetime(), fastReservationDto.getReturnDatetime());
+
+        fastReservationDto.setTotalPrice(price);
+
         fastReservationMapper.reserve(fastReservationDto);
+
     }
+
 
     public void deleteReservation(int reservationId) {
         fastReservationMapper.deleteReservation(reservationId);
@@ -142,7 +158,7 @@ public class FastReservationService {
         return fastReservationMapper.getCarById(carId);
     }
 
-    public ModelDto getModelById(int carId) {
-        return fastReservationMapper.getModelById(carId);
+    public ModelDto getModelById(int modelId) {
+        return fastReservationMapper.getModelById(modelId);
     }
 }

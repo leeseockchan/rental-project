@@ -27,7 +27,7 @@
     <!-- 특정 차량 조회  -->
     <select id="getCarById" resultMap="CarDetailResultMap">
         SELECT
-            c.car_id, c.car_year, c.car_fuel, c.car_grade, c.car_options, c.rental_station,
+            c.car_id, c.model_id, c.car_year, c.car_fuel, c.car_grade, c.car_options, c.rental_station,
             m.model_id, m.model_brand, m.model_name, m.model_category,
             m.model_amount_hour, m.model_amount_day,
             m.model_seate_num, m.model_transmission
@@ -38,6 +38,7 @@
 
     <resultMap id="CarDetailResultMap" type="com.road_friends.rentalcar.dto.CarDto">
         <id property="carId" column="car_id"/>
+        <result property="modelId" column="model_id"/>
         <result property="carYear" column="car_year"/>
         <result property="carFuel" column="car_fuel"/>
         <result property="carGrade" column="car_grade"/>
@@ -165,10 +166,20 @@
     </select>
 
 <!--     모델 조회       -->
-    <select id="getModelById" parameterType="int" resultType="com.road_friends.rentalcar.dto.ModelDto">
+    <resultMap id="ModelResultMap" type="com.road_friends.rentalcar.dto.ModelDto">
+        <id property="modelId" column="model_id"/>
+        <result property="modelBrand" column="model_brand"/>
+        <result property="modelName" column="model_name"/>
+        <result property="modelCategory" column="model_category"/>
+        <result property="modelSeateNum" column="model_seate_num"/>
+        <result property="modelTransmission" column="model_transmission"/>
+        <result property="modelAmountHour" column="model_amount_hour"/>
+        <result property="modelAmountDay" column="model_amount_day"/>
+    </resultMap>
+    <select id="getModelById" parameterType="int" resultMap="ModelResultMap">
         SELECT m.model_id, m.model_name, m.model_category, m.model_seate_num,
                m.model_transmission, m.model_amount_day, m.model_amount_hour
-        FROM model m
+        FROM model
         WHERE m.model_id = (SELECT model_id FROM car WHERE car_id = #{carId});
     </select>
 

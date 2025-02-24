@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.ALWAYS)
 public class ModelDto {
 
     @JsonProperty("model_id")
@@ -37,4 +37,5 @@ public class ModelDto {
 
     @JsonProperty("model_amount_day")
     private Integer modelAmountDay;
+
 }
