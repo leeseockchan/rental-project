@@ -24,7 +24,7 @@ public class HelloController {
 
   @GetMapping("/parking")
   public String layout3(){
-    return "/parking/parking-detail";
+    return "/parking/parking-update";
   }
 
 }
