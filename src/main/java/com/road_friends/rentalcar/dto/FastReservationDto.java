@@ -61,9 +61,6 @@ public class FastReservationDto {
 
     private Long totalPrice;
 
-    public void setTotalPrice(Long totalPrice) {
-        this.totalPrice = getTotalPrice();
-    }
 
 //    public Long getTotalPrice() {
 //

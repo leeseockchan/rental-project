@@ -87,6 +87,7 @@ public class FastReservationService {
     // 차량 조회 + 가격 계산
     public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
                                               String modelCategory, String modelName) {
+
         List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName);
 
         Map<String, Object> carList = new HashMap<>();
@@ -95,8 +96,8 @@ public class FastReservationService {
             Long price = getTotalPrice(car, rentalDatetime, returnDatetime);
             carList.put("car",car);
             carList.put("totalPrice",price);
-        }
 
+        }
         return carList;
     }
 
