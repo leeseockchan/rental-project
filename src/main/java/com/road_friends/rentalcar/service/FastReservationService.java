@@ -1,7 +1,5 @@
 package com.road_friends.rentalcar.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
 import com.road_friends.rentalcar.dto.ModelDto;
@@ -59,9 +57,7 @@ public class FastReservationService {
     public void reserve(FastReservationDto fastReservationDto){
 
         CarDto car = getCarById(fastReservationDto.getCarId());
-//        ModelDto model = getModelById(fastReservationDto.getCarId());
         fastReservationDto.setCarDto(car);
-//        fastReservationDto.setModelDto(model);
 
         car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
         car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
@@ -74,7 +70,7 @@ public class FastReservationService {
 
     }
 
-
+    // 예약 삭제
     public void deleteReservation(int reservationId) {
         fastReservationMapper.deleteReservation(reservationId);
     }
@@ -84,7 +80,7 @@ public class FastReservationService {
     }
 
 
-    // 차량 조회 + 가격 계산
+    // 이용 가능한 차량 조회 + 가격 계산
     public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
                                               String modelCategory, String modelName) {
 

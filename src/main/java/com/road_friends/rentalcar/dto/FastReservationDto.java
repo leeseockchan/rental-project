@@ -60,48 +60,9 @@ public class FastReservationDto {
 
 
     private CarDto carDto;
-//    private ModelDto modelDto;
     private List<ParkingDto> parkingList;
 
     private Long totalPrice;
 
 
-//    public Long getTotalPrice() {
-//
-//        if(rentalDatetime ==null || returnDatetime==null){
-//            throw new NullPointerException("대여 시작 시간과 종료 시작은 필수 입력 값");
-//        }
-//
-//        Long totalPrice = 0L;
-//
-//        Long hoursBetween =  ChronoUnit.HOURS.between(rentalDatetime,returnDatetime);
-//        Long daysBetween = ChronoUnit.DAYS.between(rentalDatetime,returnDatetime);
-//
-//
-//        if(hoursBetween <4){
-//            throw new IllegalArgumentException("최소 4시간 이상 예약 가능");
-//        }
-//        if(daysBetween > 14){
-//            throw new IllegalArgumentException("최대 14일까지 예약 가능");
-//        }
-//
-//        int hourPrice = carDto.getModel().getModelAmountHour();
-//        int dayPrice = carDto.getModel().getModelAmountDay();
-//
-//        if( hoursBetween<24 ){
-//            // 4시간~하루 미만 예약일 때
-//            totalPrice = hourPrice * hoursBetween;
-//        }
-//        else{
-//            // 하루 이상 예약일 때
-//            totalPrice = dayPrice * daysBetween + hourPrice * (hoursBetween%24);
-//        }
-//
-//        if(carDto.getCarGrade().equalsIgnoreCase("Premium")){
-//            totalPrice = (long) (totalPrice *1.2);
-//        }
-//
-//        System.out.println("총 금액: "+totalPrice);
-//        return totalPrice;
-//    }
 }

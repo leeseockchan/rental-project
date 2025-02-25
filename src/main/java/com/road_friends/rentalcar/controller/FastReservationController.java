@@ -2,16 +2,14 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
-import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.dto.ParkingDto;
-import com.road_friends.rentalcar.mapper.FastReservationMapper;
+
 import com.road_friends.rentalcar.service.FastReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +18,10 @@ import java.util.Map;
 public class FastReservationController {
 
     private final FastReservationService fastReservationService;
-    private final FastReservationMapper fastReservationMapper;
 
-    public FastReservationController(FastReservationService fastReservationService, FastReservationMapper fastReservationMapper) {
+    public FastReservationController(FastReservationService fastReservationService) {
         this.fastReservationService = fastReservationService;
-        this.fastReservationMapper = fastReservationMapper;
+
     }
 
 
@@ -42,8 +39,6 @@ public class FastReservationController {
         // 특정 조건으로 차량 검색 (필터링)
         String modelCategory = (String) requestBody.get("model_category");
         String modelName = (String) requestBody.get("model_name");
-//        int modelAmountHour = (int) requestBody.get("modelAmountHour");
-//        int modelAmountDay = (int) requestBody.get("modelAmountDay");
 
         Map<String, Object> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory,modelName);
 
@@ -75,7 +70,7 @@ public class FastReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    // 예약
+    // 예약 페이지
     @GetMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestParam("car_id") int carId,
                                                     @RequestParam("rental_datetime") String rentalDatetimeStr,
@@ -104,6 +99,7 @@ public class FastReservationController {
         return new ResponseEntity<> (reservation, HttpStatus.OK);
     }
 
+    // 예약
     @PostMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
 
