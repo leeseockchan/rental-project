@@ -60,7 +60,12 @@
 .info-box-content-row {
     display: flex;
     flex-direction: column;
-    padding: 10px 20px 10px 0;
+    padding: 10px 20px 30px 0;
+}
+
+.info-box-content-row:nth-child(3),
+.info-box-content-row:nth-child(4) {
+    padding-bottom: 0;
 }
 
 .info-box-content-row label {
@@ -70,13 +75,19 @@
 }
 
 .info-box-content-row input {
-    width: 240px;
+    width: 550px;
     padding: 10px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
     font-size: 14px;
     font-weight: 400;
 }
+
+.info-box-content-row input#parking-latitude,
+.info-box-content-row input#parking-longtitude{
+    width: 260px;
+}
+
 
 /* 버튼 */
 .btn-group {
