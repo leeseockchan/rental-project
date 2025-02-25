@@ -81,6 +81,15 @@
     color: #000;
 }
 
+.info-box-content-table tbody tr td input,
+.info-box-content-table tbody tr td select{
+    padding: 5px;
+    width: 250px;
+    cursor: pointer;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+}
+
 .info-box-content-table2{
     border-radius: 10px;
     border-collapse: collapse;
@@ -101,19 +110,6 @@
 
 .info-box-content-table2 .center{
     text-align : center;
-}
-
-.btn-role-change{
-    display: flex;
-}
-
-.btn-role-change>select{
-    margin-right: 10px;
-    padding: 5px;
-    width: 200px;
-    cursor: pointer;
-    border: 1px solid #D9D9D9;
-    border-radius: 5px;
 }
 
 /* 버튼 */
