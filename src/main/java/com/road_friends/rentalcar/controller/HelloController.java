@@ -24,7 +24,12 @@ public class HelloController {
 
   @GetMapping("/parking")
   public String layout3(){
-    return "/parking/parking-create";
+    return "/parking/parking-update";
+  }
+
+  @GetMapping("/users")
+  public String layout4(){
+    return "/users/users-list";
   }
 
 }
