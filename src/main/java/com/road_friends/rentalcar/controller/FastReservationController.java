@@ -39,8 +39,9 @@ public class FastReservationController {
         // 특정 조건으로 차량 검색 (필터링)
         String modelCategory = (String) requestBody.get("model_category");
         String modelName = (String) requestBody.get("model_name");
+        Integer endPrice = (Integer) requestBody.get("endPrice");
 
-        Map<String, Object> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory,modelName);
+        Map<String, Object> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory,modelName,endPrice);
 
         return ResponseEntity.ok(availableCars);
     }

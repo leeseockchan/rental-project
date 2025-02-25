@@ -82,9 +82,12 @@ public class FastReservationService {
 
     // 이용 가능한 차량 조회 + 가격 계산
     public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
-                                              String modelCategory, String modelName) {
+                                              String modelCategory, String modelName, Integer endPrice) {
 
-        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName);
+        Long hoursBetween =  ChronoUnit.HOURS.between(rentalDatetime,returnDatetime);
+        boolean isHourly = (hoursBetween % 24!=0);
+
+        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName, endPrice, isHourly);
 
         // 여러 개의 차량 정보를 담을 리스트
         List<Map<String, Object>> carList = new ArrayList<>();
