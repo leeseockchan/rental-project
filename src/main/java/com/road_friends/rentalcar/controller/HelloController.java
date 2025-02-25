@@ -34,7 +34,7 @@ public class HelloController {
 
   @GetMapping("/review")
   public String layout5(){
-    return "/review/review-list";
+    return "/review/review-detail";
   }
 
 }
