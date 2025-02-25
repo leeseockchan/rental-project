@@ -58,6 +58,7 @@ public class FastReservationService {
 
         CarDto car = getCarById(fastReservationDto.getCarId());
         fastReservationDto.setCarDto(car);
+        fastReservationDto.setRentalLocation(car.getRentalStation());
 
         car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
         car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
