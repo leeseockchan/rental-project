@@ -17,6 +17,11 @@ public class HelloController {
     return "/admin/content1";
   }
 
+  @GetMapping("/inquiry")
+  public String layout8(){
+    return "/inquiry/inquiry-list";
+  }
+
   @GetMapping("/car")
   public String layout2(){
     return "/car/car-list";
@@ -35,6 +40,11 @@ public class HelloController {
   @GetMapping("/review")
   public String layout5(){
     return "/review/review-detail";
+  }
+
+  @GetMapping("/notice")
+  public String layout6(){
+    return "/notice/notice-list";
   }
 
 }

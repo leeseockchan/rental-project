@@ -31,8 +31,8 @@
         사용자 관리 > 가입자 목록 상세 조회
       </div>
 
-      <div class="info-box-big">
-        <form>
+      <form id="update-form">
+        <div class="info-box-big">
           <div class="info-box box1">
             <div class="info-box-title">abc123의 상세 정보</div>
             <div class="info-box-content">
@@ -92,47 +92,46 @@
               </table>
             </div>
           </div>
-        </form>
 
-        <div class="info-box box2">
-          <div class="info-box-title">abc123의 대여 기록</div>
-          <div class="info-box-content">
-            <table class="info-box-content-table2">
-              <thead>
-                <tr>
-                  <th class="center">예약번호</th>
-                  <th>카테고리</th>
-                  <th>대여일</th>
-                  <th>반납일</th>
-                  <th>모델</th>
-                  <th>금액</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td text="" class="center">00</td>
-                  <td text="">00</td>
-                  <td text="">00</td>
-                  <td text="">00</td>
-                  <td text="">00</td>
-                  <td text="">00</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="info-box box2">
+            <div class="info-box-title">abc123의 대여 기록</div>
+            <div class="info-box-content">
+              <table class="info-box-content-table2">
+                <thead>
+                  <tr>
+                    <th class="center">예약번호</th>
+                    <th>카테고리</th>
+                    <th>대여일</th>
+                    <th>반납일</th>
+                    <th>모델</th>
+                    <th>금액</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td text="" class="center">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="btn-group">
-        <button type="button" class="btn-go-back" onclick="">
-          목록으로
-        </button>
+        <div class="btn-group">
+          <button type="button" class="btn-go-back" onclick="">
+            목록으로
+          </button>
 
-        <form action="" method="post">
           <button type="button" class="btn-update" onclick="">
             수정
           </button>
-        </form>
-      </div>
+        </div>
+
+      </form>
     </div>
 
   </div>
