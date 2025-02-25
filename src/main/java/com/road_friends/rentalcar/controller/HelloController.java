@@ -29,7 +29,7 @@ public class HelloController {
 
   @GetMapping("/users")
   public String layout4(){
-    return "/users/users-list";
+    return "/users/users-detail";
   }
 
 }
