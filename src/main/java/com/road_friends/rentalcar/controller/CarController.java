@@ -4,14 +4,13 @@ import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.dto.ParkingDto;
 import com.road_friends.rentalcar.service.CarService;
-import com.road_friends.rentalcar.service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/api/admin/vehicles")
@@ -19,9 +18,6 @@ public class CarController {
 
     @Autowired
     private CarService carService;
-    @Autowired
-    private ParkingService parkingService;
-
 
     //    차량 관리 목록 조회(경기도 차량들)
     @GetMapping
@@ -72,19 +68,30 @@ public class CarController {
         model.addAttribute("yearList", carService.carYearList());
         model.addAttribute("fuelList", carService.carFuelList());
         model.addAttribute("gradeList", carService.carGradeList());
-
         model.addAttribute("provinceList", carService.parkingProvinceList());
-        model.addAttribute("districtList", new ArrayList<String>());
+        List<String> districtList =  carService.getDistrictsByProvince(modifyCar.getParking().getParkingProvince());
+        model.addAttribute("districtList", districtList);
         model.addAttribute("modify", modifyCar);
         return "car_page/modify";
     }
 
     @PutMapping("/modify/{carId}")
-    public String modifyCarStatusPost(@PathVariable int carId,
-                                      @ModelAttribute CarDto carDto) {
+    @ResponseBody
+    public  ResponseEntity<Map<String, Object>> modifyCarStatusPost(@PathVariable int carId,
+                                      @RequestBody CarDto carDto) {
         carDto.setCarId(carId);
         carService.modifyCarStatus(carDto);
-        return "redirect:/api/admin/vehicles";
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "수정 완료");
+        return  ResponseEntity.ok(response);
+    }
+    // 행정 지역 가져오기 엔드포인트
+    @GetMapping("/api/districts/{province}")
+    @ResponseBody
+    public List<String> getDistrictsByProvince(@PathVariable String province) {
+        return carService.getDistrictsByProvince(province); // 도/시에 해당하는 행정구역 반환
     }
    
     //    차량 상태 관리 삭제
@@ -94,12 +101,7 @@ public class CarController {
         return "redirect:/api/admin/vehicles";
     }
     
-    // 행정 지역 가져오기 엔드포인트
-    @GetMapping("/api/districts/{province}")
-    @ResponseBody
-    public List<String> getDistrictsByProvince(@PathVariable String province) {
-        return carService.getDistrictsByProvince(province); // 도/시에 해당하는 행정구역 반환
-    }
+
 
 }
 

@@ -5,31 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>차량 관리 수정페이지</title>
 </head>
-<body>
+<body th:data-car-id="${modify.carId}">
 <h1>차량 관리</h1>
 <h2>차량 관리>차량 상세조회>차량 관리 수정</h2>
-<form id="model_modify" th:action="@{/api/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
-      method="post">
+<form id="model_modify">
     <input type="hidden" name="_method" value="PUT">
     <table>
         <tr th:text="|${modify.carId}번 차량 수정|"></tr>
         <tr>
-            <th><label for="carBrand">제조사</label></th>
-            <th><label for="carModelName">모델명</label></th>
+            <th><label for="modelBrand">제조사</label></th>
+            <th><label for="modelName">모델명</label></th>
             <th><label for="carYear">연식</label></th>
             <th><label for="carFuel">연료</label></th>
             <th><label for="carGrade">등급</label></th>
         </tr>
         <tr>
             <td>
-                <select id="carBrand" name="model.modelBrand">
+                <select id="modelBrand" name="model.modelBrand">
                     <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}"
                             th:selected="${modify.model.modelBrand == brand}">
                     </option>
                 </select>
             </td>
             <td>
-                <select id="carModelName" name="model.modelName">
+                <select id="modelName" name="model.modelName">
                     <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}"
                             th:selected="${modify.model.modelName == mName}">
                     </option>
@@ -61,23 +60,25 @@
         <tr>
             <th><label for="parkingProvince">도/시</label></th>
             <th><label for="parkingDistrict">행정구역</label></th>
-            <th><label for="carParking">주차장 이름</label></th>
+            <th><label for="parkingName">주차장 이름</label></th>
         </tr>
         <tr>
             <td>
-                <select id="parkingProvince" name="parking.parkingProvince" onchange="updateDistricts()">
-                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}">
+                <select id="parkingProvince" name="parking.parkingProvince">
+                    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
+                            th:selected="${modify.parking.parkingProvince == province}">
                     </option>
                 </select>
             </td>
             <td>
                 <select id="parkingDistrict" name="parking.parkingDistrict">
-                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}">
+                    <option th:each="district : ${districtList}" th:value="${district}" th:text="${district}"
+                            th:selected="${modify.parking.parkingDistrict == district}">
                     </option>
                 </select>
             </td>
             <td>
-                <input type="text" id="carParking" name="parking.parkingName" th:value="${modify.parking.parkingName}"/>
+                <input type="text" id="parkingName" name="parking.parkingName" th:value="${modify.parking.parkingName}"/>
             </td>
         </tr>
         <tr>
