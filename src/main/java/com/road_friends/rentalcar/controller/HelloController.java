@@ -32,4 +32,9 @@ public class HelloController {
     return "/users/users-detail";
   }
 
+  @GetMapping("/review")
+  public String layout5(){
+    return "/review/review-list";
+  }
+
 }
