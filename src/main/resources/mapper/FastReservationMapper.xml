@@ -70,8 +70,8 @@
 
     <!--     예약하기     -->
     <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
-        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num)
-        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum});
+        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num,reservation_id)
+        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum},#{reservationId});
     </insert>
 
     <!--    예약취소    -->
@@ -213,5 +213,20 @@
         <result property="modelAmountDay" column="model_amount_day"/>
     </resultMap>
 
+<!-- reservation 테이블에 빈 데이터 삽입   -->
+    <insert id="insertReservation" parameterType="com.road_friends.rentalcar.dto.ReservationDto" useGeneratedKeys="true" keyProperty="reservationId">
+        INSERT INTO reservation (fast_reservation_id, short_reservation_id)
+        VALUES (NULL, NULL)
+    </insert>
 
+<!-- reservation 테이블에서 최근 생성된 id 불러오기     -->
+    <select id="getLastInsertId" resultType="int">
+        SELECT LAST_INSERT_ID();
+    </select>
+
+    <update id="updateFastReservationId">
+        UPDATE reservation
+        SET fast_reservation_id = #{fastReservationId}
+        WHERE reservation_id = #{reservationId};
+    </update>
 </mapper>

@@ -1,9 +1,6 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.CarDto;
-import com.road_friends.rentalcar.dto.FastReservationDto;
-import com.road_friends.rentalcar.dto.ModelDto;
-import com.road_friends.rentalcar.dto.ParkingDto;
+import com.road_friends.rentalcar.dto.*;
 import com.road_friends.rentalcar.mapper.FastReservationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -54,7 +51,17 @@ public class FastReservationService {
         return fastReservationMapper.getReservationById(id);
     }
 
+    // 예약하기
+    @Transactional
     public void reserve(FastReservationDto fastReservationDto){
+
+        // reservation 테이블에 새로운 예약 생성
+        ReservationDto reservationDto = new ReservationDto();
+        fastReservationMapper.insertReservation(reservationDto);
+
+        // 방금 생성된 reservationId 불러오기
+        Integer reservationId = fastReservationMapper.getLastInsertId();
+        fastReservationDto.setReservationId(reservationId);
 
         CarDto car = getCarById(fastReservationDto.getCarId());
         fastReservationDto.setCarDto(car);
@@ -68,6 +75,10 @@ public class FastReservationService {
         fastReservationDto.setTotalPrice(price);
 
         fastReservationMapper.reserve(fastReservationDto);
+
+        // reservation 테이블의 fast_reservation_id 업데이트
+        fastReservationMapper.updateFastReservationId(reservationId, fastReservationDto.getReservationId());
+
 
     }
 
