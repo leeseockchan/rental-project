@@ -1,6 +1,6 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.APIFastReservationDto;
+import com.road_friends.rentalcar.dto.FastReservationResponseDto;
 import com.road_friends.rentalcar.mapper.APIFastReservationMapper;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +15,24 @@ public class APIFastReservationService {
         this.apiFastReservationMapper = apiFastReservationMapper;
     }
 
+    // 이용시작
+    public boolean updateRentalState(int reservationId, int newState) {
+        return apiFastReservationMapper.updateRentalState(reservationId, newState) > 0;
+    }
+
     // 로그인한 사용자의 빠른 예약 전체 조회
-    public List<APIFastReservationDto> getUserFastReservations(Long userId) {
+    public List<FastReservationResponseDto> getUserFastReservations(Long userId) {
         return apiFastReservationMapper.getUserFastReservations(userId);
     }
 
     // 특정 예약 상세 조회
-    public APIFastReservationDto getFastReservationDetail(Long reservationId){
+    public FastReservationResponseDto getFastReservationDetail(Long reservationId){
         return apiFastReservationMapper.getFastReservationDetail(reservationId);
     }
 
     // 빠른 예약 수정
-    public int updateFastReservation(APIFastReservationDto apiFastReservationDto){
-        return apiFastReservationMapper.updateFastReservation(apiFastReservationDto);
+    public int updateFastReservation(FastReservationResponseDto fastReservationResponseDto){
+        return apiFastReservationMapper.updateFastReservation(fastReservationResponseDto);
     }
 
     // 빠른 예약 취소
