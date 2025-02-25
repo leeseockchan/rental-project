@@ -1,5 +1,7 @@
 package com.road_friends.rentalcar.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
 import com.road_friends.rentalcar.dto.ModelDto;
@@ -56,8 +58,22 @@ public class FastReservationService {
 
     public void reserve(FastReservationDto fastReservationDto){
 
+        CarDto car = getCarById(fastReservationDto.getCarId());
+//        ModelDto model = getModelById(fastReservationDto.getCarId());
+        fastReservationDto.setCarDto(car);
+//        fastReservationDto.setModelDto(model);
+
+        car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
+        car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
+
+        Long price = getTotalPrice(car, fastReservationDto.getRentalDatetime(), fastReservationDto.getReturnDatetime());
+
+        fastReservationDto.setTotalPrice(price);
+
         fastReservationMapper.reserve(fastReservationDto);
+
     }
+
 
     public void deleteReservation(int reservationId) {
         fastReservationMapper.deleteReservation(reservationId);
@@ -71,17 +87,28 @@ public class FastReservationService {
     // 차량 조회 + 가격 계산
     public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
                                               String modelCategory, String modelName) {
+
         List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName);
 
-        Map<String, Object> carList = new HashMap<>();
+        // 여러 개의 차량 정보를 담을 리스트
+        List<Map<String, Object>> carList = new ArrayList<>();
 
         for (CarDto car : availableCars) {
             Long price = getTotalPrice(car, rentalDatetime, returnDatetime);
-            carList.put("car",car);
-            carList.put("totalPrice",price);
+
+            // 각 차량 정보를 Map 으로 저장
+            Map<String, Object> carInfo = new HashMap<>();
+            carInfo.put("car", car);
+            carInfo.put("totalPrice", price);
+
+            // 리스트에 추가
+            carList.add(carInfo);
         }
 
-        return carList;
+        Map<String, Object> carListMap = new HashMap<>();
+        carListMap.put("cars", carList);
+
+        return carListMap;
     }
 
 
@@ -142,7 +169,7 @@ public class FastReservationService {
         return fastReservationMapper.getCarById(carId);
     }
 
-    public ModelDto getModelById(int carId) {
-        return fastReservationMapper.getModelById(carId);
+    public ModelDto getModelById(int modelId) {
+        return fastReservationMapper.getModelById(modelId);
     }
 }

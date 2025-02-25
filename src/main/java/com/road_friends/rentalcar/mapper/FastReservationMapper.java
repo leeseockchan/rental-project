@@ -46,5 +46,5 @@ public interface FastReservationMapper {
     List<ParkingDto> getAllParkingStation(int carId);
 
 
-    ModelDto getModelById(int carId);
+    ModelDto getModelById(int modelId);
 }

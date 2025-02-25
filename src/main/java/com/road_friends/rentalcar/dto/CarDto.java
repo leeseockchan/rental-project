@@ -45,6 +45,8 @@ public class CarDto {
 
     private ModelDto model;
 
+    private ParkingDto parking;
+
     private List<ParkingDto> parkingList;
 
 

@@ -27,33 +27,48 @@
     <!-- 특정 차량 조회  -->
     <select id="getCarById" resultMap="CarDetailResultMap">
         SELECT
-            c.car_id, c.car_year, c.car_fuel, c.car_grade, c.car_options, c.rental_station,
+            c.car_id, c.model_id, c.car_year, c.car_fuel, c.car_grade, c.car_options, c.rental_station,
             m.model_id, m.model_brand, m.model_name, m.model_category,
             m.model_amount_hour, m.model_amount_day,
-            m.model_seate_num, m.model_transmission
+            m.model_seate_num, m.model_transmission,
+            p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude
         FROM car c
                  JOIN model m ON c.model_id = m.model_id
+                 JOIN parking p ON c.rental_station = p.parking_id
         WHERE c.car_id = #{carId};
     </select>
 
+
     <resultMap id="CarDetailResultMap" type="com.road_friends.rentalcar.dto.CarDto">
         <id property="carId" column="car_id"/>
+        <result property="modelId" column="model_id"/>
         <result property="carYear" column="car_year"/>
         <result property="carFuel" column="car_fuel"/>
         <result property="carGrade" column="car_grade"/>
         <result property="carOptions" column="car_options"/>
         <result property="rentalStation" column="rental_station"/>
 
+        <!-- 모델 정보 -->
         <association property="model" javaType="com.road_friends.rentalcar.dto.ModelDto">
             <id property="modelId" column="model_id"/>
-            <result property="modelBrand" column="model_brand"/>
             <result property="modelName" column="model_name"/>
+            <result property="modelBrand" column="model_brand"/>
             <result property="modelCategory" column="model_category"/>
             <result property="modelSeateNum" column="model_seate_num"/>
             <result property="modelTransmission" column="model_transmission"/>
         </association>
 
+        <!-- 주차장 정보 -->
+        <association property="parking" javaType="com.road_friends.rentalcar.dto.ParkingDto">
+            <id property="parkingId" column="parking_id"/>
+            <result property="parkingName" column="parking_name"/>
+            <result property="parkingAddress" column="parking_address"/>
+            <result property="parkingLatitude" column="parking_latitude"/>
+            <result property="parkingLongtitude" column="parking_longtitude"/>
+        </association>
+
     </resultMap>
+
 
 
     <!--     예약하기     -->
@@ -77,7 +92,7 @@
 
     <!-- 예약 가능 차량 조회 -->
     <select id="getAvailableCars" resultMap="resultMap">
-        SELECT m.model_id, m.model_name, m.model_category, m.model_seate_num,
+        SELECT m.model_id, m.model_name, m.model_brand, m.model_category, m.model_seate_num,
         m.model_transmission, m.model_amount_day, m.model_amount_hour,
         c.car_id, c.car_year, c.car_fuel, c.car_grade, c.car_options, c.rental_station
         FROM car c
@@ -117,6 +132,7 @@
         <association property="model" javaType="com.road_friends.rentalcar.dto.ModelDto">
             <id property="modelId" column="model_id"/>
             <result property="modelName" column="model_name"/>
+            <result property="modelBrand" column="model_brand"/>
             <result property="modelCategory" column="model_category"/>
             <result property="modelSeateNum" column="model_seate_num"/>
             <result property="modelTransmission" column="model_transmission"/>
@@ -148,28 +164,52 @@
 
     </select>
 
-<!--    반납 가능한 주차장 조회(4시간 이하, 동일 지역)   -->
+<!--    반납 가능한 주차장 조회 (4시간 이하, 동일 지역)   -->
     <select id="getParkingStationBelow4hours" parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto" >
-        SELECT p.parking_id, p.parking_name, p.parking_address
+        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude
         FROM parking p
         WHERE p.parking_district = (
             SELECT parking_district FROM parking WHERE parking_id = (
                 SELECT rental_station FROM car WHERE car_id = #{carId}));
     </select>
 
-<!--    모든 주차장 조회      -->
-    <select id="getAllParkingStation"  parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto">
-        SELECT p.parking_id, p.parking_name, p.parking_address
+<!--    4시간 이상 - 모든 주차장 조회      -->
+    <select id="getAllParkingStation" parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto">
+        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude
         FROM parking p
                  JOIN car c ON c.rental_station = p.parking_id
+        WHERE
+            (CASE
+                -- 제주도에서 빌린 경우 → 제주도 주차장만 조회
+                 WHEN (SELECT p2.parking_district
+                       FROM parking p2
+                                JOIN car c2 ON c2.rental_station = p2.parking_id
+                       WHERE c2.car_id = #{carId}) = '제주도'
+                     THEN p.parking_district = '제주도'
+
+                -- 제주도 외 지역에서 빌린 경우 → 제주도를 제외한 모든 주차장 조회
+                 ELSE p.parking_district != '제주도'
+                END)
     </select>
 
+
 <!--     모델 조회       -->
-    <select id="getModelById" parameterType="int" resultType="com.road_friends.rentalcar.dto.ModelDto">
-        SELECT m.model_id, m.model_name, m.model_category, m.model_seate_num,
-               m.model_transmission, m.model_amount_day, m.model_amount_hour
-        FROM model m
-        WHERE m.model_id = (SELECT model_id FROM car WHERE car_id = #{carId});
+    <resultMap id="ModelResultMap" type="com.road_friends.rentalcar.dto.ModelDto">
+        <id property="modelId" column="model_id"/>
+        <result property="modelName" column="model_name"/>
+        <result property="modelBrand" column="model_brand"/>
+        <result property="modelCategory" column="model_category"/>
+        <result property="modelSeateNum" column="model_seate_num"/>
+        <result property="modelTransmission" column="model_transmission"/>
+        <result property="modelAmountHour" column="model_amount_hour"/>
+        <result property="modelAmountDay" column="model_amount_day"/>
+    </resultMap>
+
+    <select id="getModelById" parameterType="int" resultMap="ModelResultMap">
+        SELECT model_id, model_brand, model_name, model_category, model_seate_num,
+               model_transmission, model_amount_day, model_amount_hour
+        FROM model
+        WHERE model_id = (SELECT model_id FROM car WHERE car_id = #{carId});
     </select>
 
 
