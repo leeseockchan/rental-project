@@ -55,6 +55,10 @@ public class FastReservationDto {
     @JsonProperty("fast_reservation_create_at")
     private Timestamp reservationTime;
 
+    @JsonProperty("rental_state")
+    private Integer rentalState;
+
+
     private CarDto carDto;
 //    private ModelDto modelDto;
     private List<ParkingDto> parkingList;
