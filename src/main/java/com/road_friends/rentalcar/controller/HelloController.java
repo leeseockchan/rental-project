@@ -44,7 +44,7 @@ public class HelloController {
 
   @GetMapping("/notice")
   public String layout6(){
-    return "/notice/notice-list";
+    return "/notice/notice-update";
   }
 
 }
