@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>주차장 관리 등록</title>
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/parking/parking-create.css}">
+  </th:block>
+
+  <!-- 카카오 지도 -->
+  <script type="text/javascript"
+    src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=1fc1193a647e2229d02c81559ac53d9e"></script>
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      주차장 관리
+    </div>
+
+    <div class="info">
+      <div class="header-sm">
+        주차장 관리 > 신규 주차장 등록
+      </div>
+      <form id="create-form" action="" method="post" onsubmit="return validateForm()">
+        <div class="info-box-big">
+
+          <div class="info-box box1">
+            <div class="info-box-title">주차장 정보</div>
+
+            <div class="info-box-content">
+              <div class="info-box-content-row">
+                <label for="parking-name">주차장 이름</label>
+                <input type="text" name="parkingName" id="parking-name" value="">
+              </div>
+            </div>
+
+            <div class="info-box-content">
+              <div class="info-box-content-row">
+                <label for="parking-province">도 / 시</label>
+                <select name="parkingProvince" id="parking-province">
+                  <option value="서울특별시">서울특별시</option>
+                  <option value="경기도">경기도</option>
+                  <option value="인천광역시">인천광역시</option>
+                </select>
+              </div>
+              <div class="info-box-content-row">
+                <label for="parking-district">행정구역</label>
+                <select name="parkingDistrict" id="parking-district">
+                  <option value="강남구">강남구</option>
+                  <option value="강동구">강동구</option>
+                  <option value="강북구">강북구</option>
+                  <option value="강서구">강서구</option>
+                  <option value="관악구">관악구</option>
+                </select>
+              </div>
+              <div class="info-box-content-row">
+                <label for="parking-detail-address">상세 주소</label>
+                <input type="text" name="parkingDetailAddress" id="parking-detail-address" value="">
+              </div>
+            </div>
+
+            <div class="info-box-content">
+              <div class="info-box-content-row">
+                <label for="parking-latitude">위도</label>
+                <input type="text" name="parkingLatitude" id="parking-latitude" value="">
+              </div>
+              <div class="info-box-content-row">
+                <label for="parking-longtitude">경도</label>
+                <input type="text" name="parkingLongtitude" id="parking-longtitude" value="">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-go-back" onclick="">
+            목록으로
+          </button>
+          <button type="submit" class="btn-update" id="submit">
+            등록
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</body>
+
+</html>
