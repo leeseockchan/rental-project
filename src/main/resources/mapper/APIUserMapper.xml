@@ -3,7 +3,7 @@
 <mapper namespace="com.road_friends.rentalcar.mapper.APIUserMapper">
 
     <!-- 로그인한 사용자 정보 조회 -->
-    <select id="findById" resultType="com.road_friends.rentalcar.dto.APIUserDto">
+    <select id="findById" resultType="com.road_friends.rentalcar.dto.UserDTO">
         SELECT user_num, user_id, user_name, user_email,
         user_phone, user_gender, user_birth, user_address,
         user_status, enabled

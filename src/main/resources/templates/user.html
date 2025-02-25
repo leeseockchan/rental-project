@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사용자 목록</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>사용자 목록</h1>
+
+<!-- 전체 회원 수 출력 -->
+<p>총 회원 수: <span th:text="${userCount}"></span>명</p>
+<p>활성 회원 수: <span th:text="${activeUserCount}"></span>명</p>
+<p>탈퇴 회원 수: <span th:text="${inactiveUserCount}"></span>명</p>
+<p>남자 회원 수: <span th:text="${maleUserCount}"></span>명</p>
+<p>여자 회원 수: <span th:text="${femaleUserCount}"></span>명</p>
+<h2>연령대별 회원 수</h2>
+<ul>
+    <li>20대: <span th:text="${twentiesCount}"></span>명</li>
+    <li>30대: <span th:text="${thirtiesCount}"></span>명</li>
+    <li>40대: <span th:text="${fortiesCount}"></span>명</li>
+    <li>50대: <span th:text="${fiftiesCount}"></span>명</li>
+    <li>60대 이상: <span th:text="${sixtiesCount}"></span>명</li>
+</ul>
+<table border="1">
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>전화번호</th>
+        <th>성별</th>
+        <th>상태</th>
+        <th>상세보기</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.userNum}"></td>
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.userEmail}"></td>
+        <td th:text="${user.userPhone}"></td>
+        <td th:text="${user.userGender == 0 ? '남자' : '여자'}"></td>
+        <td th:text="${user.userStatus == 0 ? '활성' : '탈퇴'}"></td>
+        <td>
+            <a th:href="@{/api/admin/users/{userNum}(userNum=${user.userNum})}">상세보기</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
