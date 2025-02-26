@@ -101,10 +101,8 @@ public class FastReservationService {
     public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
                                               String modelCategory, String modelName, Integer endPrice) {
 
-        Long hoursBetween =  ChronoUnit.HOURS.between(rentalDatetime,returnDatetime);
-        boolean isHourly = (hoursBetween % 24!=0);
 
-        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName, endPrice, isHourly);
+        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName, endPrice);
 
         // 여러 개의 차량 정보를 담을 리스트
         List<Map<String, Object>> carList = new ArrayList<>();
@@ -112,13 +110,16 @@ public class FastReservationService {
         for (CarDto car : availableCars) {
             Long price = getTotalPrice(car, rentalDatetime, returnDatetime);
 
-            // 각 차량 정보를 Map 으로 저장
-            Map<String, Object> carInfo = new HashMap<>();
-            carInfo.put("car", car);
-            carInfo.put("totalPrice", price);
+            if(endPrice == null || price<=endPrice){
+                // 각 차량 정보를 Map 으로 저장
+                Map<String, Object> carInfo = new HashMap<>();
+                carInfo.put("car", car);
+                carInfo.put("totalPrice", price);
 
-            // 리스트에 추가
-            carList.add(carInfo);
+                // 리스트에 추가
+                carList.add(carInfo);
+            }
+
         }
 
         Map<String, Object> carListMap = new HashMap<>();

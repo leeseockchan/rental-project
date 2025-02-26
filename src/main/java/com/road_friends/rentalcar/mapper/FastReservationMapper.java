@@ -29,8 +29,7 @@ public interface FastReservationMapper {
                                   @Param("returnDatetime") LocalDateTime returnDatetime,
                                   @Param("modelCategory") String modelCategory,
                                   @Param("modelName") String modelName,
-                                  @Param("endPrice") Integer endPrice,
-                                  @Param("isHourly") Boolean isHourly
+                                  @Param("endPrice") Integer endPrice
     );
 
 
