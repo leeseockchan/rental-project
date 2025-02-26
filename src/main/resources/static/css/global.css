@@ -27,7 +27,7 @@ li {
 }
 
 /* 사이드바 */
-.sidebar {
+.sidebar{
     width: 373px;
     height: 100vh;
     background-color: #3A3D50;
@@ -47,7 +47,7 @@ li {
 }
 
 .navigation-box {
-    margin-bottom: 300px;
+    margin-bottom: 250px;
 }
 
 .navigation li {
@@ -57,7 +57,6 @@ li {
 
 .navigation li a {
     display: block;
-    width: 100%;
     padding: 15px 40px;
     color: #fff;
     font-size: 18px;
