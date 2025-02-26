@@ -13,7 +13,15 @@ public interface APIFastReservationMapper {
     List<FastReservationResponseDto> getUserFastReservations(Long userNum);
 
     // 이용시작 상태 변경
-    int updateRentalState(@Param("reservationId") int reservationId, @Param("newState") int newState);
+    int updateRentalState(@Param("reservationId") int reservationId,
+                          @Param("currentState") int currentState,
+                          @Param("newState") int newState);
+
+    // 이용완료 자동차 상태 변경
+    Integer getCarIdByReservationId(@Param("reservationId") int reservationId);
+    int updateCarStatus(@Param("carId") int carId,
+                        @Param("currentStatus") int currentStatus,
+                        @Param("newStatus") int newStatus);
 
     // 특정 빠른 예약 상세 조회
     FastReservationResponseDto getFastReservationDetail(Long reservationId);
