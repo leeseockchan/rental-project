@@ -1,11 +1,6 @@
 package com.road_friends.rentalcar.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.road_friends.rentalcar.dto.CarDto;
-import com.road_friends.rentalcar.dto.FastReservationDto;
-import com.road_friends.rentalcar.dto.ModelDto;
-import com.road_friends.rentalcar.dto.ParkingDto;
+import com.road_friends.rentalcar.dto.*;
 import com.road_friends.rentalcar.mapper.FastReservationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -56,12 +51,21 @@ public class FastReservationService {
         return fastReservationMapper.getReservationById(id);
     }
 
+    // 예약하기
+    @Transactional
     public void reserve(FastReservationDto fastReservationDto){
 
+        // reservation 테이블에 새로운 예약 생성
+        ReservationDto reservationDto = new ReservationDto();
+        fastReservationMapper.insertReservation(reservationDto);
+
+        // 방금 생성된 reservationId 불러오기
+        Integer reservationId = fastReservationMapper.getLastInsertId();
+        fastReservationDto.setReservationId(reservationId);
+
         CarDto car = getCarById(fastReservationDto.getCarId());
-//        ModelDto model = getModelById(fastReservationDto.getCarId());
         fastReservationDto.setCarDto(car);
-//        fastReservationDto.setModelDto(model);
+        fastReservationDto.setRentalLocation(car.getRentalStation());
 
         car.getModel().setModelAmountDay(fastReservationMapper.getAmountDay(car.getModel().getModelId()));
         car.getModel().setModelAmountHour(fastReservationMapper.getAmountHour(car.getModel().getModelId()));
@@ -72,10 +76,19 @@ public class FastReservationService {
 
         fastReservationMapper.reserve(fastReservationDto);
 
+        // reservation 테이블의 fast_reservation_id 업데이트
+        fastReservationMapper.updateFastReservationId(reservationId, fastReservationDto.getReservationId());
+
+        // car 테이블의 car_status 0 -> 1 업데이트
+        fastReservationMapper.updateCarStatusTo1(fastReservationDto.getCarId());
+
     }
 
-
+    // 예약 삭제
     public void deleteReservation(int reservationId) {
+
+        FastReservationDto fastReservationDto = fastReservationMapper.getReservationById(reservationId);
+        fastReservationMapper.updateCarStatusTo0(fastReservationDto.getCarId());
         fastReservationMapper.deleteReservation(reservationId);
     }
 
@@ -84,11 +97,12 @@ public class FastReservationService {
     }
 
 
-    // 차량 조회 + 가격 계산
+    // 이용 가능한 차량 조회 + 가격 계산
     public Map<String,Object> getAvailableCars(String province, String district, LocalDateTime rentalDatetime, LocalDateTime returnDatetime,
-                                              String modelCategory, String modelName) {
+                                              String modelCategory, String modelName, Integer endPrice) {
 
-        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName);
+
+        List<CarDto> availableCars = fastReservationMapper.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory, modelName, endPrice);
 
         // 여러 개의 차량 정보를 담을 리스트
         List<Map<String, Object>> carList = new ArrayList<>();
@@ -96,13 +110,16 @@ public class FastReservationService {
         for (CarDto car : availableCars) {
             Long price = getTotalPrice(car, rentalDatetime, returnDatetime);
 
-            // 각 차량 정보를 Map 으로 저장
-            Map<String, Object> carInfo = new HashMap<>();
-            carInfo.put("car", car);
-            carInfo.put("totalPrice", price);
+            if(endPrice == null || price<=endPrice){
+                // 각 차량 정보를 Map 으로 저장
+                Map<String, Object> carInfo = new HashMap<>();
+                carInfo.put("car", car);
+                carInfo.put("totalPrice", price);
 
-            // 리스트에 추가
-            carList.add(carInfo);
+                // 리스트에 추가
+                carList.add(carInfo);
+            }
+
         }
 
         Map<String, Object> carListMap = new HashMap<>();

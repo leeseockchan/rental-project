@@ -2,16 +2,14 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.CarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
-import com.road_friends.rentalcar.dto.ModelDto;
 import com.road_friends.rentalcar.dto.ParkingDto;
-import com.road_friends.rentalcar.mapper.FastReservationMapper;
+
 import com.road_friends.rentalcar.service.FastReservationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -20,32 +18,30 @@ import java.util.Map;
 public class FastReservationController {
 
     private final FastReservationService fastReservationService;
-    private final FastReservationMapper fastReservationMapper;
 
-    public FastReservationController(FastReservationService fastReservationService, FastReservationMapper fastReservationMapper) {
+    public FastReservationController(FastReservationService fastReservationService) {
         this.fastReservationService = fastReservationService;
-        this.fastReservationMapper = fastReservationMapper;
+
     }
 
 
     // 입력받은 지역, 시간으로 이용 가능한 차량 조회
-    @PostMapping("/cars")
-    public ResponseEntity <Map<String, Object>> selectCars(@RequestBody Map<String, Object> requestBody) {
+    @GetMapping("/cars")
+    public ResponseEntity <Map<String, Object>> selectCars(@RequestParam String province,
+                                                           @RequestParam String district,
+                                                           @RequestParam String rental_datetime,
+                                                           @RequestParam String return_datetime,
+                                                           @RequestParam(required = false) String model_category,
+                                                           @RequestParam(required = false) String model_name,
+                                                           @RequestParam(required = false) Integer end_price
+                                                           ) {
 
-        // 차량 조회
-        String province = (String) requestBody.get("province");
-        String district = (String) requestBody.get("district");
-        LocalDateTime rentalDatetime = LocalDateTime.parse((String) requestBody.get("rental_datetime"));
-        LocalDateTime returnDatetime = LocalDateTime.parse((String) requestBody.get("return_datetime"));
+
+        LocalDateTime rentalDatetime = LocalDateTime.parse(rental_datetime);
+        LocalDateTime returnDatetime = LocalDateTime.parse(return_datetime);
 
 
-        // 특정 조건으로 차량 검색 (필터링)
-        String modelCategory = (String) requestBody.get("model_category");
-        String modelName = (String) requestBody.get("model_name");
-//        int modelAmountHour = (int) requestBody.get("modelAmountHour");
-//        int modelAmountDay = (int) requestBody.get("modelAmountDay");
-
-        Map<String, Object> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime, modelCategory,modelName);
+        Map<String, Object> availableCars = fastReservationService.getAvailableCars(province, district, rentalDatetime, returnDatetime, model_category,model_name,end_price);
 
         return ResponseEntity.ok(availableCars);
     }
@@ -75,7 +71,7 @@ public class FastReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    // 예약
+    // 예약 페이지
     @GetMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestParam("car_id") int carId,
                                                     @RequestParam("rental_datetime") String rentalDatetimeStr,
@@ -104,6 +100,7 @@ public class FastReservationController {
         return new ResponseEntity<> (reservation, HttpStatus.OK);
     }
 
+    // 예약
     @PostMapping("/reservations")
     public ResponseEntity<FastReservationDto> reserve(@RequestBody FastReservationDto fastReservationDto) {
 

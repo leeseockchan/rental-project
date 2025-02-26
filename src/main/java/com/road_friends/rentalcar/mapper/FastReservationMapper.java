@@ -1,9 +1,6 @@
 package com.road_friends.rentalcar.mapper;
 
-import com.road_friends.rentalcar.dto.CarDto;
-import com.road_friends.rentalcar.dto.FastReservationDto;
-import com.road_friends.rentalcar.dto.ModelDto;
-import com.road_friends.rentalcar.dto.ParkingDto;
+import com.road_friends.rentalcar.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,6 +16,10 @@ public interface FastReservationMapper {
     CarDto getCarById(int id);
 
     void reserve(FastReservationDto fastReservationDto);
+
+    void updateFastReservationId(@Param("reservationId") int reservationId,
+                                 @Param("fastReservationId") int fastReservationId);
+
     void deleteReservation(int reservationId);
     void updateReservation(FastReservationDto fastReservationDto);
 
@@ -27,10 +28,10 @@ public interface FastReservationMapper {
                                   @Param("rentalDatetime") LocalDateTime rentalDatetime,
                                   @Param("returnDatetime") LocalDateTime returnDatetime,
                                   @Param("modelCategory") String modelCategory,
-                                  @Param("modelName") String modelName
-//                                  @Param("modelAmountHour") int modelAmountHour,
-//                                  @Param("modelAmountDay") int modelAmountDay
+                                  @Param("modelName") String modelName,
+                                  @Param("endPrice") Integer endPrice
     );
+
 
 
     int getAmountHour(int carId);
@@ -47,4 +48,11 @@ public interface FastReservationMapper {
 
 
     ModelDto getModelById(int modelId);
+
+    void insertReservation(ReservationDto reservationDto);
+    int getLastInsertId();
+
+    void updateCarStatusTo1(int carId);
+
+    void updateCarStatusTo0(int carId);
 }
