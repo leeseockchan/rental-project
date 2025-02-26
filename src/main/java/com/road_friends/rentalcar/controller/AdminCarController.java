@@ -6,6 +6,7 @@ import com.road_friends.rentalcar.dto.AdminParkingDto;
 import com.road_friends.rentalcar.service.AdminCarService;
 import com.road_friends.rentalcar.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -100,31 +101,66 @@ public class AdminCarController {
     //    차량 관리 수정
     @GetMapping("/modify/{carId}")
     public String modifyCarStatus(@PathVariable int carId, Model model) {
+        // 차량 정보 가져오기
         AdminCarDto modifyCar = adminCarService.findByCarId(carId);
+
+        // 제조사, 모델명, 연식, 연료, 등급 리스트 추가
         model.addAttribute("mBrandList", adminCarService.carBrandList());
         model.addAttribute("mNameList", adminCarService.modelNameList());
         model.addAttribute("yearList", adminCarService.carYearList());
         model.addAttribute("fuelList", adminCarService.carFuelList());
         model.addAttribute("gradeList", adminCarService.carGradeList());
+
+        // 도/시 (province) 리스트 추가
         model.addAttribute("provinceList", adminCarService.parkingProvinceList());
-        List<String> districtList =  adminCarService.getDistrictsByProvince(modifyCar.getParking().getParkingProvince());
+
+        // 차량이 등록된 주차장의 도/시 정보 가져오기
+        String province = (modifyCar.getParking() != null) ? modifyCar.getParking().getParkingProvince() : null;
+        String district = (modifyCar.getParking() != null) ? modifyCar.getParking().getParkingDistrict() : null;
+
+        // 행정구역 리스트 조회
+        List<String> districtList = (province != null) ? adminCarService.getDistrictsByProvince(province) : new ArrayList<>();
         model.addAttribute("districtList", districtList);
+
+        // 주차장 리스트 조회
+        List<AdminParkingDto> parkingList = (province != null && district != null) ?
+                adminParkingService.getParkingsByDistrict(province, district) : new ArrayList<>();
+        model.addAttribute("parkingList", parkingList);
+
+        // 수정할 차량 정보 추가
         model.addAttribute("modify", modifyCar);
+
         return "car_page/modify";
     }
 
     @PutMapping("/modify/{carId}")
-    @ResponseBody
-    public  ResponseEntity<Map<String, Object>> modifyCarStatusPost(@PathVariable int carId,
-                                      @RequestBody AdminCarDto adminCarDto) {
+    public ResponseEntity<Map<String, Object>> modifyCarStatusPost(
+            @PathVariable int carId,
+            @RequestBody AdminCarDto adminCarDto) {
+
+        // 🔹 디버깅: 요청 데이터 확인
+        System.out.println("🔹 수신된 데이터: " + adminCarDto);
+
+        if (adminCarDto == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("success", false, "message", "잘못된 요청 데이터"));
+        }
+
+        // modelId를 직접 조회하여 설정
+        int modelId = adminCarService.getModelIdByName(adminCarDto.getModel().getModelName());
+        adminCarDto.setModelId(modelId);
         adminCarDto.setCarId(carId);
+
         adminCarService.modifyCarStatus(adminCarDto);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", "수정 완료");
-        return  ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
     }
+
+
+
     // 행정 지역 가져오기 엔드포인트
     @GetMapping("/api/districts/{province}")
     @ResponseBody

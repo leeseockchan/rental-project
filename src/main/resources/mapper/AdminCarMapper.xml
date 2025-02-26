@@ -74,22 +74,20 @@
 
     <!-- 차량 관리 수정 -->
     <update id="modifyCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
-        UPDATE car c
-        JOIN parking p
-            ON p.parking_province = #{parking.parkingProvince}
-            AND p.parking_district = #{parking.parkingDistrict}
-            AND p.parking_name = #{parking.parkingName}
-        JOIN model m
-            ON m.model_name = #{model.modelName}
-            AND m.model_brand = #{model.modelBrand}
+        UPDATE car
         SET
-        c.car_year = #{carYear},
-        c.car_fuel = #{carFuel},
-        c.car_grade = #{carGrade},
-        c.model_id = m.model_id,
-        c.rental_station = p.parking_id
-        WHERE c.car_id = #{carId};
+        model_id = #{modelId},   <!-- 🔹 modelId 직접 사용 -->
+        car_category = #{carCategory},
+        car_status = #{carStatus},
+        car_year = #{carYear},
+        car_fuel = #{carFuel},
+        car_grade = #{carGrade},
+        car_options = #{carOptions},
+        rental_station = #{parking.parkingId}
+        WHERE car_id = #{carId};
     </update>
+
+
 
     <!--    차량 관리 추가-->
     <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">

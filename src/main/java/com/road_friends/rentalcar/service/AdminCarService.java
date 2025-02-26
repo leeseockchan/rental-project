@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class AdminCarService {
@@ -40,8 +41,31 @@ public class AdminCarService {
         adminCarMapper.insertCar(adminCarDto);
     }
 
+    /**
+     * 모델명을 기반으로 modelId 조회
+     */
+    public int getModelIdByName(String modelName) {
+        if (modelName == null || modelName.trim().isEmpty()) {
+            throw new IllegalArgumentException("모델명이 비어 있습니다.");
+        }
+        Integer modelId = adminCarMapper.findModelIdByName(modelName);
+        if (modelId == null) {
+            throw new NoSuchElementException("해당 모델명이 존재하지 않습니다: " + modelName);
+        }
+        return modelId;
+    }
+
     //    차량 관리 수정
     public void modifyCarStatus(AdminCarDto adminCarDto) {
+
+        // 🚨 carGrade 값에 따라 carOptions 자동 설정
+        if ("premium".equalsIgnoreCase(adminCarDto.getCarGrade())) {
+            adminCarDto.setCarOptions("네비게이션,하이패스,블랙박스,후방카메라,열선시트");
+        } else if ("standard".equalsIgnoreCase(adminCarDto.getCarGrade())) {
+            adminCarDto.setCarOptions("블랙박스,하이패스,열선시트");
+        } else {
+            adminCarDto.setCarOptions(""); // 기본값 (옵션 없음)
+        }
         adminCarMapper.modifyCar(adminCarDto);
     }
 
