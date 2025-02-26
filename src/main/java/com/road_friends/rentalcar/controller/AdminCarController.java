@@ -71,6 +71,7 @@ public class AdminCarController {
 
         return "car_page/add";
     }
+
     @PostMapping("/add")
     public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
         adminCarService.insertCar(adminCarDto);

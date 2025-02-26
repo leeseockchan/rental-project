@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
 import com.road_friends.rentalcar.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +44,48 @@ public class AdminParkingController {
         return "parking_page/list";
     }
 
+    //    주차장 상세 보기
+    @GetMapping("/{parkingId}")
+    public String detailByParking(@PathVariable int parkingId, Model model) {
+        AdminParkingDto parkingDetail = adminParkingService.findByParking(parkingId);
+        model.addAttribute("parkingDetail", parkingDetail);
+        return "parking_page/detail";
+    }
+
     // 주차장 추가하기
     @GetMapping("/add")
     public String addParking(Model model) {
         model.addAttribute("provinceList", getProvinceList());
         model.addAttribute("parkingDto", new AdminParkingDto());
         return "parking_page/add";
+    }
+
+    @PostMapping("/add")
+    public String add(@ModelAttribute AdminParkingDto adminParkingDto){
+        adminParkingService.addParking(adminParkingDto);
+        return "redirect:/api/admin/parkings";
+    }
+
+    //    주차장 정보 수정
+    @GetMapping("/{parkingId}/modify")
+    public String modify(@PathVariable int parkingId, Model model) {
+        AdminParkingDto adminParkingDto = adminParkingService.findByParking(parkingId);
+        model.addAttribute("provinceList", getProvinceList());
+        model.addAttribute("modify", adminParkingDto);
+        return "parking_page/modify";
+    }
+    @PutMapping("/{parkingId}/modify")
+    public String modifyParking(@PathVariable int parkingId,
+                                @ModelAttribute AdminParkingDto adminParkingDto) {
+        adminParkingDto.setParkingId(parkingId);
+        adminParkingService.modifyParking(adminParkingDto);
+        return "redirect:/api/admin/parkings/" + parkingId;
+    }
+
+    //      주차장 삭제
+    @DeleteMapping("/{parkingId}")
+    public String deleteParking(@PathVariable int parkingId) {
+        adminParkingService.deleteParking(parkingId);
+        return "redirect:/api/admin/parkings";  // 삭제 후 목록 페이지로 리디렉션
     }
 }
