@@ -4,6 +4,11 @@
 
 <head>
   <title>공지사항 상세 조회</title>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+
   <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/notice/notice-detail.css}">
   </th:block>
@@ -24,15 +29,15 @@
         공지사항 관리 > 공지사항 상세 조회
         <div class="btn-group">
           <!-- 수정 -->
-          <button type="button" class="btn-update" onclick="">
-            수정
-          </button>
-          <!-- 삭제 -->
-          <form action="" method="post">
-            <button type="submit" class="btn-delete-all" onclick="return confirm('정말 해당 공지사항을 삭제하시겠습니까?');">
-              삭제
+          <a th:href="@{/posts/edit/{id}(id=${post.id})}">
+            <button type="button" class="btn-update">
+              수정
             </button>
-          </form>
+          </a>
+          <!-- 삭제 -->
+          <a th:href="@{/posts/delete/{id}(id=${post.id})}" onclick="return confirm('해당 공지사항을 삭제하시겠습니까?')">
+            <button type="button" class="btn-delete-all">삭제</button>
+          </a>
         </div>
       </div>
 
@@ -44,7 +49,7 @@
               <tbody>
                 <tr>
                   <th>공지 번호</th>
-                  <td text="">00</td>
+                  <td th:text="${post.id}"></td>
                 </tr>
                 <tr>
                   <th>작성자</th>
@@ -52,17 +57,17 @@
                 </tr>
                 <tr>
                   <th>제목</th>
-                  <td text="">00</td>
+                  <td th:text="${post.title}"></td>
                 </tr>
                 <tr>
                   <th>내용</th>
-                  <td text="">
-                    <div class="notice-content">00</div>
+                  <td>
+                    <div class="notice-content" id="content" th:utext="${post.content}"></div>
                   </td>
                 </tr>
                 <tr>
                   <th>작성일</th>
-                  <td text="">00</td>
+                  <td th:text="${post.createdAt}"></td>
                 </tr>
               </tbody>
             </table>
@@ -70,7 +75,7 @@
         </div>
       </div>
       <div class="btn-group">
-        <button type="button" class="btn-go-back" onclick="">
+        <button type="button" class="btn-go-back" th:onclick="'location.href=\'' + @{/posts/list} + '\''">
           목록으로
         </button>
       </div>

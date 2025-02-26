@@ -86,13 +86,8 @@
     justify-content: space-between;
 }
 
-.btn-group form{
-    display: flex;
-    align-items: center;
-}
-
 .btn-group button,
-.btn-group form button{
+.btn-group a button{
     padding : 5px 10px;
     margin-right: 5px;
     border: 1px solid transparent;
