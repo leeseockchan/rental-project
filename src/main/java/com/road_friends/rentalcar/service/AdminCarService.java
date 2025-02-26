@@ -76,22 +76,5 @@ public class AdminCarService {
         return List.of("서울특별시", "인천광역시" ,"경기도", "충청남도", "충청북도",
                  "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
     }
-    // 도/시별 행정구역을 Map으로 저장
-    public Map<String, List<String>> parkingDistrictMap() {
-        Map<String, List<String>> provinceToDistrictMap = new HashMap<>();
-    // 도/시별 행정구역 매핑
-        provinceToDistrictMap.put("서울특별시", List.of("강남구", "강북구", "강서구", "관악구", "광진구", "도봉구", "동작구", "동대문구", "마포구", "서대문구", "서초구", "송파구", "양천구", "용산구", "중구", "중랑구", "노원구", "금천구"));
-        provinceToDistrictMap.put("인천광역시", List.of("계양구", "남동구", "미추홀구", "부평구", "서구", "연수구"));
-        provinceToDistrictMap.put("경기도", List.of("군포시", "광명시", "광주시", "고양시", "군포시", "기흥구", "수원시", "성남시", "수원시", "안양시", "양주시", "여주시", "용인시", "파주시", "평택시", "하남시"));
-        provinceToDistrictMap.put("충청남도", List.of("당진시", "논산시", "서산시", "천안시"));
-        provinceToDistrictMap.put("충청북도", List.of("청주시", "충주시", "제천시", "음성군"));
-        provinceToDistrictMap.put("경상북도", List.of("구미시", "김천시", "경주시", "포항시"));
-        provinceToDistrictMap.put("경상남도", List.of("김해시", "마산시", "진주시", "창원시"));
-        provinceToDistrictMap.put("강원도", List.of("강릉시", "동해시", "원주시", "춘천시", "태백시", "속초시"));
-        provinceToDistrictMap.put("전라북도", List.of("군산시", "익산시", "전주시", "정읍시"));
-        provinceToDistrictMap.put("전라남도", List.of("광양시", "목포시", "순천시", "여수시"));
-        provinceToDistrictMap.put("제주도", List.of("제주시", "서귀포시"));
 
-        return provinceToDistrictMap;
-    }
 }

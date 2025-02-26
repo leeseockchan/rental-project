@@ -4,6 +4,7 @@ import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminModelDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
 import com.road_friends.rentalcar.service.AdminCarService;
+import com.road_friends.rentalcar.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,9 @@ public class AdminCarController {
     @Autowired
     private AdminCarService adminCarService;
 
+    @Autowired
+    private AdminParkingService adminParkingService;
+
     @GetMapping("/districts")
     @ResponseBody
     public List<String> getDistricts(@RequestParam String province) {
@@ -30,6 +34,22 @@ public class AdminCarController {
     @ResponseBody
     public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
         return adminCarService.findByDistrict(district);
+    }
+
+    // 1. 도/시(province) 목록 조회
+    @GetMapping("/provinces")
+    public ResponseEntity<List<String>> getProvinces() {
+        List<String> provinces = adminParkingService.getAllProvinces();
+        return ResponseEntity.ok(provinces);
+    }
+
+    // 3. 선택된 행정구역의 주차장 목록 조회
+    @GetMapping("/parkings")
+    public ResponseEntity<List<AdminParkingDto>> getParkings(
+            @RequestParam("province") String province,
+            @RequestParam("district") String district) {
+        List<AdminParkingDto> parkings = adminParkingService.getParkingsByDistrict(province, district);
+        return ResponseEntity.ok(parkings);
     }
 
     // 주차 도/시 리스트
@@ -71,7 +91,6 @@ public class AdminCarController {
 
         return "car_page/add";
     }
-
     @PostMapping("/add")
     public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
         adminCarService.insertCar(adminCarDto);

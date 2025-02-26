@@ -12,6 +12,15 @@ public class AdminParkingService {
     @Autowired
     private AdminParkingMapper adminParkingMapper;
 
+    // 1. 모든 도/시(province) 목록 조회
+    public List<String> getAllProvinces() {
+        return adminParkingMapper.findAllProvinces();
+    }
+    // 3. 특정 행정구역의 주차장 목록 조회
+    public List<AdminParkingDto> getParkingsByDistrict(String province, String district) {
+        return adminParkingMapper.findParkingsByDistrict(province, district);
+    }
+
     public List<String> getDistrictsByProvince(String province) {
         return adminParkingMapper.getDistrictsByProvince(province);
     }
