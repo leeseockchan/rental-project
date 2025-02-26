@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>🔄 단기 예약 - 가장 많이 반납한 지역 TOP 5</title>
+  <title>🚗 빠른 예약 - 가장 많이 대여한 지역 TOP 5</title>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard/dashboard.css">
 </head>
 <body>
 
-<h1>🔄 단기 예약 - 가장 많이 반납한 지역 TOP 5</h1>
+<h1>🚗 빠른 예약 - 가장 많이 대여한 지역 TOP 5</h1>
 
 <table>
   <tr>
     <th>지역</th>
-    <th>반납 횟수</th>
+    <th>대여 횟수</th>
   </tr>
-  <tr th:each="returnData : ${topShortReturnLocations}">
-    <td th:text="${returnData.label}"></td>
-    <td th:text="${returnData.count}"></td>
+  <tr th:each="rental : ${topFastRentalLocations}">
+    <td th:text="${rental.label}"></td>
+    <td th:text="${rental.count}"></td>
   </tr>
 </table>
 
