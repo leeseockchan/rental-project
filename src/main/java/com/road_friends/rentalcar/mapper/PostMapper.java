@@ -10,7 +10,7 @@ public interface PostMapper {
 //  @Select("SELECT * FROM posts ORDER BY created_at DESC")
 //  List<PostDto> getAllPosts();
 
-  @Insert("INSERT INTO posts (title, content) VALUES (#{title}, #{content})")
+  @Insert("INSERT INTO posts (title, content, created_at) VALUES (#{title}, #{content}, CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul'))")
   void insertPost(PostDto postDto);
 
   @Select("SELECT * FROM posts WHERE id = #{id}")

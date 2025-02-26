@@ -9,6 +9,30 @@
   </th:block>
   <th:block layout:fragment="js">
     <script th:src="@{/js/notice/notice.js}" defer></script>
+    <script>
+      $(document).ready(function() {
+          $('#summernote').summernote({
+              height: 300,
+              callbacks: {
+                  onImageUpload: function(files) {
+                      var formData = new FormData();
+                      formData.append("file", files[0]);
+
+                      $.ajax({
+                          url: "/upload/image",
+                          type: "POST",
+                          data: formData,
+                          contentType: false,
+                          processData: false,
+                          success: function(data) {
+                              $('#summernote').summernote('insertImage', data.url); // URL 삽입
+                          }
+                      });
+                  }
+              }
+          });
+      });
+    </script>
   </th:block>
 </head>
 
@@ -24,7 +48,7 @@
       공지사항 관리 > 공지사항 작성
     </div>
 
-    <form id="">
+    <form th:action="@{/posts/write}" method="post">
       <div class="info-box-big">
         <div class="info-box box1">
           <div class="info-box-title">공지사항 작성</div>
@@ -33,25 +57,25 @@
               <tbody>
               <tr>
                 <th>공지 번호</th>
-                <td><input type="text" name="" id=""></td>
+                <td></td>
               </tr>
               <tr>
                 <th>작성자</th>
-                <td><input type="text" name="" id=""></td>
+                <td></td>
               </tr>
               <tr>
                 <th>제목</th>
-                <td><input type="text" name="" id=""></td>
+                <td><input type="text" name="title" placeholder="제목을 입력해주세요"></td>
               </tr>
               <tr>
                 <th>내용</th>
                 <td>
-                  <textarea id="summernote" name="content" rows="20"></textarea>
+                  <textarea id="summernote" name="content" placeholder="내용을 입력해주세요"></textarea>
                 </td>
               </tr>
               <tr>
                 <th>작성일</th>
-                <td><input type="text" name="" id=""></td>
+                <td></td>
               </tr>
               </tbody>
             </table>
@@ -60,7 +84,7 @@
       </div>
 
       <div class="btn-group">
-        <button type="button" class="btn-go-back" onclick="">
+        <button type="button" class="btn-go-back" th:onclick="'location.href=\'' + @{/posts/list} + '\''">
           목록으로
         </button>
         <button type="submit" class="btn-update" id="submit">
