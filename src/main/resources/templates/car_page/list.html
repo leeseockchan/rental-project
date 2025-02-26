@@ -4,20 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>차량 상태 관리 목록페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
 <h1>차량 상세 검색</h1>
+<!-- 지역 선택 -->
+<label for="provinceSelect">시/도 선택:</label>
+<select id="provinceSelect">
+    <option value="">시/도를 선택하세요</option>
+    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
+</select>
+
+<label for="districtSelect">구/군 선택:</label>
+<select id="districtSelect">
+    <option value="">구/군을 선택하세요</option>
+</select>
+
+<button type="button" id="searchBtn">검색</button>
+
 <table>
     <thead>
     <tr>
-    <td>도/시</td>
-    <td>지역</td>
-    <td >
-        <a id="add_car" th:href="@{/api/admin/vehicles/add}" >
-        <button type="button">신규 차량 등록</button>
-        </a>
-    </td>
+        <td>도/시</td>
+        <td>지역</td>
+        <td>
+            <a id="add_car" th:href="@{/api/admin/vehicles/add}">
+                <button type="button">신규 차량 등록</button>
+            </a>
+        </td>
     </tr>
     <tr>
         <th>차량번호</th>
@@ -29,7 +44,7 @@
         <th>현위치 주차장</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="carList">
     <tr th:each="car : ${cars}" th:onclick="|location.href='@{/api/admin/vehicles/{carId}(carId=${car.carId})}'|" style="cursor: pointer;">
         <td th:text="${car.carId}"> </td>
         <td th:text="${car.model.modelBrand}"></td>
@@ -41,6 +56,55 @@
     </tr>
     </tbody>
 </table>
-<!--페이징 번호 구현-->
+
+<script>
+    $(document).ready(function() {
+        // 시/도 선택 시, 해당 구/군 가져오기
+        $("#provinceSelect").change(function() {
+            let province = $(this).val();
+            $("#districtSelect").empty().append('<option value="">구/군을 선택하세요</option>');
+
+            if (province) {
+                $.get("/api/admin/vehicles/districts", { province: province }, function(data) {
+                    $.each(data, function(index, district) {
+                        $("#districtSelect").append('<option value="' + district + '">' + district + '</option>');
+                    });
+                });
+            }
+        });
+
+        // 차량 검색 버튼 클릭 시
+        $("#searchBtn").click(function() {
+            let district = $("#districtSelect").val();
+
+            if (!district) {
+                alert("구/군을 선택해주세요.");
+                return;
+            }
+
+$.get("/api/admin/vehicles/search", { district: district }, function(cars) {
+    console.log("검색된 차량 데이터:", cars);  // 👉 실제 응답 확인
+
+    let carListHtml = "";
+    $.each(cars, function(index, car) {
+        console.log("개별 차량 데이터:", car);  // 👉 개별 차량 데이터 확인
+
+        carListHtml += `
+            <tr onclick="location.href='/api/admin/vehicles/${car.carId}'" style="cursor: pointer;">
+                <td>${car.carId}</td>
+                <td>${car.model.modelBrand}</td>
+                <td>${car.model.modelName}</td>
+                <td>${car.carGrade}</td>
+                <td>${car.carCategory}</td>
+                <td>${car.carStatus}</td>
+                <td>${car.parking.parkingName}</td>
+            </tr>`;
+    });
+    $("#carList").html(carListHtml);
+});
+        });
+    });
+</script>
+
 </body>
 </html>

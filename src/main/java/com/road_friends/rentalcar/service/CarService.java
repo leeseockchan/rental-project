@@ -15,9 +15,12 @@ public class CarService {
     @Autowired
     private CarMapper carMapper;
 
-    //    차량 관리 목록
-    public List<CarDto> findAllCar() {
-        return carMapper.findAllCar();
+    public List<String> getDistrictsByProvince(String province) {
+        return carMapper.getDistrictsByProvince(province);
+    }
+
+    public List<CarDto> findByDistrict(String district) {
+        return carMapper.findByDistrict(district);
     }
 
     //    차량 관리 상세 보기
@@ -92,11 +95,4 @@ public class CarService {
 
         return provinceToDistrictMap;
     }
-
-    public List<String> getDistrictsByProvince(String province) {
-        Map<String, List<String>> provinceToDistrictMap = parkingDistrictMap();
-        return provinceToDistrictMap.getOrDefault(province, new ArrayList<>());
-    }
-
-
 }

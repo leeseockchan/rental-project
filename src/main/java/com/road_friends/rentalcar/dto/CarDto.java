@@ -14,8 +14,8 @@ public class CarDto {
         private String carGrade;
         private String carOptions;
 
-        private ModelDto model;
-        private ParkingDto parking;
+        private ModelDto model;   // 🔹 ModelDto 객체 포함
+        private ParkingDto parking;  // 🔹 ParkingDto 객체 포함
 
         @Override
         public String toString() {

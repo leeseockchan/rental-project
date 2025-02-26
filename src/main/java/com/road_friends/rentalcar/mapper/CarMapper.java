@@ -8,7 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface CarMapper {
-
+    List<String> getDistrictsByProvince(@Param("province") String province);
+    List<CarDto> findByDistrict(@Param("district") String district);
     List<CarDto> findAllCar();
     CarDto findByCarId(int carId);
     void insertCar(CarDto carDto);

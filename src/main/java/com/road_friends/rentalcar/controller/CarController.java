@@ -19,11 +19,29 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    @GetMapping("/districts")
+    @ResponseBody
+    public List<String> getDistricts(@RequestParam String province) {
+        return carService.getDistrictsByProvince(province);
+    }
+
+    // 지역별 차량 검색
+    @GetMapping("/search")
+    @ResponseBody
+    public List<CarDto> searchByDistrict(@RequestParam String district) {
+        return carService.findByDistrict(district);
+    }
+
+    // 주차 도/시 리스트
+    private List<String> getProvinceList() {
+        return List.of("서울특별시", "경기도", "충청북도", "충청남도",
+                "경상북도", "경상남도", "전라북도", "전라남도", "제주도");
+    }
+
     //    차량 관리 목록 조회(경기도 차량들)
     @GetMapping
     public String showCarStatus(Model model) {
-        List<CarDto> cars = carService.findAllCar();
-        model.addAttribute("cars", cars);
+        model.addAttribute("provinceList", getProvinceList());
         return "car_page/list";
     }
 
@@ -100,8 +118,5 @@ public class CarController {
         carService.deleteCarStatus(carId);
         return "redirect:/api/admin/vehicles";
     }
-    
-
-
 }
 
