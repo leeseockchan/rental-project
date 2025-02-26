@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.PostDto;
 import com.road_friends.rentalcar.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,13 @@ public class PostController {
   private final PostService postService;
 
   @GetMapping("/list")
-  public String list(Model model) {
-    List<PostDto> posts = postService.getAllPosts();
-    model.addAttribute("posts", posts);
+  public String list(@RequestParam(name="page", defaultValue = "1") int page,
+                     @RequestParam(name="size", defaultValue = "10") int size,
+                     Model model) {
+    PageDto pageDto = postService.getAllPosts(page, size);
+//    List<PostDto> posts = postService.getAllPosts();
+    model.addAttribute("pageDto", pageDto);
+//    model.addAttribute("posts", posts);
     return "notice/notice-list";
   }
 

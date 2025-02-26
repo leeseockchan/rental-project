@@ -7,8 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-  @Select("SELECT * FROM posts ORDER BY created_at DESC")
-  List<PostDto> getAllPosts();
+//  @Select("SELECT * FROM posts ORDER BY created_at DESC")
+//  List<PostDto> getAllPosts();
 
   @Insert("INSERT INTO posts (title, content) VALUES (#{title}, #{content})")
   void insertPost(PostDto postDto);
@@ -21,4 +21,10 @@ public interface PostMapper {
 
   @Delete("DELETE FROM posts WHERE id = #{id}")
   void deletePost(Long id);
+
+  @Select("SELECT * FROM posts ORDER BY created_at DESC LIMIT #{size} OFFSET #{offset}")
+  List<PostDto> getAllPosts(@Param("size") int size, @Param("offset") int offset);
+
+  @Select("SELECT count(*) FROM posts")
+  int countTotal();
 }
