@@ -92,10 +92,7 @@
     <!--    차량 관리 추가-->
     <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
         INSERT INTO car (model_id, car_category, car_status, car_year, car_fuel, car_grade, car_options, rental_station)
-        VALUES (
-        (SELECT model_id FROM model WHERE model_name = #{modelName}),
-        #{carCategory}, #{carStatus}, #{carYear}, #{carFuel}, #{carGrade}, #{carOptions}, #{parking.parkingId}
-        );
+        VALUES (#{modelId}, #{carCategory}, #{carStatus}, #{carYear}, #{carFuel}, #{carGrade}, #{carOptions}, #{parking.parkingId});
     </insert>
 
     <!-- 차량 관리 항목 삭제 -->
