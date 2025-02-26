@@ -71,7 +71,7 @@
     color: #000;
 }
 
-.info-box-content-table tbody tr td input,
+.info-box-content-table tbody tr td input.my-notice,
 .info-box-content-table textarea{
     padding: 5px;
     width: 800px;

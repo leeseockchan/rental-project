@@ -4,11 +4,21 @@
 
 <head>
     <title>공지사항 수정</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/notice/notice-update.css}">
     </th:block>
     <th:block layout:fragment="js">
-        <script th:src="@{/js/notice/notice.js}" defer></script>
+        <script th:src="@{/js/notice/Summernote.js}" defer></script>
+        <script defer>
+            $(document).ready(function() {
+                $('#summernote').summernote({
+                    height: 300
+                });
+            });
+        </script>
     </th:block>
 </head>
 
@@ -24,7 +34,7 @@
                 공지사항 관리 > 공지사항 상세 조회 > 공지사항 수정
             </div>
 
-            <form id="">
+            <form th:action="@{/posts/edit}" method="post">
                 <div class="info-box-big">
                     <div class="info-box box1">
                         <div class="info-box-title">공지사항 수정</div>
@@ -33,25 +43,25 @@
                                 <tbody>
                                     <tr>
                                         <th>공지 번호</th>
-                                        <td><input type="text" name="" id=""></td>
+                                        <td><input type="hidden" name="id" class="my-notice" th:value="${post.id}"></td>
                                     </tr>
                                     <tr>
                                         <th>작성자</th>
-                                        <td><input type="text" name="" id=""></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <th>제목</th>
-                                        <td><input type="text" name="" id=""></td>
+                                        <td><input type="text" name="title" class="my-notice" th:value="${post.title}"></td>
                                     </tr>
                                     <tr>
                                         <th>내용</th>
                                         <td>
-                                            <textarea id="summernote" name="content" rows="20"></textarea>
+                                            <textarea id="summernote" name="content" th:text="${post.content}"></textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>작성일</th>
-                                        <td><input type="text" name="" id=""></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -60,10 +70,10 @@
                 </div>
 
                 <div class="btn-group">
-                    <button type="button" class="btn-go-back" onclick="">
+                    <button type="button" class="btn-go-back" th:onclick="'location.href=\'' + @{/posts/list} + '\''">
                         목록으로
                     </button>
-                    <button type="submit" class="btn-update" id="submit">
+                    <button type="submit" class="btn-update">
                         수정
                     </button>
                 </div>
