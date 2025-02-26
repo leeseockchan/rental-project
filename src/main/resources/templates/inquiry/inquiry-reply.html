@@ -5,20 +5,20 @@
 <head>
     <title>문의사항 답변</title>
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/inquiry-detail.css}">
+        <link rel="stylesheet" th:href="@{/css/inquiry/inquiry-detail.css}">
     </th:block>
-    <script th:src="@{/js/inquiry.js}" defer></script>
-    <script th:inline="javascript">
-        // 메세지 창 띄우기
-        window.onload = function () {
-            var successMessage = /*[[${successMessage}]]*/ '';
-            if (successMessage && successMessage !== "null") {
-                alert(successMessage);
-            }
-        };
-    </script>
-
-    <link rel="stylesheet" href="../../static/css/inquiry-detail.css">
+    <th:block layout:fragment="js">
+        <script th:src="@{/js/inquiry/inquiry.js}" defer></script>
+        <script th:inline="javascript">
+            // 메세지 창 띄우기
+            window.onload = function () {
+                var successMessage = /*[[${successMessage}]]*/ '';
+                if (successMessage && successMessage !== "null") {
+                    alert(successMessage);
+                }
+            };
+        </script>
+    </th:block>
 </head>
 
 <body>
