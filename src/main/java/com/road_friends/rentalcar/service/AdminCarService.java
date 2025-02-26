@@ -29,6 +29,14 @@ public class AdminCarService {
 
     //      차량 관리 추가
     public void insertCar(AdminCarDto adminCarDto) {
+        // 🚨 carGrade 값에 따라 carOptions 자동 설정
+        if ("premium".equalsIgnoreCase(adminCarDto.getCarGrade())) {
+            adminCarDto.setCarOptions("네비게이션,하이패스,블랙박스,후방카메라,열선시트");
+        } else if ("standard".equalsIgnoreCase(adminCarDto.getCarGrade())) {
+            adminCarDto.setCarOptions("블랙박스,하이패스,열선시트");
+        } else {
+            adminCarDto.setCarOptions(""); // 기본값 (옵션 없음)
+        }
         adminCarMapper.insertCar(adminCarDto);
     }
 
