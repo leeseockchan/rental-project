@@ -1,13 +1,9 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Noto Sans KR", sans-serif;
-}
-
-body {
-    text-align: center;
-    background-color: #F8F9FA;
+/* 메인 콘텐츠 */
+.content {
+    width: calc(100% - 373px);
+    min-height: 100vh;
+    padding: 65px 50px 30px 65px;
+    margin-left: 373px;
 }
 
 /* 테이블 스타일 */
