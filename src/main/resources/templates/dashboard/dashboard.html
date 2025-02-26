@@ -3,8 +3,19 @@
       layout:decorate="~{layout/layout}">
 <head>
   <title>대시보드</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
   <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/dashboard/dashboard.css}">
+  </th:block>
+
+  <th:block layout:fragment="js">
+    <script th:inline="javascript" defer>
+      var maleCount = /*[[${userStats.genderStats != null and userStats.genderStats.size() > 0 ? userStats.genderStats[0].count : 0}]]*/ 0;
+      var femaleCount = /*[[${userStats.genderStats != null and userStats.genderStats.size() > 1 ? userStats.genderStats[1].count : 0}]]*/ 0;
+    </script>
+    <script th:inline="javascript" th:src="@{/js/dashboard/chart.js}" defer></script>
   </th:block>
 </head>
 <body>
@@ -20,6 +31,7 @@
 
 <!-- 성별 통계 -->
 <h2>🚻 성별 통계</h2>
+  <div class="chart-content chart1" id="chart-container1"></div>
 <table>
   <tr>
     <th>성별</th>
