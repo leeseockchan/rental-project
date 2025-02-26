@@ -10,7 +10,7 @@
 <h1>주차장 생성</h1>
 
 <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
-    <input type="hidden" id="parkingId" name="parkingId" th:value="${parkingDto.parkingId}">
+    <input type="hidden" id="parkingId" name="parkingId" th:value="${adminParkingDto.parkingId}">
     <label for="parkingName">주차장 이름 : </label>
     <input type="text" id="parkingName" name="parkingName"
            placeholder="주차장의 이름을 입력해주세요" required><br><br>
@@ -32,7 +32,7 @@
         <option th:each="province : ${provinceList}"
                 th:value="${province}"
                 th:text="${province}"
-                th:selected="${parkingDto.parkingProvince == province}">
+                th:selected="${adminParkingDto.parkingProvince == province}">
         </option>
     </select><br><br>
     <label for="parkingDistrict">주차장 도시 : </label>

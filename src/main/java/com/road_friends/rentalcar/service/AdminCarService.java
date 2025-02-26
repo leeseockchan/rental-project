@@ -1,46 +1,45 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.CarDto;
-import com.road_friends.rentalcar.mapper.CarMapper;
+import com.road_friends.rentalcar.dto.AdminCarDto;
+import com.road_friends.rentalcar.mapper.AdminCarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class CarService {
+public class AdminCarService {
     @Autowired
-    private CarMapper carMapper;
+    private AdminCarMapper adminCarMapper;
 
     public List<String> getDistrictsByProvince(String province) {
-        return carMapper.getDistrictsByProvince(province);
+        return adminCarMapper.getDistrictsByProvince(province);
     }
 
-    public List<CarDto> findByDistrict(String district) {
-        return carMapper.findByDistrict(district);
+    public List<AdminCarDto> findByDistrict(String district) {
+        return adminCarMapper.findByDistrict(district);
     }
 
     //    차량 관리 상세 보기
-    public CarDto findByCarId(int carId) {
-        return carMapper.findByCarId(carId);
+    public AdminCarDto findByCarId(int carId) {
+        return adminCarMapper.findByCarId(carId);
     }
 
     //      차량 관리 추가
-    public void insertCar(CarDto carDto) {
-        carMapper.insertCar(carDto);
+    public void insertCar(AdminCarDto adminCarDto) {
+        adminCarMapper.insertCar(adminCarDto);
     }
 
     //    차량 관리 수정
-    public void modifyCarStatus(CarDto carDto) {
-        carMapper.modifyCar(carDto);
+    public void modifyCarStatus(AdminCarDto adminCarDto) {
+        adminCarMapper.modifyCar(adminCarDto);
     }
 
     //    차량 상태 삭제
     public void deleteCarStatus(int carId) {
-        carMapper.deleteCar(carId);
+        adminCarMapper.deleteCar(carId);
     }
 
     //    차량 제조사

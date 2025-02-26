@@ -1,9 +1,9 @@
 package com.road_friends.rentalcar.controller;
 
-import com.road_friends.rentalcar.dto.CarDto;
-import com.road_friends.rentalcar.dto.ModelDto;
-import com.road_friends.rentalcar.dto.ParkingDto;
-import com.road_friends.rentalcar.service.CarService;
+import com.road_friends.rentalcar.dto.AdminCarDto;
+import com.road_friends.rentalcar.dto.AdminModelDto;
+import com.road_friends.rentalcar.dto.AdminParkingDto;
+import com.road_friends.rentalcar.service.AdminCarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,22 +14,22 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/api/admin/vehicles")
-public class CarController {
+public class AdminCarController {
 
     @Autowired
-    private CarService carService;
+    private AdminCarService adminCarService;
 
     @GetMapping("/districts")
     @ResponseBody
     public List<String> getDistricts(@RequestParam String province) {
-        return carService.getDistrictsByProvince(province);
+        return adminCarService.getDistrictsByProvince(province);
     }
 
     // 지역별 차량 검색
     @GetMapping("/search")
     @ResponseBody
-    public List<CarDto> searchByDistrict(@RequestParam String district) {
-        return carService.findByDistrict(district);
+    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
+        return adminCarService.findByDistrict(district);
     }
 
     // 주차 도/시 리스트
@@ -48,7 +48,7 @@ public class CarController {
     //    차량 관리 상세보기
     @GetMapping("/{carId}")
     public String detailCarStatus(@PathVariable int carId, Model model) {
-        CarDto car = carService.findByCarId(carId);
+        AdminCarDto car = adminCarService.findByCarId(carId);
         model.addAttribute("car", car);
         return "car_page/detail";
     }
@@ -56,38 +56,38 @@ public class CarController {
     //    차량 관리 추가
     @GetMapping("/add")
     public String addCarStatus(Model model) {
-        model.addAttribute("mBrandList", carService.carBrandList());
-        model.addAttribute("mNameList", carService.modelNameList());
-        model.addAttribute("yearList", carService.carYearList());
-        model.addAttribute("fuelList", carService.carFuelList());
-        model.addAttribute("gradeList", carService.carGradeList());
-        model.addAttribute("provinceList", carService.parkingProvinceList());
+        model.addAttribute("mBrandList", adminCarService.carBrandList());
+        model.addAttribute("mNameList", adminCarService.modelNameList());
+        model.addAttribute("yearList", adminCarService.carYearList());
+        model.addAttribute("fuelList", adminCarService.carFuelList());
+        model.addAttribute("gradeList", adminCarService.carGradeList());
+        model.addAttribute("provinceList", adminCarService.parkingProvinceList());
         model.addAttribute("districtList", new ArrayList<String>());
 
-        CarDto newCar = new CarDto();
-        newCar.setModel(new ModelDto());
-        newCar.setParking(new ParkingDto());
+        AdminCarDto newCar = new AdminCarDto();
+        newCar.setModel(new AdminModelDto());
+        newCar.setParking(new AdminParkingDto());
         model.addAttribute("newCar", newCar);
 
         return "car_page/add";
     }
     @PostMapping("/add")
-    public String addCarStatus(@ModelAttribute CarDto carDto) {
-        carService.insertCar(carDto);
+    public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
+        adminCarService.insertCar(adminCarDto);
         return "redirect:/api/admin/vehicles";
     }
 
     //    차량 관리 수정
     @GetMapping("/modify/{carId}")
     public String modifyCarStatus(@PathVariable int carId, Model model) {
-        CarDto modifyCar = carService.findByCarId(carId);
-        model.addAttribute("mBrandList", carService.carBrandList());
-        model.addAttribute("mNameList", carService.modelNameList());
-        model.addAttribute("yearList", carService.carYearList());
-        model.addAttribute("fuelList", carService.carFuelList());
-        model.addAttribute("gradeList", carService.carGradeList());
-        model.addAttribute("provinceList", carService.parkingProvinceList());
-        List<String> districtList =  carService.getDistrictsByProvince(modifyCar.getParking().getParkingProvince());
+        AdminCarDto modifyCar = adminCarService.findByCarId(carId);
+        model.addAttribute("mBrandList", adminCarService.carBrandList());
+        model.addAttribute("mNameList", adminCarService.modelNameList());
+        model.addAttribute("yearList", adminCarService.carYearList());
+        model.addAttribute("fuelList", adminCarService.carFuelList());
+        model.addAttribute("gradeList", adminCarService.carGradeList());
+        model.addAttribute("provinceList", adminCarService.parkingProvinceList());
+        List<String> districtList =  adminCarService.getDistrictsByProvince(modifyCar.getParking().getParkingProvince());
         model.addAttribute("districtList", districtList);
         model.addAttribute("modify", modifyCar);
         return "car_page/modify";
@@ -96,9 +96,9 @@ public class CarController {
     @PutMapping("/modify/{carId}")
     @ResponseBody
     public  ResponseEntity<Map<String, Object>> modifyCarStatusPost(@PathVariable int carId,
-                                      @RequestBody CarDto carDto) {
-        carDto.setCarId(carId);
-        carService.modifyCarStatus(carDto);
+                                      @RequestBody AdminCarDto adminCarDto) {
+        adminCarDto.setCarId(carId);
+        adminCarService.modifyCarStatus(adminCarDto);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -109,13 +109,13 @@ public class CarController {
     @GetMapping("/api/districts/{province}")
     @ResponseBody
     public List<String> getDistrictsByProvince(@PathVariable String province) {
-        return carService.getDistrictsByProvince(province); // 도/시에 해당하는 행정구역 반환
+        return adminCarService.getDistrictsByProvince(province); // 도/시에 해당하는 행정구역 반환
     }
    
     //    차량 상태 관리 삭제
     @DeleteMapping("/{carId}")
     public String deleteCarStatus(@PathVariable int carId) {
-        carService.deleteCarStatus(carId);
+        adminCarService.deleteCarStatus(carId);
         return "redirect:/api/admin/vehicles";
     }
 }

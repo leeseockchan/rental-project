@@ -1,14 +1,11 @@
 package com.road_friends.rentalcar.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParkingDto {
+public class AdminParkingDto {
     private int parkingId;
 
     // 주차장 이름

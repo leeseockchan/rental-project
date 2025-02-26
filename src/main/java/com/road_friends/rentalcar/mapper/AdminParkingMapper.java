@@ -1,7 +1,6 @@
 package com.road_friends.rentalcar.mapper;
 
-import com.road_friends.rentalcar.dto.ModelDto;
-import com.road_friends.rentalcar.dto.ParkingDto;
+import com.road_friends.rentalcar.dto.AdminParkingDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -9,18 +8,18 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface ParkingMapper {
+public interface AdminParkingMapper {
     List<String> getDistrictsByProvince(@Param("province") String province);
     @Select("SELECT * FROM parking WHERE parking_district = #{district}")
-    List<ParkingDto> findByDistrict(String district);
+    List<AdminParkingDto> findByDistrict(String district);
 //    주차장 목록 메소드
-    List<ParkingDto> findAll();
+    List<AdminParkingDto> findAll();
 //    주차장 상세보기
-    ParkingDto findByParking(int parkingId);
+    AdminParkingDto findByParking(int parkingId);
 //    주차장 추가
-    void addParking(ParkingDto parkingDto);
+    void addParking(AdminParkingDto adminParkingDto);
 //    주차장 수정
-    void modifyParking(ParkingDto parkingDto);
+    void modifyParking(AdminParkingDto adminParkingDto);
 //    주차장 삭제
     void deleteParking(int parkingId);
 

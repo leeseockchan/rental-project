@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.road_friends.rentalcar.mapper.ParkingMapper">
+<mapper namespace="com.road_friends.rentalcar.mapper.AdminParkingMapper">
 
-    <!-- ParkingMapper.xml -->
+    <!-- AdminParkingMapper.xml -->
     <select id="getDistrictsByProvince" resultType="String">
         SELECT DISTINCT parking_district
         FROM parking
@@ -10,17 +10,17 @@
     </select>
 
     <!--    전체 주차장 목록-->
-    <select id="findAll" resultType="com.road_friends.rentalcar.dto.ParkingDto">
+    <select id="findAll" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
         SELECT * FROM parking;
     </select>
 
     <!--    주차장 검색-->
-    <select id="findByParking" resultType="com.road_friends.rentalcar.dto.ParkingDto">
+    <select id="findByParking" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
         SELECT * FROM parking WHERE parking_id = #{parkingId};
     </select>
 
     <!--    새로운 주차장 추가-->
-    <insert id="addParking" parameterType="com.road_friends.rentalcar.dto.ParkingDto">
+    <insert id="addParking" parameterType="com.road_friends.rentalcar.dto.AdminParkingDto">
         INSERT INTO parking (parking_name, parking_address, parking_latitude, parking_longtitude,
         parking_province, parking_district)
         VALUES (#{parkingName},#{parkingAddress}, #{parkingLatitude}, #{parkingLongtitude},
@@ -28,7 +28,7 @@
     </insert>
 
     <!--    주차장 수정-->
-    <insert id="modifyParking" parameterType="com.road_friends.rentalcar.dto.ParkingDto">
+    <insert id="modifyParking" parameterType="com.road_friends.rentalcar.dto.AdminParkingDto">
         UPDATE parking
         SET parking_name = #{parkingName},
         parking_address = #{parkingAddress},

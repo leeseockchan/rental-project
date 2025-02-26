@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarDto {
+public class AdminCarDto {
         private int carId;
         private int carCategory;
         private int carStatus;
@@ -14,8 +14,8 @@ public class CarDto {
         private String carGrade;
         private String carOptions;
 
-        private ModelDto model;   // 🔹 ModelDto 객체 포함
-        private ParkingDto parking;  // 🔹 ParkingDto 객체 포함
+        private AdminModelDto model;   // 🔹 ModelDto 객체 포함
+        private AdminParkingDto parking;  // 🔹 ParkingDto 객체 포함
 
         @Override
         public String toString() {

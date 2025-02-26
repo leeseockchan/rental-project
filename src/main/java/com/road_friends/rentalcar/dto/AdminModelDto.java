@@ -1,12 +1,11 @@
 package com.road_friends.rentalcar.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModelDto {
+public class AdminModelDto {
     private String modelId;  // model_id -> modelId
 
     private String modelBrand;

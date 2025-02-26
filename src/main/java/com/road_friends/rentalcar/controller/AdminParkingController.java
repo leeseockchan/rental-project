@@ -1,7 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
-import com.road_friends.rentalcar.dto.ParkingDto;
-import com.road_friends.rentalcar.service.ParkingService;
+import com.road_friends.rentalcar.dto.AdminParkingDto;
+import com.road_friends.rentalcar.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,21 +11,21 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/admin/parkings")
-public class ParkingController {
+public class AdminParkingController {
 
     @Autowired
-    ParkingService parkingService;
+    AdminParkingService adminParkingService;
 
     @GetMapping("/districts")
     @ResponseBody // JSON 응답을 반환하도록 설정
     public List<String> getDistricts(@RequestParam String province) {
-        return parkingService.getDistrictsByProvince(province);
+        return adminParkingService.getDistrictsByProvince(province);
     }
 
     @GetMapping("/search")
     @ResponseBody
-    public List<ParkingDto> searchByDistrict(@RequestParam String district) {
-        return parkingService.findByDistrict(district);
+    public List<AdminParkingDto> searchByDistrict(@RequestParam String district) {
+        return adminParkingService.findByDistrict(district);
     }
 
     // 주차 도/시 리스트
@@ -37,7 +37,7 @@ public class ParkingController {
     // 주차장 전체 목록
     @GetMapping
     public String showAllParking(Model model) {
-        List<ParkingDto> parkingList = parkingService.findAll();
+        List<AdminParkingDto> parkingList = adminParkingService.findAll();
         model.addAttribute("parkingList", parkingList);
         model.addAttribute("provinceList", getProvinceList()); // 시/도 리스트 추가
         return "parking_page/list";
@@ -47,7 +47,7 @@ public class ParkingController {
     @GetMapping("/add")
     public String addParking(Model model) {
         model.addAttribute("provinceList", getProvinceList());
-        model.addAttribute("parkingDto", new ParkingDto());
+        model.addAttribute("parkingDto", new AdminParkingDto());
         return "parking_page/add";
     }
 }
