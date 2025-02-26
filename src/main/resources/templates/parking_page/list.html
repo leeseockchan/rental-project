@@ -9,6 +9,19 @@
 <body>
 <h1>주차장 목록</h1>
 
+<!-- 지역 선택 -->
+<label for="provinceSelect">시/도 선택:</label>
+<select id="provinceSelect">
+    <option value="">시/도를 선택하세요</option>
+    <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
+</select>
+
+<label for="districtSelect">구/군 선택:</label>
+<select id="districtSelect">
+    <option value="">구/군을 선택하세요</option>
+</select>
+<button type="button" id="searchBtn">검색</button>
+
 <!-- 목록 테이블 -->
 <table>
     <thead>
@@ -23,7 +36,7 @@
     </tr>
     </thead>
     <a id="add" th:href="@{/api/admin/parkings/add}" >
-    <button type="button">주차장 추가하기</button>
+        <button type="button">주차장 추가하기</button>
     </a>
     <tbody>
     <!-- 서버에서 전달한 parkingList를 Thymeleaf로 반복문을 돌려서 출력 -->
@@ -50,11 +63,66 @@
         </td>
     </tr>
     </tbody>
-
 </table>
 
-<!-- 페이지 번호 넣을 자리-->
-<!-- 검색 박스 넣을 자리-->
+<script>
+    document.getElementById("provinceSelect").addEventListener("change", function() {
+        var province = this.value;
+        var districtSelect = document.getElementById("districtSelect");
+
+        districtSelect.innerHTML = '<option value="">구/군을 선택하세요</option>';
+
+        if (province) {
+            fetch(`/api/admin/parkings/districts?province=` + encodeURIComponent(province))
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(district => {
+                        var option = document.createElement("option");
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+
+    document.getElementById("searchBtn").addEventListener("click", function() {
+        var district = document.getElementById("districtSelect").value;
+
+        fetch(`/api/admin/parkings/search?district=` + encodeURIComponent(district))
+            .then(response => response.json())
+            .then(data => {
+                var tableBody = document.querySelector("tbody");
+                tableBody.innerHTML = ""; // 기존 목록 초기화
+
+                data.forEach(parking => {
+                    var row = `<tr>
+                        <td>${parking.parkingName}</td>
+                        <td>${parking.parkingAddress}</td>
+                        <td>${parking.parkingLatitude}</td>
+                        <td>${parking.parkingLongtitude}</td>
+                        <td>${parking.parkingProvince}</td>
+                        <td>${parking.parkingDistrict}</td>
+                        <td>
+                            <a id="detail" href="/api/admin/parkings/${parking.parkingId}">
+                                <button type="button" id="detail_btn">상세조회</button>
+                            </a>
+                        </td>
+                        <td>
+                            <form id="delete" action="/api/admin/parkings/${parking.parkingId}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" id="delete_btn">삭제</button>
+                            </form>
+                        </td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
 
 </body>
 </html>

@@ -13,6 +13,14 @@ public class ParkingService {
     @Autowired
     private ParkingMapper parkingMapper;
 
+    public List<String> getDistrictsByProvince(String province) {
+        return parkingMapper.getDistrictsByProvince(province);
+    }
+
+    public List<ParkingDto> findByDistrict(String district) {
+        return parkingMapper.findByDistrict(district);
+    }
+
     //     전체 주차장 목록
     public List<ParkingDto> findAll() {
         return parkingMapper.findAll();
