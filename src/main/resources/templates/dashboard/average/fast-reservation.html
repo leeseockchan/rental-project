@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
 <head>
-    <title>빠른 예약 평균 렌트 시간</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/dashboard/dashboard.css">
+    <title>대시보드</title>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/dashboard/dashboard.css}">
+    </th:block>
 </head>
 <body>
+<div class="content" layout:fragment="content">
 
-<h1>⏳ 빠른 예약 평균 렌트 시간 (Top 5)</h1>
+    <div class="header">
+        관리자 대시보드
+    </div>
+
+    <div class="header-sm">
+        관리자 대시보드 > ⏳ 빠른 예약 평균 렌트 시간 (Top 5)
+    </div>
 
 <!-- 차량별 평균 렌트 시간 -->
 <h2>🚗 차량별 평균 렌트 시간</h2>
@@ -55,5 +64,6 @@
     </a>
 </div>
 
+</div>
 </body>
 </html>
