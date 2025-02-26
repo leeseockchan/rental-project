@@ -86,6 +86,9 @@ public class FastReservationService {
 
     // 예약 삭제
     public void deleteReservation(int reservationId) {
+
+        FastReservationDto fastReservationDto = fastReservationMapper.getReservationById(reservationId);
+        fastReservationMapper.updateCarStatusTo0(fastReservationDto.getCarId());
         fastReservationMapper.deleteReservation(reservationId);
     }
 
