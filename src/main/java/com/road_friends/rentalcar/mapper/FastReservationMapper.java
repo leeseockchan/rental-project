@@ -52,4 +52,6 @@ public interface FastReservationMapper {
 
     void insertReservation(ReservationDto reservationDto);
     int getLastInsertId();
+
+    void updateCarStatusTo1(int carId);
 }

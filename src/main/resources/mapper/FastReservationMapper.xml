@@ -229,4 +229,10 @@
         SET fast_reservation_id = #{fastReservationId}
         WHERE reservation_id = #{reservationId};
     </update>
+
+    <update id="updateCarStatusTo1" parameterType="int">
+        UPDATE car
+        SET car_status = 1
+        WHERE car_id = #{carId};
+    </update>
 </mapper>

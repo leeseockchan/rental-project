@@ -79,6 +79,8 @@ public class FastReservationService {
         // reservation 테이블의 fast_reservation_id 업데이트
         fastReservationMapper.updateFastReservationId(reservationId, fastReservationDto.getReservationId());
 
+        // car 테이블의 car_status 0 -> 1 업데이트
+        fastReservationMapper.updateCarStatusTo1(fastReservationDto.getCarId());
 
     }
 
