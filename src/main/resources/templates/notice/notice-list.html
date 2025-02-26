@@ -45,7 +45,7 @@
       <div class="list-flex-box">
         <div class="info-header">공지사항 목록</div>
         <div class="btn-group">
-          <button type="button" class="btn-update" onclick="">
+          <button type="button" class="btn-update" th:onclick="'location.href=\'' + @{/posts/write} + '\''">
             새로운 공지사항 작성
           </button>
         </div>
@@ -61,40 +61,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 70px; text-align: center;">1</td>
-            <td text="" style="max-width: 100px;">1</td>
-            <td text="" style="max-width: 300px;">공지제목 입니다</td>
-            <td text="" style="max-width: 100px;">2025-02-25</td>
+          <tr th:each="post : ${posts}" th:attr="data-href=@{/posts/view/{id}(id=${post.id})}"
+            onclick="location.href=this.getAttribute('data-href')">
+            <td th:text="${post.id}" style="max-width: 70px; text-align: center;"></td>
+            <td text="" style="max-width: 100px;">00</td>
+            <td th:text="${post.title}" style="max-width: 300px;">공지제목 입니다</td>
+            <td th:text="${post.createdAt}" style="max-width: 100px;">2025-02-25</td>
           </tr>
-          <!--            더미 데이터 시작. 추후 삭제-->
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 70px; text-align: center;">1</td>
-            <td text="" style="max-width: 100px;">1</td>
-            <td text="" style="max-width: 300px;">공지제목 입니다</td>
-            <td text="" style="max-width: 100px;">2025-02-25</td>
-          </tr>
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 70px; text-align: center;">1</td>
-            <td text="" style="max-width: 100px;">1</td>
-            <td text="" style="max-width: 300px;">공지제목 입니다</td>
-            <td text="" style="max-width: 100px;">2025-02-25</td>
-          </tr>
-          <!--            더미 데이터 끝-->
         </tbody>
       </table>
 
       <!-- 페이지네이션 -->
       <div class="pagination">
-        <a href="" if="">
+        <a th:href="@{/posts/list(page=${pageDto.start - 1}, size=${pageDto.size})}" th:if="${pageDto.prev}">
           <span class="material-symbols-outlined">
             chevron_left
           </span>
         </a>
-        <span class="page-number" each="">
-          <a href="" text="" classappend=""></a>
+        <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+          <a th:href="@{/posts/list(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+            th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
         </span>
-        <a href="" if="">
+        <a th:href="@{/posts/list(page=${pageDto.end + 1}, size=${pageDto.size})}" th:if="${pageDto.next}">
           <span class="material-symbols-outlined">
             chevron_right
           </span>

@@ -19,20 +19,20 @@ public class PostController {
   public String list(Model model) {
     List<PostDto> posts = postService.getAllPosts();
     model.addAttribute("posts", posts);
-    return "notice/list";
+    return "notice/notice-list";
   }
 
   @GetMapping("/view/{id}")
   public String viewPost(@PathVariable Long id, Model model) {
     PostDto post = postService.getPost(id);
     model.addAttribute("post", post);
-    return "notice/view";
+    return "notice/notice-detail";
   }
 
   @GetMapping("/write")
   public String writeForm(Model model) {
     model.addAttribute("post", new PostDto());
-    return "notice/write";
+    return "notice/notice-create";
   }
 
   @PostMapping("/write")
@@ -44,7 +44,7 @@ public class PostController {
   @GetMapping("/edit/{id}")
   public String editForm(@PathVariable Long id, Model model) {
     model.addAttribute("post", postService.getPost(id));
-    return "notice/edit";
+    return "notice/notice-update";
   }
 
   @PostMapping("/edit")
