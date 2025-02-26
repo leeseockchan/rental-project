@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>사용자 관리 상세 조회</title>
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/users/users-detail.css}">
+  </th:block>
+
+  <th:block layout:fragment="js">
+    <script th:inline="javascript" defer>
+
+    </script>
+
+    <script th:inline="javascript" th:src="@{/js/users/users.js}" defer></script>
+  </th:block>
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      사용자 관리
+    </div>
+
+    <div class="info">
+      <div class="header-sm">
+        사용자 관리 > 가입자 목록 상세 조회
+      </div>
+
+      <form id="update-form">
+        <div class="info-box-big">
+          <div class="info-box box1">
+            <div class="info-box-title">abc123의 상세 정보</div>
+            <div class="info-box-content">
+              <table class="info-box-content-table">
+                <tbody>
+                  <tr>
+                    <th>회원번호</th>
+                    <td text="">00</td>
+                  </tr>
+                  <tr>
+                    <th>이름</th>
+                    <td text=""><input type="text" name="name" id="name" value="00"></td>
+                  </tr>
+                  <tr>
+                    <th>회원 아이디</th>
+                    <td text="">00</td>
+                  </tr>
+                  <tr>
+                    <th>성별</th>
+                    <td text="">00</td>
+                  </tr>
+                  <tr>
+                    <th>생년월일</th>
+                    <td text=""><input type="text" name="birth" id="birth" value="00"></td>
+                  </tr>
+                  <tr>
+                    <th>주소</th>
+                    <td text=""><input type="text" name="address" id="address" value="00"></td>
+                  </tr>
+                  <tr>
+                    <th>이메일</th>
+                    <td text=""><input type="text" name="email" id="email" value="00"></td>
+                  </tr>
+                  <tr>
+                    <th>전화번호</th>
+                    <td text=""><input type="text" name="phone" id="phone" value="00"></td>
+                  </tr>
+                  <tr>
+                    <th>활성 상태</th>
+                    <td>
+                      <select name="status" id="status">
+                        <option value="true">활성</option>
+                        <option value="false">비활성</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>역할</th>
+                    <td>
+                      <select name="role" id="role">
+                        <option value="ROLE_USER">일반 사용자</option>
+                        <option value="ROLE_ADMIN">관리자</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="info-box box2">
+            <div class="info-box-title">abc123의 대여 기록</div>
+            <div class="info-box-content">
+              <table class="info-box-content-table2">
+                <thead>
+                  <tr>
+                    <th class="center">예약번호</th>
+                    <th>카테고리</th>
+                    <th>대여일</th>
+                    <th>반납일</th>
+                    <th>모델</th>
+                    <th>금액</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td text="" class="center">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn-go-back" onclick="">
+            목록으로
+          </button>
+
+          <button type="button" class="btn-update" onclick="">
+            수정
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</body>
+
+</html>

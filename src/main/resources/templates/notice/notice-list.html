@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>공지사항 목록</title>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/notice/notice-list.css}">
+  </th:block>
+  <th:block layout:fragment="js">
+    <script th:src="@{/js/notice/notice.js}" defer></script>
+  </th:block>
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      공지사항 관리
+    </div>
+
+    <div class="info">
+      <div class="info-header">공지사항 정보</div>
+      <div class="info-box-big">
+        <div class="info-box-big-header">문의사항 게시판 통계</div>
+        <div class="info-box-sm">
+          <div class="info-box box1">
+            <div class="info-box-title">전체 문의 게시글 수</div>
+            <div class="info-box-content"><span></span> 개</div>
+          </div>
+          <div class="info-box box2">
+            <div class="info-box-title">답변완료 게시글</div>
+            <div class="info-box-content"><span></span> 개</div>
+          </div>
+          <div class="info-box box3">
+            <div class="info-box-title">미답변 게시글</div>
+            <div class="info-box-content"><span></span> 개</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="list">
+
+      <div class="list-flex-box">
+        <div class="info-header">공지사항 목록</div>
+        <div class="btn-group">
+          <button type="button" class="btn-update" onclick="">
+            새로운 공지사항 작성
+          </button>
+        </div>
+      </div>
+
+      <table class="table-box">
+        <thead>
+          <tr>
+            <th style="width: 70px; text-align: center;">공지 번호</th>
+            <th style="width: 100px;">작성자</th>
+            <th style="width: 300px;">제목</th>
+            <th style="width: 100px;">작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+            <td text="" style="max-width: 70px; text-align: center;">1</td>
+            <td text="" style="max-width: 100px;">1</td>
+            <td text="" style="max-width: 300px;">공지제목 입니다</td>
+            <td text="" style="max-width: 100px;">2025-02-25</td>
+          </tr>
+          <!--            더미 데이터 시작. 추후 삭제-->
+          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+            <td text="" style="max-width: 70px; text-align: center;">1</td>
+            <td text="" style="max-width: 100px;">1</td>
+            <td text="" style="max-width: 300px;">공지제목 입니다</td>
+            <td text="" style="max-width: 100px;">2025-02-25</td>
+          </tr>
+          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+            <td text="" style="max-width: 70px; text-align: center;">1</td>
+            <td text="" style="max-width: 100px;">1</td>
+            <td text="" style="max-width: 300px;">공지제목 입니다</td>
+            <td text="" style="max-width: 100px;">2025-02-25</td>
+          </tr>
+          <!--            더미 데이터 끝-->
+        </tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <div class="pagination">
+        <a href="" if="">
+          <span class="material-symbols-outlined">
+            chevron_left
+          </span>
+        </a>
+        <span class="page-number" each="">
+          <a href="" text="" classappend=""></a>
+        </span>
+        <a href="" if="">
+          <span class="material-symbols-outlined">
+            chevron_right
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</body>
+
+</html>
