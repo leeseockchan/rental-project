@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -56,7 +57,9 @@ public class AdminParkingController {
     @GetMapping("/add")
     public String addParking(Model model) {
         model.addAttribute("provinceList", getProvinceList());
-        model.addAttribute("parkingDto", new AdminParkingDto());
+        model.addAttribute("adminParkingDto", new AdminParkingDto());
+        model.addAttribute("provinceList", adminParkingService.getAllProvinces());
+        model.addAttribute("districtList", new ArrayList<String>());
         return "parking_page/add";
     }
 

@@ -11,6 +11,7 @@
 
 <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
     <input type="hidden" id="parkingId" name="parkingId" th:value="${adminParkingDto.parkingId}">
+
     <label for="parkingName">주차장 이름 : </label>
     <input type="text" id="parkingName" name="parkingName"
            placeholder="주차장의 이름을 입력해주세요" required><br><br>
@@ -28,17 +29,45 @@
            placeholder="경도의 값을 정확히 입력해주세요" required><br><br>
 
     <label for="parkingProvince">주차장 지역 : </label>
-    <select name="parkingProvince" id="parkingProvince" required>
-        <option th:each="province : ${provinceList}"
-                th:value="${province}"
-                th:text="${province}"
-                th:selected="${adminParkingDto.parkingProvince == province}">
-        </option>
+    <select id="parkingProvince" name="parkingProvince" required>
+        <option value="">도/시 선택</option>
+        <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
     </select><br><br>
+
     <label for="parkingDistrict">주차장 도시 : </label>
-    <input type="text" id="parkingDistrict" name="parkingDistrict"
-           placeholder="도시의 이름을 입력해주세요" required>
+    <select id="parkingDistrict" name="parkingDistrict" required>
+        <option value="">행정구역 선택</option>
+    </select><br><br>
+
     <button type="submit">주차장 등록하기</button>
 </form>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const provinceSelect = document.getElementById("parkingProvince");
+        const districtSelect = document.getElementById("parkingDistrict");
+
+        provinceSelect.addEventListener("change", function () {
+            const selectedProvince = this.value;
+
+            // 기존 옵션 초기화
+            districtSelect.innerHTML = '<option value="">행정구역 선택</option>';
+
+            if (!selectedProvince) return; // 선택된 도/시가 없으면 실행 중지
+
+            // AJAX 요청으로 행정구역 리스트 가져오기
+            fetch(`/api/admin/parkings/districts?province=${encodeURIComponent(selectedProvince)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(district => {
+                        const option = document.createElement("option");
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error("Error fetching districts:", error));
+        });
+    });
+</script>
 </body>
 </html>
