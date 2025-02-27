@@ -65,7 +65,4 @@ public class APIFastReservationController {
     public int deleteReservation(@PathVariable("reservationId") Long reservationId, @RequestParam("userNum") Long userNum){
         return apiFastReservationService.deleteFastReservation(reservationId, userNum);
     }
-
-
-
 }
