@@ -44,6 +44,7 @@ public class FastReservationResponseDto {
     // 대여반납 위치
     private String rentalLocationName;
     private String returnLocationName;
+    private int returnLocation;
     // 주차장 위도경도
     private BigDecimal rentalLocationLatitude;
     private BigDecimal rentalLocationLongitude;
@@ -67,7 +68,6 @@ public class FastReservationResponseDto {
     private String modelCategory;
     private String modelSeateNum;  // 탑승 인원
     private String modelTransmission; // 변속기
-
 
     //    private ModelDto modelDto;
     private List<ParkingDto> parkingList;

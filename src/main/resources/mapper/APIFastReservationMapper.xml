@@ -86,15 +86,15 @@
     </update>
 
     <!-- 빠른 예약 수정 -->
-    <update id="updateFastReservation">
+    <update id="updateFastReservation" parameterType="com.road_friends.rentalcar.dto.FastReservationResponseDto">
         UPDATE fast_reservation
         SET
-            rental_location = #{rentalLocation},
-            rental_datetime = #{rentalDatetime},
-            return_location = #{returnLocation},
-            return_datetime = #{returnDatetime}
-        WHERE reservation_id = #{reservationId} AND user_num = #{userNum}
+        return_location = #{returnLocation}
+        WHERE reservation_id = #{reservationId}
+        AND user_num = #{userNum}
     </update>
+
+
 
     <!-- 빠른 예약 취소 (삭제) -->
     <delete id="deleteFastReservation">
