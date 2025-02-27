@@ -5,7 +5,6 @@ import com.road_friends.rentalcar.mapper.AdminCarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -112,5 +111,20 @@ public class AdminCarService {
         return List.of("서울특별시", "인천광역시" ,"경기도", "충청남도", "충청북도",
                  "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
     }
+
+    // 통계 그래프 데이터
+    // 차량 등급별 개수 조회
+    public List<Map<String, Object>> getCarGradeCount() {
+        return adminCarMapper.getCarGradeCount();
+    }
+    // 차량 보유 순위 조회
+    public List<Map<String, Object>> getCarRanking() {
+        return adminCarMapper.getCarRanking();
+    }
+    // 제조사별 차량 개수 조회
+    public List<Map<String, Object>> getCarBrandCount() {
+        return adminCarMapper.getCarBrandCount();
+    }
+
 
 }

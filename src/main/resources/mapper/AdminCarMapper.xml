@@ -87,8 +87,6 @@
         WHERE car_id = #{carId};
     </update>
 
-
-
     <!--    차량 관리 추가-->
     <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
         INSERT INTO car (model_id, car_category, car_status, car_year, car_fuel, car_grade, car_options, rental_station)
@@ -99,5 +97,29 @@
     <delete id="deleteCar">
         DELETE FROM car WHERE car_id = #{carId};
     </delete>
+
+    <!-- 통계 그래프 데이터 -->
+    <!-- 🚗 차량 등급별 개수 -->
+    <select id="getCarGradeCount" resultType="map">
+        SELECT car.car_grade AS category, COUNT(*) AS count
+        FROM car
+        GROUP BY car.car_grade
+    </select>
+    <!-- 🚘 차량 보유 순위 (모델별 보유량) -->
+    <select id="getCarRanking" resultType="map">
+        SELECT model.model_name AS label, COUNT(*) AS value
+        FROM car
+        JOIN model ON car.model_id = model.model_id
+        GROUP BY model.model_name
+        ORDER BY COUNT(*) DESC
+        LIMIT 10
+    </select>
+    <!-- 🏭 제조사별 차량 개수 -->
+    <select id="getCarBrandCount" resultType="map">
+        SELECT model.model_brand AS manufacturer, COUNT(*) AS count
+        FROM car
+        JOIN model ON car.model_id = model.model_id
+        GROUP BY model.model_brand
+    </select>
 
 </mapper>

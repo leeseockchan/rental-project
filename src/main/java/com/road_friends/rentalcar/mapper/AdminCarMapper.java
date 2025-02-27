@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AdminCarMapper {
@@ -21,4 +22,12 @@ public interface AdminCarMapper {
     Integer findModelIdByName(@Param("modelName") String modelName);
     void modifyCar(AdminCarDto adminCarDto);
     void deleteCar(int carId);
+
+    // 통계 그래프 데이터
+    // 차량 등급별 개수 조회
+    List<Map<String, Object>> getCarGradeCount();
+    // 차량 보유 순위 조회
+    List<Map<String, Object>> getCarRanking();
+    // 제조사별 차량 개수 조회
+    List<Map<String, Object>> getCarBrandCount();
 }

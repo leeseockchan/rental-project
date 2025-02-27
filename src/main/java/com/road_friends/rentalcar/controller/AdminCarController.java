@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminModelDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
@@ -59,9 +60,19 @@ public class AdminCarController {
                 "경상북도", "경상남도", "전라북도", "전라남도", "제주도");
     }
 
+    private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
+
     //    차량 관리 목록 조회(경기도 차량들)
     @GetMapping
     public String showCarStatus(Model model) {
+        List<Map<String, Object>> carGrades = adminCarService.getCarGradeCount();
+        List<Map<String, Object>> carRanking = adminCarService.getCarRanking();
+        List<Map<String, Object>> carBrands = adminCarService.getCarBrandCount();
+
+        model.addAttribute("carGrades", carGrades);
+        model.addAttribute("carRanking", carRanking);
+        model.addAttribute("carBrands", carBrands);
+
         model.addAttribute("provinceList", getProvinceList());
         return "car/car-list";
     }
