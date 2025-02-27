@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/fast/reservations")
+@CrossOrigin(origins = "http://localhost:3000")
 public class APIFastReservationController {
 
     private final APIFastReservationService apiFastReservationService;
