@@ -22,7 +22,11 @@ public class AdminReservationController {
   @GetMapping
   public String getAllReservations(Model model) {
     List<FastReservationDto> reservations = adminReservationService.findAllReservations();
+    List<AdminCarDto> maintenanceCars = adminReservationService.getMaintenanceCars();  // 🔹 추가
+
     model.addAttribute("reservations", reservations);
+    model.addAttribute("maintenanceCars", maintenanceCars);  // 🔹 추가
+
     return "reservation_page/reservation_list";
   }
 
@@ -52,6 +56,25 @@ public class AdminReservationController {
     return "redirect:/admin/reservations/" + reservationId;
   }
 
+  // 정비 상태 변경
+  @PostMapping("/car/{carId}/complete-maintenance")
+  public String completeMaintenance(@PathVariable int carId, RedirectAttributes redirectAttributes) {
+    adminReservationService.markCarAsAvailable(carId);
+    redirectAttributes.addFlashAttribute("message", "정비가 완료되었습니다.");
+    return "redirect:/admin/reservations";
+  }
 
+  // 정비 차량 상세 정보 조회
+  @GetMapping("/car/{carId}/maintenance-detail")
+  public String getMaintenanceCarDetail(@PathVariable int carId, Model model) {
+    AdminCarDto car = adminReservationService.getMaintenanceCarDetail(carId);
+    if (car == null) {
+      model.addAttribute("errorMessage", "해당 차량을 찾을 수 없습니다.");
+      return "error_page";
+    }
+    model.addAttribute("car", car);
+    return "reservation_page/maintenance_detail";
+
+  }
 }
 

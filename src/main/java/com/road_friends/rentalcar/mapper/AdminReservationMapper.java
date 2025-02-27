@@ -50,4 +50,36 @@ public interface AdminReservationMapper {
   @Update("UPDATE fast_reservation SET rental_state = #{rentalState} WHERE reservation_id = #{reservationId}")
   void updateRentalState(@Param("reservationId") int reservationId, @Param("rentalState") int rentalState);
 
+  //정비중인 차량 조회
+  @Select("""
+    SELECT 
+        c.car_id, c.model_id, 
+        m.model_name AS model_name, 
+        c.car_status, c.car_year, c.car_fuel, c.car_grade
+    FROM car c
+    LEFT JOIN model m ON c.model_id = m.model_id
+    WHERE c.car_status = 2  -- 정비 중인 차량만 조회
+""")
+  List<AdminCarDto> findMaintenanceCars();
+
+  // 정비 상태 변경
+  @Update("UPDATE car SET car_status = 0 WHERE car_id = #{carId}")
+  void updateCarStatusToAvailable(@Param("carId") int carId);
+
+  //정비중인 차량 상세 정보 조회
+  @Select("""
+    SELECT 
+        c.car_id, c.model_id, 
+        m.model_name AS model_name, 
+        c.car_category, c.car_status, c.car_year, c.car_fuel, c.car_grade, c.car_options, 
+        p.parking_name AS rental_station_name
+    FROM car c
+    LEFT JOIN model m ON c.model_id = m.model_id
+    LEFT JOIN parking p ON c.rental_station = p.parking_id
+    WHERE c.car_id = #{carId} AND c.car_status = 2
+""")
+  AdminCarDto findMaintenanceCarById(@Param("carId") int carId);
+
 }
+
+

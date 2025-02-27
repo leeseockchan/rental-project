@@ -34,4 +34,19 @@ public class AdminReservationService {
     adminReservationMapper.updateRentalState(reservationId, rentalState);
   }
 
+  // 정비중인 차량 조회
+  public List<AdminCarDto> getMaintenanceCars() {
+    return adminReservationMapper.findMaintenanceCars();
+  }
+
+  //정비 상태 변경
+  public void markCarAsAvailable(int carId) {
+    adminReservationMapper.updateCarStatusToAvailable(carId);
+  }
+
+  // 정비 차량 상세 정보 조회
+  public AdminCarDto getMaintenanceCarDetail(int carId) {
+    return adminReservationMapper.findMaintenanceCarById(carId);
+  }
+
 }
