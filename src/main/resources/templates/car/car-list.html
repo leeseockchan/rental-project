@@ -154,15 +154,18 @@
 
         <!-- 페이지네이션 -->
         <div class="pagination">
-            <a href="" if="">
+            <a th:href="@{/api/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
+               th:if="${pageDto.prev}">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
             </a>
-            <span class="page-number" each="">
-                    <a href="" text="" classappend=""></a>
+            <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/api/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
                 </span>
-            <a href="" if="">
+            <a th:href="@{/api/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
+               th:if="${pageDto.next}">
                     <span class="material-symbols-outlined">
                         chevron_right
                     </span>
