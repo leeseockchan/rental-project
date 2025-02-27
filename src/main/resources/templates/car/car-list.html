@@ -1,179 +1,201 @@
 <!DOCTYPE html>
 <html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
-      layout:decorate="~{layout/layout}">
+    layout:decorate="~{layout/layout}">
 
 <head>
     <title>차량 관리 목록</title>
 
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/car/car-list.css}">
-    </th:block>
+    <link rel="stylesheet" th:href="@{/css/car/car-list.css}">
 
     <!--    아파치 E차트-->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/car/chart.js}" defer></script>
+    
+    <script defer>
+        $(document).ready(function () {
+            // 시/도 선택 시, 해당 구/군 가져오기
+            $("#provinceSelect").change(function () {
+                let province = $(this).val();
+                $("#districtSelect").empty().append('<option value="">구/군을 선택하세요</option>');
 
-    <th:block layout:fragment="js">
-        <script th:inline="javascript" defer>
+                if (province) {
+                    $.get("/api/admin/vehicles/districts", { province: province }, function (data) {
+                        $.each(data, function (index, district) {
+                            $("#districtSelect").append('<option value="' + district + '">' + district + '</option>');
+                        });
+                    });
+                }
+            });
 
-        </script>
+            // 차량 검색 버튼 클릭 시
+            $("#searchBtn").click(function () {
+                let district = $("#districtSelect").val();
 
-        <script th:inline="javascript" th:src="@{/js/car/chart.js}" defer></script>
-    </th:block>
+                if (!district) {
+                    alert("구/군을 선택해주세요.");
+                    return;
+                }
+
+                $.get("/api/admin/vehicles/search", { district: district }, function (cars) {
+                    console.log("검색된 차량 데이터:", cars);  // 👉 실제 응답 확인
+
+                    let carListHtml = "";
+                    $.each(cars, function (index, car) {
+                        console.log("개별 차량 데이터:", car);  // 👉 개별 차량 데이터 확인
+
+                        carListHtml += `
+                        <tr onclick="location.href='/api/admin/vehicles/${car.carId}'" style="cursor: pointer;">
+                            <td>${car.carId}</td>
+                            <td>${car.model.modelBrand}</td>
+                            <td>${car.model.modelName}</td>
+                            <td>${car.carGrade}</td>
+                            <td>${car.carCategory}</td>
+                            <td>${car.carStatus}</td>
+                            <td>${car.parking.parkingName}</td>
+                        </tr>`;
+                    });
+                    $("#carList").html(carListHtml);
+                });
+            });
+        });
+    </script>
 
 </head>
 
 <body>
-<div class="content" layout:fragment="content">
+    <div class="content" layout:fragment="content">
 
-    <div class="header">
-        차량 관리
-    </div>
-
-    <div class="info">
-        <div class="info-header">보유 차량 통계</div>
-
-        <div class="info-box-big-group">
-            <div class="info-box-big only-text-box-big">
-                <div class="info-box-big-header">전체 차량 대수</div>
-                <div class="info-box-sm">
-                    <div class="info-box box1">
-                        <div class="info-box-title">전체 보유 차량</div>
-                        <div class="info-box-content"><span text="">00</span> 대</div>
-                    </div>
-                    <div class="info-box box2">
-                        <div class="info-box-title">현재 대여중인 차량</div>
-                        <div class="info-box-content"><span text="">00</span> 대</div>
-                    </div>
-                    <div class="info-box box3">
-                        <div class="info-box-title">수리중인 차량</div>
-                        <div class="info-box-content"><span text="">00</span> 대</div>
-                    </div>
-                </div>
-            </div>
-            <div class="info-box-big semi-circle-box-big">
-                <div class="info-box-big-header" style="margin-bottom : 0">차량 등급별 보유 현황</div>
-                <div class="chart-box semi-circle-box">
-                    <div class="chart-content chart1" id="chart-container1"></div>
-                </div>
-            </div>
+        <div class="header">
+            차량 관리
         </div>
 
-        <div class="info-box-big-group">
-            <div class="info-box-big">
-                <div class="info-box-big-header">보유 차량 순위</div>
-                <div class="chart-box">
-                    <div class="chart-content chart2" id="chart-container2">
+        <div class="info">
+            <div class="info-header">보유 차량 통계</div>
+
+            <div class="info-box-big-group">
+                <div class="info-box-big only-text-box-big">
+                    <div class="info-box-big-header">전체 차량 대수</div>
+                    <div class="info-box-sm">
+                        <div class="info-box box1">
+                            <div class="info-box-title">전체 보유 차량</div>
+                            <div class="info-box-content"><span text="">00</span> 대</div>
+                        </div>
+                        <div class="info-box box2">
+                            <div class="info-box-title">현재 대여중인 차량</div>
+                            <div class="info-box-content"><span text="">00</span> 대</div>
+                        </div>
+                        <div class="info-box box3">
+                            <div class="info-box-title">수리중인 차량</div>
+                            <div class="info-box-content"><span text="">00</span> 대</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box-big semi-circle-box-big">
+                    <div class="info-box-big-header" style="margin-bottom : 0">차량 등급별 보유 현황</div>
+                    <div class="chart-box semi-circle-box">
+                        <div class="chart-content chart1" id="chart-container1"></div>
                     </div>
                 </div>
             </div>
-            <div class="info-box-big">
-                <div class="info-box-big-header">제조사 별 차량 대수</div>
-                <div class="chart-box">
-                    <div class="chart-content chart3" id="chart-container3"></div>
+
+            <div class="info-box-big-group">
+                <div class="info-box-big">
+                    <div class="info-box-big-header">보유 차량 순위</div>
+                    <div class="chart-box">
+                        <div class="chart-content chart2" id="chart-container2">
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box-big">
+                    <div class="info-box-big-header">제조사 별 차량 대수</div>
+                    <div class="chart-box">
+                        <div class="chart-content chart3" id="chart-container3"></div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+        <div class="list">
+            <div class="info-header">차량 상세 검색</div>
 
-    <div class="list">
-        <div class="info-header">차량 상세 검색</div>
+            <div class="filter-box-big">
+                <div class="filter-box">
+                    <label for="provinceSelect">시/도 선택</label>
+                    <select id="provinceSelect">
+                        <option value="">시/도를 선택하세요</option>
+                        <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}">
+                        </option>
+                    </select>
 
-        <div class="filter-box-big">
-            <div class="filter-box">
-                <label for="filter-local-1">도/시</label>
-                <select id="filter-local-1" name="selectLocal1">
-                    <option value="local1">서울특별시</option>
-                    <option value="local2">경기도</option>
-                    <option value="local3">강원도</option>
-                    <option value="local4">충청도</option>
-                    <option value="local5">전라도</option>
-                    <option value="local6">경상도</option>
-                </select>
-                <label for="filter-local-2">지역</label>
-                <select id="filter-local-2" name="selectLocal2">
-                    <option value="local1">지역1</option>
-                    <option value="local2">지역2</option>
-                    <option value="local3">지역3</option>
-                    <option value="local4">지역4</option>
-                    <option value="local5">지역5</option>
-                    <option value="local6">지역6</option>
-                </select>
+                    <label for="districtSelect">구/군 선택</label>
+                    <select id="districtSelect">
+                        <option value="">구/군을 선택하세요</option>
+                    </select>
+
+                    <div class="btn-group">
+                        <button type="button" id="searchBtn" class="btn-search">검색</button>
+                    </div>
+
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" id="add_car" class="btn-update"
+                        th:onclick="'location.href=\'' + @{/api/admin/vehicles/add} + '\''">
+                        주차장에 새 차량을 등록
+                    </button>
+                </div>
             </div>
-            <div class="btn-group">
-                <button type="button" class="btn-update" onclick="">
-                    신규 차량 등록
-                </button>
-            </div>
-        </div>
 
-        <table class="table-box">
-            <thead>
-            <tr>
-                <th style="width: 50px;">차량 번호</th>
-                <th style="width: 60px;">제조사</th>
-                <th style="width: 60px;">모델명</th>
-                <th style="width: 60px;">등급</th>
-                <th style="width: 180px;">카테고리</th>
-                <th style="width: 180px;">대여 상태</th>
-                <th style="width: 120px;">현재 위치한 주차장</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                <td text="" style="max-width: 50px;">1</td>
-                <td text="" style="max-width: 60px;">기아</td>
-                <td text="" style="max-width: 60px;">셀토스</td>
-                <td text="" style="max-width: 180px;">프리미엄</td>
-                <td text="" style="max-width: 180px;">빠른예약</td>
-                <td text="" style="max-width: 120px;">대여중</td>
-                <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
-            </tr>
-            <!--            더미 데이터 시작. 추후 삭제-->
-            <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                <td text="" style="max-width: 50px;">1</td>
-                <td text="" style="max-width: 60px;">기아</td>
-                <td text="" style="max-width: 60px;">셀토스</td>
-                <td text="" style="max-width: 180px;">프리미엄</td>
-                <td text="" style="max-width: 180px;">빠른예약</td>
-                <td text="" style="max-width: 120px;">대여중</td>
-                <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
-            </tr>
-            <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                <td text="" style="max-width: 50px;">1</td>
-                <td text="" style="max-width: 60px;">기아</td>
-                <td text="" style="max-width: 60px;">셀토스</td>
-                <td text="" style="max-width: 180px;">프리미엄</td>
-                <td text="" style="max-width: 180px;">빠른예약</td>
-                <td text="" style="max-width: 120px;">대여중</td>
-                <td text="" style="max-width: 120px;">장안구 연무동 주차장</td>
-            </tr>
-            <!--            더미 데이터 끝-->
-            </tbody>
-        </table>
+            <table class="table-box">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">차량 번호</th>
+                        <th style="width: 80px;">제조사</th>
+                        <th style="width: 80px;">모델명</th>
+                        <th style="width: 80px;">등급</th>
+                        <th style="width: 80px;">카테고리</th>
+                        <th style="width: 100px;">대여 상태</th>
+                        <th style="width: 180px;">현재 위치한 주차장</th>
+                    </tr>
+                </thead>
+                <tbody id="carList">
+                    <tr th:each="car : ${cars}" th:attr="data-href=@{/api/admin/vehicles/{carId}(carId=${car.carId})}"
+                        onclick="location.href=this.getAttribute('data-href')">
+                        <td th:text="${car.carId}" style="max-width: 50px;"></td>
+                        <td th:text="${car.model.modelBrand}" style="max-width: 80px;"></td>
+                        <td th:text="${car.model.modelName}" style="max-width: 80px;"></td>
+                        <td th:text="${car.carGrade}" style="max-width: 80px;"></td>
+                        <td th:text="${car.carCategory}" style="max-width: 80px;"></td>
+                        <td th:text="${car.carStatus}" style="max-width: 100px;"></td>
+                        <td th:text="${car.parking.parkingName}" style="max-width: 180px;"></td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <!-- 페이지네이션 -->
-        <div class="pagination">
-            <a th:href="@{/api/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
-               th:if="${pageDto.prev}">
+            <!-- 페이지네이션 -->
+            <!-- <div class="pagination">
+                <a th:href="@{/api/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
+                    th:if="${pageDto.prev}">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
-            </a>
-            <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                </a>
+                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
                     <a th:href="@{/api/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
-                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
                 </span>
-            <a th:href="@{/api/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
-               th:if="${pageDto.next}">
+                <a th:href="@{/api/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
+                    th:if="${pageDto.next}">
                     <span class="material-symbols-outlined">
                         chevron_right
                     </span>
-            </a>
-        </div>
+                </a>
+            </div> -->
 
+        </div>
     </div>
-</div>
 
 </body>
 

@@ -4,10 +4,8 @@
 
 <head>
     <title>차량 관리 상세</title>
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/car/car-detail.css}">
-    </th:block>
-    <script th:src="@{/js/car/car.js}" defer></script>
+
+    <link rel="stylesheet" th:href="@{/css/car/car-detail.css}">
 
 </head>
 
@@ -24,12 +22,11 @@
                 <div class="btn-group">
                     <!-- 수정 -->
                     <button type="button" class="btn-update"
-                            th:onclick="'location.href=\'' + @{/api/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})} + '\''">
+                        th:onclick="'location.href=\'' + @{/api/admin/vehicles/modify/{carId}(carId=${car.carId})} + '\''">
                         수정
                     </button>
                     <!-- 삭제 -->
-                    <form th:action="@{/api/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}"
-                        method="post">
+                    <form th:action="@{/api/admin/vehicles/{carId}(carId=${car.carId})}" method="post">
                         <button type="submit" class="btn-delete-all" onclick="return confirm('정말 차량 정보를 삭제하시겠습니까?');">
                             삭제
                         </button>
@@ -38,74 +35,74 @@
             </div>
             <div class="info-box-big">
                 <div class="info-box box1">
-                    <div class="info-box-title">1번 차량 상세 정보</div>
+                    <div class="info-box-title" th:text="|${car.carId}번 차량 상세 정보|"></div>
                     <div class="info-box-content">
                         <table class="info-box-content-table">
                             <tbody>
                                 <tr>
                                     <th>등급</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.carGrade}">00</td>
                                 </tr>
                                 <tr>
                                     <th>카테고리</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.carCategory}">00</td>
                                 </tr>
                                 <tr>
                                     <th>대여상태</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.carStatus}">00</td>
                                 </tr>
                                 <tr>
                                     <th>옵션</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.carOptions}">00</td>
                                 </tr>
                                 <tr>
                                     <th>연료</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.carFuel}">00</td>
                                 </tr>
                                 <tr>
                                     <th>연식</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.carYear}">00</td>
                                 </tr>
                                 <tr>
                                     <th>위치</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.parking.parkingName}">00</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="info-box box2">
-                    <div class="info-box-title">셀토스의 제원정보</div>
+                    <div class="info-box-title" th:text="|${car.model.modelName}의 제원정보|"></div>
                     <div class="info-box-content">
                         <table class="info-box-content-table">
                             <tbody>
                                 <tr>
                                     <th>제조사</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.model.modelBrand}">00</td>
                                 </tr>
                                 <tr>
                                     <th>모델명</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.model.modelName}">00</td>
                                 </tr>
                                 <tr>
-                                    <th>사이즈</th>
-                                    <td text="">00</td>
+                                    <th>차 종</th>
+                                    <td th:text="${car.model.modelCategory}">00</td>
                                 </tr>
                                 <tr>
                                     <th>변속방식</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.model.modelTransmission}">00</td>
                                 </tr>
                                 <tr>
                                     <th>좌석 수</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.model.modelSeateNum}">00</td>
                                 </tr>
                                 <tr>
                                     <th>1시간 대여료</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.model.modelAmountHour}">00</td>
                                 </tr>
                                 <tr>
                                     <th>1일 대여료</th>
-                                    <td text="">00</td>
+                                    <td th:text="${car.model.modelAmountDay}">00</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -114,7 +111,7 @@
             </div>
             <div class="btn-group">
                 <button type="button" class="btn-go-back"
-                    onclick="">
+                    th:onclick="'location.href=\'' + @{/api/admin/vehicles} + '\''">
                     목록으로
                 </button>
             </div>

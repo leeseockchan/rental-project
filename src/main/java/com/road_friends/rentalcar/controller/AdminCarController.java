@@ -63,7 +63,7 @@ public class AdminCarController {
     @GetMapping
     public String showCarStatus(Model model) {
         model.addAttribute("provinceList", getProvinceList());
-        return "car_page/list";
+        return "car/car-list";
     }
 
     //    차량 관리 상세보기
@@ -71,7 +71,7 @@ public class AdminCarController {
     public String detailCarStatus(@PathVariable int carId, Model model) {
         AdminCarDto car = adminCarService.findByCarId(carId);
         model.addAttribute("car", car);
-        return "car_page/detail";
+        return "car/car-detail";
     }
 
     //    차량 관리 추가
@@ -90,7 +90,7 @@ public class AdminCarController {
         newCar.setParking(new AdminParkingDto());
         model.addAttribute("newCar", newCar);
 
-        return "car_page/add";
+        return "car/car-create";
     }
     @PostMapping("/add")
     public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
@@ -130,7 +130,7 @@ public class AdminCarController {
         // 수정할 차량 정보 추가
         model.addAttribute("modify", modifyCar);
 
-        return "car_page/modify";
+        return "car/car-update";
     }
 
     @PutMapping("/modify/{carId}")
