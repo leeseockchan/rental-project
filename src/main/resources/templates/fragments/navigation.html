@@ -1,0 +1,20 @@
+<div class="sidebar" th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="logo">로고 들어갈 자리</div>
+    <div class="navigation-box">
+        <ul class="navigation">
+            <li><a th:href="@{/}">대시보드</a></li>
+            <li><a th:href="@{/}">차량 관리</a></li>
+            <li><a th:href="@{/}">주차 관리</a></li>
+            <li><a th:href="@{/}">사용자 관리</a></li>
+            <li><a th:href="@{/posts/list}">공지사항 관리</a></li>
+            <li><a th:href="@{/}">리뷰 관리</a></li>
+            <li><a th:href="@{/}">문의사항 관리</a></li>
+        </ul>
+    </div>
+    <div class="logout">
+        <a th:href="@{/}">
+            <span class="material-symbols-outlined">logout</span>
+            로그아웃
+        </a>
+    </div>
+</div>
