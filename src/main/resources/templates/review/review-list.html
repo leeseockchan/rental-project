@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <title>리뷰 관리 목록</title>
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/review/review-list.css}">
+    </th:block>
+
+    <!--    아파치 E차트-->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
+    <th:block layout:fragment="js">
+        <script th:inline="javascript" defer>
+
+        </script>
+
+        <script th:inline="javascript" th:src="@{/js/review/chart.js}" defer></script>
+    </th:block>
+
+</head>
+
+<body>
+    <div class="content" layout:fragment="content">
+
+        <div class="header">
+            리뷰 관리
+        </div>
+
+        <div class="info">
+            <div class="info-header">리뷰 통계</div>
+
+            <div class="info-group">
+                <div class="info-box-big-group">
+                    <div class="info-box-big only-text-box-big">
+                        <div class="info-box-big-header">리뷰 응답률</div>
+                        <div class="info-box-sm">
+                            <div class="info-box box1">
+                                <div class="info-box-title">총 응답 개수</div>
+                                <div class="info-box-content"><span text="">00</span> 명</div>
+                            </div>
+                            <div class="info-box box2">
+                                <div class="info-box-title">이용률 대비 응답률</div>
+                                <div class="info-box-content"><span text="">00</span> 명</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box-big semi-circle-box-big">
+                        <div class="info-box-big-header" style="margin-bottom : 0">서비스 만족도</div>
+                        <div class="chart-box semi-circle-box">
+                            <div class="chart-content chart1" id="chart-container1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box-big-group">
+                    <div class="info-box-big">
+                        <div class="info-box-big-header">만족도 상세 통계</div>
+                        <div class="chart-box">
+                            <div class="chart-content chart2" id="chart-container2"></div>
+                            <div class="chart-content chart3" id="chart-container3"></div>
+                            <div class="chart-content chart4" id="chart-container4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list">
+            <div class="info-header">리뷰 조회</div>
+
+            <div class="filter-box-big">
+                <div class="filter-box">
+                    <label for="filter-year">연도</label>
+                    <select id="filter-year">
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+
+                    <label for="filter-month">월</label>
+                    <select id="filter-month">
+                        <option value="1">1월</option>
+                        <option value="2">2월</option>
+                        <option value="3">3월</option>
+                        <option value="4">4월</option>
+                        <option value="5">5월</option>
+                        <option value="6">6월</option>
+                        <option value="7">7월</option>
+                        <option value="8">8월</option>
+                        <option value="9">9월</option>
+                        <option value="10">10월</option>
+                        <option value="11">11월</option>
+                        <option value="12">12월</option>
+                    </select>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn-update" onclick="">
+                            검색
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table-box">
+                <thead>
+                    <tr>
+                        <th style="width: 70px; text-align: center;">리뷰 번호</th>
+                        <th style="width: 70px;">회원 번호</th>
+                        <th style="width: 70px;">차량 상태 만족도</th>
+                        <th style="width: 70px;">예약 과정 만족도</th>
+                        <th style="width: 70px;">가격 만족도</th>
+                        <th style="width: 150px;">리뷰 내용</th>
+                        <th style="width: 120px;">리뷰 작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+                        <td text="" style="max-width: 70px; text-align: center;">1</td>
+                        <td text="" style="max-width: 70px;">1</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 150px;">처음 이용해봤는데 이런 점이 좋았고 이런 점이 아쉬웠어요</td>
+                        <td text="" style="max-width: 120px;">2025-02-15 08:48:04</td>
+                    </tr>
+                    <!--            더미 데이터 시작. 추후 삭제-->
+                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+                        <td text="" style="max-width: 70px; text-align: center;">1</td>
+                        <td text="" style="max-width: 70px;">1</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 150px;">처음 이용해봤는데 이런 점이 좋았고 이런 점이 아쉬웠어요</td>
+                        <td text="" style="max-width: 120px;">2025-02-15 08:48:04</td>
+                    </tr>
+                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+                        <td text="" style="max-width: 70px; text-align: center;">1</td>
+                        <td text="" style="max-width: 70px;">1</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 70px;">4</td>
+                        <td text="" style="max-width: 150px;">처음 이용해봤는데 이런 점이 좋았고 이런 점이 아쉬웠어요</td>
+                        <td text="" style="max-width: 120px;">2025-02-15 08:48:04</td>
+                    </tr>
+                    <!--            더미 데이터 끝-->
+                </tbody>
+            </table>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <a href="" if="">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+                </a>
+                <span class="page-number" each="">
+                    <a href="" text="" classappend=""></a>
+                </span>
+                <a href="" if="">
+                    <span class="material-symbols-outlined">
+                        chevron_right
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
