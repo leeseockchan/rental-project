@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.APIFastReservationMapper">
+
+    <!-- 로그인한 사용자의 전체 빠른 예약 조회 -->
+    <select id="getUserFastReservations" resultType="com.road_friends.rentalcar.dto.FastReservationResponseDto">
+        SELECT fr.reservation_id, fr.rental_state,
+        c.car_id, m.model_name,
+        rental_parking.parking_name AS rentalLocationName,
+        fr.rental_datetime,
+        return_parking.parking_name AS returnLocationName,
+        fr.return_datetime, fr.user_num, fr.fast_reservation_create_at
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        JOIN parking rental_parking ON fr.rental_location = rental_parking.parking_id
+        JOIN parking return_parking ON fr.return_location = return_parking.parking_id
+        WHERE fr.user_num = #{userNum};
+    </select>
+
+    <!-- 특정 빠른 예약 상세 조회 -->
+    <select id="getFastReservationDetail" resultType="com.road_friends.rentalcar.dto.FastReservationResponseDto">
+        SELECT
+        fr.reservation_id,
+        fr.rental_state,
+        fr.rental_location,
+        rental_parking.parking_name AS rentalLocationName,
+        rental_parking.parking_latitude AS rentalLocationLatitude,
+        rental_parking.parking_longtitude AS rentalLocationLongitude,
+        fr.rental_datetime,
+        fr.return_location,
+        return_parking.parking_name AS returnLocationName,
+        return_parking.parking_latitude AS returnLocationLatitude,
+        return_parking.parking_longtitude AS returnLocationLongitude,
+        fr.return_datetime,
+        fr.user_num,
+        fr.fast_reservation_create_at,
+
+        -- 차량 정보 추가
+        c.car_id,
+        c.car_status,
+        c.car_year,
+        c.car_fuel,
+        c.car_grade,
+        c.car_options,
+
+        -- 모델 정보 추가
+        m.model_id,
+        m.model_brand,
+        m.model_name,
+        m.model_category,
+        m.model_seate_num,
+        m.model_transmission,
+        m.model_amount_hour,
+        m.model_amount_day
+
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        JOIN parking rental_parking ON fr.rental_location = rental_parking.parking_id
+        JOIN parking return_parking ON fr.return_location = return_parking.parking_id
+        WHERE fr.reservation_id = #{reservationId}
+    </select>
+
+
+    <!--  빠른 예약 이용시작 상태 변경  -->
+    <update id="updateRentalState">
+        UPDATE fast_reservation
+        SET rental_state = #{newState}
+        WHERE reservation_id = #{reservationId}
+        AND rental_state = #{currentState}
+    </update>
+
+<!--  이용 완료 자동차 상태 변경  -->
+    <!-- 예약 ID로 차량 ID 조회 -->
+    <select id="getCarIdByReservationId" resultType="int">
+        SELECT car_id FROM fast_reservation WHERE reservation_id = #{reservationId}
+    </select>
+
+    <!-- 차량 상태 변경 (1 → 0) -->
+    <update id="updateCarStatus">
+        UPDATE car
+        SET car_status = #{newStatus}
+        WHERE car_id = #{carId}
+        AND car_status = #{currentStatus}
+    </update>
+
+    <!-- 빠른 예약 수정 -->
+    <update id="updateFastReservation" parameterType="com.road_friends.rentalcar.dto.FastReservationResponseDto">
+        UPDATE fast_reservation
+        SET
+        return_location = #{returnLocation}
+        WHERE reservation_id = #{reservationId}
+        AND user_num = #{userNum}
+    </update>
+
+
+
+    <!-- 빠른 예약 취소 (삭제) -->
+    <delete id="deleteFastReservation">
+        DELETE FROM fast_reservation
+        WHERE reservation_id = #{reservationId} AND user_num = #{userNum}
+    </delete>
+
+</mapper>
