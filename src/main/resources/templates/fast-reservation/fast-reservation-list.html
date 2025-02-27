@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
+
+<head>
+  <title>빠른 예약 관리</title>
+
+    <link rel="stylesheet" th:href="@{/css/fast-reservation/fast-reservation-list.css}">
+
+  <th:block layout:fragment="js">
+    <script th:inline="javascript" th:src="@{/js/fast-reservation/fast-reservation.js}" defer></script>
+  </th:block>
+
+</head>
+
+<body>
+<div class="content" layout:fragment="content">
+
+  <div class="header">
+    빠른 예약 관리
+  </div>
+
+<!--  현재 정비 중인 차량 목록-->
+  <div class="list">
+
+    <div class="list-flex-box">
+      <div class="info-header">현재 정비 중인 차량 목록</div>
+    </div>
+
+    <table class="table-box">
+      <thead>
+      <tr>
+        <th style="width: 100px;">차량 ID</th>
+        <th style="width: 100px;">모델명</th>
+        <th style="width: 100px;">차량 등급</th>
+        <th style="width: 100px;">연식</th>
+        <th style="width: 100px;">연료</th>
+        <th style="width: 100px;">정비 완료</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="car : ${maintenanceCars}"
+          th:attr="data-href=@{/admin/reservations/car/{carId}/maintenance-detail(carId=${car.carId})}"
+          onclick="location.href=this.getAttribute('data-href')">
+        <td th:text="${car.carId}"></td>
+        <td th:text="${car.modelName}"></td>
+        <td th:text="${car.carGrade}"></td>
+        <td th:text="${car.carYear}"></td>
+        <td th:text="${car.carFuel}"></td>
+        <td>
+          <form th:action="@{/admin/reservations/car/{carId}/complete-maintenance(carId=${car.carId})}" method="post"
+                onsubmit="return confirm('이 차량의 정비를 완료하시겠습니까?');">
+            <button type="submit">정비 완료</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- 정비 완료 메시지 출력 -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+  </div>
+
+
+<!--    빠른대여 예약 현황-->
+  <div class="list two">
+
+    <div class="list-flex-box">
+      <div class="info-header">빠른대여 예약 현황</div>
+    </div>
+
+    <table class="table-box">
+      <thead>
+      <tr>
+        <th style="width: 100px;">예약 ID</th>
+        <th style="width: 100px;">차량 ID</th>
+        <th style="width: 100px;">대여 장소</th>
+        <th style="width: 100px;">반납 장소</th>
+        <th style="width: 100px;">대여 시간</th>
+        <th style="width: 100px;">반납 시간</th>
+        <th style="width: 100px;">예약 상태</th>
+        <th style="width: 100px;">자세히 보기</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="reservation : ${reservations}"
+          th:attr="data-href=@{/admin/reservations/{id}(id=${reservation.reservationId})}"
+          onclick="location.href=this.getAttribute('data-href')">
+        <td th:text="${reservation.reservationId}"></td>
+        <td th:text="${reservation.modelName}"></td> <!-- 차량 모델명 -->
+        <td th:text="${reservation.rentalLocationName}"></td>
+        <td th:text="${reservation.returnLocationName}"></td>
+        <td th:text="${reservation.rentalDatetime}"></td>
+        <td th:text="${reservation.returnDatetime}"></td>
+        <td th:switch="${reservation.rentalState}">
+          <span th:case="0">결제대기</span>
+          <span th:case="1">결제완료</span>
+          <span th:case="2">이용중</span>
+          <span th:case="3">예약취소</span>
+          <span th:case="4">이용완료</span>
+          <span th:case="*">알 수 없음</span>
+        </td>
+        <td><a th:href="@{/admin/reservations/{id}(id=${reservation.reservationId})}">보기</a></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <!-- 페이지네이션 -->
+<!--    <div class="pagination">-->
+<!--      <a href="" if="">-->
+<!--          <span class="material-symbols-outlined">-->
+<!--            chevron_left-->
+<!--          </span>-->
+<!--      </a>-->
+<!--      <span class="page-number" each="">-->
+<!--          <a href="" text="" classappend=""></a>-->
+<!--        </span>-->
+<!--      <a href="" if="">-->
+<!--          <span class="material-symbols-outlined">-->
+<!--            chevron_right-->
+<!--          </span>-->
+<!--      </a>-->
+<!--    </div>-->
+
+  </div>
+
+</div>
+</body>
+
+</html>

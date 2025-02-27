@@ -27,7 +27,7 @@ public class AdminReservationController {
     model.addAttribute("reservations", reservations);
     model.addAttribute("maintenanceCars", maintenanceCars);  // 🔹 추가
 
-    return "reservation_page/reservation_list";
+    return "fast-reservation/fast-reservation-list";
   }
 
   // 개별 예약 상세 조회
@@ -35,7 +35,7 @@ public class AdminReservationController {
   public String getReservationDetail(@PathVariable int reservationId, Model model) {
     FastReservationDto reservation = adminReservationService.findReservationById(reservationId);
     model.addAttribute("reservation", reservation);
-    return "reservation_page/reservation_detail";
+    return "fast-reservation/fast-reservation-detail";
   }
 
   // 삭제
@@ -73,7 +73,7 @@ public class AdminReservationController {
       return "error_page";
     }
     model.addAttribute("car", car);
-    return "reservation_page/maintenance_detail";
+    return "fast-reservation/fast-reservation-maintenance";
 
   }
 }
