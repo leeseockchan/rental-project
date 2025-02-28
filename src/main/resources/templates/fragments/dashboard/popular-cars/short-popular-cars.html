@@ -1,0 +1,18 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+  <div class="header-sm">
+    🔥 단기 예약 - 가장 인기 있는 차량 TOP 5
+  </div>
+
+<table>
+  <tr>
+    <th>차량명</th>
+    <th>예약 횟수</th>
+  </tr>
+  <tr th:each="car : ${topShortPopularCars}">
+    <td th:text="${car.label}"></td>
+    <td th:text="${car.count}"></td>
+  </tr>
+</table>
+
+</div>

@@ -1,9 +1,11 @@
-// 성별 차트, 반원형
+// 성별, 반원 그래프
 document.addEventListener("DOMContentLoaded", function () {
-    var semiCircleChart = echarts.init(document.getElementById("chart-container1"));
+    var chartContainer = document.getElementById("chart-container1");
 
-    var maleCount = parseInt(document.querySelector("td:nth-child(2)").textContent, 10) || 0;
-    var femaleCount = parseInt(document.querySelector("td:nth-child(3)").textContent, 10) || 0;
+    // ✅ 차트 컨테이너가 없으면 실행하지 않음 (오류 방지)
+    if (!chartContainer) return;
+
+    var semiCircleChart = echarts.init(chartContainer);
 
     var semiCircleOption = {
         title: {
@@ -36,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             {
                 name: "성별",
                 type: "pie",
-                radius: ['40%', '100%'],
+                radius: ['40%', '100%'], // 반원형
                 center: ['50%', '70%'],
                 startAngle: 180,
                 endAngle: 360,

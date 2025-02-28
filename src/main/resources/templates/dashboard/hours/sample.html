@@ -1,0 +1,24 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="header-sm">
+    ⬆️ 빠른 예약 시간대 TOP 5
+</div>
+
+<table>
+    <tr>
+        <th>시간대</th>
+        <th>예약 횟수</th>
+    </tr>
+    <tr th:each="hour : ${topFastRentalHours}">
+        <td th:text="${hour.label + '시'}"></td>
+        <td th:text="${hour.count}"></td>
+    </tr>
+</table>
+
+<!-- 대시보드로 돌아가기 버튼 -->
+<div class="">
+    <a th:href="@{/api/admin/dashboard}" class="my-btn">
+        ⬅️ 대시보드로 돌아가기
+    </a>
+</div>
+
+</div>

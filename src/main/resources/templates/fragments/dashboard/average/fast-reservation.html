@@ -1,0 +1,46 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <div class="header-sm">
+       ⏳ 빠른 예약 평균 렌트 시간 (Top 5)
+    </div>
+
+<!-- 차량별 평균 렌트 시간 -->
+<h2>🚗 차량별 평균 렌트 시간</h2>
+<table>
+    <tr>
+        <th>차량명</th>
+        <th>평균 렌트 시간</th>
+    </tr>
+    <tr th:each="rental : ${topFastCarRentalDuration}">
+        <td th:text="${rental.label}"></td>
+        <td th:text="${rental.count + '시간'}"></td>
+    </tr>
+</table>
+
+<!-- 지역별 평균 렌트 시간 -->
+<h2>📍 지역별 평균 렌트 시간</h2>
+<table>
+    <tr>
+        <th>지역</th>
+        <th>평균 렌트 시간</th>
+    </tr>
+    <tr th:each="rental : ${topFastRegionRentalDuration}">
+        <td th:text="${rental.label}"></td>
+        <td th:text="${rental.count + '시간'}"></td>
+    </tr>
+</table>
+
+<!-- 사용자별 평균 렌트 시간 -->
+<h2>👤 사용자별 평균 렌트 시간</h2>
+<table>
+    <tr>
+        <th>사용자</th>
+        <th>평균 렌트 시간</th>
+    </tr>
+    <tr th:each="rental : ${topFastUserRentalDuration}">
+        <td th:text="${rental.label}"></td>
+        <td th:text="${rental.count + '시간'}"></td>
+    </tr>
+</table>
+
+</div>

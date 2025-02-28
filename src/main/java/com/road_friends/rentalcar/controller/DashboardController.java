@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.UserStatsDto;
+import com.road_friends.rentalcar.dto.ReservationDto;
 import com.road_friends.rentalcar.service.ReservationService;
 import com.road_friends.rentalcar.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -9,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin")
@@ -23,75 +22,48 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
+        // ✅ 사용자 통계 데이터
         UserStatsDto userStats = userService.getUserStats();
         model.addAttribute("userStats", userStats);
 
+        // ✅ 가장 인기 있는 차량 (전체)
         model.addAttribute("topAllPopularCars", reservationService.getTopAllPopularCars());
 
-        return "dashboard/dashboard";
-    }
-
-    @GetMapping("/fast-reservation-hours")
-    public String fasthour(Model model){
+        // ✅ 빠른 예약 시간대 TOP 5
         model.addAttribute("topFastRentalHours", reservationService.getTopFastRentalHours());
-        return "dashboard/hours/fast-reservation-hours";
-    }
 
-    @GetMapping("/short-reservation-hours")
-    public String shorthour(Model model){
+        // ✅ 단기 예약 시간대 TOP 5
         model.addAttribute("topShortRentalHours", reservationService.getTopShortRentalHours());
-        return "dashboard/hours/short-reservation-hours";
-    }
 
-    @GetMapping("/fast-rental-locations")
-    public String fastlocations(Model model){
+        // ✅ 빠른 예약 - 가장 많이 대여한 지역 TOP 5
         model.addAttribute("topFastRentalLocations", reservationService.getTopFastRentalLocations());
-        return "dashboard/rental-locations/fast-rental-locations";
-    }
 
-    @GetMapping("/short-rental-locations")
-    public String shortlocations(Model model){
+        // ✅ 단기 예약 - 가장 많이 대여한 지역 TOP 5
         model.addAttribute("topShortRentalLocations", reservationService.getTopShortRentalLocations());
-        return "dashboard/rental-locations/short-rental-locations";
-    }
 
-    @GetMapping("/fast-return-locations")
-    public String fastreturn(Model model){
+        // ✅ 빠른 예약 - 가장 많이 반납한 지역 TOP 5
         model.addAttribute("topFastReturnLocations", reservationService.getTopFastReturnLocations());
-        return "dashboard/return-locations/fast-return-locations";
-    }
 
-    @GetMapping("/short-return-locations")
-    public String shortreturn(Model model){
+        // ✅ 단기 예약 - 가장 많이 반납한 지역 TOP 5
         model.addAttribute("topShortReturnLocations", reservationService.getTopShortReturnLocations());
-        return "dashboard/return-locations/short-return-locations";
-    }
 
-    @GetMapping("/fast-reservation")
-    public String fast(Model model){
+        // ✅ 빠른 예약 평균 렌트 시간
         model.addAttribute("topFastCarRentalDuration", reservationService.getTopFastCarRentalDuration());
         model.addAttribute("topFastRegionRentalDuration", reservationService.getTopFastRegionRentalDuration());
         model.addAttribute("topFastUserRentalDuration", reservationService.getTopFastUserRentalDuration());
-        return "dashboard/average/fast-reservation";
-    }
 
-    @GetMapping("/short-reservation")
-    public String reservation(Model model){
+        // ✅ 단기 예약 평균 렌트 시간
         model.addAttribute("topShortCarRentalDuration", reservationService.getTopShortCarRentalDuration());
         model.addAttribute("topShortRegionRentalDuration", reservationService.getTopShortRegionRentalDuration());
         model.addAttribute("topShortUserRentalDuration", reservationService.getTopShortUserRentalDuration());
-        return "dashboard/average/short-reservation";
-    }
 
-    @GetMapping("/fast-popular-cars")
-    public String fastpop(Model model){
+        // ✅ 빠른 예약 - 가장 인기 있는 차량 TOP 5
         model.addAttribute("topFastPopularCars", reservationService.getTopFastPopularCars());
-        return "dashboard/popular-cars/fast-popular-cars";
-    }
 
-    @GetMapping("/short-popular-cars")
-    public String shortpop(Model model){
+        // ✅ 단기 예약 - 가장 인기 있는 차량 TOP 5
         model.addAttribute("topShortPopularCars", reservationService.getTopShortPopularCars());
-        return "dashboard/popular-cars/short-popular-cars";
+
+        // ✅ 대시보드 전체 페이지 반환
+        return "dashboard/dashboard";
     }
 }

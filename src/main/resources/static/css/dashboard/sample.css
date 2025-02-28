@@ -1,0 +1,15 @@
+/* 📌 버튼 스타일 (노란색으로 변경) */
+.my-btn {
+    background-color: #FFC107 !important;  /* 노란색 */
+    color: black;  /* 텍스트 색상 */
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.my-btn:hover {
+    background-color: #FFA000;  /* 어두운 노란색 (호버 효과) */
+}

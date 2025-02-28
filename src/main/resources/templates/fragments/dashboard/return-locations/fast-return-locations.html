@@ -1,0 +1,19 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+  <div class="header-sm">
+    관리자 대시보드 > 🔄 빠른 예약 - 가장 많이 반납한 지역 TOP 5
+  </div>
+
+<table>
+  <tr>
+    <th>지역</th>
+    <th>반납 횟수</th>
+  </tr>
+  <tr th:each="returnData : ${topFastReturnLocations}">
+    <td th:text="${returnData.label}"></td>  <!-- ✅ 변수명 수정 -->
+    <td th:text="${returnData.count}"></td>  <!-- ✅ 변수명 수정 -->
+  </tr>
+</table>
+
+</div>
+
