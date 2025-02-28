@@ -79,7 +79,6 @@ public class ShortReservationService {
 
         // reservation 테이블의 short_reservation_id 업데이트
         shortReservationMapper.updateShortReservationId(reservationId, shortReservationDto.getReservationSId());
-
         // car 테이블의 car_status 0 -> 1 업데이트
         shortReservationMapper.updateCarStatusTo1(shortReservationDto.getCarId());
 
@@ -128,26 +127,6 @@ public class ShortReservationService {
 
         return carListMap;
     }
-
-
-
-    // 반납 주차장 조회하기(단기는 사용x)
-//    public List<ParkingDto> getParkingStation(LocalDateTime startTime, LocalDateTime endTime,int carId) {
-//
-//        Long hoursBetween =  ChronoUnit.HOURS.between(startTime,endTime);
-//
-//        List<ParkingDto> parkingList;
-//
-//        // 4시간 예약일 경우 같은 도시 내의 주차장에서만 반납 가능
-//        if(hoursBetween==4){
-//            parkingList = shortReservationMapper.getParkingStationBelow4hours(carId);
-//        }
-//        else{
-//            parkingList = shortReservationMapper.getAllParkingStation(carId);
-//        }
-//        return parkingList;
-//    }
-
 
     // 가격 로직
     public Long getTotalPrice(CarDto carDto, LocalDateTime rentalDatetime, LocalDateTime returnDatetime) {

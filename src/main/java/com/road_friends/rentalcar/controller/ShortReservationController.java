@@ -69,9 +69,6 @@ public class ShortReservationController {
         LocalDateTime rentalDatetime = LocalDateTime.parse(rentalDatetimeStr);
         LocalDateTime returnDatetime = LocalDateTime.parse(returnDatetimeStr);
 
-        // 반납 가능 장소 조회(단기는 사용x)
-        //List<ParkingDto> parkingList = shortReservationService.getParkingStation(rentalDatetime,returnDatetime,carId);
-
         // 차량 정보 조회
         CarDto carDetail = shortReservationService.getCarById(carId);
         carDetail.setModel(shortReservationService.getModelById(carId));

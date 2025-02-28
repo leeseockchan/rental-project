@@ -69,8 +69,8 @@
 
     <!--     예약하기     -->
     <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.ShortReservationDto">
-        INSERT INTO short_reservation (car_id, rental_station_start, reservation_s_start_date, reservation_s_end_date, user_num)
-        VALUES (#{carId},#{rentalStationStart},#{reservationSStartDate},#{reservationSEndDate},#{userNum});
+        INSERT INTO short_reservation (car_id, rental_station_start, reservation_s_start_date, reservation_s_end_date, user_num,reservation_s_id)
+        VALUES (#{carId},#{rentalStationStart},#{reservationSStartDate},#{reservationSEndDate},#{userNum},#{reservationSId});
     </insert>
 
     <!--    예약취소    -->
@@ -159,36 +159,6 @@
         WHERE car_id=#{carId};
     </select>
 
-
-    <!--    반납 가능한 주차장 조회 - 동일 지역 (4시간 이하)   -->
-<!--    <select id="getParkingStationBelow4hours" parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto" >-->
-<!--        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude-->
-<!--        FROM parking p-->
-<!--        WHERE p.parking_district = (-->
-<!--        SELECT parking_district FROM parking WHERE parking_id = (-->
-<!--        SELECT rental_station FROM car WHERE car_id = #{carId}));-->
-<!--    </select>-->
-
-    <!--    반납 가능한 주차장 조회 - 모든 주차장 (4시간 이상 + 단, 제주->육지/ 육지->제주 제외)     -->
-<!--    <select id="getAllParkingStation" parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto">-->
-<!--        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude-->
-<!--        FROM parking p-->
-<!--        JOIN car c ON c.rental_station = p.parking_id-->
-<!--        WHERE-->
-<!--        (CASE-->
-<!--        &#45;&#45; 제주도에서 빌린 경우 → 제주도 주차장만 조회-->
-<!--        WHEN (SELECT p2.parking_district-->
-<!--        FROM parking p2-->
-<!--        JOIN car c2 ON c2.rental_station = p2.parking_id-->
-<!--        WHERE c2.car_id = #{carId}) = '제주도'-->
-<!--        THEN p.parking_district = '제주도'-->
-
-<!--        &#45;&#45; 제주도 외 지역에서 빌린 경우 → 제주도를 제외한 모든 주차장 조회-->
-<!--        ELSE p.parking_district != '제주도'-->
-<!--        END)-->
-<!--    </select>-->
-
-
     <!--     모델 조회       -->
     <select id="getModelById" parameterType="int" resultMap="ModelResultMap">
         SELECT model_id, model_brand, model_name, model_category, model_seate_num,
@@ -220,8 +190,8 @@
 
     <update id="updateShortReservationId">
         UPDATE reservation
-        SET short_reservation_id = #{reservationSId}
-        WHERE reservation_id = #{reservationSId};
+        SET short_reservation_id = #{reservationId}
+        WHERE reservation_id = #{reservationId};
     </update>
 
     <!--    car 테이블 car_status 업데이트 -->
