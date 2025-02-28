@@ -147,6 +147,7 @@
 
     </div>
 
+    <th:block layout:fragment="js">
     <script>
         document.getElementById("model_modify").addEventListener("submit", function (event) {
             event.preventDefault(); // 기본 폼 제출 방지
@@ -253,15 +254,9 @@
                 }
             });
 
-            // 3. 주차장 선택 시 위도, 경도 자동 입력
-            parkingSelect.addEventListener("change", function () {
-                const selectedOption = this.options[this.selectedIndex];
-                latitudeInput.value = selectedOption.dataset.latitude || "";
-                longitudeInput.value = selectedOption.dataset.longitude || "";
-            });
         });
     </script>
-
+    </th:block>
 </body>
 
 </html>
