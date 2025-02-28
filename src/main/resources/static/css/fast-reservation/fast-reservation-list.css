@@ -101,7 +101,8 @@
 /* 정보 리스트 박스 - 테이블 */
 .table-box {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     background-color: #fff;
     border-radius: 10px;
     overflow: hidden;
@@ -110,25 +111,35 @@
 
 .table-box thead {
     background-color: #3A3D50;
-    border-radius: 10px;
     color: #fff;
 }
 
+/* thead의 양쪽 모서리를 둥글게 처리 */
+.table-box thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.table-box thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+/* th와 td의 패딩을 동일하게 설정 */
 .table-box th,
 .table-box td {
     padding: 10px;
     text-align: center;
 }
 
-.table-box td{
-    padding: 20px;
+/* td 안의 긴 텍스트 처리 */
+.table-box td {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.table-box tbody tr{
-    transition: 0.1s;
+/* tbody의 행 hover 효과 (행 전체 적용) */
+.table-box tbody tr {
+    transition: background-color 0.1s ease-in-out;
 }
 
 .table-box tbody tr:hover {
@@ -136,9 +147,15 @@
     cursor: pointer;
 }
 
+/* 링크 스타일 */
 .table-box tbody td a {
+    display: block;
     width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
 }
+
 
 /* 버튼 */
 .btn-group button,
