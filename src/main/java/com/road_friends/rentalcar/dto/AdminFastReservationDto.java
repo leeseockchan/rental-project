@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
-public class FastReservationDto {
+public class AdminFastReservationDto {
   private int carId;
   private String modelName;
   private int rentalLocation;
