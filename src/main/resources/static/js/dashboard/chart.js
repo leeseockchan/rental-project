@@ -1,72 +1,113 @@
-// 🚻 성별 통계 반원형 차트
-var semiCircleChart = echarts.init(document.getElementById('chart-container1'));
+// 성별 차트, 반원형
+document.addEventListener("DOMContentLoaded", function () {
+    var semiCircleChart = echarts.init(document.getElementById("chart-container1"));
 
-      var maleCount = /*[[${userStats.genderStats != null and userStats.genderStats.size() > 0 ? userStats.genderStats[0].count : 0}]]*/ 0;
-      var femaleCount = /*[[${userStats.genderStats != null and userStats.genderStats.size() > 1 ? userStats.genderStats[1].count : 0}]]*/ 0;
+    var maleCount = parseInt(document.querySelector("td:nth-child(2)").textContent, 10) || 0;
+    var femaleCount = parseInt(document.querySelector("td:nth-child(3)").textContent, 10) || 0;
 
-var semiCircleOption = {
-    title: {
-        text: '성별 인원 통계',
-        left: 'center',
-        top: '5%',
-        textStyle: {
-            fontSize: 20,
-            fontWeight: 'bold'
-        }
-    },
-    tooltip: {
-        trigger: "item",
-        formatter: '{b}: {c}명 ({d}%)'
-    },
-    legend: {
-        orient: 'vertical',
-        bottom: '30%',
-        left: '0%',
-        textStyle: {
-            fontSize: 15,
-            color: '#333',
+    var semiCircleOption = {
+        title: {
+            text: "성별 인원 통계",
+            left: "center",
+            top: "5%",
+            textStyle: {
+                fontSize: 20,
+                fontWeight: "bold"
+            }
         },
-        itemGap: 10,
-        itemWidth: 20,
-        itemHeight: 20,
-        data: ['남성', '여성']
-    },
-    series: [{
-        name: '성별',
-        type: 'pie',
-        radius: ['40%', '100%'], // 반원 크기 조정
-        center: ["70%", "80%"],  // 위치 조정
-        startAngle: 180,         // 반원 시작 각도
-        endAngle: 360,           // 반원 끝 각도
-        itemStyle: {
-            borderColor: "#fff",
-            borderWidth: 2,
+        tooltip: {
+            trigger: "item",
+            formatter: "{b}: {c}명 ({d}%)"
         },
-        label: {
-            show: true,
-            position: 'inside',
-            formatter: '{b}\n{c}명'
-        },
-        data: [
-            { value: maleCount, name: '남성', itemStyle: { color: '#4A90E2' } },  // 남성: 파랑
-            { value: femaleCount, name: '여성', itemStyle: { color: '#E94E77' } } // 여성: 핑크
-        ],
-        emphasis: {
-            itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
+        legend: {
+            orient: "horizontal",
+            bottom: "5%",
+            left: "center",
+            textStyle: {
+                fontSize: 14,
+                color: "#333"
             },
-        }
-    }]
-};
+            itemGap: 10,
+            itemWidth: 20,
+            itemHeight: 20,
+            data: ["남성", "여성"]
+        },
+        series: [
+            {
+                name: "성별",
+                type: "pie",
+                radius: ['40%', '100%'],
+                center: ['50%', '70%'],
+                startAngle: 180,
+                endAngle: 360,
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderColor: "#fff",
+                    borderWidth: 2
+                },
+                label: {
+                    show: true,
+                    position: "inside",
+                    fontSize: 14,
+                    fontWeight: "bold",
+                    formatter: "{b}\n{c}명"
+                },
+                data: [
+                    { value: maleCount, name: "남성", itemStyle: { color: "#4A90E2" } }, // 남성: 파랑
+                    { value: femaleCount, name: "여성", itemStyle: { color: "#E94E77" } } // 여성: 핑크
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 15,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.3)"
+                    }
+                }
+            }
+        ]
+    };
 
-semiCircleChart.setOption(semiCircleOption);
-window.addEventListener('resize', semiCircleChart.resize); // 반응형 지원
+    semiCircleChart.setOption(semiCircleOption);
+    window.addEventListener("resize", semiCircleChart.resize);
+});
+
+
+// 연령별, 막대 그래프
+document.addEventListener("DOMContentLoaded", function () {
+    var chartDom = document.getElementById('chart-container2');
+    var myChart = echarts.init(chartDom);
+
+    var option = {
+        title: {
+            text: '연령대별 인원 수',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type: 'category',
+            data: window.ageLabels // HTML에서 전달된 변수 사용
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            name: '인원 수',
+            type: 'bar',
+            data: window.ageValues, // HTML에서 전달된 변수 사용
+            itemStyle: {
+                color: '#4CAF50'
+            }
+        }]
+    };
+
+    myChart.setOption(option);
+});
 
 
 // 원형 차트 (Fuel Data: 차량 연료 종류별 비율)
-var pieChart = echarts.init(document.getElementById('chart-container2'));
+var pieChart = echarts.init(document.getElementById(''));
 var pieOption = {
     title: {
         text: '',
