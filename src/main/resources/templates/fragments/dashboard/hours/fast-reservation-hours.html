@@ -4,6 +4,9 @@
     ⬆️ 빠른 예약 시간대 TOP 5
   </div>
 
+  <!-- ✅ 막대 그래프 컨테이너 추가 -->
+  <div id="fastReservationChart" style="width: 100%; height: 400px;"></div>
+
   <table>
     <tr>
       <th>시간대</th>
@@ -14,5 +17,14 @@
       <td th:text="${hour.count}"></td>
     </tr>
   </table>
+
+  <!-- ✅ Thymeleaf 데이터를 JavaScript 변수로 전달 -->
+  <script th:inline="javascript">
+    var fastHourLabels = [[${topFastRentalHours.![label + '시']}]];
+    var fastHourCounts = [[${topFastRentalHours.![count]}]];
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/fastReservationChart.js}" defer></script>
 
 </div>
