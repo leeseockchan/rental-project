@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
+
+<head>
+    <title>정비 차량 상세 정보</title>
+
+    <link rel="stylesheet" th:href="@{/css/fast-reservation/fast-reservation-detail.css}">
+
+</head>
+
+<body>
+<div class="content" layout:fragment="content">
+
+    <div class="header">
+        빠른 예약 관리
+    </div>
+
+    <!-- 메시지 출력 -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+    <form>
+        <div class="info">
+            <div class="header-sm">
+                빠른 예약 관리 > 정비 차량 상세 정보
+            </div>
+
+            <div class="info-box-big">
+                <div class="info-box box1">
+                    <div class="info-box-title">정비 차량 상세 정보</div>
+                    <div class="info-box-content">
+                        <table class="info-box-content-table">
+                            <tbody>
+                            <tr>
+                                <th>차량 ID</th>
+                                <td th:text="${car.carId}"></td>
+                            </tr>
+                            <tr>
+                                <th>모델명</th>
+                                <td th:text="${car.modelName}"></td>
+                            </tr>
+                            <tr>
+                                <th>차량 등급</th>
+                                <td th:text="${car.carGrade}"></td>
+                            </tr>
+                            <tr>
+                                <th>연식</th>
+                                <td th:text="${car.carYear}"></td>
+                            </tr>
+                            <tr>
+                                <th>연료</th>
+                                <td th:text="${car.carFuel}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn-go-back"
+                        th:onclick="'location.href=\'' + @{/admin/reservations} + '\''">
+                    목록으로
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+
+</html>
