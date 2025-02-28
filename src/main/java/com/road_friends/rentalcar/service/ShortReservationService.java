@@ -61,23 +61,24 @@ public class ShortReservationService {
 
         // 방금 생성된 reservationId 불러오기
         Integer reservationId = shortReservationMapper.getLastInsertId();
-        shortReservationDto.setReservationId(reservationId);
+        shortReservationDto.setReservationSId(reservationId);
 
         CarDto car = getCarById(shortReservationDto.getCarId());
         shortReservationDto.setCarDto(car);
-        shortReservationDto.setRentalLocation(car.getRentalStation());
+
+        shortReservationDto.setRentalStationStart(car.getRentalStation());
 
         car.getModel().setModelAmountDay(shortReservationMapper.getAmountDay(car.getModel().getModelId()));
         car.getModel().setModelAmountHour(shortReservationMapper.getAmountHour(car.getModel().getModelId()));
 
-        Long price = getTotalPrice(car, shortReservationDto.getRentalDatetime(), shortReservationDto.getReturnDatetime());
+        Long price = getTotalPrice(car, shortReservationDto.getReservationSStartDate(), shortReservationDto.getReservationSEndDate());
 
         shortReservationDto.setTotalPrice(price);
 
         shortReservationMapper.reserve(shortReservationDto);
 
         // reservation 테이블의 short_reservation_id 업데이트
-        shortReservationMapper.updateShortReservationId(reservationId, shortReservationDto.getReservationId());
+        shortReservationMapper.updateShortReservationId(reservationId, shortReservationDto.getReservationSId());
 
         // car 테이블의 car_status 0 -> 1 업데이트
         shortReservationMapper.updateCarStatusTo1(shortReservationDto.getCarId());

@@ -22,7 +22,7 @@ import java.util.List;
 public class ShortReservationDto {
 
     @JsonProperty("reservation_s_id")
-    private int reservationId;
+    private int reservationSId;
 
     // 차량 id
     @JsonProperty("car_id")
@@ -34,7 +34,7 @@ public class ShortReservationDto {
 
     // 대여위치
     @JsonProperty("rental_station_start")
-    private int rentalLocation;
+    private int rentalStationStart;
 
     // 반납위치 (단기예약은 대여위치와 반납이 같음)
 //    @JsonProperty("rental_station_end")
@@ -44,23 +44,22 @@ public class ShortReservationDto {
     @JsonProperty("reservation_s_start_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime rentalDatetime;
+    private LocalDateTime reservationSStartDate;
 
     // 반납일시
     @JsonProperty("reservation_s_end_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime returnDatetime;
+    private LocalDateTime reservationSEndDate;
 
     @JsonProperty("reservation_s_create_at")
-    private Timestamp reservationTime;
+    private Timestamp reservationSCreateAt;
 
     @JsonProperty("rental_state")
     private Integer rentalState;
 
-
     private CarDto carDto;
-    private List<ParkingDto> parkingList;
+    //private List<ParkingDto> parkingList;
 
     private Long totalPrice;
 }

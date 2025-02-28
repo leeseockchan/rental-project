@@ -33,7 +33,7 @@
         FROM car c
         JOIN model m ON c.model_id = m.model_id
         JOIN parking p ON c.rental_station = p.parking_id
-        WHERE c.car_id = #{carId};
+        WHERE c.car_id = #{carId} AND c.car_category = 1;
     </select>
 
     <resultMap id="CarDetailResultMap" type="com.road_friends.rentalcar.dto.CarDto">
@@ -69,8 +69,8 @@
 
     <!--     예약하기     -->
     <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.ShortReservationDto">
-        INSERT INTO short_reservation (car_id, rental_station_start, reservation_s_start_date, reservation_s_end_date, user_num, reservation_s_id)
-        VALUES (#{carId},#{rentalLocation},#{rentalDatetime}, #{returnDatetime},#{userNum},#{reservationId});
+        INSERT INTO short_reservation (car_id, rental_station_start, reservation_s_start_date, reservation_s_end_date, user_num)
+        VALUES (#{carId},#{rentalStationStart},#{reservationSStartDate},#{reservationSEndDate},#{userNum});
     </insert>
 
     <!--    예약취소    -->
@@ -101,7 +101,10 @@
         -- 이미 해당 지역과 시간에 예약된 차량 목록 제외
         SELECT 1 FROM short_reservation sr
         WHERE sr.car_id = c.car_id
-        AND (
+        AND
+        c.car_category = 1
+        AND
+        (
         (#{rentalDatetime} BETWEEN sr.reservation_s_start_date AND sr.reservation_s_end_date)
         OR (#{returnDatetime} BETWEEN sr.reservation_s_start_date AND sr.reservation_s_end_date)
         OR (sr.reservation_s_start_date BETWEEN #{rentalDatetime} AND #{returnDatetime})
@@ -217,8 +220,8 @@
 
     <update id="updateShortReservationId">
         UPDATE reservation
-        SET reservation_s_id = #{shortReservationId}
-        WHERE reservation_s_id = #{reservationId};
+        SET short_reservation_id = #{reservationSId}
+        WHERE reservation_id = #{reservationSId};
     </update>
 
     <!--    car 테이블 car_status 업데이트 -->

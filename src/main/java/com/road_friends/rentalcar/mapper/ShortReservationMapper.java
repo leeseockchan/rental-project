@@ -18,7 +18,7 @@ public interface ShortReservationMapper {
     void reserve(ShortReservationDto shortReservationDto);
 
     void updateShortReservationId(@Param("reservationId") int reservationId,
-                                 @Param("shortReservationId") int shortReservationId);
+                                 @Param("reservationSId") int shortReservationId);
 
     void deleteReservation(int reservationId);
     void updateReservation(ShortReservationDto shortReservationDto);
