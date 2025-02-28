@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/api/admin/vehicles")
+@RequestMapping("/admin/vehicles")
 public class AdminCarController {
 
     @Autowired
