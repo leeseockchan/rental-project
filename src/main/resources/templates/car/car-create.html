@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/car/carAdd.js}" defer></script>
 
-    <script defer>
+    <script>
         $(document).ready(function () {
             // 1. 도/시 선택 시 행정구역 목록 갱신
             $("#parkingProvince").change(function () {
@@ -75,7 +75,7 @@
                 <div class="info-box-big">
 
                     <div class="info-box box1">
-                        <div class="info-box-title">차량 정보 변경</div>
+                        <div class="info-box-title">차량 정보 등록</div>
                         <div class="info-box-content">
                             <div class="info-box-content-row">
                                 <label for="carBrand">제조사</label>
@@ -122,7 +122,7 @@
                     </div>
 
                     <div class="info-box box2">
-                        <div class="info-box-title">보유 주차장 변경</div>
+                        <div class="info-box-title">보유 주차장</div>
                         <div class="info-box-content two">
                             <div class="info-box-content-row">
                                 <label for="parkingProvince">도/시</label>

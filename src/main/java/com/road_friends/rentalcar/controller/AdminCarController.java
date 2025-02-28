@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/admin/vehicles")
+@RequestMapping("api/admin/vehicles")
 public class AdminCarController {
 
     @Autowired
@@ -39,11 +39,11 @@ public class AdminCarController {
     }
 
     // 1. 도/시(province) 목록 조회
-    @GetMapping("/provinces")
-    public ResponseEntity<List<String>> getProvinces() {
-        List<String> provinces = adminParkingService.getAllProvinces();
-        return ResponseEntity.ok(provinces);
-    }
+//    @GetMapping("/provinces")
+//    public ResponseEntity<List<String>> getProvinces() {
+//        List<String> provinces = adminParkingService.getAllProvinces();
+//        return ResponseEntity.ok(provinces);
+//    }
 
     // 3. 선택된 행정구역의 주차장 목록 조회
     @GetMapping("/parkings")
@@ -62,7 +62,7 @@ public class AdminCarController {
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
 
-    //    차량 관리 목록 조회(경기도 차량들)
+    //    차량 관리 목록 조회
     @GetMapping
     public String showCarStatus(Model model) {
         List<Map<String, Object>> carGrades = adminCarService.getCarGradeCount();
@@ -73,7 +73,7 @@ public class AdminCarController {
         model.addAttribute("carRanking", carRanking);
         model.addAttribute("carBrands", carBrands);
 
-        model.addAttribute("provinceList", getProvinceList());
+        model.addAttribute("provinceList", adminCarService.parkingProvinceList());
         return "car/car-list";
     }
 
@@ -100,7 +100,6 @@ public class AdminCarController {
         newCar.setModel(new AdminModelDto());
         newCar.setParking(new AdminParkingDto());
         model.addAttribute("newCar", newCar);
-
         return "car/car-create";
     }
     @PostMapping("/add")
