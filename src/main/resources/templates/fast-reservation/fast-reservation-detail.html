@@ -29,7 +29,7 @@
                 <div class="info-box-title">예약 상세 정보</div>
                 <div class="info-box-content">
                     <table class="info-box-content-table">
-
+                        <tbody>
                         <tr>
                             <th>예약 ID</th>
                             <td th:text="${reservation.reservationId}"></td>
@@ -59,8 +59,7 @@
                             <td>
                                 <form th:action="@{/admin/reservations/{id}/update-status(id=${reservation.reservationId})}"
                                       method="post">
-
-                                    <label for="rentalState">예약 상태 변경:</label>
+                                    <div class="btn-group big">
                                     <select id="rentalState" name="rentalState">
                                         <option value="0" th:selected="${reservation.rentalState == 0}">결제대기</option>
                                         <option value="1" th:selected="${reservation.rentalState == 1}">결제완료</option>
@@ -69,11 +68,12 @@
                                         <option value="4" th:selected="${reservation.rentalState == 4}">이용완료</option>
                                     </select>
 
-                                    <button type="submit">변경</button>
+                                        <button type="submit" class="btn-update">변경</button>
+                                    </div>
                                 </form>
                             </td>
                         </tr>
-
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -28,6 +28,15 @@
     justify-content: space-between;
 }
 
+/* 메세지 창 */
+.alert.alert-success{
+    padding: 20px;
+    background-color: #F9FEF5;
+    border-radius: 10px;
+    border: 1px solid #AFFF4F;
+    margin-bottom: 20px;
+}
+
 /* 정보 통계 박스 */
 .info {
     margin-bottom: 50px;
@@ -132,11 +141,6 @@
 }
 
 /* 버튼 */
-.btn-group{
-    display: flex;
-    margin-bottom: 20px;
-}
-
 .btn-group button,
 .btn-group form button{
     padding : 5px 10px;
