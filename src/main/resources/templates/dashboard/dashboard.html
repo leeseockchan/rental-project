@@ -11,17 +11,8 @@
   <script th:src="@{/js/dashboard/chart.js}"></script>
 
   <script th:inline="javascript" defer>
-    var maleCount = [[${userStats.genderStats != null and userStats.genderStats.size() > 0 ? userStats.genderStats[0].count : 0}]];
-    var femaleCount = [[${userStats.genderStats != null and userStats.genderStats.size() > 1 ? userStats.genderStats[1].count : 0}]];
 
-    var ageLabels = [[${userStats.ageGroups.keySet()}]];
-    var ageValues = [[${userStats.ageGroups.values()}]];
   </script>
-
-  <!-- 📌 ECharts 스크립트 추가 -->
-  <th:block layout:fragment="script">
-    <script th:src="@{/js/dashboard/rentalChart1.js}"></script>
-  </th:block>
 
 </head>
 <body>
