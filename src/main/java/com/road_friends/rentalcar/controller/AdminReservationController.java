@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.service.AdminReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,17 +19,21 @@ public class AdminReservationController {
   @Autowired
   private AdminReservationService adminReservationService;
 
-  // 예약 목록 조회
+  // 예약 목록 조회 (페이지네이션 적용)
   @GetMapping
-  public String getAllReservations(Model model) {
-    List<FastReservationDto> reservations = adminReservationService.findAllReservations();
-    List<AdminCarDto> maintenanceCars = adminReservationService.getMaintenanceCars();  // 🔹 추가
+  public String getAllReservations(@RequestParam(name="page", defaultValue = "1") int page,
+                                   @RequestParam(name="size", defaultValue = "10") int size,
+                                   Model model) {
+    PageDto<FastReservationDto> pageDto = adminReservationService.findReservationsWithPagination(page, size);
+    List<AdminCarDto> maintenanceCars = adminReservationService.getMaintenanceCars();
 
-    model.addAttribute("reservations", reservations);
-    model.addAttribute("maintenanceCars", maintenanceCars);  // 🔹 추가
+    model.addAttribute("pageDto", pageDto);
+    model.addAttribute("reservations", pageDto.getItems()); // ✅ 여기 추가!
+    model.addAttribute("maintenanceCars", maintenanceCars);
 
     return "fast-reservation/fast-reservation-list";
   }
+
 
   // 개별 예약 상세 조회
   @GetMapping("/{reservationId}")

@@ -80,6 +80,30 @@ public interface AdminReservationMapper {
 """)
   AdminCarDto findMaintenanceCarById(@Param("carId") int carId);
 
+  // 🔹 페이지네이션 적용된 예약 목록 조회
+  @Select("""
+    SELECT 
+        r.reservation_id, 
+        r.car_id, 
+        COALESCE(m.model_name, '알 수 없음') AS model_name,  
+        p1.parking_name AS rental_location_name, 
+        p2.parking_name AS return_location_name,
+        r.rental_datetime, 
+        r.return_datetime, 
+        r.rental_state
+    FROM fast_reservation r
+    LEFT JOIN car c ON r.car_id = c.car_id
+    LEFT JOIN model m ON c.model_id = m.model_id  
+    LEFT JOIN parking p1 ON r.rental_location = p1.parking_id
+    LEFT JOIN parking p2 ON r.return_location = p2.parking_id
+    ORDER BY r.reservation_id DESC
+    LIMIT #{size} OFFSET #{offset}
+""")
+  List<FastReservationDto> getReservations(@Param("size") int size, @Param("offset") int offset);
+
+  // ✅ 전체 예약 개수 조회
+  @Select("SELECT COUNT(*) FROM fast_reservation")
+  int countTotal();
 }
 
 
