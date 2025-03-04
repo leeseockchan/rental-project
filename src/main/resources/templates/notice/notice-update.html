@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <title>공지사항 수정</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/notice/notice-update.css}">
+    </th:block>
+    <th:block layout:fragment="js">
+        <script th:src="@{/js/notice/Summernote.js}" defer></script>
+        <script defer>
+            $(document).ready(function() {
+                $('#summernote').summernote({
+                    height: 300
+                });
+            });
+        </script>
+    </th:block>
+</head>
+
+<body>
+    <div class="content" layout:fragment="content">
+
+        <div class="header">
+            공지사항 관리
+        </div>
+
+        <div class="info">
+            <div class="header-sm">
+                공지사항 관리 > 공지사항 상세 조회 > 공지사항 수정
+            </div>
+
+            <form th:action="@{/posts/edit}" method="post">
+                <div class="info-box-big">
+                    <div class="info-box box1">
+                        <div class="info-box-title">공지사항 수정</div>
+                        <div class="info-box-content">
+                            <table class="info-box-content-table">
+                                <tbody>
+                                    <tr>
+                                        <th>공지 번호</th>
+                                        <td><input type="hidden" name="id" class="my-notice" th:value="${post.id}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>작성자</th>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>제목</th>
+                                        <td><input type="text" name="title" class="my-notice" th:value="${post.title}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>내용</th>
+                                        <td>
+                                            <textarea id="summernote" name="content" th:text="${post.content}"></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>작성일</th>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-go-back" th:onclick="'location.href=\'' + @{/posts/list} + '\''">
+                        목록으로
+                    </button>
+                    <button type="submit" class="btn-update">
+                        수정
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>

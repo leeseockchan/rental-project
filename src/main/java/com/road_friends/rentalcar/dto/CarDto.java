@@ -1,3 +1,4 @@
+
 package com.road_friends.rentalcar.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,7 +24,7 @@ public class CarDto {
     private String modelId;
 
     @JsonProperty("car_category")
-    private Integer carCategory;
+    private String carCategory;
 
     @JsonProperty("car_status")
     private Integer carStatus;

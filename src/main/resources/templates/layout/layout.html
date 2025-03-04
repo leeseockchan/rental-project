@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http:/www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="UTF-8"/>
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">관리자 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}">
+    <th:block layout:fragment="css"></th:block>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header th:replace="~{fragments/navigation :: div}"></header>
+
+        <main layout:fragment="content"></main>
+
+    </div>
+
+    <script th:src="@{/js/global.js}"></script>
+    <th:block layout:fragment="js"></th:block>
+
+</body>
+
+</html>

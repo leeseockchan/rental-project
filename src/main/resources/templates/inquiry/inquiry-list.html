@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <title>문의사항 목록</title>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/inquiry/inquiry-list.css}">
+    </th:block>
+    <th:block layout:fragment="js">
+        <script th:src="@{/js/inquiry/inquiry.js}" defer></script>
+    </th:block>
+</head>
+
+<body>
+    <div class="content" layout:fragment="content">
+
+        <div class="header">
+            문의사항 관리
+        </div>
+
+        <div class="info">
+            <div class="info-header">문의사항 정보</div>
+            <div class="info-box-big">
+                <div class="info-box-big-header">문의사항 게시판 통계</div>
+                <div class="info-box-sm">
+                    <div class="info-box box1">
+                        <div class="info-box-title">전체 문의 게시글 수</div>
+                        <div class="info-box-content"><span th:text="${counts.total}"></span> 개</div>
+                    </div>
+                    <div class="info-box box2">
+                        <div class="info-box-title">답변완료 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.answered}"></span> 개</div>
+                    </div>
+                    <div class="info-box box3">
+                        <div class="info-box-title">미답변 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.unanswered}"></span> 개</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="info-header">문의사항 목록</div>
+
+            <table class="table-box">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">문의 번호</th>
+                        <th style="width: 60px;">사용자 번호</th>
+                        <th style="width: 60px;">관리자 번호</th>
+                        <th style="width: 180px;">질문</th>
+                        <th style="width: 180px;">답변</th>
+                        <th style="width: 120px;">질문 작성일</th>
+                        <th style="width: 120px;">답변 작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="inquiry : ${pageDto.items}"
+                        th:attr="data-href=@{/api/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
+                        onclick="location.href=this.getAttribute('data-href')">
+                        <td th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
+                        <td th:text="${inquiry.userNum}" style="max-width: 60px;"></td>
+                        <td th:text="${inquiry.adminNum}" style="max-width: 60px;"></td>
+                        <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px; text-align: left;"></td>
+                        <td th:text="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '답변 완료' : '답변 없음'}"
+                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: red;'}"
+                            style="max-width: 180px;"></td>
+                        <td th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
+                        <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <a th:href="@{/api/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
+                    th:if="${pageDto.prev}">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+                </a>
+                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/api/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                </span>
+                <a th:href="@{/api/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
+                    th:if="${pageDto.next}">
+                    <span class="material-symbols-outlined">
+                        chevron_right
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

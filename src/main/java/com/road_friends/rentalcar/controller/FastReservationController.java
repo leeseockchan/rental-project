@@ -15,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/quick-rent")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FastReservationController {
 
     private final FastReservationService fastReservationService;
