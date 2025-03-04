@@ -1,12 +1,10 @@
-// 주차장별 차량 보유량 순위
 document.addEventListener("DOMContentLoaded", function () {
-    // ✅ 데이터 가져오기
+    // 주차장별 차량 보유량 순위 (반원형)
     var top5ParkingStats = top5ParkingStatsParsed;
 
-    // ✅ 주차장별 차량 보유량 순위 (반원형)
-    var parkingChart = echarts.init(document.getElementById('chart-container1'));
-    var parkingOption = {
-        title: { text: '주차장 차량 보유량 TOP 5', left: 'center' },
+    var parkingChart1 = echarts.init(document.getElementById('chart-container1'));
+    var parkingOption1 = {
+        title: { text: '' },
         tooltip: { trigger: "item" },
         legend: {
             bottom: '10%',
@@ -16,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         series: [{
             name: '보유 차량',
             type: 'pie',
-            radius: ['40%', '100%'], // ✅ 반원형 차트 적용
+            radius: ['40%', '100%'], // 반원형 차트 적용
             center: ["50%", "75%"],
             startAngle: 180,
             endAngle: 360,
@@ -27,6 +25,53 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }]
     };
+    parkingChart1.setOption(parkingOption1);
 
-    parkingChart.setOption(parkingOption);
+
+    // 지역별 주차장 개수 (원형))
+    var parkingCountByRegion = parkingCountByRegionParsed;
+    var chartContainer2 = document.getElementById('chart-container2');
+    // 원형 차트 스타일
+    var parkingChart2 = echarts.init(chartContainer2);
+
+    var parkingOption2 = {
+        title: {
+            text: '', // 제목
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c}개' // 툴팁 포맷
+        },
+        legend: {
+            bottom: '10%',
+            left: 'center',
+            textStyle: {
+                fontSize: 14,
+                color: '#333'
+            }
+        },
+        series: [{
+            name: '주차장 개수',
+            type: 'pie', // 차트 유형을 원형 차트(pie)로 설정
+            radius: ['40%', '80%'], // 원형 차트의 반지름
+            data: parkingCountByRegion.map(item => ({
+                name: item.region,
+                value: item.parking_count
+            })),
+            itemStyle: {
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }]
+    };
+    parkingChart2.setOption(parkingOption2);
+
 });

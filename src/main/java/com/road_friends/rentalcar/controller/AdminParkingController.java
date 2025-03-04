@@ -41,11 +41,18 @@ public class AdminParkingController {
     @GetMapping
     public String showAllParking(Model model) {
         model.addAttribute("provinceList", getProvinceList()); // 시/도 리스트 추가
-        model.addAttribute("parkingStats", adminParkingService.getParkingStatistics()); // ✅ 주차장 통계 추가
 
-        // ✅ 상위 5개 주차장 데이터 추가 (Thymeleaf에서 JSON 변환)
+        // 주차장 통계 데이터 가져오기
+        Map<String, Integer> parkingStats = adminParkingService.getParkingStatistics();
+        model.addAttribute("parkingStats", parkingStats); // 템플릿에 데이터 추가
+
+        // 기타 데이터들
         List<AdminParkingDto> top5ParkingStats = adminParkingService.getTop5ParkingStats();
         model.addAttribute("top5ParkingStats", top5ParkingStats);
+
+        // 지역별 주차장 개수
+        List<Map<String, Object>> parkingCountByRegion = adminParkingService.getParkingCountByRegion();
+        model.addAttribute("parkingCountByRegion", parkingCountByRegion);
 
         return "parking/parking-list";
     }

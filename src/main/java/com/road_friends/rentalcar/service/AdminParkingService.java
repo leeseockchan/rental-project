@@ -59,10 +59,17 @@ public class AdminParkingService {
     // 주차장 통계
     public Map<String, Integer> getParkingStatistics() {
         Map<String, Integer> stats = new HashMap<>();
+
+        // 주차장 통계 (총 주차장, 수도권/비수도권)
         stats.put("total", adminParkingMapper.getTotalParkingCount());
         stats.put("capital", adminParkingMapper.getSeoulGyeonggiIncheonCount());
         stats.put("nonCapital", adminParkingMapper.getOtherRegionCount());
+
         return stats;
+    }
+
+    public List<Map<String, Object>> getParkingCountByRegion() {
+        return adminParkingMapper.getParkingCountByRegion();
     }
 
     public List<AdminParkingDto> getTop5ParkingStats() {

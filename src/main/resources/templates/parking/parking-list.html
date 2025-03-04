@@ -11,10 +11,17 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 
   <script th:inline="javascript">
-    var top5ParkingStats = /*[[${top5ParkingStats}]]*/ '[]';
-
+    // 주차장별 차량 보유량 순위 데이터
+    var top5ParkingStats = /*[[${top5ParkingStats}]]*/ '[]'; // 데이터 불러오기
     // JSON 변환
     var top5ParkingStatsParsed = [[${top5ParkingStats}]];
+
+    // 지역별 주차장 개수 데이터
+    var parkingCountByRegion = /*[[${parkingCountByRegion}]]*/ '[]'; // 데이터 불러오기
+    // JSON 변환
+    var parkingCountByRegionParsed = [[${parkingCountByRegion}]];
+  </script>
+
   </script>
 
   <th:block layout:fragment="js">
@@ -113,19 +120,19 @@
               <div class="info-box box1">
                 <div class="info-box-title">전체 주차장</div>
                 <div class="info-box-content">
-                  <span th:text="${parkingStats.total}"></span> 개
+                  <span th:text="${parkingStats['total']}"></span> 개
                 </div>
               </div>
               <div class="info-box box2">
                 <div class="info-box-title">서울 경기 인천</div>
                 <div class="info-box-content">
-                  <span th:text="${parkingStats.capital}"></span> 개
+                  <span th:text="${parkingStats['capital']}"></span> 개
                 </div>
               </div>
               <div class="info-box box3">
                 <div class="info-box-title">비수도권 지방</div>
                 <div class="info-box-content">
-                  <span th:text="${parkingStats.nonCapital}"></span> 개
+                  <span th:text="${parkingStats['nonCapital']}"></span> 개
                 </div>
               </div>
             </div>
@@ -140,7 +147,7 @@
 
         <div class="info-box-big-group">
           <div class="info-box-big">
-            <div class="info-box-big-header">지역별 주차장 통계</div>
+            <div class="info-box-big-header">지역별 주차장 개수</div>
             <div class="chart-box">
               <div class="chart-content chart2" id="chart-container2">
               </div>

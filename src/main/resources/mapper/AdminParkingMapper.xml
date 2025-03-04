@@ -62,6 +62,12 @@
         LIMIT 5
     </select>
 
-
+    <select id="getParkingCountByRegion" resultType="map">
+        SELECT
+        parking_province AS region,
+        COUNT(*) AS parking_count
+        FROM parking
+        GROUP BY parking_province
+    </select>
 
 </mapper>

@@ -22,4 +22,5 @@ public class AdminParkingDto {
     private String parkingDistrict;
 
     private int carCount;
+
 }
