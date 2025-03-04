@@ -73,6 +73,14 @@ public class AdminCarController {
         model.addAttribute("carRanking", carRanking);
         model.addAttribute("carBrands", carBrands);
 
+        // 🚗 차량 통계 데이터 가져오기
+        Map<String, Integer> vehicleStats = adminCarService.getVehicleStatistics();
+
+        // 🔹 통계 데이터 모델에 추가
+        model.addAttribute("totalVehicles", vehicleStats.get("total"));
+        model.addAttribute("rentedVehicles", vehicleStats.get("rented"));
+        model.addAttribute("repairVehicles", vehicleStats.get("repair"));
+
         model.addAttribute("provinceList", adminCarService.parkingProvinceList());
         return "car/car-list";
     }

@@ -23,7 +23,15 @@ public interface AdminCarMapper {
     void modifyCar(AdminCarDto adminCarDto);
     void deleteCar(int carId);
 
+
     // 통계 그래프 데이터
+    int countTotalVehicles();
+    int countRentedVehicles();
+    int countRepairVehicles();
+
+    @Select("SELECT * FROM car")
+    List<AdminCarDto> findAllCars();
+
     // 차량 등급별 개수 조회
     List<Map<String, Object>> getCarGradeCount();
     // 차량 보유 순위 조회

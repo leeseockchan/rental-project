@@ -5,6 +5,7 @@ import com.road_friends.rentalcar.mapper.AdminCarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -113,6 +114,23 @@ public class AdminCarService {
     }
 
     // 통계 그래프 데이터
+
+    // 차량 통계
+    public Map<String, Integer> getVehicleStatistics() {
+        List<AdminCarDto> cars = adminCarMapper.findAllCars(); // ✅ 모든 차량 가져오기
+
+        int total = cars.size(); // 전체 차량 수
+        int rented = (int) cars.stream().filter(car -> car.getCarStatus() == 1).count(); // 대여 중
+        int repair = (int) cars.stream().filter(car -> car.getCarStatus() == 2).count(); // 수리 중
+
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("total", total);
+        stats.put("rented", rented);
+        stats.put("repair", repair);
+
+        return stats;
+    }
+
     // 차량 등급별 개수 조회
     public List<Map<String, Object>> getCarGradeCount() {
         return adminCarMapper.getCarGradeCount();

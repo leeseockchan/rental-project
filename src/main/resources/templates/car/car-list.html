@@ -90,15 +90,15 @@
                     <div class="info-box-sm">
                         <div class="info-box box1">
                             <div class="info-box-title">전체 보유 차량</div>
-                            <div class="info-box-content"><span text="">00</span> 대</div>
+                            <div class="info-box-content"><span th:text="${totalVehicles}"></span> 대</div>
                         </div>
                         <div class="info-box box2">
                             <div class="info-box-title">현재 대여중인 차량</div>
-                            <div class="info-box-content"><span text="">00</span> 대</div>
+                            <div class="info-box-content"><span th:text="${rentedVehicles}"></span> 대</div>
                         </div>
                         <div class="info-box box3">
                             <div class="info-box-title">수리중인 차량</div>
-                            <div class="info-box-content"><span text="">00</span> 대</div>
+                            <div class="info-box-content"><span th:text="${repairVehicles}"></span> 대</div>
                         </div>
                     </div>
                 </div>
