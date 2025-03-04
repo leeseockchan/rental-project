@@ -223,12 +223,6 @@
         WHERE reservation_id = #{reservationId};
     </update>
 
-<!--    car 테이블 car_status 업데이트 -->
-    <update id="updateCarStatusTo1" parameterType="int">
-        UPDATE car
-        SET car_status = 1
-        WHERE car_id = #{carId};
-    </update>
 
     <update id="updateCarStatusTo0" parameterType="int">
         UPDATE car
