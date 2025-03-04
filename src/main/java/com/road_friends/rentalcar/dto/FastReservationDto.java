@@ -58,11 +58,13 @@ public class FastReservationDto {
     @JsonProperty("rental_state")
     private Integer rentalState;
 
+    @JsonProperty("payment")
+    private Long totalPrice;
+
+
 
     private CarDto carDto;
     private List<ParkingDto> parkingList;
-
-    private Long totalPrice;
 
 
 }
