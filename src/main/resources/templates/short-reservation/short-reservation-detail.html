@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
+
+<head>
+    <title>빠른 예약 상세 정보</title>
+
+    <link rel="stylesheet" th:href="@{/css/short-reservation/short-reservation-detail.css}">
+
+</head>
+
+<body>
+<div class="content" layout:fragment="content">
+
+    <div class="header">
+        빠른 예약 관리
+    </div>
+
+    <!-- 메시지 출력 -->
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+    <div class="info">
+        <div class="header-sm">
+            빠른 예약 관리 > 예약 상세 정보
+        </div>
+
+        <div class="info-box-big">
+            <div class="info-box box1">
+                <div class="info-box-title">예약 상세 정보</div>
+                <div class="info-box-content">
+                    <table class="info-box-content-table">
+                        <tbody>
+                        <tr>
+                            <th>예약 ID</th>
+                            <td th:text="${reservation.reservationId}"></td>
+                        </tr>
+                        <tr>
+                            <th>차량 모델</th>
+                            <td th:text="${reservation.modelName}"></td> <!-- 차량 ID 대신 모델명 -->
+                        </tr>
+                        <tr>
+                            <th>대여 장소</th>
+                            <td th:text="${reservation.rentalLocationName}"></td>
+                        </tr>
+                        <tr>
+                            <th>반납 장소</th>
+                            <td th:text="${reservation.returnLocationName}"></td>
+                        </tr>
+                        <tr>
+                            <th>대여 시간</th>
+                            <td th:text="${reservation.rentalDatetime}"></td>
+                        </tr>
+                        <tr>
+                            <th>반납 시간</th>
+                            <td th:text="${reservation.returnDatetime}"></td>
+                        </tr>
+                        <tr>
+                            <th>예약 상태</th>
+                            <td>
+                                <form th:action="@{/admin/shortreservations/{id}/update-status(id=${reservation.reservationId})}"
+                                      method="post">
+                                    <div class="btn-group big">
+                                    <select id="rentalState" name="rentalState">
+                                        <option value="0" th:selected="${reservation.rentalState == 0}">결제대기</option>
+                                        <option value="1" th:selected="${reservation.rentalState == 1}">결제완료</option>
+                                        <option value="2" th:selected="${reservation.rentalState == 2}">이용중</option>
+                                        <option value="3" th:selected="${reservation.rentalState == 3}">예약취소</option>
+                                        <option value="4" th:selected="${reservation.rentalState == 4}">이용완료</option>
+                                    </select>
+
+                                        <button type="submit" class="btn-update">변경</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn-go-back"
+                    th:onclick="'location.href=\'' + @{/admin/shortreservations} + '\''">
+                목록으로
+            </button>
+            <form th:action="@{/admin/shortreservations/{id}/delete(id=${reservation.reservationId})}"
+                  method="post"
+                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <button type="submit" class="btn-delete-all">
+                    삭제
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

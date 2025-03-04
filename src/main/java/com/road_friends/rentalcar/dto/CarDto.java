@@ -17,38 +17,36 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarDto {
 
-    @JsonProperty("car_id")
-    private Integer carId;  // car_id -> carId
+  @JsonProperty("car_id")
+  private Integer carId;  // car_id -> carId
 
-    @JsonProperty("model_id")
-    private String modelId;
+  @JsonProperty("model_id")
+  private String modelId;
 
-    @JsonProperty("car_category")
-    private String carCategory;
+  @JsonProperty("car_category")
+  private String carCategory;
 
-    @JsonProperty("car_status")
-    private Integer carStatus;
+  @JsonProperty("car_status")
+  private Integer carStatus;
 
-    @JsonProperty("car_year")
-    private Integer carYear;
+  @JsonProperty("car_year")
+  private Integer carYear;
 
-    @JsonProperty("car_fuel")
-    private String carFuel;
+  @JsonProperty("car_fuel")
+  private String carFuel;
 
-    @JsonProperty("car_grade")
-    private String carGrade;
+  @JsonProperty("car_grade")
+  private String carGrade;
 
-    @JsonProperty("car_options")
-    private String carOptions;
+  @JsonProperty("car_options")
+  private String carOptions;
 
-    @JsonProperty("rental_station")
-    private Integer rentalStation;
+  @JsonProperty("rental_station")
+  private Integer rentalStation;
 
-    private ModelDto model;
+  private ModelDto model;
 
-    private ParkingDto parking;
+  private ParkingDto parking;
 
-    private List<ParkingDto> parkingList;
-
-
+  private List<ParkingDto> parkingList;
 }
