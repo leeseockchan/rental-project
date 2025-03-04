@@ -164,13 +164,13 @@
       <div class="filter-box-big">
         <div class="filter-box">
           <!-- 지역 선택 -->
-          <label for="provinceSelect">시/도 선택</label>
+          <label for="provinceSelect">시/도</label>
           <select id="provinceSelect">
             <option value="">시/도를 선택하세요</option>
             <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
           </select>
 
-          <label for="districtSelect">구/군 선택</label>
+          <label for="districtSelect">구/군</label>
           <select id="districtSelect">
             <option value="">구/군을 선택하세요</option>
           </select>
