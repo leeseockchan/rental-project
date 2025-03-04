@@ -70,8 +70,8 @@
 
     <!--     예약하기     -->
     <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
-        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num,reservation_id)
-        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum},#{reservationId});
+        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num,reservation_id,payment)
+        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum},#{reservationId},#{totalPrice});
     </insert>
 
     <!--    예약취소    -->
