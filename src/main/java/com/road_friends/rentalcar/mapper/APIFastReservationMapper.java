@@ -17,6 +17,9 @@ public interface APIFastReservationMapper {
                           @Param("currentState") int currentState,
                           @Param("newState") int newState);
 
+    // 이용 시작 차량 상태 변경
+    int updateCarStatusToInUse(@Param("carId") int carId);
+
     // 이용완료 자동차 상태 변경
     Integer getCarIdByReservationId(@Param("reservationId") int reservationId);
     int updateCarStatus(@Param("carId") int carId,

@@ -63,13 +63,21 @@
     </select>
 
 
-    <!--  빠른 예약 이용시작 상태 변경  -->
+    <!-- 빠른 예약 이용 시작 상태 변경 + 차량 상태 변경 -->
     <update id="updateRentalState">
         UPDATE fast_reservation
         SET rental_state = #{newState}
         WHERE reservation_id = #{reservationId}
         AND rental_state = #{currentState}
     </update>
+
+    <!-- 차량 상태 변경 (0 → 1) -->
+    <update id="updateCarStatusToInUse">
+        UPDATE car
+        SET car_status = 1
+        WHERE car_id = #{carId} AND car_status = 0
+    </update>
+
 
 <!--  이용 완료 자동차 상태 변경  -->
     <!-- 예약 ID로 차량 ID 조회 -->

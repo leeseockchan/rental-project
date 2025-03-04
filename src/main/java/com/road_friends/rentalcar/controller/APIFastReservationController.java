@@ -32,8 +32,13 @@ public class APIFastReservationController {
     // 이용 시작 (1 → 2)
     @PutMapping("/{reservationId}/start")
     public ResponseEntity<String> startRental(@PathVariable int reservationId) {
-        boolean isUpdated = apiFastReservationService.updateRentalState(reservationId, 1, 2); // 현재 상태 1 → 2 변경
-        return isUpdated ? ResponseEntity.ok("이용이 시작되었습니다.") : ResponseEntity.badRequest().body("이용 시작 실패");
+        boolean isUpdated = apiFastReservationService.updateRentalState(reservationId, 1, 2);
+
+        if (isUpdated) {
+            return ResponseEntity.ok("이용이 시작되었습니다. (차량 상태 변경 완료)");
+        } else {
+            return ResponseEntity.badRequest().body("이용 시작 실패 (예약 상태 또는 차량 상태 변경 실패)");
+        }
     }
 
     // 이용 완료 (2 → 4)
