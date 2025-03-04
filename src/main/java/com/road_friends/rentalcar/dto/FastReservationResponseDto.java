@@ -45,6 +45,7 @@ public class FastReservationResponseDto {
     private String rentalLocationName;
     private String returnLocationName;
     private int returnLocation;
+
     // 주차장 위도경도
     private BigDecimal rentalLocationLatitude;
     private BigDecimal rentalLocationLongitude;

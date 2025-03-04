@@ -4,18 +4,17 @@
 
     <!-- 로그인한 사용자의 예약정보 전체조회 -->
     <select id="getUserReservations" resultType="com.road_friends.rentalcar.dto.APIReservationDto">
-        SELECT reservation_s_id,
-        car_id,
-        user_num,
-        reservation_s_start_date,
-        reservation_s_end_date,
-        reservation_s_create_date,
-        share_option,
-        reservation_status,
-        rental_station_start,
-        return_station_end
-        FROM short_reservation
-        WHERE user_num = #{userNum}
+        SELECT sr.reservation_s_id, sr.rental_state,
+        c.car_id, m.model_name,
+        rental_parking.parking_name AS rentalLocationName,
+        sr.reservation_s_start_date AS rental_datetime,
+        sr.reservation_s_end_date AS return_datetime,
+        sr.user_num, sr.reservation_s_create_date AS fast_reservation_create_at
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        JOIN parking rental_parking ON sr.rental_station_start = rental_parking.parking_id
+        WHERE sr.user_num = #{userNum};
     </select>
 
     <!-- 로그인한 사용자의 특정 예약 상세 조회 -->
