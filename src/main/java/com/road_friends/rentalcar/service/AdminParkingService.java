@@ -5,7 +5,9 @@ import com.road_friends.rentalcar.mapper.AdminParkingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminParkingService {
@@ -51,6 +53,16 @@ public class AdminParkingService {
     //    주차장 삭제하기
     public void deleteParking(int parkingId) {
         adminParkingMapper.deleteParking(parkingId);
+    }
+
+
+    // 주차장 통계
+    public Map<String, Integer> getParkingStatistics() {
+        Map<String, Integer> stats = new HashMap<>();
+        stats.put("total", adminParkingMapper.getTotalParkingCount());
+        stats.put("capital", adminParkingMapper.getSeoulGyeonggiIncheonCount());
+        stats.put("nonCapital", adminParkingMapper.getOtherRegionCount());
+        return stats;
     }
 
 

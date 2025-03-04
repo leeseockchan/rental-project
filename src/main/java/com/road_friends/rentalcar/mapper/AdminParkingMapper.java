@@ -37,5 +37,11 @@ public interface AdminParkingMapper {
     //    주차장 삭제
     void deleteParking(int parkingId);
 
-
+    // 주차장 통계
+    @Select("SELECT COUNT(*) FROM parking")
+    int getTotalParkingCount();
+    @Select("SELECT COUNT(*) FROM parking WHERE parking_province IN ('서울특별시', '경기도', '인천광역시')")
+    int getSeoulGyeonggiIncheonCount();
+    @Select("SELECT COUNT(*) FROM parking WHERE parking_province NOT IN ('서울특별시', '경기도', '인천광역시')")
+    int getOtherRegionCount();
 }

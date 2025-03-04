@@ -105,15 +105,21 @@
             <div class="info-box-sm">
               <div class="info-box box1">
                 <div class="info-box-title">전체 주차장</div>
-                <div class="info-box-content"><span text="">00</span> 개</div>
+                <div class="info-box-content">
+                  <span th:text="${parkingStats.total}"></span> 개
+                </div>
               </div>
               <div class="info-box box2">
-                <div class="info-box-title">서울 경기 인천 </div>
-                <div class="info-box-content"><span text="">00</span> 개</div>
+                <div class="info-box-title">서울 경기 인천</div>
+                <div class="info-box-content">
+                  <span th:text="${parkingStats.capital}"></span> 개
+                </div>
               </div>
               <div class="info-box box3">
                 <div class="info-box-title">비수도권 지방</div>
-                <div class="info-box-content"><span text="">00</span> 개</div>
+                <div class="info-box-content">
+                  <span th:text="${parkingStats.nonCapital}"></span> 개
+                </div>
               </div>
             </div>
           </div>

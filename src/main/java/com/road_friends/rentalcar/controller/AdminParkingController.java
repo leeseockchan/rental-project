@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/admin/parkings")
@@ -40,6 +41,7 @@ public class AdminParkingController {
     @GetMapping
     public String showAllParking(Model model) {
         model.addAttribute("provinceList", getProvinceList()); // 시/도 리스트 추가
+        model.addAttribute("parkingStats", adminParkingService.getParkingStatistics()); // ✅ 주차장 통계 추가
         return "parking/parking-list";
     }
 
