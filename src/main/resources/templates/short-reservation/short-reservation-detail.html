@@ -5,7 +5,7 @@
 <head>
     <title>빠른 예약 상세 정보</title>
 
-    <link rel="stylesheet" th:href="@{/css/fast-reservation/fast-reservation-detail.css}">
+    <link rel="stylesheet" th:href="@{/css/short-reservation/short-reservation-detail.css}">
 
 </head>
 
@@ -57,7 +57,7 @@
                         <tr>
                             <th>예약 상태</th>
                             <td>
-                                <form th:action="@{/admin/reservations/{id}/update-status(id=${reservation.reservationId})}"
+                                <form th:action="@{/admin/shortreservations/{id}/update-status(id=${reservation.reservationId})}"
                                       method="post">
                                     <div class="btn-group big">
                                     <select id="rentalState" name="rentalState">
@@ -80,10 +80,10 @@
         </div>
         <div class="btn-group">
             <button type="button" class="btn-go-back"
-                    th:onclick="'location.href=\'' + @{/admin/reservations} + '\''">
+                    th:onclick="'location.href=\'' + @{/admin/shortreservations} + '\''">
                 목록으로
             </button>
-            <form th:action="@{/admin/reservations/{id}/delete(id=${reservation.reservationId})}"
+            <form th:action="@{/admin/shortreservations/{id}/delete(id=${reservation.reservationId})}"
                   method="post"
                   onsubmit="return confirm('정말 삭제하시겠습니까?');">
                 <button type="submit" class="btn-delete-all">

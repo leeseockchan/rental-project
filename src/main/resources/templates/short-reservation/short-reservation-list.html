@@ -5,7 +5,7 @@
 <head>
   <title>빠른 예약 관리</title>
 
-    <link rel="stylesheet" th:href="@{/css/fast-reservation/fast-reservation-list.css}">
+    <link rel="stylesheet" th:href="@{/css/short-reservation/short-reservation-list.css}">
 
 </head>
 
@@ -13,7 +13,7 @@
 <div class="content" layout:fragment="content">
 
   <div class="header">
-    빠른 예약 관리
+    단기 예약 관리
   </div>
 
   <!-- 정비 완료 메시지 출력 -->
@@ -39,7 +39,7 @@
       </thead>
       <tbody>
       <tr th:each="car : ${maintenanceCars}"
-          th:attr="data-href=@{/admin/reservations/car/{carId}/maintenance-detail(carId=${car.carId})}"
+          th:attr="data-href=@{/admin/shortreservations/car/{carId}/maintenance-detail(carId=${car.carId})}"
           onclick="location.href=this.getAttribute('data-href')">
         <td th:text="${car.carId}"></td>
         <td th:text="${car.modelName}"></td>
@@ -48,7 +48,7 @@
         <td th:text="${car.carFuel}"></td>
         <td>
           <div class="btn-group">
-            <form th:action="@{/admin/reservations/car/{carId}/complete-maintenance(carId=${car.carId})}" method="post"
+            <form th:action="@{/admin/shortreservations/car/{carId}/complete-maintenance(carId=${car.carId})}" method="post"
                   onsubmit="return confirm('이 차량의 정비를 완료하시겠습니까?');">
               <button type="submit" class="btn-update" onclick="event.stopPropagation();">정비 완료</button>
             </form>
@@ -60,11 +60,11 @@
 
   </div>
 
-<!--    빠른대여 예약 현황-->
+<!--    단기대여 예약 현황-->
   <div class="list two">
 
     <div class="list-flex-box">
-      <div class="info-header">빠른대여 예약 현황</div>
+      <div class="info-header">단기대여 예약 현황</div>
     </div>
 
     <table class="table-box">
@@ -81,7 +81,7 @@
       </thead>
       <tbody>
       <tr th:each="reservation : ${reservations}"
-          th:attr="data-href=@{/admin/reservations/{id}(id=${reservation.reservationId})}"
+          th:attr="data-href=@{/admin/shortreservations/{id}(id=${reservation.reservationId})}"
           onclick="location.href=this.getAttribute('data-href')">
         <td th:text="${reservation.reservationId}"></td>
         <td th:text="${reservation.modelName}"></td> <!-- 차량 모델명 -->
@@ -104,18 +104,18 @@
     <!-- 페이지네이션 -->
     <div class="pagination">
       <!-- 이전 페이지 버튼 -->
-      <a th:href="@{/admin/reservations(page=${pageDto.start - 1}, size=${pageDto.size})}"
+      <a th:href="@{/admin/shortreservations(page=${pageDto.start - 1}, size=${pageDto.size})}"
          th:if="${pageDto.prev}">
         <span class="material-symbols-outlined">chevron_left</span>
       </a>
       <!-- 페이지 번호 목록 -->
       <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-        <a th:href="@{/admin/reservations(page=${pageNum}, size=${pageDto.size})}"
+        <a th:href="@{/admin/shortreservations(page=${pageNum}, size=${pageDto.size})}"
            th:text="${pageNum}"
            th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
     </span>
       <!-- 다음 페이지 버튼 -->
-      <a th:href="@{/admin/reservations(page=${pageDto.end + 1}, size=${pageDto.size})}"
+      <a th:href="@{/admin/shortreservations(page=${pageDto.end + 1}, size=${pageDto.size})}"
          th:if="${pageDto.next}">
         <span class="material-symbols-outlined">chevron_right</span>
       </a>
