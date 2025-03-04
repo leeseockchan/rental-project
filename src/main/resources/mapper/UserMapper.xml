@@ -13,7 +13,7 @@
         <result property="userAddress" column="user_address"/> <!-- user_address 추가 -->
         <result property="userStatus" column="user_status"/> <!-- user_status 추가 -->
         <result property="enabled" column="enabled"/> <!-- enabled 필드 추가 -->
-        <collection property="roles" ofType="com.road_friends.rentalcar.dto.RoleDTO">
+        <collection property="roles" ofType="com.road_friends.rentalcar.dto.RoleDto">
             <id property="id" column="role_id"/>
             <result property="name" column="role_name"/>
         </collection>

@@ -1,6 +1,5 @@
 package com.road_friends.rentalcar.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,5 +22,5 @@ public class UserDTO {
   private String userAddress;
   private int userStatus;
   private boolean enabled = true;
-  private List<RoleDTO> roles;
+  private List<RoleDto> roles;
 }
