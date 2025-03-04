@@ -1,7 +1,7 @@
 package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.AdminCarDto;
-import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.AdminFastReservationDto;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface AdminReservationMapper {
         LEFT JOIN parking p2 ON r.return_location = p2.parking_id
         ORDER BY r.reservation_id DESC
     """)
-  List<FastReservationDto> findAllReservations();
+  List<AdminFastReservationDto> findAllReservations();
 
   // 개별 예약 상세 조회
   @Select("""
@@ -41,7 +41,7 @@ public interface AdminReservationMapper {
     LEFT JOIN parking p2 ON r.return_location = p2.parking_id
     WHERE r.reservation_id = #{reservationId}
 """)
-  FastReservationDto findReservationById(@Param("reservationId") int reservationId);
+  AdminFastReservationDto findReservationById(@Param("reservationId") int reservationId);
 
   @Delete("DELETE FROM fast_reservation WHERE reservation_id = #{reservationId}")
   void deleteReservation(@Param("reservationId") int reservationId);
@@ -99,7 +99,7 @@ public interface AdminReservationMapper {
     ORDER BY r.reservation_id DESC
     LIMIT #{size} OFFSET #{offset}
 """)
-  List<FastReservationDto> getReservations(@Param("size") int size, @Param("offset") int offset);
+  List<AdminFastReservationDto> getReservations(@Param("size") int size, @Param("offset") int offset);
 
   // ✅ 전체 예약 개수 조회
   @Select("SELECT COUNT(*) FROM fast_reservation")

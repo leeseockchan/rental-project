@@ -1,7 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.AdminCarDto;
-import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.AdminFastReservationDto;
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.service.AdminReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class AdminReservationController {
   public String getAllReservations(@RequestParam(name="page", defaultValue = "1") int page,
                                    @RequestParam(name="size", defaultValue = "10") int size,
                                    Model model) {
-    PageDto<FastReservationDto> pageDto = adminReservationService.findReservationsWithPagination(page, size);
+    PageDto<AdminFastReservationDto> pageDto = adminReservationService.findReservationsWithPagination(page, size);
     List<AdminCarDto> maintenanceCars = adminReservationService.getMaintenanceCars();
 
     model.addAttribute("pageDto", pageDto);
@@ -38,7 +38,7 @@ public class AdminReservationController {
   // 개별 예약 상세 조회
   @GetMapping("/{reservationId}")
   public String getReservationDetail(@PathVariable int reservationId, Model model) {
-    FastReservationDto reservation = adminReservationService.findReservationById(reservationId);
+    AdminFastReservationDto reservation = adminReservationService.findReservationById(reservationId);
     model.addAttribute("reservation", reservation);
     return "fast-reservation/fast-reservation-detail";
   }

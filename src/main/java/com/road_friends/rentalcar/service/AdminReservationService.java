@@ -1,7 +1,7 @@
 package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.AdminCarDto;
-import com.road_friends.rentalcar.dto.FastReservationDto;
+import com.road_friends.rentalcar.dto.AdminFastReservationDto;
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.mapper.AdminReservationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,12 @@ public class AdminReservationService {
   private AdminReservationMapper adminReservationMapper;
 
   // 전체 예약 목록 조회
-  public List<FastReservationDto> findAllReservations() {
+  public List<AdminFastReservationDto> findAllReservations() {
     return adminReservationMapper.findAllReservations();
   }
 
   // 개별 예약 상세 조회
-  public FastReservationDto findReservationById(int reservationId) {
+  public AdminFastReservationDto findReservationById(int reservationId) {
     return adminReservationMapper.findReservationById(reservationId);
   }
 
@@ -51,10 +51,10 @@ public class AdminReservationService {
   }
 
   // ✅ 페이지네이션 적용된 예약 목록 조회
-  public PageDto<FastReservationDto> findReservationsWithPagination(int page, int size) {
+  public PageDto<AdminFastReservationDto> findReservationsWithPagination(int page, int size) {
     int totalElements = adminReservationMapper.countTotal(); // 총 데이터 개수 가져오기
     int offset = (page - 1) * size; // OFFSET 계산
-    List<FastReservationDto> reservations = adminReservationMapper.getReservations(size, offset);
+    List<AdminFastReservationDto> reservations = adminReservationMapper.getReservations(size, offset);
 
     return new PageDto<>(page, size, totalElements, reservations);
   }
