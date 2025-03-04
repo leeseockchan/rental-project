@@ -32,7 +32,6 @@
 .info-box-big {
     display: flex;
     flex-direction: column;
-    width: 100%;
     margin-bottom: 20px;
     background-color: #fff;
     border-radius: 10px;

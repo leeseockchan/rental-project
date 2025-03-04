@@ -26,7 +26,7 @@
       <div class="header-sm">
         주차장 관리 > 신규 주차장 등록
       </div>
-      <form id="create-form" action="" method="post" onsubmit="return validateForm()">
+      <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
         <div class="info-box-big">
 
           <div class="info-box box1">
@@ -34,44 +34,44 @@
 
             <div class="info-box-content">
               <div class="info-box-content-row">
-                <label for="parking-name">주차장 이름</label>
-                <input type="text" name="parkingName" id="parking-name" value="">
+                <input type="hidden" id="parkingId" name="parkingId" th:value="${adminParkingDto.parkingId}">
+                <label for="parkingName">주차장 이름</label>
+                <input type="text" id="parkingName" name="parkingName" placeholder="주차장의 이름을 입력해주세요" required>
               </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingAddress">주차장 주소</label>
+                <input type="text" id="parkingAddress" name="parkingAddress" placeholder="주차장의 주소를 입력해주세요"
+                  required>
+              </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingProvince">주차장 관할 지역</label>
+                <select name="parkingProvince" id="parkingProvince" required>
+                  <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
+                    th:selected="${adminParkingDto.parkingProvince == province}">
+                  </option>
+                </select>
+              </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingDistrict">주차장 관할 도시</label>
+                <input type="text" id="parkingDistrict" name="parkingDistrict" placeholder="도시의 이름을 입력해주세요" required>
+              </div>
+
             </div>
 
             <div class="info-box-content">
               <div class="info-box-content-row">
-                <label for="parking-province">도 / 시</label>
-                <select name="parkingProvince" id="parking-province">
-                  <option value="서울특별시">서울특별시</option>
-                  <option value="경기도">경기도</option>
-                  <option value="인천광역시">인천광역시</option>
-                </select>
+                <label for="parkingLatitude">주차장 위도</label>
+                <input type="text" id="parkingLatitude" name="parkingLatitude" placeholder="위도의 값을 정확히 입력해주세요"
+                  required>
               </div>
-              <div class="info-box-content-row">
-                <label for="parking-district">행정구역</label>
-                <select name="parkingDistrict" id="parking-district">
-                  <option value="강남구">강남구</option>
-                  <option value="강동구">강동구</option>
-                  <option value="강북구">강북구</option>
-                  <option value="강서구">강서구</option>
-                  <option value="관악구">관악구</option>
-                </select>
-              </div>
-              <div class="info-box-content-row">
-                <label for="parking-detail-address">상세 주소</label>
-                <input type="text" name="parkingDetailAddress" id="parking-detail-address" value="">
-              </div>
-            </div>
 
-            <div class="info-box-content">
               <div class="info-box-content-row">
-                <label for="parking-latitude">위도</label>
-                <input type="text" name="parkingLatitude" id="parking-latitude" value="">
-              </div>
-              <div class="info-box-content-row">
-                <label for="parking-longtitude">경도</label>
-                <input type="text" name="parkingLongtitude" id="parking-longtitude" value="">
+                <label for="parkingLongtitude">주차장 경도</label>
+                <input type="text" id="parkingLongtitude" name="parkingLongtitude" placeholder="경도의 값을 정확히 입력해주세요"
+                  required>
               </div>
             </div>
 
@@ -80,11 +80,12 @@
         </div>
 
         <div class="btn-group">
-          <button type="button" class="btn-go-back" onclick="">
+          <button type="button" class="btn-go-back"
+                  th:onclick="|location.href='@{/api/admin/parkings}'|">
             목록으로
           </button>
           <button type="submit" class="btn-update" id="submit">
-            등록
+            주차장 등록
           </button>
         </div>
       </form>

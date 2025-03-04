@@ -58,7 +58,7 @@ public class AdminParkingController {
         model.addAttribute("adminParkingDto", new AdminParkingDto());
         model.addAttribute("provinceList", adminParkingService.getAllProvinces());
         model.addAttribute("districtList", new ArrayList<String>());
-        return "parking_page/add";
+        return "parking/parking-create";
     }
 
     @PostMapping("/add")
@@ -73,7 +73,7 @@ public class AdminParkingController {
         AdminParkingDto adminParkingDto = adminParkingService.findByParking(parkingId);
         model.addAttribute("provinceList", getProvinceList());
         model.addAttribute("modify", adminParkingDto);
-        return "parking_page/modify";
+        return "parking/parking-update";
     }
     @PutMapping("/{parkingId}/modify")
     public String modifyParking(@PathVariable int parkingId,

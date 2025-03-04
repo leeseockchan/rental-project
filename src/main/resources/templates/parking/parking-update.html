@@ -26,28 +26,51 @@
         <div class="header-sm">
             주차장 관리 > 주차장 상세 조회 > 주차장 정보 수정
         </div>
-        <form id="update-form" action=""
-              method="post" onsubmit="return validateForm()">
+        <form id="parkingModify"
+               th:action="@{/api/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
+               method="post">
+        <input type="hidden" name="_method" value="PUT">
             <div class="info-box-big">
 
                 <div class="info-box box1">
-                    <div class="info-box-title">재랭이고개 사거리～기계공고 사거리 주차장의 정보 수정</div>
+                    <div class="info-box-title" th:text="|${modify.parkingName} 주차장의 정보 수정|"></div>
                     <div class="info-box-content">
                         <div class="info-box-content-row">
-                            <label for="parking-name">주차장 이름</label>
-                            <input type="text" name="parkingName" id="parking-name" value="">
+                            <label for="parkingName">주차장 이름</label>
+                            <input type="text" id="parkingName" name="parkingName" th:value="${modify.parkingName}" required>
                         </div>
                         <div class="info-box-content-row">
-                            <label for="parking-address">위치</label>
-                            <input type="text" name="parkingAddress" id="parking-address" value="">
+                            <label for="parkingAddress">주차장 주소</label>
+                            <input type="text" id="parkingAddress" name="parkingAddress" th:value="${modify.parkingAddress}"
+                                   required>
                         </div>
                         <div class="info-box-content-row">
-                            <label for="parking-latitude">위도</label>
-                            <input type="text" name="parkingLatitude" id="parking-latitude" value="">
+                            <label for="parkingProvince">주차장 관할 지역</label>
+                            <select name="parkingProvince" id="parkingProvince" required>
+                                <option th:each="province : ${provinceList}"
+                                        th:value="${province}"
+                                        th:text="${province}"
+                                        th:selected="${modify.parkingProvince == province}">
+                                </option>
+                            </select>
                         </div>
                         <div class="info-box-content-row">
-                            <label for="parking-longtitude">경도</label>
-                            <input type="text" name="parkingLongtitude" id="parking-longtitude" value="">
+                            <label for="parkingDistrict">주차장 관할 도시</label>
+                            <input type="text" id="parkingDistrict" name="parkingDistrict" th:value="${modify.parkingDistrict}"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="info-box-content">
+                        <div class="info-box-content-row">
+                            <label for="parkingLatitude">위도</label>
+                            <input type="text" id="parkingLatitude" name="parkingLatitude" th:value="${modify.parkingLatitude}"
+                                   required>
+                        </div>
+                        <div class="info-box-content-row">
+                            <label for="parkingLongtitude">경도</label>
+                            <input type="text" id="parkingLongtitude" name="parkingLongtitude"
+                                   th:value="${modify.parkingLongtitude}" required>
                         </div>
                     </div>
                 </div>
@@ -56,12 +79,18 @@
 
             <div class="btn-group">
                 <button type="button" class="btn-go-back"
-                        onclick="">
+                        th:onclick="|location.href='@{/api/admin/parkings}'|">
                     목록으로
                 </button>
-                <button type="submit" class="btn-update" id="submit">
-                    수정
-                </button>
+                <div>
+                    <button type="button" class="btn-reset" id="reset"
+                            th:onclick="'location.href=\'' + @{/api/admin/parkings/{parkingId}(parkingId=${modify.parkingId})} + '\''">
+                        취소하기
+                    </button>
+                    <button type="submit" class="btn-update" id="submit">
+                        수정완료
+                    </button>
+                </div>
             </div>
         </form>
     </div>

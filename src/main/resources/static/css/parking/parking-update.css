@@ -32,7 +32,6 @@
 .info-box-big {
     display: flex;
     flex-direction: column;
-    width: 100%;
     margin-bottom: 20px;
     background-color: #fff;
     border-radius: 10px;
@@ -74,7 +73,8 @@
     margin-bottom: 10px;
 }
 
-.info-box-content-row input {
+.info-box-content-row input,
+.info-box-content-row select {
     width: 550px;
     padding: 10px;
     border: 1px solid #D9D9D9;
@@ -84,7 +84,9 @@
 }
 
 .info-box-content-row input#parking-latitude,
-.info-box-content-row input#parking-longtitude{
+.info-box-content-row input#parking-longtitude,
+.info-box-content-row select#parking-province,
+.info-box-content-row select#parking-district{
     width: 260px;
 }
 
@@ -116,6 +118,7 @@
     color: #000;
 }
 
+.btn-group .btn-reset,
 .btn-group .btn-delete-all,
 .btn-group .btn-delete-reply {
     background-color: #F3F3F3;
@@ -125,6 +128,7 @@
 
 .btn-group .btn-update:hover,
 .btn-group .btn-go-back:hover,
+.btn-group .btn-reset:hover,
 .btn-group .btn-delete-all:hover,
 .btn-group .btn-delete-reply:hover {
     background-color: #3A3D50;
