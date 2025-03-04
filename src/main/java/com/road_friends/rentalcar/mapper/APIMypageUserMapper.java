@@ -4,7 +4,7 @@ import com.road_friends.rentalcar.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface APIUserMapper {
+public interface APIMypageUserMapper {
 
     // 로그인한 사용자 정보 조회
     UserDto findById(String userId);

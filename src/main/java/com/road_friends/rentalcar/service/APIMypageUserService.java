@@ -2,31 +2,31 @@ package com.road_friends.rentalcar.service;
 
 
 import com.road_friends.rentalcar.dto.UserDto;
-import com.road_friends.rentalcar.mapper.APIUserMapper;
+import com.road_friends.rentalcar.mapper.APIMypageUserMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class APIUserService {
+public class APIMypageUserService {
 
-    private final APIUserMapper apiuserMapper;
+    private final APIMypageUserMapper apiuserMapperMypage;
 
-    public APIUserService(APIUserMapper apiuserMapper) {
-        this.apiuserMapper = apiuserMapper;
+    public APIMypageUserService(APIMypageUserMapper apiuserMapperMypage) {
+        this.apiuserMapperMypage = apiuserMapperMypage;
     }
 
     // 로그인한 사용자의 정보 조회
     public UserDto getUserInfo(String userId) {
-        return apiuserMapper.findById(userId);
+        return apiuserMapperMypage.findById(userId);
     }
 
     // 로그인한 사용자의 정보 수정
     public void updateUserInfo( UserDto apiuserDTO) {
-        apiuserMapper.update(apiuserDTO);
+        apiuserMapperMypage.update(apiuserDTO);
     }
 
     // 로그인한 사용자의 탈퇴
     public void disableUser(String userId) {
-        apiuserMapper.disable(userId);
+        apiuserMapperMypage.disable(userId);
     }
 
 

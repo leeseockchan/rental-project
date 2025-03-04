@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.road_friends.rentalcar.mapper.APIUserMapper">
+<mapper namespace="com.road_friends.rentalcar.mapper.APIMypageUserMapper">
 
     <!-- 로그인한 사용자 정보 조회 -->
     <select id="findById" resultType="com.road_friends.rentalcar.dto.UserDto">
