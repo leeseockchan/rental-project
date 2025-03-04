@@ -59,6 +59,7 @@ public interface AdminReservationMapper {
     FROM car c
     LEFT JOIN model m ON c.model_id = m.model_id
     WHERE c.car_status = 2  -- 정비 중인 차량만 조회
+      AND c.car_category = 0 -- car_category가 0인 차량만 조회
 """)
   List<AdminCarDto> findMaintenanceCars();
 
