@@ -153,7 +153,7 @@
 }
 
 .filter-box>select {
-    margin-right: 50px;
+    margin-right: 10px;
     padding: 5px;
     width: 250px;
     cursor: pointer;
@@ -162,23 +162,34 @@
 }
 
 /* 버튼 */
-.btn-group button {
-    padding: 5px 10px;
+.btn-group button{
+    padding : 5px 10px;
     margin-right: 5px;
     border: 1px solid transparent;
-    border-radius: 5px;
-    transition: 0.1s all;
+    border-radius : 5px;
+    transition : 0.1s all;
     cursor: pointer;
 }
 
+.btn-group .btn-search,
 .btn-group .btn-update,
-.btn-group .btn-go-back {
+.btn-group .btn-go-back{
     background-color: #AFFF4F;
     color: #000;
 }
 
+.btn-group .btn-delete-all,
+.btn-group .btn-delete-reply{
+    background-color: #F3F3F3;
+    border: 1px solid #D9D9D9;
+    color: #F21717;
+}
+
+.btn-group .btn-search:hover,
 .btn-group .btn-update:hover,
-.btn-group .btn-go-back:hover {
+.btn-group .btn-go-back:hover,
+.btn-group .btn-delete-all:hover,
+.btn-group .btn-delete-reply:hover{
     background-color: #3A3D50;
     border: 1px solid #3A3D50;
     color: #AFFF4F;

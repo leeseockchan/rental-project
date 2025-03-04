@@ -40,7 +40,7 @@ public class AdminParkingController {
     @GetMapping
     public String showAllParking(Model model) {
         model.addAttribute("provinceList", getProvinceList()); // 시/도 리스트 추가
-        return "parking_page/list";
+        return "parking/parking-list";
     }
 
     //    주차장 상세 보기
@@ -48,7 +48,7 @@ public class AdminParkingController {
     public String detailByParking(@PathVariable int parkingId, Model model) {
         AdminParkingDto parkingDetail = adminParkingService.findByParking(parkingId);
         model.addAttribute("parkingDetail", parkingDetail);
-        return "parking_page/detail";
+        return "parking/parking-detail";
     }
 
     // 주차장 추가하기

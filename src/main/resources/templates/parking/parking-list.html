@@ -5,20 +5,86 @@
 <head>
   <title>주차장 관리 목록</title>
 
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/parking/parking-list.css}">
-  </th:block>
+  <link rel="stylesheet" th:href="@{/css/parking/parking-list.css}">
 
   <!--    아파치 E차트-->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 
   <th:block layout:fragment="js">
-    <script th:inline="javascript" defer>
+    <script th:src="@{/js/parking/chart.js}"></script>
+    <script th:inline="javascript">
+      document.getElementById("provinceSelect").addEventListener("change", function() {
+          var province = this.value;
+          var districtSelect = document.getElementById("districtSelect");
+
+          districtSelect.innerHTML = '<option value="">구/군을 선택하세요</option>';
+
+          if (province) {
+              fetch(`/api/admin/parkings/districts?province=` + encodeURIComponent(province))
+                  .then(response => response.json())
+                  .then(data => {
+                      data.forEach(district => {
+                          var option = document.createElement("option");
+                          option.value = district;
+                          option.textContent = district;
+                          districtSelect.appendChild(option);
+                      });
+                  })
+                  .catch(error => console.error('Error:', error));
+          }
+      });
+
+      document.getElementById("searchBtn").addEventListener("click", function() {
+        var district = document.getElementById("districtSelect").value;
+
+        fetch(`/api/admin/parkings/search?district=` + encodeURIComponent(district))
+            .then(response => response.json())
+            .then(data => {
+                var tableBody = document.querySelector("tbody");
+                tableBody.innerHTML = ""; // 기존 목록 초기화
+
+                data.forEach(parking => {
+                    var row = document.createElement("tr");
+                    row.setAttribute("data-href", `/api/admin/parkings/${parking.parkingId}`); // 🚀 data-href 추가
+
+                    row.innerHTML = `
+                        <td>${parking.parkingName}</td>
+                        <td>${parking.parkingAddress}</td>
+                        <td>${parking.parkingProvince}</td>
+                        <td>${parking.parkingDistrict}</td>
+                        <td>${parking.parkingLatitude}</td>
+                        <td>${parking.parkingLongtitude}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+
+                // 🚀 새로 추가된 <tr>에도 클릭 이벤트 추가!
+                attachRowClickEvent();
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // ✅ <tr>에 클릭 이벤트를 다시 추가하는 함수
+    function attachRowClickEvent() {
+        document.querySelectorAll(".table-box tbody tr").forEach(row => {
+            row.addEventListener("click", function() {
+                const url = this.getAttribute("data-href"); // data-href 값 가져오기
+                if (url) {
+                    window.location.href = url;
+                } else {
+                    console.error("data-href가 설정되지 않음:", this);
+                }
+            });
+        });
+    }
+
+    // ✅ 페이지가 로드될 때 기존 <tr>에도 이벤트 추가
+    document.addEventListener("DOMContentLoaded", attachRowClickEvent);
 
     </script>
-
-    <script th:inline="javascript" th:src="@{/js/parking/chart.js}" defer></script>
   </th:block>
+
 
 </head>
 
@@ -42,7 +108,7 @@
                 <div class="info-box-content"><span text="">00</span> 개</div>
               </div>
               <div class="info-box box2">
-                <div class="info-box-title">서울 경기 인청 </div>
+                <div class="info-box-title">서울 경기 인천 </div>
                 <div class="info-box-content"><span text="">00</span> 개</div>
               </div>
               <div class="info-box box3">
@@ -77,27 +143,25 @@
 
       <div class="filter-box-big">
         <div class="filter-box">
-          <label for="filter-local-1">도/시</label>
-          <select id="filter-local-1" name="selectLocal1">
-            <option value="local1">서울특별시</option>
-            <option value="local2">경기도</option>
-            <option value="local3">강원도</option>
-            <option value="local4">충청도</option>
-            <option value="local5">전라도</option>
-            <option value="local6">경상도</option>
+          <!-- 지역 선택 -->
+          <label for="provinceSelect">시/도 선택</label>
+          <select id="provinceSelect">
+            <option value="">시/도를 선택하세요</option>
+            <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
           </select>
-          <label for="filter-local-2">지역</label>
-          <select id="filter-local-2" name="selectLocal2">
-            <option value="local1">지역1</option>
-            <option value="local2">지역2</option>
-            <option value="local3">지역3</option>
-            <option value="local4">지역4</option>
-            <option value="local5">지역5</option>
-            <option value="local6">지역6</option>
+
+          <label for="districtSelect">구/군 선택</label>
+          <select id="districtSelect">
+            <option value="">구/군을 선택하세요</option>
           </select>
+
+          <div class="btn-group">
+            <button type="button" class="btn-search" id="searchBtn">검색</button>
+          </div>
         </div>
+
         <div class="btn-group">
-          <button type="button" class="btn-update" onclick="">
+          <button type="button" class="btn-update" th:onclick="|location.href='@{/api/admin/parkings/add}'|">
             신규 주차장 등록
           </button>
         </div>
@@ -106,52 +170,44 @@
       <table class="table-box">
         <thead>
           <tr>
-            <th style="width: 60px; text-align: center;">주차장 번호</th>
-            <th style="width: 150px;">주차장 이름</th>
+            <th style="width: 100px;">주차장 이름</th>
             <th style="width: 150px;">주소</th>
-            <th style="width: 100px;">관할 구역</th>
+            <th style="width: 100px;">지역</th>
+            <th style="width: 100px;">도시</th>
+            <th style="width: 100px;">위도</th>
+            <th style="width: 100px;">경도</th>
           </tr>
         </thead>
         <tbody>
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 60px; text-align: center;">1</td>
-            <td text="" style="max-width: 150px;">재랭이고개 사거리～기계공고 사거리</td>
-            <td text="" style="max-width: 150px;">경기도 평택시 비전동 626-1</td>
-            <td text="" style="max-width: 100px;">평택시</td>
+        <tr th:each="parking : ${parkingList}"
+            th:data-href="@{/api/admin/parkings/{parkingId}(parkingId=${parking.parkingId})}">
+            <td th:text="${parking.parkingName}"></td>
+            <td th:text="${parking.parkingAddress}"></td>
+            <td th:text="${parking.parkingProvince}"></td>
+            <td th:text="${parking.parkingDistrict}"></td>
+            <td th:text="${parking.parkingLatitude}"></td>
+            <td th:text="${parking.parkingLongtitude}"></td>
           </tr>
-          <!--            더미 데이터 시작. 추후 삭제-->
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 60px; text-align: center;">2</td>
-            <td text="" style="max-width: 150px;">재랭이고개 사거리～기계공고 사거리</td>
-            <td text="" style="max-width: 150px;">경기도 평택시 비전동 626-1</td>
-            <td text="" style="max-width: 100px;">평택시</td>
-          </tr>
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 60px; text-align: center;">3</td>
-            <td text="" style="max-width: 150px;">재랭이고개 사거리～기계공고 사거리</td>
-            <td text="" style="max-width: 150px;">경기도 평택시 비전동 626-1</td>
-            <td text="" style="max-width: 100px;">평택시</td>
-          </tr>
-          <!--            더미 데이터 끝-->
         </tbody>
+
       </table>
 
-      <!-- 페이지네이션 -->
-      <div class="pagination">
-        <a href="" if="">
-          <span class="material-symbols-outlined">
-            chevron_left
-          </span>
-        </a>
-        <span class="page-number" each="">
-          <a href="" text="" classappend=""></a>
-        </span>
-        <a href="" if="">
-          <span class="material-symbols-outlined">
-            chevron_right
-          </span>
-        </a>
-      </div>
+<!--      &lt;!&ndash; 페이지네이션 &ndash;&gt;-->
+<!--      <div class="pagination">-->
+<!--        <a href="" if="">-->
+<!--          <span class="material-symbols-outlined">-->
+<!--            chevron_left-->
+<!--          </span>-->
+<!--        </a>-->
+<!--        <span class="page-number" each="">-->
+<!--          <a href="" text="" classappend=""></a>-->
+<!--        </span>-->
+<!--        <a href="" if="">-->
+<!--          <span class="material-symbols-outlined">-->
+<!--            chevron_right-->
+<!--          </span>-->
+<!--        </a>-->
+<!--      </div>-->
 
     </div>
   </div>
