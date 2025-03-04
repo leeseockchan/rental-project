@@ -5,7 +5,7 @@
 <head>
   <title>빠른 예약 관리</title>
 
-    <link rel="stylesheet" th:href="@{/css/fast-reservation/fast-reservation-list.css}">
+  <link rel="stylesheet" th:href="@{/css/fast-reservation/fast-reservation-list.css}">
 
 </head>
 
@@ -19,7 +19,7 @@
   <!-- 정비 완료 메시지 출력 -->
   <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
 
-<!--  현재 정비 중인 차량 목록-->
+  <!--  현재 정비 중인 차량 목록-->
   <div class="list">
 
     <div class="list-flex-box">
@@ -50,7 +50,7 @@
           <div class="btn-group">
             <form th:action="@{/admin/reservations/car/{carId}/complete-maintenance(carId=${car.carId})}" method="post"
                   onsubmit="return confirm('이 차량의 정비를 완료하시겠습니까?');">
-              <button type="submit" class="btn-update">정비 완료</button>
+              <button type="submit" class="btn-update" onclick="event.stopPropagation();">정비 완료</button>
             </form>
           </div>
         </td>
@@ -60,7 +60,7 @@
 
   </div>
 
-<!--    빠른대여 예약 현황-->
+  <!--    빠른대여 예약 현황-->
   <div class="list two">
 
     <div class="list-flex-box">
