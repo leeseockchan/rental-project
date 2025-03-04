@@ -65,5 +65,9 @@ public class AdminParkingService {
         return stats;
     }
 
+    public List<AdminParkingDto> getTop5ParkingStats() {
+        return adminParkingMapper.getTop5ParkingStats();
+    }
+
 
 }

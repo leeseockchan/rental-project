@@ -44,4 +44,24 @@
         DELETE FROM parking WHERE parking_id = #{parkingId};
     </delete>
 
+    <!--    주차장 차트-->
+    <select id="getTop5ParkingStats" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
+        SELECT
+        p.parking_id AS parkingId,
+        p.parking_name AS parkingName,
+        p.parking_address AS parkingAddress,
+        p.parking_latitude AS parkingLatitude,   -- 수정된 부분
+        p.parking_longtitude AS parkingLongitude, -- 수정된 부분
+        p.parking_province AS parkingProvince,
+        p.parking_district AS parkingDistrict,
+        COUNT(c.car_id) AS carCount
+        FROM parking p
+        LEFT JOIN car c ON p.parking_id = c.rental_station
+        GROUP BY p.parking_id
+        ORDER BY carCount DESC
+        LIMIT 5
+    </select>
+
+
+
 </mapper>

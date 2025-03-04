@@ -44,4 +44,6 @@ public interface AdminParkingMapper {
     int getSeoulGyeonggiIncheonCount();
     @Select("SELECT COUNT(*) FROM parking WHERE parking_province NOT IN ('서울특별시', '경기도', '인천광역시')")
     int getOtherRegionCount();
+
+    List<AdminParkingDto> getTop5ParkingStats();
 }

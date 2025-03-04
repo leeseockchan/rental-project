@@ -10,6 +10,13 @@
   <!--    아파치 E차트-->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 
+  <script th:inline="javascript">
+    var top5ParkingStats = /*[[${top5ParkingStats}]]*/ '[]';
+
+    // JSON 변환
+    var top5ParkingStatsParsed = [[${top5ParkingStats}]];
+  </script>
+
   <th:block layout:fragment="js">
     <script th:src="@{/js/parking/chart.js}"></script>
     <script th:inline="javascript">
