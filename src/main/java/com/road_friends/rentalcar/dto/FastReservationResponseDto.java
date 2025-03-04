@@ -35,22 +35,33 @@ public class FastReservationResponseDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime rentalDatetime;
 
+    // 대여 위치
+    private String rentalLocationName;
+
+    // 대여 상세주소
+    private String rentalAddress;
+
+    // 대여 주차장 위도경도
+    private BigDecimal rentalLocationLatitude;
+    private BigDecimal rentalLocationLongitude;
+
     // 반납일시
     @JsonProperty("return_datetime")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime returnDatetime;
 
-    // 대여반납 위치
-    private String rentalLocationName;
+    // 반납 위치
     private String returnLocationName;
     private int returnLocation;
 
-    // 주차장 위도경도
-    private BigDecimal rentalLocationLatitude;
-    private BigDecimal rentalLocationLongitude;
+    // 반납 상세주소
+    private String returnAddress;
+
+    // 반납 주차장 위도경도
     private BigDecimal returnLocationLatitude;
     private BigDecimal returnLocationLongitude;
+
     // 예약생성일
     private Timestamp reservationTime;
 

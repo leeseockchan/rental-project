@@ -38,8 +38,11 @@ public class APIReservationDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime returnDatetime;
 
-    // 대여반납 위치
+    // 대여 위치
     private String rentalLocationName;
+
+    // 대여 위치 상세주소
+    private String rentalAddress;
 
     //예약 생성 날짜
     @JsonProperty("reservation_s_create_date")

@@ -18,19 +18,44 @@
     </select>
 
     <!-- 로그인한 사용자의 특정 예약 상세 조회 -->
-    <select id="getReservationDetail" resultType="com.road_friends.rentalcar.dto.APIReservationDto">
-        SELECT reservation_s_id,
-        car_id,
-        user_num,
-        reservation_s_start_date,
-        reservation_s_end_date,
-        reservation_s_create_date,
-        share_option,
-        reservation_status,
-        rental_station_start,
-        return_station_end
-        FROM short_reservation
-        WHERE reservation_s_id = #{reservationSId}
+    <select id="getReservationDetail" resultType="com.road_friends.rentalcar.dto.APIReservationDto">SELECT
+        sr.reservation_s_id AS reservationSId,
+        sr.rental_state AS rentalState,
+        sr.rental_station_start AS rentalStationStart,
+        rental_parking.parking_name AS rentalLocationName,
+        rental_parking.parking_address AS rentalAddress,
+        rental_parking.parking_latitude AS rentalLocationLatitude,
+        rental_parking.parking_longtitude AS rentalLocationLongitude,
+        sr.reservation_s_start_date AS rental_datetime,
+        sr.reservation_s_end_date AS return_datetime,
+        sr.user_num AS userNum,
+        sr.reservation_s_create_date AS reservationSCreateDate,
+
+        -- 차량 정보 추가
+        c.car_id AS carId,
+        c.car_status AS carStatus,
+        c.car_year AS carYear,
+        c.car_fuel AS carFuel,
+        c.car_grade AS carGrade,
+        c.car_options AS carOptions,
+
+        -- 모델 정보 추가
+        m.model_id AS modelId,
+        m.model_brand AS modelBrand,
+        m.model_name AS modelName,
+        m.model_category AS modelCategory,
+        m.model_seate_num AS modelSeateNum,
+        m.model_transmission AS modelTransmission,
+        m.model_amount_hour AS modelAmountHour,
+        m.model_amount_day AS modelAmountDay
+
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        LEFT JOIN parking rental_parking ON sr.rental_station_start = rental_parking.parking_id
+        LEFT JOIN parking return_parking ON sr.return_station_end = return_parking.parking_id
+        WHERE sr.reservation_s_id = #{reservationSId};
+
     </select>
 
     <!-- 예약 수정 -->
