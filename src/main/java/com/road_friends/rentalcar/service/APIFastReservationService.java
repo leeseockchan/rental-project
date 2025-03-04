@@ -65,12 +65,9 @@ public class APIFastReservationService {
         if (carId == null) {
             return false;
         }
-
-        // 3. 차량 상태 업데이트 (car_status: 1 → 0)
-        int carUpdatedRows = apiFastReservationMapper.updateCarStatus(carId, 1, 0);
-
-        return updatedRows > 0 && carUpdatedRows > 0;
+        return updatedRows > 0;
     }
+
     // 로그인한 사용자의 빠른 예약 전체 조회
     public List<FastReservationResponseDto> getUserFastReservations(Long userId) {
         return apiFastReservationMapper.getUserFastReservations(userId);
