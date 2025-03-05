@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.road_friends.rentalcar.admin.car.mapper.AdminCarMapper">
+<mapper namespace="com.road_friends.rentalcar.mapper.AdminCarMapper">
 
-    <resultMap id="CarResultMap" type="com.road_friends.rentalcar.admin.car.dto.AdminCarDto">
+    <resultMap id="CarResultMap" type="com.road_friends.rentalcar.dto.AdminCarDto">
         <id property="carId" column="car_id"/>
         <result property="carCategory" column="car_category"/>
         <result property="carStatus" column="car_status"/>
@@ -12,7 +12,7 @@
         <result property="carOptions" column="car_options"/>
 
         <!-- Model 매핑 -->
-        <association property="model" javaType="com.road_friends.rentalcar.admin.car.dto.AdminModelDto">
+        <association property="model" javaType="com.road_friends.rentalcar.dto.AdminModelDto">
             <id property="modelId" column="model_id"/>
             <result property="modelBrand" column="model_brand"/>
             <result property="modelName" column="model_name"/>
@@ -24,7 +24,7 @@
         </association>
 
         <!-- Parking 매핑 -->
-        <association property="parking" javaType="com.road_friends.rentalcar.admin.car.dto.AdminParkingDto">
+        <association property="parking" javaType="com.road_friends.rentalcar.dto.AdminParkingDto">
             <id property="parkingId" column="parking_id"/>
             <result property="parkingName" column="parking_name"/>
             <result property="parkingAddress" column="parking_address"/>
@@ -58,7 +58,7 @@
     </select>
 
     <!--  차량 조회 -->
-    <select id="findByCarId" resultType="com.road_friends.rentalcar.admin.car.dto.AdminCarDto" resultMap="CarResultMap">
+    <select id="findByCarId" resultType="com.road_friends.rentalcar.dto.AdminCarDto" resultMap="CarResultMap">
         SELECT
         c.car_id, c.car_grade, c.car_category,
         c.car_status, c.car_options, c.car_fuel, c.car_year,
@@ -73,7 +73,7 @@
     </select>
 
     <!-- 차량 관리 수정 -->
-    <update id="modifyCar" parameterType="com.road_friends.rentalcar.admin.car.dto.AdminCarDto">
+    <update id="modifyCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
         UPDATE car
         SET
         model_id = #{modelId},   <!-- 🔹 modelId 직접 사용 -->
@@ -88,7 +88,7 @@
     </update>
 
     <!--    차량 관리 추가-->
-    <insert id="insertCar" parameterType="com.road_friends.rentalcar.admin.car.dto.AdminCarDto">
+    <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
         INSERT INTO car (model_id, car_category, car_status, car_year, car_fuel, car_grade, car_options, rental_station)
         VALUES (#{modelId}, #{carCategory}, #{carStatus}, #{carYear}, #{carFuel}, #{carGrade}, #{carOptions}, #{parking.parkingId});
     </insert>

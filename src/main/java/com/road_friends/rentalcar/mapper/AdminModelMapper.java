@@ -1,6 +1,6 @@
-package com.road_friends.rentalcar.admin.car.mapper;
+package com.road_friends.rentalcar.mapper;
 
-import com.road_friends.rentalcar.admin.car.dto.AdminModelDto;
+import com.road_friends.rentalcar.dto.AdminModelDto;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 

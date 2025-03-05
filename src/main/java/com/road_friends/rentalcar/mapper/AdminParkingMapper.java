@@ -1,7 +1,7 @@
-package com.road_friends.rentalcar.admin.car.mapper;
+package com.road_friends.rentalcar.mapper;
 
-import com.road_friends.rentalcar.admin.car.dto.AdminCarDto;
-import com.road_friends.rentalcar.admin.car.dto.AdminParkingDto;
+import com.road_friends.rentalcar.dto.AdminCarDto;
+import com.road_friends.rentalcar.dto.AdminParkingDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

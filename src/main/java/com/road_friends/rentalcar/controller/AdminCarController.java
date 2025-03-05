@@ -1,11 +1,11 @@
-package com.road_friends.rentalcar.admin.car.controller;
+package com.road_friends.rentalcar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.road_friends.rentalcar.admin.car.dto.AdminCarDto;
-import com.road_friends.rentalcar.admin.car.dto.AdminModelDto;
-import com.road_friends.rentalcar.admin.car.dto.AdminParkingDto;
-import com.road_friends.rentalcar.admin.car.service.AdminCarService;
-import com.road_friends.rentalcar.admin.car.service.AdminParkingService;
+import com.road_friends.rentalcar.dto.AdminCarDto;
+import com.road_friends.rentalcar.dto.AdminModelDto;
+import com.road_friends.rentalcar.dto.AdminParkingDto;
+import com.road_friends.rentalcar.service.AdminCarService;
+import com.road_friends.rentalcar.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package com.road_friends.rentalcar.admin.car.service;
+package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.admin.car.dto.AdminModelDto;
-import com.road_friends.rentalcar.admin.car.mapper.AdminModelMapper;
+import com.road_friends.rentalcar.dto.AdminModelDto;
+import com.road_friends.rentalcar.mapper.AdminModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
