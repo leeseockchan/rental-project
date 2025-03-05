@@ -10,4 +10,31 @@
         INSERT INTO user_roles (user_id, role_id)
         VALUES (#{userId}, #{roleId})
     </insert>
+
+    <!-- 면허증 정보 삽입 -->
+    <insert id="saveLicense" parameterType="com.road_friends.rentalcar.dto.LicenseDto">
+        INSERT INTO license (license_num, license_date, license_end_date, user_num)
+        VALUES (#{licenseNum}, #{licenseDate}, #{licenseEndDate}, #{userNum})
+    </insert>
+
+    <!-- 사용자 권한을 ROLE_VERIFIED (3)로 변경 -->
+    <update id="updateUserRole">
+        UPDATE user_roles
+        SET role_id = #{roleId}
+        WHERE user_id = #{userNum}
+    </update>
+
+    <!-- userNum을 이용해 userId 조회 -->
+    <select id="getUserIdByUserNum" parameterType="long" resultType="string">
+        SELECT user_id FROM user WHERE user_num = #{userNum}
+    </select>
+
+    <!-- 사용자의 권한 리스트 조회 -->
+    <select id="getUserRoles" parameterType="long" resultType="string">
+        SELECT r.role_name
+        FROM user_roles ur
+        JOIN roles r ON ur.role_id = r.role_id
+        WHERE ur.user_id = #{userNum}
+    </select>
+
 </mapper>

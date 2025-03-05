@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.component.JwtUtil;
+import com.road_friends.rentalcar.dto.LicenseDto;
 import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.mapper.APIUserMapper;
 import com.road_friends.rentalcar.service.APIUserService;
@@ -66,6 +67,14 @@ public class APIUserController {
     } catch (AuthenticationException e) {
       throw new RuntimeException("Invalid credentials");
     }
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<Map<String, String>> registerLicense(@RequestBody LicenseDto licenseDto) {
+    // 면허 정보 저장 + 권한 변경 + 새로운 토큰 발급
+    String newToken = apiUserService.updateLicenseAndRole(licenseDto.getUserNum(), licenseDto);
+
+    return ResponseEntity.ok(Map.of("token", newToken));
   }
 
 }

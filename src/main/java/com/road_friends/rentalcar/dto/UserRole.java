@@ -2,7 +2,8 @@ package com.road_friends.rentalcar.dto;
 
 public enum UserRole {
   ROLE_USER("user"),
-  ROLE_ADMIN("admin");
+  ROLE_ADMIN("admin"),
+  ROLE_VERIFIED("verified"); // ROLE_VERIFIED 추가
 
   private final String roleName;
 
@@ -14,7 +15,7 @@ public enum UserRole {
     return roleName;
   }
 
-  // "ROLE_USER --> "user" 형식으로 변환
+  // "ROLE_USER" --> "user" 형식으로 변환
   public static String fromRoleName(String name) {
     for (UserRole role : values()) {
       if (role.name().equals(name)) {

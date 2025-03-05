@@ -53,4 +53,16 @@ public class JwtUtil {
             .parseClaimsJws(token)
             .getBody();
   }
+
+  // 면허증 정보 입력 후 권한 업데이트 및 새로운 JWT 토큰 발급
+  public String generateTokenWithUpdatedRole(String userId, List<String> roles) {
+    // 기존의 'roles' 리스트에 'ROLE_VERIFIED' 권한을 추가
+    if (!roles.contains("ROLE_VERIFIED")) {
+      roles.add("ROLE_VERIFIED");
+    }
+
+    // 새로운 JWT 토큰 생성
+    return generateToken(userId, roles);
+  }
+
 }
