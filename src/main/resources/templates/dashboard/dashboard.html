@@ -26,14 +26,6 @@
   <h2>👥 전체 회원 수</h2>
   <p class="total-users">총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
 
-  <!-- ✅ 성별 통계 -->
-  <h2>🚻 성별 통계</h2>
-  <div class="chart-content chart1" id="chart-container1"></div>
-
-  <!-- ✅ 연령대 통계 -->
-  <h2>📌 연령대별 통계</h2>
-  <div class="chart-content chart2" id="chart-container2"></div>
-
   <!-- ✅ 빠른 예약 시간대 TOP 5 -->
   <h2>⏰ 빠른 예약 시간대 TOP 5</h2>
   <div th:insert="fragments/dashboard/hours/fast-reservation-hours :: sectionContent"></div>

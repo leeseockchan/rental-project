@@ -1,19 +1,19 @@
 <div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
 
   <div class="header-sm">
-    관리자 대시보드 > 🔄 빠른 예약 - 가장 많이 반납한 지역 TOP 5
+    🔄 빠른 예약 - 가장 많이 반납한 지역 TOP 5
   </div>
 
-<table>
-  <tr>
-    <th>지역</th>
-    <th>반납 횟수</th>
-  </tr>
-  <tr th:each="returnData : ${topFastReturnLocations}">
-    <td th:text="${returnData.label}"></td>  <!-- ✅ 변수명 수정 -->
-    <td th:text="${returnData.count}"></td>  <!-- ✅ 변수명 수정 -->
-  </tr>
-</table>
+  <!-- 차트가 표시될 컨테이너 -->
+  <div id="chart5" style="width: 100%; height: 400px;"></div>
+
+  <script th:inline="javascript">
+    var returnLocationLabels = [[${topFastReturnLocations.![label]}]];  <!-- ✅ 변수명 수정 -->
+    var returnLocationCounts = [[${topFastReturnLocations.![count]}]];   <!-- ✅ 변수명 수정 -->
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/return-location-chart.js}"></script>
 
 </div>
 

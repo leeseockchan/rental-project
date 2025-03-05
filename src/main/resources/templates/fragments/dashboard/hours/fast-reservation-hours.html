@@ -5,18 +5,7 @@
   </div>
 
   <!-- ✅ 막대 그래프 컨테이너 추가 -->
-  <div id="fastReservationChart" style="width: 100%; height: 400px;"></div>
-
-  <table>
-    <tr>
-      <th>시간대</th>
-      <th>예약 횟수</th>
-    </tr>
-    <tr th:each="hour : ${topFastRentalHours}">
-      <td th:text="${hour.label + '시'}"></td>
-      <td th:text="${hour.count}"></td>
-    </tr>
-  </table>
+  <div id="chart1" style="width: 100%; height: 400px;"></div>
 
   <!-- ✅ Thymeleaf 데이터를 JavaScript 변수로 전달 -->
   <script th:inline="javascript">
@@ -25,6 +14,6 @@
   </script>
 
   <!-- ✅ 차트 스크립트 로드 -->
-  <script th:src="@{/js/dashboard/fastReservationChart.js}" defer></script>
+  <script th:src="@{/js/dashboard/hours-chart.js}" defer></script>
 
 </div>

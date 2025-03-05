@@ -4,15 +4,16 @@
     🔥 단기 예약 - 가장 인기 있는 차량 TOP 5
   </div>
 
-<table>
-  <tr>
-    <th>차량명</th>
-    <th>예약 횟수</th>
-  </tr>
-  <tr th:each="car : ${topShortPopularCars}">
-    <td th:text="${car.label}"></td>
-    <td th:text="${car.count}"></td>
-  </tr>
-</table>
+  <!-- 차량별 예약 횟수 차트 (단기 예약) -->
+  <div id="shortCarPopularChart" style="width: 100%; height: 400px;"></div>
+
+  <!-- 차량별 예약 횟수 차트 (단기 예약) -->
+  <script th:inline="javascript">
+    var shortCarLabels = [[${topShortPopularCars.![label]}]];  <!-- 차량명 데이터 -->
+    var shortCarCounts = [[${topShortPopularCars.![count]}]];   <!-- 예약 횟수 데이터 -->
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/popular-chart.js}"></script>
 
 </div>

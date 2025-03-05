@@ -4,43 +4,30 @@
     ⏳ 단기 예약 평균 렌트 시간 (Top 5)
   </div>
 
-<!-- 차량별 평균 렌트 시간 -->
-<h2>🚗 차량별 평균 렌트 시간</h2>
-<table>
-  <tr>
-    <th>차량명</th>
-    <th>평균 렌트 시간</th>
-  </tr>
-  <tr th:each="rental : ${topShortCarRentalDuration}">
-    <td th:text="${rental.label}"></td>
-    <td th:text="${rental.count + '시간'}"></td>
-  </tr>
-</table>
+  <!-- 차량별 평균 렌트 시간 차트 -->
+  <h2>🚗 차량별 평균 렌트 시간</h2>
+  <div id="chart10" style="width: 100%; height: 400px;"></div>
 
-<!-- 지역별 평균 렌트 시간 -->
-<h2>📍 지역별 평균 렌트 시간</h2>
-<table>
-  <tr>
-    <th>지역</th>
-    <th>평균 렌트 시간</th>
-  </tr>
-  <tr th:each="rental : ${topShortRegionRentalDuration}">
-    <td th:text="${rental.label}"></td>
-    <td th:text="${rental.count + '시간'}"></td>
-  </tr>
-</table>
+  <!-- 지역별 평균 렌트 시간 차트 -->
+  <h2>📍 지역별 평균 렌트 시간</h2>
+  <div id="chart11" style="width: 100%; height: 400px;"></div>
 
-<!-- 사용자별 평균 렌트 시간 -->
-<h2>👤 사용자별 평균 렌트 시간</h2>
-<table>
-  <tr>
-    <th>사용자</th>
-    <th>평균 렌트 시간</th>
-  </tr>
-  <tr th:each="rental : ${topShortUserRentalDuration}">
-    <td th:text="${rental.label}"></td>
-    <td th:text="${rental.count + '시간'}"></td>
-  </tr>
-</table>
+  <!-- 사용자별 평균 렌트 시간 차트 -->
+  <h2>👤 사용자별 평균 렌트 시간</h2>
+  <div id="chart12" style="width: 100%; height: 400px;"></div>
+
+  <script th:inline="javascript">
+    var shortCarLabels = [[${topShortCarRentalDuration.![label]}]];  <!-- 차량명 데이터 -->
+    var shortCarCounts = [[${topShortCarRentalDuration.![count]}]];   <!-- 평균 렌트 시간 데이터 -->
+
+    var shortRegionLabels = [[${topShortRegionRentalDuration.![label]}]];  <!-- 지역명 데이터 -->
+    var shortRegionCounts = [[${topShortRegionRentalDuration.![count]}]];   <!-- 평균 렌트 시간 데이터 -->
+
+    var shortUserLabels = [[${topShortUserRentalDuration.![label]}]];  <!-- 사용자명 데이터 -->
+    var shortUserCounts = [[${topShortUserRentalDuration.![count]}]];   <!-- 평균 렌트 시간 데이터 -->
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/average-chart.js}"></script>
 
 </div>
