@@ -60,8 +60,12 @@ public class AdminParkingController {
     //    주차장 상세 보기
     @GetMapping("/{parkingId}")
     public String detailByParking(@PathVariable int parkingId, Model model) {
+        // 주차장 상세 정보 가져오기
         AdminParkingDto parkingDetail = adminParkingService.findByParking(parkingId);
+        // 해당 주차장이 보유한 차량 목록 가져오기
+        List<AdminCarDto> carList = adminParkingService.findCarsByParking(parkingId);
         model.addAttribute("parkingDetail", parkingDetail);
+        model.addAttribute("carList", carList);
         return "parking/parking-detail";
     }
 

@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.service;
 
+import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
 import com.road_friends.rentalcar.mapper.AdminParkingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class AdminParkingService {
     //      특정 주차장 조회
     public AdminParkingDto findByParking(int parkingId) {
         return adminParkingMapper.findByParking(parkingId);
+    }
+    public List<AdminCarDto> findCarsByParking(int parkingId) {
+        return adminParkingMapper.findCarsByParking(parkingId);
     }
 
     //    주차장 추가하기

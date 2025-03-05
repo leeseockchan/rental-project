@@ -61,19 +61,19 @@
                     <td th:text="${parkingDetail.parkingAddress}"></td>
                   </tr>
                   <tr>
-                    <th>지역</th>
+                    <th>위도</th>
                     <td th:text="${parkingDetail.parkingLatitude}"></td>
                   </tr>
                   <tr>
-                    <th>시·군·구</th>
+                    <th>경도</th>
                     <td th:text="${parkingDetail.parkingLongtitude}"></td>
                   </tr>
                   <tr>
-                    <th>위도</th>
+                    <th>시·도</th>
                     <td th:text="${parkingDetail.parkingProvince}"></td>
                   </tr>
                   <tr>
-                    <th>경도</th>
+                    <th>시·군·구</th>
                     <td th:text="${parkingDetail.parkingDistrict}"></td>
                   </tr>
                 </tbody>
@@ -86,21 +86,23 @@
               <table class="info-box-content-table2">
                 <thead>
                   <tr>
-                    <th class="center">차량번호</th>
+                    <th>차량 ID</th>
+                    <th>모델 브랜드</th>
                     <th>모델명</th>
+                    <th>차량 연식</th>
+                    <th>연료 타입</th>
                     <th>등급</th>
-                    <th>카테고리</th>
-                    <th>대여상태</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td text="" class="center">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                  </tr>
+                <tr th:each="car : ${carList}" th:data-href="@{/api/admin/vehicles/{carId}(carId=${car.carId})}">
+                  <td th:text="${car.carId}"></td>
+                  <td th:text="${car.modelBrand}"></td>
+                  <td th:text="${car.modelName}"></td>
+                  <td th:text="${car.carYear}"></td>
+                  <td th:text="${car.carFuel}"></td>
+                  <td th:text="${car.carGrade}"></td>
+                </tr>
                 </tbody>
               </table>
             </div>
@@ -129,9 +131,20 @@
   </div>
 
   <th:block layout:fragment="js">
-        <script th:src="@{/js/parking/map.js}"></script>
+    <script th:src="@{/js/parking/map.js}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll("tbody tr").forEach(row => {
+              row.addEventListener("click", function () {
+                  const url = this.getAttribute("data-href");
+                  if (url) {
+                      window.location.href = url;
+                  }
+              });
+          });
+      });
+    </script>
   </th:block>
-
 </body>
 
 </html>

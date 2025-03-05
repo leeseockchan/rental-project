@@ -68,6 +68,7 @@
                         <td>${parking.parkingDistrict}</td>
                         <td>${parking.parkingLatitude}</td>
                         <td>${parking.parkingLongtitude}</td>
+                        <td>${parking.carCount}</td>
                     `;
 
                     tableBody.appendChild(row);
@@ -196,6 +197,7 @@
             <th style="width: 100px;">도시</th>
             <th style="width: 100px;">위도</th>
             <th style="width: 100px;">경도</th>
+            <th style="width: 100px;">보유차량 대수</th>
           </tr>
         </thead>
         <tbody>
@@ -207,6 +209,7 @@
             <td th:text="${parking.parkingDistrict}"></td>
             <td th:text="${parking.parkingLatitude}"></td>
             <td th:text="${parking.parkingLongtitude}"></td>
+            <td th:text="${parking.carCount}">0</td>
           </tr>
         </tbody>
 
