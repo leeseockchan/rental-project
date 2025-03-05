@@ -19,47 +19,56 @@ public class UserAdminController {
         this.userAdminService = userAdminService;
     }
 
-    // admin 사용자 관리
     @GetMapping
-    public String getAllUsers(Model model) {
-        // 회원 목록 조회
-        List<UserDTO> users = userAdminService.getAllUsers();
-        model.addAttribute("users", users);
+    public String getAllUsers(@RequestParam(value = "name", required = false) String name, Model model) {
+        List<UserDTO> users;
 
-        //회원 수 조회
-        int userCount = userAdminService.getUserCount(); // 회원 수 조회
-        model.addAttribute("userCount", userCount); // Thymeleaf로 전달
+        // 이름 검색 시
+        if (name != null && !name.isEmpty()) {
+            users = userAdminService.searchUsersByName(name); // 이름 검색
+        } else {
+            // 전체 회원 목록 조회
+            users = userAdminService.getAllUsers();
+        }
 
-        //활성사용자 조회
-        int activeUserCount = userAdminService.getActiveUserCount(); // 활성 사용자 수
+        // 회원 수 조회
+        int userCount = userAdminService.getUserCount();
+        model.addAttribute("userCount", userCount);
+
+        // 활성 사용자 수
+        int activeUserCount = userAdminService.getActiveUserCount();
         model.addAttribute("activeUserCount", activeUserCount);
 
-        //탈퇴사용자
-        int inactiveUserCount = userAdminService.getInactiveUserCount(); // 탈퇴 사용자 수
+        // 탈퇴 사용자 수
+        int inactiveUserCount = userAdminService.getInactiveUserCount();
         model.addAttribute("inactiveUserCount", inactiveUserCount);
 
-        //성별 통계
-        int maleUserCount = userAdminService.getMaleUserCount(); // 남자 회원 수
-        int femaleUserCount = userAdminService.getFemaleUserCount(); // 여자 회원 수
+        // 성별 통계
+        int maleUserCount = userAdminService.getMaleUserCount();
+        int femaleUserCount = userAdminService.getFemaleUserCount();
         model.addAttribute("maleUserCount", maleUserCount);
         model.addAttribute("femaleUserCount", femaleUserCount);
 
-        //연령통계
-        int twentiesCount = userAdminService.getTwentiesCount(); // 20대
-        int thirtiesCount = userAdminService.getThirtiesCount(); // 30대
-        int fortiesCount = userAdminService.getFortiesCount(); // 40대
-        int fiftiesCount = userAdminService.getFiftiesCount(); // 50대
-        int sixtiesCount = userAdminService.getSixtiesCount(); // 60대 이상
+        // 연령대 통계
+        int twentiesCount = userAdminService.getTwentiesCount();
+        int thirtiesCount = userAdminService.getThirtiesCount();
+        int fortiesCount = userAdminService.getFortiesCount();
+        int fiftiesCount = userAdminService.getFiftiesCount();
+        int sixtiesCount = userAdminService.getSixtiesCount();
 
-        model.addAttribute("users", users);
         model.addAttribute("twentiesCount", twentiesCount);
         model.addAttribute("thirtiesCount", thirtiesCount);
         model.addAttribute("fortiesCount", fortiesCount);
         model.addAttribute("fiftiesCount", fiftiesCount);
         model.addAttribute("sixtiesCount", sixtiesCount);
 
-        return "users/users-list"; // templates/user.html로 이동
+        // 사용자 목록을 모델에 추가
+        model.addAttribute("users", users);
+        model.addAttribute("name", name);
+
+        return "users/users-list"; // 템플릿으로 반환
     }
+
 
     // 특정 사용자 상세 조회
     @GetMapping("/{userNum}")

@@ -12,6 +12,12 @@
 
   <th:block layout:fragment="js">
     <script defer>
+      function searchUser() {
+          var name = document.getElementById("filter-user").value;
+          window.location.href = "/admin/users?name=" + encodeURIComponent(name);
+      }
+    </script>
+    <script defer>
       var ageStats = {
               twenties: [[${twentiesCount}]],
               thirties: [[${thirtiesCount}]],
@@ -83,10 +89,10 @@
       <div class="filter-box-big">
         <div class="filter-box">
           <label for="filter-user">이름</label>
-          <input type="text" id="filter-user" name="filter-user" placeholder="이름을 입력하세요">
-
+          <input type="text" id="filter-user" name="filter-user" placeholder="이름을 입력하세요"
+                 th:value="${param.name}">
           <div class="btn-group">
-            <button type="button" class="btn-update" onclick="">
+            <button type="button" class="btn-update" onclick="searchUser()">
               검색
             </button>
           </div>

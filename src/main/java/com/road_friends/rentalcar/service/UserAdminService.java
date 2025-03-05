@@ -12,6 +12,11 @@ public class UserAdminService {
 
     private final UserAdminMapper userAdminMapper;
 
+    // 사용자 검색
+    public List<UserDTO> searchUsersByName(String name) {
+        return userAdminMapper.findUsersByName(name);
+    }
+
     // 전체 회원 수 조회
     public int getUserCount() {
         return userAdminMapper.getUserCount();

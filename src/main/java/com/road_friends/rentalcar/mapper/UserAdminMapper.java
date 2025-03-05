@@ -9,6 +9,9 @@ import java.util.List;
 @Mapper
 public interface UserAdminMapper {
 
+    // 사용자 검색
+    List<UserDTO> findUsersByName(String name);
+
     // 전체 회원 수 조회
     int getUserCount();
 
