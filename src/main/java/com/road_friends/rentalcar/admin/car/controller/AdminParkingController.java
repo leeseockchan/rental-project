@@ -1,8 +1,8 @@
-package com.road_friends.rentalcar.controller;
+package com.road_friends.rentalcar.admin.car.controller;
 
-import com.road_friends.rentalcar.dto.AdminCarDto;
-import com.road_friends.rentalcar.dto.AdminParkingDto;
-import com.road_friends.rentalcar.service.AdminParkingService;
+import com.road_friends.rentalcar.admin.car.dto.AdminCarDto;
+import com.road_friends.rentalcar.admin.car.dto.AdminParkingDto;
+import com.road_friends.rentalcar.admin.car.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.road_friends.rentalcar.dto;
+package com.road_friends.rentalcar.admin.car.dto;
 
 import lombok.Getter;
 import lombok.Setter;

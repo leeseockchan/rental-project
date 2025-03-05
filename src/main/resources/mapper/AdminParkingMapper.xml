@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.road_friends.rentalcar.mapper.AdminParkingMapper">
+<mapper namespace="com.road_friends.rentalcar.admin.car.mapper.AdminParkingMapper">
 
     <!-- AdminParkingMapper.xml -->
     <select id="getDistrictsByProvince" resultType="String">
@@ -10,17 +10,17 @@
     </select>
 
     <!--    전체 주차장 목록-->
-    <select id="findAll" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
+    <select id="findAll" resultType="com.road_friends.rentalcar.admin.car.dto.AdminParkingDto">
         SELECT * FROM parking;
     </select>
 
     <!--    주차장 검색-->
-    <select id="findByParking" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
+    <select id="findByParking" resultType="com.road_friends.rentalcar.admin.car.dto.AdminParkingDto">
         SELECT * FROM parking WHERE parking_id = #{parkingId};
     </select>
 
     <!--    새로운 주차장 추가-->
-    <insert id="addParking" parameterType="com.road_friends.rentalcar.dto.AdminParkingDto">
+    <insert id="addParking" parameterType="com.road_friends.rentalcar.admin.car.dto.AdminParkingDto">
         INSERT INTO parking (parking_name, parking_address, parking_latitude, parking_longtitude,
         parking_province, parking_district)
         VALUES (#{parkingName},#{parkingAddress}, #{parkingLatitude}, #{parkingLongtitude},
@@ -28,7 +28,7 @@
     </insert>
 
     <!--    주차장 수정-->
-    <insert id="modifyParking" parameterType="com.road_friends.rentalcar.dto.AdminParkingDto">
+    <insert id="modifyParking" parameterType="com.road_friends.rentalcar.admin.car.dto.AdminParkingDto">
         UPDATE parking
         SET parking_name = #{parkingName},
         parking_address = #{parkingAddress},
@@ -45,7 +45,7 @@
     </delete>
 
     <!--    주차장 차트-->
-    <select id="getTop5ParkingStats" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
+    <select id="getTop5ParkingStats" resultType="com.road_friends.rentalcar.admin.car.dto.AdminParkingDto">
         SELECT
         p.parking_id AS parkingId,
         p.parking_name AS parkingName,
