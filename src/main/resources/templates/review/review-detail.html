@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <title>리뷰 관리 목록</title>
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/review/review-detail.css}">
+    </th:block>
+
+    <!--    아파치 E차트-->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
+    <th:block layout:fragment="js">
+        <script th:inline="javascript" defer>
+
+        </script>
+
+        <script th:inline="javascript" th:src="@{/js/review/chart.js}" defer></script>
+    </th:block>
+
+</head>
+
+<body>
+    <div class="content" layout:fragment="content">
+
+        <div class="header">
+            리뷰 관리
+        </div>
+
+        <div class="info">
+            <div class="header-sm">
+                리뷰 관리 > 리뷰 상세 조회
+            </div>
+
+            <div class="info-box-big">
+
+                <div class="info-box box1">
+                    <div class="info-box-title">설문 응답자 정보</div>
+                    <div class="info-box-content">
+                        <table class="info-box-content-table">
+                            <tbody>
+                                <tr>
+                                    <th>회원 번호</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>회원 아이디</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>성별</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>생년월일</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>주소</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>이메일</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>전화번호</th>
+                                    <td text="">00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="info-box box2">
+                    <div class="info-box-title">이용 서비스</div>
+                    <div class="info-box-content">
+                        <table class="info-box-content-table">
+                            <tbody>
+                                <tr>
+                                    <th>이용 서비스</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>대여 차량</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>대여 기간</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>대여 장소</th>
+                                    <td text="">00</td>
+                                </tr>
+                                <tr>
+                                    <th>반납 장소</th>
+                                    <td text="">00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="info-box box3">
+                    <div class="info-box-title">응답 내용</div>
+                    <div class="info-box-content">
+
+                        <table class="info-box-content-table review-box">
+                            <tbody>
+                            <tr>
+                                <th>리뷰 번호</th>
+                                <td text="">00</td>
+                            </tr>
+                            <tr>
+                                <th>리뷰 작성일</th>
+                                <td text="">00</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="question">
+                            <label>1. 대여한 차량의 만족도(청결도, 성능)을 평가해주세요.</label>
+                            <div class="rating">
+                                <label>
+                                    <input type="radio" name="car-condition" value="1" disabled> 매우 불만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="car-condition" value="2" disabled> 불만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="car-condition" value="3" disabled> 보통
+                                </label>
+                                <label>
+                                    <input type="radio" name="car-condition" value="4" disabled> 만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="car-condition" value="5" checked> 매우 만족
+                                </label>
+                            </div>
+                        </div>
+            
+                        <div class="question">
+                            <label>2. 에브리카 예약 서비스 편의성 만족도를 평가해주세요.</label>
+                            <div class="rating">
+                                <label>
+                                    <input type="radio" name="reservation-process" value="1" disabled> 매우 불만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="reservation-process" value="2" disabled> 불만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="reservation-process" value="3" disabled> 보통
+                                </label>
+                                <label>
+                                    <input type="radio" name="reservation-process" value="4" disabled> 만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="reservation-process" value="5" checked> 매우 만족
+                                </label>
+                            </div>
+                        </div>
+            
+                        <div class="question">
+                            <label>3. 에브리카 서비스 가격 만족도를 평가해주세요.</label>
+                            <div class="rating">
+                                <label>
+                                    <input type="radio" name="price-satisfaction" value="1" disabled> 매우 불만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="price-satisfaction" value="2" disabled> 불만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="price-satisfaction" value="3" disabled> 보통
+                                </label>
+                                <label>
+                                    <input type="radio" name="price-satisfaction" value="4" disabled> 만족
+                                </label>
+                                <label>
+                                    <input type="radio" name="price-satisfaction" value="5" checked> 매우 만족
+                                </label>
+                            </div>
+                        </div>
+            
+                        <div class="question">
+                            <label for="improvements">4. 서비스 개선을 위한 제안 사항이 있으신가요?</label>
+                            <textarea name="improvements" id="improvements" rows="8" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn-go-back" onclick="">
+                    목록으로
+                </button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
