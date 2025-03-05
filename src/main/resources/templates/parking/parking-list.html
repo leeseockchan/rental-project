@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>주차장 관리 목록</title>
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/parking/parking-list.css}">
+  </th:block>
+
+  <!--    아파치 E차트-->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
+  <th:block layout:fragment="js">
+    <script th:inline="javascript" defer>
+
+    </script>
+
+    <script th:inline="javascript" th:src="@{/js/parking/chart.js}" defer></script>
+  </th:block>
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      주차장 관리
+    </div>
+
+    <div class="info">
+      <div class="info-header">주차장 통계</div>
+
+      <div class="info-group">
+        <div class="info-box-big-group">
+          <div class="info-box-big only-text-box-big">
+            <div class="info-box-big-header">전체 주차장 통계</div>
+            <div class="info-box-sm">
+              <div class="info-box box1">
+                <div class="info-box-title">전체 주차장</div>
+                <div class="info-box-content"><span text="">00</span> 개</div>
+              </div>
+              <div class="info-box box2">
+                <div class="info-box-title">서울 경기 인청 </div>
+                <div class="info-box-content"><span text="">00</span> 개</div>
+              </div>
+              <div class="info-box box3">
+                <div class="info-box-title">비수도권 지방</div>
+                <div class="info-box-content"><span text="">00</span> 개</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box-big semi-circle-box-big">
+            <div class="info-box-big-header" style="margin-bottom : 0">주차장별 차량 보유량 순위</div>
+            <div class="chart-box semi-circle-box">
+              <div class="chart-content chart1" id="chart-container1"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box-big-group">
+          <div class="info-box-big">
+            <div class="info-box-big-header">지역별 주차장 통계</div>
+            <div class="chart-box">
+              <div class="chart-content chart2" id="chart-container2">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="list">
+      <div class="info-header">등록된 주차장 상세 검색</div>
+
+      <div class="filter-box-big">
+        <div class="filter-box">
+          <label for="filter-local-1">도/시</label>
+          <select id="filter-local-1" name="selectLocal1">
+            <option value="local1">서울특별시</option>
+            <option value="local2">경기도</option>
+            <option value="local3">강원도</option>
+            <option value="local4">충청도</option>
+            <option value="local5">전라도</option>
+            <option value="local6">경상도</option>
+          </select>
+          <label for="filter-local-2">지역</label>
+          <select id="filter-local-2" name="selectLocal2">
+            <option value="local1">지역1</option>
+            <option value="local2">지역2</option>
+            <option value="local3">지역3</option>
+            <option value="local4">지역4</option>
+            <option value="local5">지역5</option>
+            <option value="local6">지역6</option>
+          </select>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn-update" onclick="">
+            신규 주차장 등록
+          </button>
+        </div>
+      </div>
+
+      <table class="table-box">
+        <thead>
+          <tr>
+            <th style="width: 60px; text-align: center;">주차장 번호</th>
+            <th style="width: 150px;">주차장 이름</th>
+            <th style="width: 150px;">주소</th>
+            <th style="width: 100px;">관할 구역</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+            <td text="" style="max-width: 60px; text-align: center;">1</td>
+            <td text="" style="max-width: 150px;">재랭이고개 사거리～기계공고 사거리</td>
+            <td text="" style="max-width: 150px;">경기도 평택시 비전동 626-1</td>
+            <td text="" style="max-width: 100px;">평택시</td>
+          </tr>
+          <!--            더미 데이터 시작. 추후 삭제-->
+          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+            <td text="" style="max-width: 60px; text-align: center;">2</td>
+            <td text="" style="max-width: 150px;">재랭이고개 사거리～기계공고 사거리</td>
+            <td text="" style="max-width: 150px;">경기도 평택시 비전동 626-1</td>
+            <td text="" style="max-width: 100px;">평택시</td>
+          </tr>
+          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
+            <td text="" style="max-width: 60px; text-align: center;">3</td>
+            <td text="" style="max-width: 150px;">재랭이고개 사거리～기계공고 사거리</td>
+            <td text="" style="max-width: 150px;">경기도 평택시 비전동 626-1</td>
+            <td text="" style="max-width: 100px;">평택시</td>
+          </tr>
+          <!--            더미 데이터 끝-->
+        </tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <div class="pagination">
+        <a href="" if="">
+          <span class="material-symbols-outlined">
+            chevron_left
+          </span>
+        </a>
+        <span class="page-number" each="">
+          <a href="" text="" classappend=""></a>
+        </span>
+        <a href="" if="">
+          <span class="material-symbols-outlined">
+            chevron_right
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

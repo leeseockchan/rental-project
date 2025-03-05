@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.CarMapper">
+
+    <!-- 모든 차량 목록 조회 -->
+    <select id="findAll" resultType="com.road_friends.rentalcar.dto.CarDto">
+        SELECT car_id, car_manufacture, car_category, car_name, car_year, car_fuel, car_seate_num, car_transmission
+        FROM car_data;
+    </select>
+
+    <!-- 특정 차량 조회 -->
+    <select id="findById" resultType="com.road_friends.rentalcar.dto.CarDto">
+        SELECT car_id, car_manufacture, car_category, car_name, car_year, car_fuel, car_seate_num, car_transmission
+        FROM car_data WHERE car_id = #{carId};
+    </select>
+
+    <!-- 차량 추가 -->
+    <insert id="insert" parameterType="com.road_friends.rentalcar.dto.CarDto">
+        INSERT INTO car_data (car_manufacture, car_category, car_name, car_year, car_fuel, car_seate_num, car_transmission)
+        VALUES (#{carManufacture}, #{carCategory}, #{carName}, #{carYear}, #{carFuel}, #{carSeateNum}, #{carTransmission});
+    </insert>
+
+    <!-- 차량 수정 -->
+    <update id="update" parameterType="com.road_friends.rentalcar.dto.CarDto">
+        UPDATE car_data
+        SET car_manufacture = #{carManufacture}, car_category = #{carCategory}, car_name = #{carName},
+        car_year = #{carYear}, car_fuel = #{carFuel}, car_seate_num = #{carSeateNum}, car_transmission = #{carTransmission}
+        WHERE car_id = #{carId};
+    </update>
+
+    <!-- 차량 삭제 -->
+    <delete id="delete">
+        DELETE FROM car_data WHERE car_id = #{carId};
+    </delete>
+
+</mapper>
