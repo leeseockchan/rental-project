@@ -1,6 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class UserController {
   }
 
   @PostMapping("/admin/signup")
-  public String signup(@ModelAttribute UserDTO userDTO) {
+  public String signup(@ModelAttribute UserDto userDTO) {
 
     userService.signup(userDTO);
 

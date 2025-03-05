@@ -2,7 +2,7 @@ package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.component.JwtUtil;
 import com.road_friends.rentalcar.dto.LicenseDto;
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.APIUserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +19,7 @@ public class APIUserService {
   private final JwtUtil jwtUtil;
 
   //일반회원가입
-  public void signup(UserDTO userDTO) {
+  public void signup(UserDto userDTO) {
     String encodedPw = passwordEncoder.encode(userDTO.getUserPassword());
     userDTO.setUserPassword(encodedPw);
     userDTO.setEnabled(userDTO.isEnabled());

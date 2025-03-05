@@ -1,12 +1,12 @@
 package com.road_friends.rentalcar.mapper;
 
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
-  void save(UserDTO userDTO);
-  UserDTO findByUsername(@Param("userId") String userId);
+  void save(UserDto userDTO);
+  UserDto findByUsername(@Param("userId") String userId);
 
 }

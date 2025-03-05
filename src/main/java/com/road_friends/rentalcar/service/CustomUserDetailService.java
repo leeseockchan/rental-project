@@ -5,10 +5,8 @@ import java.util.stream.Collectors;
 
 import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.dto.RoleDto;
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserMapper;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-    UserDTO userDTO = userMapper.findByUsername(userId);
+    UserDto userDTO = userMapper.findByUsername(userId);
     if (userDTO == null) {
       throw new UsernameNotFoundException("User not found with username: " + userId);
     }

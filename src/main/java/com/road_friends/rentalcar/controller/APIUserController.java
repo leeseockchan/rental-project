@@ -3,12 +3,10 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.component.JwtUtil;
 import com.road_friends.rentalcar.dto.LicenseDto;
-import com.road_friends.rentalcar.dto.UserDTO;
-import com.road_friends.rentalcar.mapper.APIUserMapper;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.APIUserService;
 import com.road_friends.rentalcar.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,14 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,7 +35,7 @@ public class APIUserController {
   private final CustomUserDetailService customUserDetailService;
 
   @PostMapping("/signup")
-  public ResponseEntity<String> signup(@RequestBody UserDTO userDTO) {
+  public ResponseEntity<String> signup(@RequestBody UserDto userDTO) {
     apiUserService.signup(userDTO);
     return ResponseEntity.ok("Signup successful");
   }

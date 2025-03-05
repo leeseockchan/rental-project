@@ -1,17 +1,15 @@
 package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.LicenseDto;
-import com.road_friends.rentalcar.dto.UserDTO;
-import com.road_friends.rentalcar.service.APIUserService;
+import com.road_friends.rentalcar.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface APIUserMapper {
-  void save(UserDTO userDTO);
+  void save(UserDto userDTO);
   void insertUserRole(@Param("userId") Long userId, @Param("roleId") int roleId);
   // 면허증 정보 삽입
   void saveLicense(LicenseDto licenseDto);
