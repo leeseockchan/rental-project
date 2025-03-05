@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.UserStatsDto;
 import com.road_friends.rentalcar.service.ReservationService;
+import com.road_friends.rentalcar.service.ReviewService;
 import com.road_friends.rentalcar.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class DashboardController {
 
     private final UserService userService;
     private final ReservationService reservationService;
+    private final ReviewService reviewService;
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {

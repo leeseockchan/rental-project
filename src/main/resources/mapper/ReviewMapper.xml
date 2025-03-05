@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.ReviewMapper">
+
+    <!-- 1. 날짜별 리뷰 개수 -->
+    <select id="getReviewCountByDate" resultType="map">
+        SELECT DATE_FORMAT(review_created_at, '%Y-%m-%d') AS review_date, COUNT(*) AS review_count
+        FROM review
+        GROUP BY review_date
+        ORDER BY review_date DESC;
+    </select>
+
+    <!-- 2. 평균 만족도 점수 조회 -->
+    <select id="getAverageSatisfaction" resultType="map">
+        SELECT
+        AVG(car_condition_satisfaction_rating) AS avg_car_condition,
+        AVG(reservation_process_satisfaction_rating) AS avg_reservation_process,
+        AVG(price_satisfaction_rating) AS avg_price
+        FROM review;
+    </select>
+
+    <!-- 3. 성별·연령대별 리뷰 통계 -->
+    <select id="getReviewStatsByGenderAge" resultType="map">
+        SELECT
+        u.user_gender,
+        CASE
+        WHEN YEAR(CURDATE()) - YEAR(u.user_birth) BETWEEN 20 AND 29 THEN '20대'
+        WHEN YEAR(CURDATE()) - YEAR(u.user_birth) BETWEEN 30 AND 39 THEN '30대'
+        WHEN YEAR(CURDATE()) - YEAR(u.user_birth) BETWEEN 40 AND 49 THEN '40대'
+        WHEN YEAR(CURDATE()) - YEAR(u.user_birth) BETWEEN 50 AND 59 THEN '50대'
+        WHEN YEAR(CURDATE()) - YEAR(u.user_birth) >= 60 THEN '60대 이상'
+        ELSE '기타'
+        END AS age_group,
+        COUNT(r.review_id) AS review_count,
+        AVG(r.car_condition_satisfaction_rating) AS avg_car_condition,
+        AVG(r.reservation_process_satisfaction_rating) AS avg_reservation_process,
+        AVG(r.price_satisfaction_rating) AS avg_price
+        FROM review r
+        JOIN user u ON r.user_num = u.user_num
+        GROUP BY u.user_gender, age_group;
+    </select>
+
+    <!-- 4. 차량 모델별 만족도 평균 -->
+    <select id="getReviewStatsByCarModel" resultType="map">
+        SELECT
+        m.model_name,
+        AVG(r.car_condition_satisfaction_rating) AS avg_car_condition,
+        AVG(r.reservation_process_satisfaction_rating) AS avg_reservation_process,
+        AVG(r.price_satisfaction_rating) AS avg_price,
+        COUNT(r.review_id) AS review_count
+        FROM review r
+        JOIN car c ON r.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name;
+    </select>
+
+    <!-- 5. 예약 유형별 만족도 차이 -->
+    <select id="getReviewStatsByReservationType" resultType="map">
+        SELECT
+        CASE
+        WHEN sr.reservation_s_id IS NOT NULL THEN '단기 예약'
+        WHEN fr.reservation_id IS NOT NULL THEN '빠른 예약'
+        ELSE '기타'
+        END AS reservation_type,
+        AVG(r.car_condition_satisfaction_rating) AS avg_car_condition,
+        AVG(r.reservation_process_satisfaction_rating) AS avg_reservation_process,
+        AVG(r.price_satisfaction_rating) AS avg_price,
+        COUNT(r.review_id) AS review_count
+        FROM review r
+        -- 1️⃣ `fast_reservation` 및 `short_reservation`을 `reservation`과 연결
+        LEFT JOIN reservation res ON res.fast_reservation_id IS NOT NULL OR res.short_reservation_id IS NOT NULL
+        LEFT JOIN fast_reservation fr ON res.fast_reservation_id = fr.reservation_id
+        LEFT JOIN short_reservation sr ON res.short_reservation_id = sr.reservation_s_id
+        -- 2️⃣ `review`와 `fast_reservation`, `short_reservation`을 `user_num`과 `car_id` 기준으로 연결
+        LEFT JOIN fast_reservation fr2 ON r.car_id = fr2.car_id AND r.user_num = fr2.user_num
+        LEFT JOIN short_reservation sr2 ON r.car_id = sr2.car_id AND r.user_num = sr2.user_num
+        GROUP BY reservation_type;
+    </select>
+
+</mapper>
