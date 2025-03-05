@@ -5,15 +5,9 @@
 <head>
   <title>사용자 관리 상세 조회</title>
 
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/users/users-detail.css}">
-  </th:block>
+  <link rel="stylesheet" th:href="@{/css/users/users-detail.css}">
 
   <th:block layout:fragment="js">
-    <script th:inline="javascript" defer>
-
-    </script>
-
     <script th:inline="javascript" th:src="@{/js/users/users.js}" defer></script>
   </th:block>
 
@@ -31,60 +25,64 @@
         사용자 관리 > 가입자 목록 상세 조회
       </div>
 
-      <form id="update-form">
+      <form id="update-form" th:action="@{/admin/users/{userNum}(userNum=${user.userNum})}" method="post">
         <div class="info-box-big">
           <div class="info-box box1">
-            <div class="info-box-title">abc123의 상세 정보</div>
+            <div class="info-box-title" th:text="|${user.userName}의 상세 정보|"></div>
             <div class="info-box-content">
               <table class="info-box-content-table">
                 <tbody>
                   <tr>
                     <th>회원번호</th>
-                    <td text="">00</td>
-                  </tr>
-                  <tr>
-                    <th>이름</th>
-                    <td text=""><input type="text" name="name" id="name" value="00"></td>
+                    <td th:text="${user.userNum}"></td>
                   </tr>
                   <tr>
                     <th>회원 아이디</th>
-                    <td text="">00</td>
+                    <td th:text="${user.userId}"></td>
+                  </tr>
+                  <tr>
+                    <th>이름</th>
+                    <td><input type="text" name="userName" id="userName" th:value="${user.userName}"></td>
                   </tr>
                   <tr>
                     <th>성별</th>
-                    <td text="">00</td>
+                    <td th:text="${user.userGender == 0 ? '남성' : '여성'}"></td>
                   </tr>
                   <tr>
                     <th>생년월일</th>
-                    <td text=""><input type="text" name="birth" id="birth" value="00"></td>
+                    <td><input type="text" name="userBirth" id="birth" th:value="${user.userBirth}"></td>
                   </tr>
                   <tr>
                     <th>주소</th>
-                    <td text=""><input type="text" name="address" id="address" value="00"></td>
+                    <td><input type="text" name="userAddress" id="address" th:value="${user.userAddress}"></td>
                   </tr>
                   <tr>
                     <th>이메일</th>
-                    <td text=""><input type="text" name="email" id="email" value="00"></td>
+                    <td><input type="text" name="userEmail" id="email" th:value="${user.userEmail}"></td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
-                    <td text=""><input type="text" name="phone" id="phone" value="00"></td>
+                    <td><input type="text" name="userPhone" id="phone" th:value="${user.userPhone}"></td>
+                  </tr>
+                  <tr>
+                    <th>계정 활성화</th>
+                    <td th:text="${user.enabled ? '활성화됨' : '비활성화됨'}"></td>
                   </tr>
                   <tr>
                     <th>활성 상태</th>
                     <td>
-                      <select name="status" id="status">
-                        <option value="true">활성</option>
-                        <option value="false">비활성</option>
+                      <select name="userStatus" id="status">
+                        <option value="0" th:selected="${user.userStatus == 0}">활성</option>
+                        <option value="1" th:selected="${user.userStatus == 1}">비활성</option>
                       </select>
                     </td>
                   </tr>
                   <tr>
-                    <th>역할</th>
+                    <th>역할(현재 구현X)</th>
                     <td>
-                      <select name="role" id="role">
-                        <option value="ROLE_USER">일반 사용자</option>
-                        <option value="ROLE_ADMIN">관리자</option>
+                      <select name="userNum" id="role">
+                        <option value="ROLE_USER" selected="${user.userNum == 'user_id'}">일반 사용자</option>
+                        <option value="ROLE_ADMIN" selected="${user.userNum == 'role_id'}">관리자</option>
                       </select>
                     </td>
                   </tr>
@@ -94,7 +92,7 @@
           </div>
 
           <div class="info-box box2">
-            <div class="info-box-title">abc123의 대여 기록</div>
+            <div class="info-box-title" th:text="|${user.userName}의 대여 기록|"></div>
             <div class="info-box-content">
               <table class="info-box-content-table2">
                 <thead>
@@ -122,11 +120,10 @@
           </div>
         </div>
         <div class="btn-group">
-          <button type="button" class="btn-go-back" onclick="">
+          <button type="button" class="btn-go-back" onclick="location.href='/admin/users'">
             목록으로
           </button>
-
-          <button type="button" class="btn-update" onclick="">
+          <button type="submit" class="btn-update">
             수정
           </button>
         </div>

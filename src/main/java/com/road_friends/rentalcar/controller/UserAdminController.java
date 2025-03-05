@@ -58,7 +58,7 @@ public class UserAdminController {
         model.addAttribute("fiftiesCount", fiftiesCount);
         model.addAttribute("sixtiesCount", sixtiesCount);
 
-        return "user"; // templates/user.html로 이동
+        return "users/users-list"; // templates/user.html로 이동
     }
 
     // 특정 사용자 상세 조회
@@ -66,7 +66,7 @@ public class UserAdminController {
     public String getUserDetail(@PathVariable("userNum") Long userNum, Model model) {
         UserDTO user = userAdminService.getUserDetail(userNum);
         model.addAttribute("user", user);
-        return "user-detail"; // templates/user-detail.html로 이동
+        return "users/users-detail"; // templates/user-detail.html로 이동
     }
 
     // 특정 사용자 정보 수정

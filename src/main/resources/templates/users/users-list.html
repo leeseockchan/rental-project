@@ -5,19 +5,22 @@
 <head>
   <title>사용자 관리 목록</title>
 
-  <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/users/users-list.css}">
-  </th:block>
+  <link rel="stylesheet" th:href="@{/css/users/users-list.css}">
 
   <!--    아파치 E차트-->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 
   <th:block layout:fragment="js">
-    <script th:inline="javascript" defer>
-
+    <script defer>
+      var ageStats = {
+              twenties: [[${twentiesCount}]],
+              thirties: [[${thirtiesCount}]],
+              forties: [[${fortiesCount}]],
+              fifties: [[${fiftiesCount}]],
+              sixties: [[${sixtiesCount}]]
+          };
     </script>
-
-    <script th:inline="javascript" th:src="@{/js/users/chart.js}" defer></script>
+    <script th:inline="javascript" th:src="@{/js/users/users-chart.js}"></script>
   </th:block>
 
 </head>
@@ -39,29 +42,32 @@
             <div class="info-box-sm">
               <div class="info-box box1">
                 <div class="info-box-title">총 가입자 수</div>
-                <div class="info-box-content"><span text="">00</span> 명</div>
+                <div class="info-box-content"><span th:text="${userCount}"></span> 명</div>
               </div>
               <div class="info-box box2">
                 <div class="info-box-title">활성 사용자 수</div>
-                <div class="info-box-content"><span text="">00</span> 명</div>
+                <div class="info-box-content"><span th:text="${activeUserCount}"></span> 명</div>
               </div>
               <div class="info-box box3">
                 <div class="info-box-title">탈퇴 사용자 수</div>
-                <div class="info-box-content"><span text="">00</span> 명</div>
+                <div class="info-box-content"><span th:text="${inactiveUserCount}"></span> 명</div>
               </div>
             </div>
           </div>
           <div class="info-box-big semi-circle-box-big">
-            <div class="info-box-big-header" style="margin-bottom : 0">성별 통계</div>
+            <div class="info-box-big-header" style="margin-bottom : 0">사용자 성별 비율</div>
             <div class="chart-box semi-circle-box">
-              <div class="chart-content chart1" id="chart-container1"></div>
+              <div class="chart-content chart1" id="chart-container1"
+                   th:data-male="${maleUserCount}"
+                   th:data-female="${femaleUserCount}">
+              </div>
             </div>
           </div>
         </div>
 
         <div class="info-box-big-group">
           <div class="info-box-big">
-            <div class="info-box-big-header">연령 통계</div>
+            <div class="info-box-big-header">연령대별 사용자 수</div>
             <div class="chart-box">
               <div class="chart-content chart2" id="chart-container2"></div>
             </div>
@@ -94,49 +100,23 @@
             <th style="width: 100px;">회원 아이디</th>
             <th style="width: 100px;">이름</th>
             <th style="width: 50px;">성별</th>
-            <th style="width: 100px;">생년월일</th>
-            <th style="width: 150px;">주소</th>
             <th style="width: 120px;">이메일</th>
             <th style="width: 120px;">전화번호</th>
-            <th style="width: 70px;">활성 상태</th>
+            <th style="width: 70px; text-align: center;">활성 상태</th>
           </tr>
         </thead>
         <tbody>
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 70px; text-align: center;">1</td>
-            <td text="" style="max-width: 100px;">abc123</td>
-            <td text="" style="max-width: 100px;">김하늘</td>
-            <td text="" style="max-width: 50px;">여</td>
-            <td text="" style="max-width: 100px;">1999-01-01</td>
-            <td text="" style="max-width: 150px;">경기도 수원시 장안구 000 000 000 000 000 000 000</td>
-            <td text="" style="max-width: 120px;">abc123@gmail.com</td>
-            <td text="" style="max-width: 120px;">010-1111-2222</td>
-            <td text="" style="max-width: 70px;">활성</td>
+          <tr th:each="user : ${users}"
+              th:attr="data-href=@{/admin/users/{userNum}(userNum=${user.userNum})}"
+              onclick="location.href=this.getAttribute('data-href')">
+            <td th:text="${user.userNum}" style="max-width: 70px; text-align: center;"></td>
+            <td th:text="${user.userId}" style="max-width: 100px;"></td>
+            <td th:text="${user.userName}" style="max-width: 100px;"></td>
+            <td th:text="${user.userGender == 0 ? '남자' : '여자'}" style="max-width: 50px;"></td>
+            <td th:text="${user.userEmail}" style="max-width: 120px;"></td>
+            <td th:text="${user.userPhone}" style="max-width: 120px;"></td>
+            <td th:text="${user.userStatus == 0 ? '활성' : '탈퇴'}" style="max-width: 70px; text-align: center;"></td>
           </tr>
-          <!--            더미 데이터 시작. 추후 삭제-->
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 70px; text-align: center;">1</td>
-            <td text="" style="max-width: 100px;">abc123</td>
-            <td text="" style="max-width: 100px;">김하늘</td>
-            <td text="" style="max-width: 50px;">여</td>
-            <td text="" style="max-width: 100px;">1999-01-01</td>
-            <td text="" style="max-width: 150px;">경기도 수원시 장안구 000 000 000 000 000 000 000</td>
-            <td text="" style="max-width: 120px;">abc123@gmail.com</td>
-            <td text="" style="max-width: 120px;">010-1111-2222</td>
-            <td text="" style="max-width: 70px;">비활성</td>
-          </tr>
-          <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-            <td text="" style="max-width: 70px; text-align: center;">1</td>
-            <td text="" style="max-width: 100px;">abc123</td>
-            <td text="" style="max-width: 100px;">김하늘</td>
-            <td text="" style="max-width: 50px;">여</td>
-            <td text="" style="max-width: 100px;">1999-01-01</td>
-            <td text="" style="max-width: 150px;">경기도 수원시 장안구 000 000 000 000 000 000 000</td>
-            <td text="" style="max-width: 120px;">abc123@gmail.com</td>
-            <td text="" style="max-width: 120px;">010-1111-2222</td>
-            <td text="" style="max-width: 70px;">비활성</td>
-          </tr>
-          <!--            더미 데이터 끝-->
         </tbody>
       </table>
 
