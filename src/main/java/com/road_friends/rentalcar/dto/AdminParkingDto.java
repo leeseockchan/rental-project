@@ -21,4 +21,6 @@ public class AdminParkingDto {
     // 지역(시)
     private String parkingDistrict;
 
+    private int carCount;
+
 }

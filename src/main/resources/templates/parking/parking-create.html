@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>주차장 관리 등록</title>
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/parking/parking-create.css}">
+  </th:block>
+
+  <!-- 카카오 지도 -->
+  <script type="text/javascript"
+    src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=1fc1193a647e2229d02c81559ac53d9e"></script>
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      주차장 관리
+    </div>
+
+    <div class="info">
+      <div class="header-sm">
+        주차장 관리 > 신규 주차장 등록
+      </div>
+      <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
+        <div class="info-box-big">
+
+          <div class="info-box box1">
+            <div class="info-box-title">주차장 정보</div>
+
+            <div class="info-box-content">
+              <div class="info-box-content-row">
+                <input type="hidden" id="parkingId" name="parkingId" th:value="${adminParkingDto.parkingId}">
+                <label for="parkingName">주차장 이름</label>
+                <input type="text" id="parkingName" name="parkingName" placeholder="주차장의 이름을 입력해주세요" required>
+              </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingAddress">주차장 주소</label>
+                <input type="text" id="parkingAddress" name="parkingAddress" placeholder="주차장의 주소를 입력해주세요"
+                  required>
+              </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingProvince">주차장 관할 지역</label>
+                <select name="parkingProvince" id="parkingProvince" required>
+                  <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
+                    th:selected="${adminParkingDto.parkingProvince == province}">
+                  </option>
+                </select>
+              </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingDistrict">주차장 관할 도시</label>
+                <input type="text" id="parkingDistrict" name="parkingDistrict" placeholder="도시의 이름을 입력해주세요" required>
+              </div>
+
+            </div>
+
+            <div class="info-box-content">
+              <div class="info-box-content-row">
+                <label for="parkingLatitude">주차장 위도</label>
+                <input type="text" id="parkingLatitude" name="parkingLatitude" placeholder="위도의 값을 정확히 입력해주세요"
+                  required>
+              </div>
+
+              <div class="info-box-content-row">
+                <label for="parkingLongtitude">주차장 경도</label>
+                <input type="text" id="parkingLongtitude" name="parkingLongtitude" placeholder="경도의 값을 정확히 입력해주세요"
+                  required>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-go-back"
+                  th:onclick="|location.href='@{/api/admin/parkings}'|">
+            목록으로
+          </button>
+          <button type="submit" class="btn-update" id="submit">
+            주차장 등록
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</body>
+
+</html>

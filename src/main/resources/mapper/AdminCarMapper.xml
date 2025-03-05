@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.AdminCarMapper">
+
+    <resultMap id="CarResultMap" type="com.road_friends.rentalcar.dto.AdminCarDto">
+        <id property="carId" column="car_id"/>
+        <result property="carCategory" column="car_category"/>
+        <result property="carStatus" column="car_status"/>
+        <result property="carYear" column="car_year"/>
+        <result property="carFuel" column="car_fuel"/>
+        <result property="carGrade" column="car_grade"/>
+        <result property="carOptions" column="car_options"/>
+
+        <!-- Model 매핑 -->
+        <association property="model" javaType="com.road_friends.rentalcar.dto.AdminModelDto">
+            <id property="modelId" column="model_id"/>
+            <result property="modelBrand" column="model_brand"/>
+            <result property="modelName" column="model_name"/>
+            <result property="modelCategory" column="model_category"/>
+            <result property="modelTransmission" column="model_transmission"/>
+            <result property="modelSeateNum" column="model_seate_num"/>
+            <result property="modelAmountHour" column="model_amount_hour"/>
+            <result property="modelAmountDay" column="model_amount_day"/>
+        </association>
+
+        <!-- Parking 매핑 -->
+        <association property="parking" javaType="com.road_friends.rentalcar.dto.AdminParkingDto">
+            <id property="parkingId" column="parking_id"/>
+            <result property="parkingName" column="parking_name"/>
+            <result property="parkingAddress" column="parking_address"/>
+            <result property="parkingLatitude" column="parking_latitude"/>
+            <result property="parkingLongitude" column="parking_longitude"/>
+            <result property="parkingProvince" column="parking_province"/>
+            <result property="parkingDistrict" column="parking_district"/>
+        </association>
+    </resultMap>
+    <!-- 차량 관리 페이지 -->
+    <!-- 선택된 province에 해당하는 district 목록 가져오기 -->
+    <select id="getDistrictsByProvince" parameterType="string" resultType="string">
+        SELECT DISTINCT parking_district
+        FROM parking
+        WHERE parking_province = #{province}
+    </select>
+
+    <!-- parking_district(구/군) 기준으로 차량 목록 조회 -->
+    <select id="findByDistrict" parameterType="string" resultMap="CarResultMap">
+        SELECT
+        c.car_id, c.model_id, c.car_category, c.car_status, c.car_year,
+        c.car_fuel, c.car_grade, c.car_options, c.rental_station,
+        m.model_brand, m.model_name, m.model_category, m.model_seate_num, m.model_transmission,
+        m.model_amount_hour, m.model_amount_day,
+        p.parking_id, p.parking_name, p.parking_district
+        FROM car c
+        JOIN model m ON c.model_id = m.model_id
+        JOIN parking p ON c.rental_station = p.parking_id
+        WHERE p.parking_district = #{district}
+        ORDER BY c.car_id;
+    </select>
+
+    <!--  차량 조회 -->
+    <select id="findByCarId" resultType="com.road_friends.rentalcar.dto.AdminCarDto" resultMap="CarResultMap">
+        SELECT
+        c.car_id, c.car_grade, c.car_category,
+        c.car_status, c.car_options, c.car_fuel, c.car_year,
+        m.model_id, m.model_brand, m.model_name,
+        m.model_category, m.model_transmission,
+        m.model_seate_num, m.model_amount_hour, m.model_amount_day,
+        p.parking_id, p.parking_name, p.parking_province, p.parking_district
+        FROM car c
+        LEFT JOIN parking p ON c.rental_station = p.parking_id
+        LEFT JOIN model m ON c.model_id = m.model_id
+        WHERE c.car_id = #{carId};
+    </select>
+
+    <!-- 차량 관리 수정 -->
+    <update id="modifyCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
+        UPDATE car
+        SET
+        model_id = #{modelId},   <!-- 🔹 modelId 직접 사용 -->
+        car_category = #{carCategory},
+        car_status = #{carStatus},
+        car_year = #{carYear},
+        car_fuel = #{carFuel},
+        car_grade = #{carGrade},
+        car_options = #{carOptions},
+        rental_station = #{parking.parkingId}
+        WHERE car_id = #{carId};
+    </update>
+
+    <!--    차량 관리 추가-->
+    <insert id="insertCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
+        INSERT INTO car (model_id, car_category, car_status, car_year, car_fuel, car_grade, car_options, rental_station)
+        VALUES (#{modelId}, #{carCategory}, #{carStatus}, #{carYear}, #{carFuel}, #{carGrade}, #{carOptions}, #{parking.parkingId});
+    </insert>
+
+    <!-- 차량 관리 항목 삭제 -->
+    <delete id="deleteCar">
+        DELETE FROM car WHERE car_id = #{carId};
+    </delete>
+
+    <!-- 통계 그래프 데이터 -->
+    <!-- 🚗 차량 등급별 개수 -->
+    <select id="getCarGradeCount" resultType="map">
+        SELECT car.car_grade AS category, COUNT(*) AS count
+        FROM car
+        GROUP BY car.car_grade
+    </select>
+    <!-- 🚘 차량 보유 순위 (모델별 보유량) -->
+    <select id="getCarRanking" resultType="map">
+        SELECT model.model_name AS label, COUNT(*) AS value
+        FROM car
+        JOIN model ON car.model_id = model.model_id
+        GROUP BY model.model_name
+        ORDER BY COUNT(*) DESC
+        LIMIT 10
+    </select>
+    <!-- 🏭 제조사별 차량 개수 -->
+    <select id="getCarBrandCount" resultType="map">
+        SELECT model.model_brand AS manufacturer, COUNT(*) AS count
+        FROM car
+        JOIN model ON car.model_id = model.model_id
+        GROUP BY model.model_brand
+    </select>
+
+</mapper>

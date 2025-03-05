@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>주차장 관리 상세 조회</title>
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/parking/parking-detail.css}">
+  </th:block>
+
+  <!-- 카카오 지도 -->
+  <script type="text/javascript"
+    src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=1fc1193a647e2229d02c81559ac53d9e"></script>
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      주차장 관리
+    </div>
+
+    <div class="info">
+      <div class="header-sm">
+        차량 관리 > 차량 상세 조회
+        <div class="btn-group">
+          <!-- 수정 -->
+          <button type="button" class="btn-update"
+                  th:onclick="|location.href='@{/api/admin/parkings/{parkingId}/modify(parkingId=${parkingDetail.parkingId})}'|">
+            수정
+          </button>
+          <!-- 삭제 -->
+          <form th:action="@{/api/admin/parkings/{parkingId}(parkingId=${parkingDetail.parkingId})}"
+                th:method="delete"
+                onsubmit="return confirm('정말 주차장 정보를 삭제하시겠습니까?');">
+            <button type="submit" class="btn-delete-all">삭제</button>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="info-box-big-group">
+
+        <div class="info-box-big">
+          <div class="info-box box1">
+            <div class="info-box-title" th:text="|${parkingDetail.parkingName} 주차장 상세 정보|"></div>
+            <div class="info-box-content">
+              <table class="info-box-content-table">
+                <tbody>
+                  <tr>
+                    <th>주차장 번호</th>
+                    <td th:text="${parkingDetail.parkingId}"></td>
+                  </tr>
+                  <tr>
+                    <th>주차장 이름</th>
+                    <td th:text="${parkingDetail.parkingName}"></td>
+                  </tr>
+                  <tr>
+                    <th>주소</th>
+                    <td th:text="${parkingDetail.parkingAddress}"></td>
+                  </tr>
+                  <tr>
+                    <th>위도</th>
+                    <td th:text="${parkingDetail.parkingLatitude}"></td>
+                  </tr>
+                  <tr>
+                    <th>경도</th>
+                    <td th:text="${parkingDetail.parkingLongtitude}"></td>
+                  </tr>
+                  <tr>
+                    <th>시·도</th>
+                    <td th:text="${parkingDetail.parkingProvince}"></td>
+                  </tr>
+                  <tr>
+                    <th>시·군·구</th>
+                    <td th:text="${parkingDetail.parkingDistrict}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="info-box box2">
+            <div class="info-box-title">주차장 보유 차량</div>
+            <div class="info-box-content">
+              <table class="info-box-content-table2">
+                <thead>
+                  <tr>
+                    <th>차량 ID</th>
+                    <th>모델 브랜드</th>
+                    <th>모델명</th>
+                    <th>차량 연식</th>
+                    <th>연료 타입</th>
+                    <th>등급</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr th:each="car : ${carList}" th:data-href="@{/api/admin/vehicles/{carId}(carId=${car.carId})}">
+                  <td th:text="${car.carId}"></td>
+                  <td th:text="${car.modelBrand}"></td>
+                  <td th:text="${car.modelName}"></td>
+                  <td th:text="${car.carYear}"></td>
+                  <td th:text="${car.carFuel}"></td>
+                  <td th:text="${car.carGrade}"></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box-big">
+          <div id="map" class="info-box-map"
+               th:data-latitude="${parkingDetail.parkingLatitude}"
+               th:data-longitude="${parkingDetail.parkingLongtitude}"
+               th:data-parking-name="${parkingDetail.parkingName}">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="btn-group">
+        <button type="button" class="btn-go-back"
+                th:onclick="|location.href='@{/api/admin/parkings}'|">
+          목록으로
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <th:block layout:fragment="js">
+    <script th:src="@{/js/parking/map.js}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          document.querySelectorAll("tbody tr").forEach(row => {
+              row.addEventListener("click", function () {
+                  const url = this.getAttribute("data-href");
+                  if (url) {
+                      window.location.href = url;
+                  }
+              });
+          });
+      });
+    </script>
+  </th:block>
+</body>
+
+</html>

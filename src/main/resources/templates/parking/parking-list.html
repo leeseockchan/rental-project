@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>주차장 관리 목록</title>
+
+  <link rel="stylesheet" th:href="@{/css/parking/parking-list.css}">
+
+  <!--    아파치 E차트-->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
+  <script th:inline="javascript">
+    // 주차장별 차량 보유량 순위 데이터
+    var top5ParkingStats = /*[[${top5ParkingStats}]]*/ '[]'; // 데이터 불러오기
+    // JSON 변환
+    var top5ParkingStatsParsed = [[${top5ParkingStats}]];
+
+    // 지역별 주차장 개수 데이터
+    var parkingCountByRegion = /*[[${parkingCountByRegion}]]*/ '[]'; // 데이터 불러오기
+    // JSON 변환
+    var parkingCountByRegionParsed = [[${parkingCountByRegion}]];
+  </script>
+
+  </script>
+
+  <th:block layout:fragment="js">
+    <script th:src="@{/js/parking/chart.js}"></script>
+    <script th:inline="javascript">
+      document.getElementById("provinceSelect").addEventListener("change", function() {
+          var province = this.value;
+          var districtSelect = document.getElementById("districtSelect");
+
+          districtSelect.innerHTML = '<option value="">구/군을 선택하세요</option>';
+
+          if (province) {
+              fetch(`/api/admin/parkings/districts?province=` + encodeURIComponent(province))
+                  .then(response => response.json())
+                  .then(data => {
+                      data.forEach(district => {
+                          var option = document.createElement("option");
+                          option.value = district;
+                          option.textContent = district;
+                          districtSelect.appendChild(option);
+                      });
+                  })
+                  .catch(error => console.error('Error:', error));
+          }
+      });
+
+      document.getElementById("searchBtn").addEventListener("click", function() {
+        var district = document.getElementById("districtSelect").value;
+
+        fetch(`/api/admin/parkings/search?district=` + encodeURIComponent(district))
+            .then(response => response.json())
+            .then(data => {
+                var tableBody = document.querySelector("tbody");
+                tableBody.innerHTML = ""; // 기존 목록 초기화
+
+                data.forEach(parking => {
+                    var row = document.createElement("tr");
+                    row.setAttribute("data-href", `/api/admin/parkings/${parking.parkingId}`); // 🚀 data-href 추가
+
+                    row.innerHTML = `
+                        <td>${parking.parkingName}</td>
+                        <td>${parking.parkingAddress}</td>
+                        <td>${parking.parkingProvince}</td>
+                        <td>${parking.parkingDistrict}</td>
+                        <td>${parking.parkingLatitude}</td>
+                        <td>${parking.parkingLongtitude}</td>
+                        <td>${parking.carCount}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+
+                // 🚀 새로 추가된 <tr>에도 클릭 이벤트 추가!
+                attachRowClickEvent();
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    // ✅ <tr>에 클릭 이벤트를 다시 추가하는 함수
+    function attachRowClickEvent() {
+        document.querySelectorAll(".table-box tbody tr").forEach(row => {
+            row.addEventListener("click", function() {
+                const url = this.getAttribute("data-href"); // data-href 값 가져오기
+                if (url) {
+                    window.location.href = url;
+                } else {
+                    console.error("data-href가 설정되지 않음:", this);
+                }
+            });
+        });
+    }
+
+    // ✅ 페이지가 로드될 때 기존 <tr>에도 이벤트 추가
+    document.addEventListener("DOMContentLoaded", attachRowClickEvent);
+
+    </script>
+  </th:block>
+
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      주차장 관리
+    </div>
+
+    <div class="info">
+      <div class="info-header">주차장 통계</div>
+
+      <div class="info-group">
+        <div class="info-box-big-group">
+          <div class="info-box-big only-text-box-big">
+            <div class="info-box-big-header">전체 주차장 통계</div>
+            <div class="info-box-sm">
+              <div class="info-box box1">
+                <div class="info-box-title">전체 주차장</div>
+                <div class="info-box-content">
+                  <span th:text="${parkingStats['total']}"></span> 개
+                </div>
+              </div>
+              <div class="info-box box2">
+                <div class="info-box-title">서울 경기 인천</div>
+                <div class="info-box-content">
+                  <span th:text="${parkingStats['capital']}"></span> 개
+                </div>
+              </div>
+              <div class="info-box box3">
+                <div class="info-box-title">비수도권 지방</div>
+                <div class="info-box-content">
+                  <span th:text="${parkingStats['nonCapital']}"></span> 개
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box-big semi-circle-box-big">
+            <div class="info-box-big-header" style="margin-bottom : 0">주차장별 차량 보유량 순위</div>
+            <div class="chart-box semi-circle-box">
+              <div class="chart-content chart1" id="chart-container1"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box-big-group">
+          <div class="info-box-big">
+            <div class="info-box-big-header">지역별 주차장 개수</div>
+            <div class="chart-box">
+              <div class="chart-content chart2" id="chart-container2">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="list">
+      <div class="info-header">등록된 주차장 상세 검색</div>
+
+      <div class="filter-box-big">
+        <div class="filter-box">
+          <!-- 지역 선택 -->
+          <label for="provinceSelect">시/도</label>
+          <select id="provinceSelect">
+            <option value="">시/도를 선택하세요</option>
+            <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
+          </select>
+
+          <label for="districtSelect">구/군</label>
+          <select id="districtSelect">
+            <option value="">구/군을 선택하세요</option>
+          </select>
+
+          <div class="btn-group">
+            <button type="button" class="btn-search" id="searchBtn">검색</button>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-update" th:onclick="|location.href='@{/api/admin/parkings/add}'|">
+            신규 주차장 등록
+          </button>
+        </div>
+      </div>
+
+      <table class="table-box">
+        <thead>
+          <tr>
+            <th style="width: 100px;">주차장 이름</th>
+            <th style="width: 150px;">주소</th>
+            <th style="width: 100px;">지역</th>
+            <th style="width: 100px;">도시</th>
+            <th style="width: 100px;">위도</th>
+            <th style="width: 100px;">경도</th>
+            <th style="width: 100px;">보유차량 대수</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr th:each="parking : ${parkingList}"
+            th:data-href="@{/api/admin/parkings/{parkingId}(parkingId=${parking.parkingId})}">
+            <td th:text="${parking.parkingName}"></td>
+            <td th:text="${parking.parkingAddress}"></td>
+            <td th:text="${parking.parkingProvince}"></td>
+            <td th:text="${parking.parkingDistrict}"></td>
+            <td th:text="${parking.parkingLatitude}"></td>
+            <td th:text="${parking.parkingLongtitude}"></td>
+            <td th:text="${parking.carCount}">0</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+<!--      &lt;!&ndash; 페이지네이션 &ndash;&gt;-->
+<!--      <div class="pagination">-->
+<!--        <a href="" if="">-->
+<!--          <span class="material-symbols-outlined">-->
+<!--            chevron_left-->
+<!--          </span>-->
+<!--        </a>-->
+<!--        <span class="page-number" each="">-->
+<!--          <a href="" text="" classappend=""></a>-->
+<!--        </span>-->
+<!--        <a href="" if="">-->
+<!--          <span class="material-symbols-outlined">-->
+<!--            chevron_right-->
+<!--          </span>-->
+<!--        </a>-->
+<!--      </div>-->
+
+    </div>
+  </div>
+
+</body>
+
+</html>
