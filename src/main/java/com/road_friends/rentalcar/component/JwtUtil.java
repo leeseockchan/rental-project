@@ -15,15 +15,18 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
+
   @Value("${jwt.secret-key}")
   private String SECRET_KEY;
-  @Value("${jwt.expiration-time}")// 보안성을 위해 환경변수로 관리 권장
-  private long EXPIRATION_TIME;    // 1일 (ms)
 
-  // JWT 토큰 생성
-  public String generateToken(String userID, List<String> roles) {
+  @Value("${jwt.expiration-time}") // 보안성을 위해 환경변수로 관리 권장
+  private long EXPIRATION_TIME; // 1일 (ms)
+
+  // JWT 토큰 생성 (userNum 추가)
+  public String generateToken(String userId, Long userNum, List<String> roles) {
     return Jwts.builder()
-            .setSubject(userID)
+            .setSubject(userId)
+            .claim("user_num", userNum)  // user_num 추가
             .claim("roles", roles) // 권한 정보 추가
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -34,6 +37,11 @@ public class JwtUtil {
   // JWT 토큰에서 사용자 정보 추출
   public String extractUsername(String token) {
     return extractClaims(token).getSubject();
+  }
+
+  // user_num 추출
+  public Long extractUserNum(String token) {
+    return extractClaims(token).get("user_num", Long.class);
   }
 
   // 권한(roles) 정보 추출
@@ -53,16 +61,4 @@ public class JwtUtil {
             .parseClaimsJws(token)
             .getBody();
   }
-
-  // 면허증 정보 입력 후 권한 업데이트 및 새로운 JWT 토큰 발급
-  public String generateTokenWithUpdatedRole(String userId, List<String> roles) {
-    // 기존의 'roles' 리스트에 'ROLE_VERIFIED' 권한을 추가
-    if (!roles.contains("ROLE_VERIFIED")) {
-      roles.add("ROLE_VERIFIED");
-    }
-
-    // 새로운 JWT 토큰 생성
-    return generateToken(userId, roles);
-  }
-
 }

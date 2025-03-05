@@ -44,7 +44,7 @@ public class APIUserService {
     // userNum을 이용해 userId 가져오기
     String userId = apiUserMapper.getUserIdByUserNum(userNum);
 
-    // 새로운 JWT 토큰 생성
-    return jwtUtil.generateToken(userId, updatedRoles);
+    // 새로운 JWT 토큰 생성 (userNum 추가)
+    return jwtUtil.generateToken(userId, userNum, updatedRoles);
   }
 }

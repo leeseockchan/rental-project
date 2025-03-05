@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.component.JwtUtil;
 import com.road_friends.rentalcar.dto.LicenseDto;
 import com.road_friends.rentalcar.dto.UserDTO;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @ResponseBody
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @Controller
 public class APIUserController {
 
@@ -59,8 +61,11 @@ public class APIUserController {
               .map(GrantedAuthority::getAuthority)
               .collect(Collectors.toList());
 
-      // JWT 토큰 생성
-      String token = jwtUtil.generateToken(userDetails.getUsername(), roles);
+      // userNum 가져오기
+      Long userNum = ((CustomUserDetails) userDetails).getUserNum();
+
+      // JWT 토큰 생성 (userNum 포함)
+      String token = jwtUtil.generateToken(userDetails.getUsername(), userNum, roles);
 
       return Map.of("token", token);
 
@@ -68,6 +73,7 @@ public class APIUserController {
       throw new RuntimeException("Invalid credentials");
     }
   }
+
 
   @PostMapping("/register")
   public ResponseEntity<Map<String, String>> registerLicense(@RequestBody LicenseDto licenseDto) {
