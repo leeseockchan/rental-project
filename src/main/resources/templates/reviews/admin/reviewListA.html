@@ -38,7 +38,7 @@
         <th>내용</th>
         <th>작성일</th>
     </tr>
-    <tr th:each="review : ${pageDto.content}">
+    <tr th:each="review : ${pageDto.items}">
         <td th:text="${review.reviewId}"></td>
         <td th:text="${review.userNum}"></td>
         <td th:text="${review.carId}"></td>
