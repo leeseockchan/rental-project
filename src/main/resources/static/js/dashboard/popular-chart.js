@@ -8,7 +8,7 @@
 
     var chartOption = {
       title: {
-        text: "빠른 예약 - 가장 인기 있는 차량 TOP 5",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,
@@ -69,7 +69,7 @@
 
     var chartOption = {
       title: {
-        text: "단기 예약 - 가장 인기 있는 차량 TOP 5",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,

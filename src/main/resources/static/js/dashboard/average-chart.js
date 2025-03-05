@@ -8,7 +8,7 @@
 
     var chartOption = {
       title: {
-        text: "차량별 평균 렌트 시간",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,
@@ -69,7 +69,7 @@
 
     var chartOption = {
       title: {
-        text: "지역별 평균 렌트 시간",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,
@@ -130,7 +130,7 @@
 
       var chartOption = {
         title: {
-          text: "사용자별 평균 렌트 시간",
+          text: "",
           left: "center",
           textStyle: {
             fontSize: 18,
@@ -192,7 +192,7 @@
 
     var chartOption = {
       title: {
-        text: "차량별 평균 렌트 시간",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,
@@ -254,7 +254,7 @@
 
     var chartOption = {
       title: {
-        text: "지역별 평균 렌트 시간",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,
@@ -315,7 +315,7 @@
 
     var chartOption = {
       title: {
-        text: "사용자별 평균 렌트 시간",
+        text: "",
         left: "center",
         textStyle: {
           fontSize: 18,

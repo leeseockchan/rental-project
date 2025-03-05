@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var chartOption = {
         title: {
-            text: "빠른 예약 시간대 TOP 5",
+            text: "",
             left: "center",
             textStyle: {
                 fontSize: 18,
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var chartOption = {
         title: {
-            text: "빠른 예약 시간대 TOP",
+            text: "",
             left: "center",
             textStyle: {
                 fontSize: 18,

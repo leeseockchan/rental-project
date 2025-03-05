@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var chartOption = {
         title: {
-            text: "대여 횟수 상위 지역",
+            text: "",
             left: "center",
             textStyle: {
                 fontSize: 18,
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var chartOption = {
         title: {
-            text: "대여 횟수 상위 지역 (짧은 대여 시간)",
+            text: "",
             left: "center",
             textStyle: {
                 fontSize: 18,

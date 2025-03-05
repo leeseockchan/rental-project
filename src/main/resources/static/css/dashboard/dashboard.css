@@ -1,3 +1,6 @@
+/* 구글 아이콘 사용 */
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
+
 /* 메인 콘텐츠 */
 .content {
     width: calc(100% - 373px);
@@ -12,137 +15,133 @@
     margin-bottom: 50px;
 }
 
+/* 전체 회원 통계 카드 */
+.stats-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 30%;
+  text-align: center;
+  font-size: 18px;
+}
+
+.stat-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.total-users span {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* 차트 섹션 */
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* 각 차트 세부 섹션 */
+.chart-section {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.chart-section h2 {
+  display: none;
+}
+
+.chart-section h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+}
+
+/* 작은 헤더 스타일 */
 .header-sm {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-/* 차트 스타일 */
-.chart-box{
-    width : 100%;
-    display : flex;
-    justify-content : center;
+/* 차트 크기 */
+#chart1, #chart2, #chart3, #chart4,
+#chart5, #chart6, #chart7, #chart8 {
+  height: 300px;
 }
 
-.chart-content.chart1{
-    width : 100%;
-    height : 350px;
+/* 제목에 아이콘 추가 */
+h2::before {
+  margin-right: 10px;
+  font-size: 22px;
+  vertical-align: middle;
 }
 
-.chart-content.chart2{
-    width: 400px;
-    height : 350px;
+/* 카드 스타일 */
+.stat-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
 }
 
-.chart-content.chart3{
-    width : 800px;
-    height : 350px;
+.stat-card h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 12px;
 }
 
-/* 테이블 스타일 */
-table {
+.stat-card p {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007BFF;
+}
+
+/* 차트 내 여백 및 텍스트 스타일 */
+.chart-section .text {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+.chart-section .value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007BFF;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
     width: 100%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
 }
 
-th, td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
+/* 부트스트랩 유사 스타일 */
+h2, .stat-card h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
 }
 
-th {
-    background-color: #3A3D50;
-    color: white;
-    font-weight: 600;
-}
-
-td {
-    font-weight: 400;
-    color: #333;
-}
-
-/* 링크 컨테이너 스타일 */
-.links-container {
-    display: flex;
-    justify-content: space-between;
-    flex-direction : rows;
-    gap: 15px;  /* ✅ 버튼 간 간격 */
-    max-width: 100%;  /* ✅ 컨테이너 크기 조정 */
-    margin: 20px auto;
-}
-
-/* 링크 버튼 스타일 */
-.links-container a {
-    flex-basis: 45%;  /* ✅ 각 버튼이 45%를 차지하여 두 개씩 정렬됨 */
-    text-align: center;
-    padding: 12px 20px;
-    border: 2px solid #3A3D50;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease-in-out;
-    background-color: white;
-    color: #3A3D50;
-}
-
-/* 호버 효과 */
-.links-container a:hover {
-    background-color: #3A3D50;
-    color: white;
-}
-
-/* 반응형: 화면이 작아지면 1열 정렬 */
-@media (max-width: 600px) {
-    .links-container a {
-        flex-basis: 100%;  /* ✅ 작은 화면에서는 한 줄씩 배치 */
-    }
-}
-
-/* 버튼 스타일 */
-button {
-    padding: 8px 14px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    background-color: #AFFF4F;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background-color: #3A3D50;
-    color: #fff;
-}
-
-/* 대시보드로 돌아가기 버튼 컨테이너 */
-.back-to-dashboard {
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* 대시보드로 돌아가기 버튼 스타일 */
-.dashboard-btn {
-    display: inline-block;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    color: white;
-    background-color: #3A3D50;
-    border: 2px solid #3A3D50;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-}
-
-.dashboard-btn:hover {
-    background-color: white;
-    color: #3A3D50;
-}
