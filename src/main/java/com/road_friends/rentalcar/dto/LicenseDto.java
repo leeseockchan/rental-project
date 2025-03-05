@@ -10,4 +10,5 @@ public class LicenseDto {
   private LocalDate licenseDate;  // 면허 발급일
   private LocalDate licenseEndDate; // 면허 만료일
   private Long userNum;           // 사용자 ID (FK)
+  private String licensePhotoPath; // 면허증 사진 경로
 }

@@ -4,8 +4,8 @@
 
     <!-- 면허증 정보 삽입 -->
     <insert id="insertLicense" parameterType="com.road_friends.rentalcar.dto.LicenseDto">
-        INSERT INTO license (license_num, license_date, license_end_date, user_num)
-        VALUES (#{licenseNum}, #{licenseDate}, #{licenseEndDate}, #{userNum})
+        INSERT INTO license (license_num, license_date, license_end_date, user_num, license_photo_path)
+        VALUES (#{licenseNum}, #{licenseDate}, #{licenseEndDate}, #{userNum}, #{licensePhotoPath})
     </insert>
 
     <!-- 사용자 권한을 ROLE_VERIFIED (3)로 변경 -->
