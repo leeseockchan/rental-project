@@ -21,4 +21,10 @@ public class LicenseService {
     licenseMapper.updateUserRoleToVerified(licenseDto.getUserNum());
   }
 
+  // 사용자 번호를 기반으로 면허증 정보 조회
+  public LicenseDto getLicenseInfo(Long userNum) {
+    return licenseMapper.findLicenseByUserNum(userNum);
+  }
+
+
 }

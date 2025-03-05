@@ -4,6 +4,7 @@ import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.dto.LicenseDto;
 import com.road_friends.rentalcar.service.LicenseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,20 @@ public class LicenseController {
     return ResponseEntity.ok(response);  // JSON 응답 반환
   }
 
+  // 면허증 정보 조회 (JWT 토큰에서 사용자 정보 추출)
+  @GetMapping("/myLicense")
+  public ResponseEntity<LicenseDto> getLicenseInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    Long userNum = userDetails.getUserNum();  // JWT 토큰에서 사용자 번호 가져오기
+
+    LicenseDto licenseDto = licenseService.getLicenseInfo(userNum);  // 서비스에서 면허증 정보 조회
+
+    if (licenseDto == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+              .body(null);  // 면허증 정보가 없으면 404 반환
+    }
+
+    return ResponseEntity.ok(licenseDto);  // 면허증 정보 반환
+  }
 
   private String saveLicensePhoto(MultipartFile licensePhoto) {
     try {

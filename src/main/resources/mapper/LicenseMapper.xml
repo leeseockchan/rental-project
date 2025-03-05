@@ -8,6 +8,20 @@
         VALUES (#{licenseNum}, #{licenseDate}, #{licenseEndDate}, #{userNum}, #{licensePhotoPath})
     </insert>
 
+    <!-- 사용자 번호를 기반으로 면허증 정보 조회 -->
+    <select id="findLicenseByUserNum" resultType="com.road_friends.rentalcar.dto.LicenseDto">
+        SELECT
+        license_id AS licenseId,
+        license_num AS licenseNum,
+        license_date AS licenseDate,
+        license_end_date AS licenseEndDate,
+        license_photo_path AS licensePhotoPath,
+        user_num AS userNum
+        FROM license
+        WHERE user_num = #{userNum}
+        LIMIT 1
+    </select>
+
     <!-- 사용자 권한을 ROLE_VERIFIED (3)로 변경 -->
     <update id="updateUserRoleToVerified">
         UPDATE user_roles
