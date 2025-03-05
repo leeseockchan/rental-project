@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.service;
 
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,6 @@ import java.util.List;
 public class UserAdminService {
 
     private final UserAdminMapper userAdminMapper;
-
-    // 사용자 검색
-    public List<UserDTO> searchUsersByName(String name) {
-        return userAdminMapper.findUsersByName(name);
-    }
 
     // 전체 회원 수 조회
     public int getUserCount() {
@@ -85,9 +81,25 @@ public class UserAdminService {
     }
 
 
-    // 모든 사용자 조회 (관리자용)
-    public List<UserDTO> getAllUsers() {
-        return userAdminMapper.getAllUsers();
+    // 전체 사용자 목록 조회 (페이지네이션 적용) (관리자용)
+    public List<UserDTO> getAllUsers(int page, int size) {
+        int offset = (page - 1) * size;  // offset 계산 (시작 위치)
+        return userAdminMapper.selectAllUsers(offset, size);  // offset, size 적용한 조회
+    }
+
+    // 이름으로 사용자 목록 검색 (페이지네이션 적용) (관리자용)
+    public List<UserDTO> searchUsersByName(String name, int page, int size) {
+        int offset = (page - 1) * size;  // offset 계산 (시작 위치)
+        return userAdminMapper.searchUsersByName(name, offset, size);  // 이름 검색 + 페이지네이션 적용
+    }
+
+    // 전체 사용자 목록 조회 (검색 조건에 따른) (관리자용)
+    public int getUserCount(String name) {
+        if (name == null || name.isEmpty()) {
+            return userAdminMapper.selectUserCount();  // 전체 사용자 수 조회
+        } else {
+            return userAdminMapper.searchUserCountByName(name);  // 이름으로 검색된 사용자 수 조회
+        }
     }
 
     // 특정 사용자 상세 조회 (관리자용)
@@ -99,4 +111,5 @@ public class UserAdminService {
     public boolean updateUser(UserDTO userDto) {
         return userAdminMapper.updateUser(userDto) > 0;
     }
+
 }

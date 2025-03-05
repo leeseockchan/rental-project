@@ -128,18 +128,21 @@
 
       <!-- 페이지네이션 -->
       <div class="pagination">
-        <a href="" if="">
-          <span class="material-symbols-outlined">
-            chevron_left
-          </span>
+        <a th:href="@{/admin/users(page=${pageDto.start - 1}, size=${pageDto.size})}"
+           th:if="${pageDto.prev}">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
         </a>
-        <span class="page-number" each="">
-          <a href="" text="" classappend=""></a>
-        </span>
-        <a href="" if="">
-          <span class="material-symbols-outlined">
-            chevron_right
-          </span>
+        <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/admin/users(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                </span>
+        <a th:href="@{/admin/users(page=${pageDto.end + 1}, size=${pageDto.size})}"
+           th:if="${pageDto.next}">
+                    <span class="material-symbols-outlined">
+                        chevron_right
+                    </span>
         </a>
       </div>
 

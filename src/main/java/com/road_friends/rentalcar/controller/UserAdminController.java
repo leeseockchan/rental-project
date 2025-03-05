@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
 
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.service.UserAdminService;
 import org.springframework.stereotype.Controller;
@@ -20,16 +21,24 @@ public class UserAdminController {
     }
 
     @GetMapping
-    public String getAllUsers(@RequestParam(value = "name", required = false) String name, Model model) {
+    public String getAllUsers(@RequestParam(name="page", defaultValue = "1") int page,
+                              @RequestParam(name="size", defaultValue = "10") int size,
+                              @RequestParam(value = "name", required = false) String name,
+                              Model model) {
         List<UserDTO> users;
 
         // 이름 검색 시
         if (name != null && !name.isEmpty()) {
-            users = userAdminService.searchUsersByName(name); // 이름 검색
+            users = userAdminService.searchUsersByName(name, page, size); // 이름 검색 결과를 페이지네이션 포함하여 가져오기
         } else {
-            // 전체 회원 목록 조회
-            users = userAdminService.getAllUsers();
+            // 전체 회원 목록 조회 (페이지네이션 포함)
+            users = userAdminService.getAllUsers(page, size);
         }
+        // 전체 사용자 수 조회
+        int totalUsers = userAdminService.getUserCount(name);
+        // PageDto 생성
+        PageDto<UserDTO> pageDto = new PageDto<>(page, size, totalUsers, users);
+        model.addAttribute("pageDto", pageDto);  // 페이지네이션 정보 전달
 
         // 회원 수 조회
         int userCount = userAdminService.getUserCount();
@@ -64,7 +73,10 @@ public class UserAdminController {
 
         // 사용자 목록을 모델에 추가
         model.addAttribute("users", users);
+
+        // 검색 후 필드 안에 이름 그대로 남기기
         model.addAttribute("name", name);
+        model.addAttribute("userCount", totalUsers);
 
         return "users/users-list"; // 템플릿으로 반환
     }
