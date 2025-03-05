@@ -43,7 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 type: "bar", // 막대 그래프
                 data: fastRentalLocationCounts, // `rentalLocationCounts` 대신 `fastRentalLocationCounts` 사용
                 itemStyle: {
-                    color: "#4A90E2", // 막대 색상 (파랑)
+                    normal: {
+                        color: function (params) {
+                            var colors = ['#ee6666', '#fac858', '#91cc75', '#5470c6', '#73c0de'];
+                            return colors[params.dataIndex % colors.length];
+                        }
+                    },
                     borderRadius: [5, 5, 0, 0] // 막대 상단 둥글게
                 },
                 emphasis: {
@@ -105,7 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 type: "bar", // 막대 그래프
                 data: shortRentalLocationCounts, // `rentalLocationCounts` 대신 `shortRentalLocationCounts` 사용
                 itemStyle: {
-                    color: "#4A90E2", // 막대 색상 (파랑)
+                    normal: {
+                        color: function (params) {
+                            var colors = ['#ee6666', '#fac858', '#91cc75', '#5470c6', '#73c0de'];
+                            return colors[params.dataIndex % colors.length];
+                        }
+                    },
                     borderRadius: [5, 5, 0, 0] // 막대 상단 둥글게
                 },
                 emphasis: {

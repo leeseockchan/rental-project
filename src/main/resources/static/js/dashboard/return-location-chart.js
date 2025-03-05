@@ -43,7 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 type: "bar", // 막대 그래프
                 data: returnLocationCounts, // Thymeleaf에서 전달된 반납 횟수 데이터 사용
                 itemStyle: {
-                    color: "#42A5F5", // 막대 색상 (파랑)
+                    normal: {
+                        color: function (params) {
+                            var colors = ['#ee6666', '#fac858', '#91cc75', '#5470c6', '#73c0de'];
+                            return colors[params.dataIndex % colors.length];
+                        }
+                    },
                     borderRadius: [5, 5, 0, 0] // 막대 상단 둥글게
                 },
                 emphasis: {
@@ -104,7 +109,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 type: "bar", // 막대 그래프
                 data: shortReturnLocationCounts, // Thymeleaf에서 전달된 반납 횟수 데이터 사용
                 itemStyle: {
-                    color: "#42A5F5", // 막대 색상 (파랑)
+                    normal: {
+                        color: function (params) {
+                            var colors = ['#ee6666', '#fac858', '#91cc75', '#5470c6', '#73c0de'];
+                            return colors[params.dataIndex % colors.length];
+                        }
+                    },
                     borderRadius: [5, 5, 0, 0] // 막대 상단 둥글게
                 },
                 emphasis: {

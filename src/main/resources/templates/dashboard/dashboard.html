@@ -17,49 +17,74 @@
   </div>
 
   <div class="stats-cards">
-    <!-- 전체 회원 통계 -->
+    <!-- 👥 전체 회원 수 -->
     <div class="stat-card">
-      <h2>👥 전체 회원 수</h2>
-      <p class="total-users">총 회원 수: <span th:text="${userStats.totalUsers}"></span> 명</p>
+      <p class="total-users">총 회원 <span th:text="${userStats.totalUsers}"></span> 명</p>
     </div>
   </div>
 
   <div class="charts-container">
-    <div class="chart-section">
-      <h2>⏰ 빠른 예약 시간대 TOP 5</h2>
-      <div th:insert="fragments/dashboard/hours/fast-reservation-hours :: sectionContent"></div>
 
-      <h2>⏰ 단기 예약 시간대 TOP 5</h2>
-      <div th:insert="fragments/dashboard/hours/short-reservation-hours :: sectionContent"></div>
+    <h1>⏰ 예약 시간대 TOP 5</h1>
+    <div class="chart-section">
+      <!-- ⏰ 빠른 예약 시간대 TOP 5 -->
+      <div class="chart-section1">
+        <div th:insert="fragments/dashboard/hours/fast-reservation-hours :: sectionContent"></div>
+      </div>
+      <!-- ⏰ 단기 예약 시간대 TOP 5 -->
+      <div class="chart-section1">
+        <div th:insert="fragments/dashboard/hours/short-reservation-hours :: sectionContent"></div>
+      </div>
     </div>
 
+    <h1>📍 대여 지역 TOP 5</h1>
     <div class="chart-section">
-      <h2>📍 빠른 예약 - 대여 지역 TOP 5</h2>
-      <div th:insert="fragments/dashboard/rental-locations/fast-rental-locations :: sectionContent"></div>
-
-      <h2>📍 단기 예약 - 대여 지역 TOP 5</h2>
-      <div th:insert="fragments/dashboard/rental-locations/short-rental-locations :: sectionContent"></div>
+      <!-- 📍 빠른 예약 - 대여 지역 TOP 5 -->
+      <div class="chart-section1">
+        <div th:insert="fragments/dashboard/rental-locations/fast-rental-locations :: sectionContent"></div>
+      </div>
+      <!-- 📍 단기 예약 - 대여 지역 TOP 5 -->
+      <div class="chart-section1">
+        <div th:insert="fragments/dashboard/rental-locations/short-rental-locations :: sectionContent"></div>
+      </div>
     </div>
 
+    <h1>🔄 반납 지역 TOP 5</h1>
     <div class="chart-section">
-      <h2>🔄 빠른 예약 - 반납 지역 TOP 5</h2>
-      <div th:insert="fragments/dashboard/return-locations/fast-return-locations :: sectionContent"></div>
-
-      <h2>🔄 단기 예약 - 반납 지역 TOP 5</h2>
-      <div th:insert="fragments/dashboard/return-locations/short-return-locations :: sectionContent"></div>
+      <!-- 🔄 빠른 예약 - 반납 지역 TOP 5 -->
+      <div class="chart-section1">
+        <div th:insert="fragments/dashboard/return-locations/fast-return-locations :: sectionContent"></div>
+      </div>
+      <!--  🔄 단기 예약 - 반납 지역 TOP 5 -->
+      <div class="chart-section1">
+        <div th:insert="fragments/dashboard/return-locations/short-return-locations :: sectionContent"></div>
+      </div>
     </div>
 
+    <h1>⏳ 평균 렌트 시간</h1>
     <div class="chart-section">
-      <h2>⏳ 평균 렌트 시간</h2>
-      <div th:insert="fragments/dashboard/average/fast-reservation :: sectionContent"></div>
-      <div th:insert="fragments/dashboard/average/short-reservation :: sectionContent"></div>
+      <!--  ⏳ 빠른 예약 - 평균 렌트 시간 -->
+      <div class="chart-section2">
+        <div th:insert="fragments/dashboard/average/fast-reservation :: sectionContent"></div>
+      </div>
+      <!--  ⏳ 단기 예약 - 평균 렌트 시간 -->
+      <div class="chart-section2">
+        <div th:insert="fragments/dashboard/average/short-reservation :: sectionContent"></div>
+      </div>
     </div>
 
+    <h1>🔥 가장 인기 있는 차량</h1>
     <div class="chart-section">
-      <h2>🔥 가장 인기 있는 차량</h2>
-      <div th:insert="fragments/dashboard/popular-cars/fast-popular-cars :: sectionContent"></div>
-      <div th:insert="fragments/dashboard/popular-cars/short-popular-cars :: sectionContent"></div>
+      <!-- 🔥 빠른 예약 - 가장 인기 있는 차량 -->
+      <div class="chart-section2">
+        <div th:insert="fragments/dashboard/popular-cars/fast-popular-cars :: sectionContent"></div>
+      </div>
+      <!-- 🔥 빠른 예약 - 가장 인기 있는 차량 -->
+      <div class="chart-section2">
+        <div th:insert="fragments/dashboard/popular-cars/short-popular-cars :: sectionContent"></div>
+      </div>
     </div>
+
   </div>
 </div>
 
