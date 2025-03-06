@@ -1,8 +1,10 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.dto.APIReservationDto;
 import com.road_friends.rentalcar.service.APIReservationService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +20,10 @@ public class APIReservationController {
         this.apiReservationService = apiReservationService;
     }
 
-    // 로그인한 사용자의 모든 예약 조회
+    // 로그인한 사용자의 모든 예약 조회 (JWT에서 userNum 가져오기)
     @GetMapping
-    public List<APIReservationDto> getUserReservations(@RequestParam("userNum") Long userNum){
+    public List<APIReservationDto> getUserReservations(@AuthenticationPrincipal CustomUserDetails userDetails){
+        Long userNum = userDetails.getUserNum();  // JWT에서 userNum 가져오기
         return apiReservationService.getUserReservations(userNum);
     }
 
@@ -60,16 +63,18 @@ public class APIReservationController {
 
     // 예약 정보 수정
     @PutMapping("/{reservationId}")
-    public int updateReservation(@PathVariable("reservationId") int reservationSId, @RequestParam("userNum") Long userNum, @RequestBody APIReservationDto apiReservationDto){
+    public int updateReservation(@PathVariable("reservationId") int reservationSId, @RequestBody APIReservationDto apiReservationDto, @AuthenticationPrincipal CustomUserDetails userDetails){
+        Long userNum = userDetails.getUserNum();  // JWT에서 userNum 가져오기
         apiReservationDto.setReservationSId(reservationSId);
-        apiReservationDto.setUserNum(userNum);
+        apiReservationDto.setUserNum(userNum);  // JWT에서 가져온 userNum 설정
         return apiReservationService.updateReservation(apiReservationDto);
     }
 
     // 예약 취소(삭제)
     @DeleteMapping("/{reservationId}")
-    public int deleteReservation(@PathVariable("reservationId") int reservationSId, @RequestParam("userNum") Long userNum){
-        return apiReservationService.deleteReservation(reservationSId,userNum);
+    public int deleteReservation(@PathVariable("reservationId") int reservationSId, @AuthenticationPrincipal CustomUserDetails userDetails){
+        Long userNum = userDetails.getUserNum();  // JWT에서 userNum 가져오기
+        return apiReservationService.deleteReservation(reservationSId, userNum);
     }
 
 
