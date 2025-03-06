@@ -18,4 +18,6 @@ public interface AdminReviewMapper {
     UserDTO getUserById(@Param("userNum") Long userNum);
 
     void deleteReview(@Param("id") Long id);
+
+    int getRespondedReviewCount();
 }
