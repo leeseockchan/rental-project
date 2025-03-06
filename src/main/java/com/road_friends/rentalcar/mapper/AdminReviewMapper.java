@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.mapper;
 
 import com.road_friends.rentalcar.dto.ReviewDTO;
+import com.road_friends.rentalcar.dto.UserDTO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -8,15 +9,13 @@ import java.util.List;
 @Mapper
 public interface AdminReviewMapper {
 
-    // 페이징된 리뷰 목록 조회
-    List<ReviewDTO> findAllReviews(@Param("size") int size, @Param("offset") int offset);
+    List<ReviewDTO> getAllReviews(@Param("offset") int offset, @Param("size") int size);
 
-    // 전체 리뷰 개수 조회
-    int countReviews();
+    int getTotalReviewCount();
 
-    // 특정 리뷰 조회
-    ReviewDTO findByReviewId(@Param("id") Long id);
+    ReviewDTO getReviewById(@Param("id") Long id);
 
-    // 리뷰 삭제
-    int deleteReview(@Param("id") Long id);
+    UserDTO getUserById(@Param("userNum") Long userNum);
+
+    void deleteReview(@Param("id") Long id);
 }

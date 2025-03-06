@@ -2,14 +2,14 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.ReviewDTO;
+import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.service.AdminReviewService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/admin/reviews")
+@Controller
+@RequestMapping("/admin/review")
 public class AdminReviewController {
 
     private final AdminReviewService adminReviewService;
@@ -18,26 +18,36 @@ public class AdminReviewController {
         this.adminReviewService = adminReviewService;
     }
 
-    // 페이징된 리뷰 목록 조회
+    // 리뷰 목록 페이지 반환
     @GetMapping
-    public ResponseEntity<PageDto<ReviewDTO>> getAllReviews(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
+    public String getReviewList(@RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "10") int size,
+                                Model model) {
         PageDto<ReviewDTO> pageDto = adminReviewService.getAllReviews(page, size);
-        return ResponseEntity.ok(pageDto);
+        model.addAttribute("pageDto", pageDto);
+        return "review/review-list";
     }
 
-    // 특정 리뷰 상세 조회
+    // 특정 리뷰 상세 페이지 반환
     @GetMapping("/{id}")
-    public ReviewDTO getReviewById(@PathVariable Long id) {
-        return adminReviewService.getReviewById(id);
+    public String getReviewById(@PathVariable Long id, Model model) {
+        // 리뷰 정보 조회
+        ReviewDTO review = adminReviewService.getReviewById(id);
+        // 리뷰 작성자의 사용자 정보 조회
+        UserDTO user = adminReviewService.getUserById(review.getUserNum());
+
+        // 모델에 추가
+        model.addAttribute("review", review);
+        model.addAttribute("user", user);
+
+        return "review/review-detail";
     }
 
-    // 리뷰 삭제 (관리자 권한)
-    @DeleteMapping("/{id}")
+
+    // 리뷰 삭제 후 목록 페이지로 이동
+    @PostMapping("/{id}/delete")
     public String deleteReview(@PathVariable Long id) {
         adminReviewService.deleteReview(id);
-        return "리뷰 삭제 성공!";
+        return "redirect:/admin/review";
     }
 }

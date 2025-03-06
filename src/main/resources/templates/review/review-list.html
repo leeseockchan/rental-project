@@ -17,7 +17,7 @@
 
         </script>
 
-        <script th:inline="javascript" th:src="@{/js/review/chart.js}" defer></script>
+        <script th:inline="javascript" th:src="@{/js/review/review-chart.js}" defer></script>
     </th:block>
 
 </head>
@@ -108,59 +108,44 @@
             <table class="table-box">
                 <thead>
                     <tr>
-                        <th style="width: 70px; text-align: center;">리뷰 번호</th>
+                        <th style="width: 70px;">리뷰 번호</th>
                         <th style="width: 70px;">회원 번호</th>
-                        <th style="width: 70px;">차량 상태 만족도</th>
-                        <th style="width: 70px;">예약 과정 만족도</th>
-                        <th style="width: 70px;">가격 만족도</th>
+                        <th style="width: 70px; text-align: center;">차량 상태 만족도</th>
+                        <th style="width: 70px; text-align: center;">예약 과정 만족도</th>
+                        <th style="width: 70px; text-align: center;">가격 만족도</th>
                         <th style="width: 150px;">리뷰 내용</th>
                         <th style="width: 120px;">리뷰 작성일</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                        <td text="" style="max-width: 70px; text-align: center;">1</td>
-                        <td text="" style="max-width: 70px;">1</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 150px;">처음 이용해봤는데 이런 점이 좋았고 이런 점이 아쉬웠어요</td>
-                        <td text="" style="max-width: 120px;">2025-02-15 08:48:04</td>
+                    <tr th:each="review : ${pageDto.items}"
+                        th:attr="data-href=@{/admin/review/{id}(id=${review.reviewId})}"
+                        onclick="location.href=this.getAttribute('data-href')">
+                        <td th:text="${review.reviewId}" style="max-width: 70px;"></td>
+                        <td th:text="${review.userNum}" style="max-width: 70px;"></td>
+                        <td th:text="${review.carConditionSatisfactionRating}" style="max-width: 70px; text-align: center;"></td>
+                        <td th:text="${review.reservationProcessSatisfactionRating}" style="max-width: 70px; text-align: center;"></td>
+                        <td th:text="${review.priceSatisfactionRating}" style="max-width: 70px; text-align: center;"></td>
+                        <td th:text="${review.reviewContent}" style="max-width: 150px;"></td>
+                        <td th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd HH:mm:ss')}" style="max-width: 120px;"></td>
                     </tr>
-                    <!--            더미 데이터 시작. 추후 삭제-->
-                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                        <td text="" style="max-width: 70px; text-align: center;">1</td>
-                        <td text="" style="max-width: 70px;">1</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 150px;">처음 이용해봤는데 이런 점이 좋았고 이런 점이 아쉬웠어요</td>
-                        <td text="" style="max-width: 120px;">2025-02-15 08:48:04</td>
-                    </tr>
-                    <tr each="" attr="data-href=" onclick="location.href=this.getAttribute('data-href')">
-                        <td text="" style="max-width: 70px; text-align: center;">1</td>
-                        <td text="" style="max-width: 70px;">1</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 70px;">4</td>
-                        <td text="" style="max-width: 150px;">처음 이용해봤는데 이런 점이 좋았고 이런 점이 아쉬웠어요</td>
-                        <td text="" style="max-width: 120px;">2025-02-15 08:48:04</td>
-                    </tr>
-                    <!--            더미 데이터 끝-->
                 </tbody>
             </table>
 
             <!-- 페이지네이션 -->
             <div class="pagination">
-                <a href="" if="">
+                <a th:href="@{/admin/review(page=${pageDto.start - 1}, size=${pageDto.size})}"
+                   th:if="${pageDto.prev}">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
                 </a>
-                <span class="page-number" each="">
-                    <a href="" text="" classappend=""></a>
+                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/admin/review(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
                 </span>
-                <a href="" if="">
+                <a th:href="@{/admin/review(page=${pageDto.end + 1}, size=${pageDto.size})}"
+                   th:if="${pageDto.next}">
                     <span class="material-symbols-outlined">
                         chevron_right
                     </span>

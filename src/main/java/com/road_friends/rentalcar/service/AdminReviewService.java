@@ -2,6 +2,7 @@ package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.ReviewDTO;
+import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.mapper.AdminReviewMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +18,19 @@ public class AdminReviewService {
         this.adminReviewMapper = adminReviewMapper;
     }
 
-    // 페이징된 리뷰 목록 조회
     public PageDto<ReviewDTO> getAllReviews(int page, int size) {
-        int totalElements = adminReviewMapper.countReviews();
         int offset = (page - 1) * size;
-
-        List<ReviewDTO> reviews = adminReviewMapper.findAllReviews(size, offset);
-
-        return new PageDto<>(page, size, totalElements, reviews);
+        List<ReviewDTO> reviews = adminReviewMapper.getAllReviews(offset, size);
+        int totalCount = adminReviewMapper.getTotalReviewCount();
+        return new PageDto<>(page, size, totalCount, reviews);
     }
 
     public ReviewDTO getReviewById(Long id) {
-        return Optional.ofNullable(adminReviewMapper.findByReviewId(id))
-                .orElseThrow(() -> new RuntimeException("리뷰를 찾을 수 없습니다."));
+        return adminReviewMapper.getReviewById(id);
+    }
+
+    public UserDTO getUserById(Long userNum) {
+        return adminReviewMapper.getUserById(userNum);
     }
 
     public void deleteReview(Long id) {

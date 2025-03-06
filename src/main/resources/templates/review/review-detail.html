@@ -5,12 +5,7 @@
 <head>
     <title>리뷰 관리 목록</title>
 
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/review/review-detail.css}">
-    </th:block>
-
-    <!--    아파치 E차트-->
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/review/review-detail.css}">
 
     <th:block layout:fragment="js">
         <script th:inline="javascript" defer>
@@ -43,31 +38,38 @@
                             <tbody>
                                 <tr>
                                     <th>회원 번호</th>
-                                    <td text="">00</td>
+                                    <td th:text="${user.userNum}"></td>
                                 </tr>
                                 <tr>
                                     <th>회원 아이디</th>
-                                    <td text="">00</td>
+                                    <td th:text="${user.userId}"></td>
                                 </tr>
                                 <tr>
-                                    <th>성별</th>
-                                    <td text="">00</td>
-                                </tr>
-                                <tr>
-                                    <th>생년월일</th>
-                                    <td text="">00</td>
-                                </tr>
-                                <tr>
-                                    <th>주소</th>
-                                    <td text="">00</td>
+                                    <th>회원 이름</th>
+                                    <td th:text="${user.userName}"></td>
                                 </tr>
                                 <tr>
                                     <th>이메일</th>
-                                    <td text="">00</td>
+                                    <td th:text="${user.userEmail}"></td>
                                 </tr>
                                 <tr>
                                     <th>전화번호</th>
-                                    <td text="">00</td>
+                                    <td th:text="${user.userPhone}"></td>
+                                </tr>
+                                <tr>
+                                    <th>성별</th>
+                                    <td>
+                                        <span th:if="${user.userGender == 0}">남성</span>
+                                        <span th:if="${user.userGender == 1}">여성</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>생년월일</th>
+                                    <td th:text="${#temporals.format(user.userBirth, 'yyyy-MM-dd')}"></td>
+                                </tr>
+                                <tr>
+                                    <th>주소</th>
+                                    <td th:text="${user.userAddress}"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -75,7 +77,7 @@
                 </div>
 
                 <div class="info-box box2">
-                    <div class="info-box-title">이용 서비스</div>
+                    <div class="info-box-title">이용 서비스(현재 연결된 dto 없음)</div>
                     <div class="info-box-content">
                         <table class="info-box-content-table">
                             <tbody>
@@ -112,11 +114,11 @@
                             <tbody>
                             <tr>
                                 <th>리뷰 번호</th>
-                                <td text="">00</td>
+                                <td th:text="${review.reviewId}"></td>
                             </tr>
                             <tr>
                                 <th>리뷰 작성일</th>
-                                <td text="">00</td>
+                                <td th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd HH:mm:ss')}">00</td>
                             </tr>
                             </tbody>
                         </table>
@@ -125,77 +127,129 @@
                             <label>1. 대여한 차량의 만족도(청결도, 성능)을 평가해주세요.</label>
                             <div class="rating">
                                 <label>
-                                    <input type="radio" name="car-condition" value="1" disabled> 매우 불만족
+                                    <input type="radio" name="car-condition" value="1"
+                                           th:checked="${review.carConditionSatisfactionRating == 1}"
+                                           th:disabled="${review.carConditionSatisfactionRating != 1}">
+                                    매우 불만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="car-condition" value="2" disabled> 불만족
+                                    <input type="radio" name="car-condition" value="2"
+                                           th:checked="${review.carConditionSatisfactionRating == 2}"
+                                           th:disabled="${review.carConditionSatisfactionRating != 2}">
+                                    불만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="car-condition" value="3" disabled> 보통
+                                    <input type="radio" name="car-condition" value="3"
+                                           th:checked="${review.carConditionSatisfactionRating == 3}"
+                                           th:disabled="${review.carConditionSatisfactionRating != 3}">
+                                    보통
                                 </label>
                                 <label>
-                                    <input type="radio" name="car-condition" value="4" disabled> 만족
+                                    <input type="radio" name="car-condition" value="4"
+                                           th:checked="${review.carConditionSatisfactionRating == 4}"
+                                           th:disabled="${review.carConditionSatisfactionRating != 4}">
+                                    만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="car-condition" value="5" checked> 매우 만족
+                                    <input type="radio" name="car-condition" value="5"
+                                           th:checked="${review.carConditionSatisfactionRating == 5}"
+                                           th:disabled="${review.carConditionSatisfactionRating != 5}">
+                                    매우 만족
                                 </label>
                             </div>
                         </div>
-            
+
                         <div class="question">
                             <label>2. 에브리카 예약 서비스 편의성 만족도를 평가해주세요.</label>
                             <div class="rating">
                                 <label>
-                                    <input type="radio" name="reservation-process" value="1" disabled> 매우 불만족
+                                    <input type="radio" name="reservation-process" value="1"
+                                           th:checked="${review.reservationProcessSatisfactionRating == 1}"
+                                           th:disabled="${review.reservationProcessSatisfactionRating != 1}">
+                                    매우 불만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="reservation-process" value="2" disabled> 불만족
+                                    <input type="radio" name="reservation-process" value="2"
+                                           th:checked="${review.reservationProcessSatisfactionRating == 2}"
+                                           th:disabled="${review.reservationProcessSatisfactionRating != 2}">
+                                    불만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="reservation-process" value="3" disabled> 보통
+                                    <input type="radio" name="reservation-process" value="3"
+                                           th:checked="${review.reservationProcessSatisfactionRating == 3}"
+                                           th:disabled="${review.reservationProcessSatisfactionRating != 3}">
+                                    보통
                                 </label>
                                 <label>
-                                    <input type="radio" name="reservation-process" value="4" disabled> 만족
+                                    <input type="radio" name="reservation-process" value="4"
+                                           th:checked="${review.reservationProcessSatisfactionRating == 4}"
+                                           th:disabled="${review.reservationProcessSatisfactionRating != 4}">
+                                    만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="reservation-process" value="5" checked> 매우 만족
+                                    <input type="radio" name="reservation-process" value="5"
+                                           th:checked="${review.reservationProcessSatisfactionRating == 5}"
+                                           th:disabled="${review.reservationProcessSatisfactionRating != 5}">
+                                    매우 만족
                                 </label>
                             </div>
                         </div>
-            
+
                         <div class="question">
                             <label>3. 에브리카 서비스 가격 만족도를 평가해주세요.</label>
                             <div class="rating">
                                 <label>
-                                    <input type="radio" name="price-satisfaction" value="1" disabled> 매우 불만족
+                                    <input type="radio" name="price-satisfaction" value="1"
+                                           th:checked="${review.priceSatisfactionRating == 1}"
+                                           th:disabled="${review.priceSatisfactionRating != 1}">
+                                    매우 불만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="price-satisfaction" value="2" disabled> 불만족
+                                    <input type="radio" name="price-satisfaction" value="2"
+                                           th:checked="${review.priceSatisfactionRating == 2}"
+                                           th:disabled="${review.priceSatisfactionRating != 2}">
+                                    불만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="price-satisfaction" value="3" disabled> 보통
+                                    <input type="radio" name="price-satisfaction" value="3"
+                                           th:checked="${review.priceSatisfactionRating == 3}"
+                                           th:disabled="${review.priceSatisfactionRating != 3}">
+                                    보통
                                 </label>
                                 <label>
-                                    <input type="radio" name="price-satisfaction" value="4" disabled> 만족
+                                    <input type="radio" name="price-satisfaction" value="4"
+                                           th:checked="${review.priceSatisfactionRating == 4}"
+                                           th:disabled="${review.priceSatisfactionRating != 4}">
+                                    만족
                                 </label>
                                 <label>
-                                    <input type="radio" name="price-satisfaction" value="5" checked> 매우 만족
+                                    <input type="radio" name="price-satisfaction" value="5"
+                                           th:checked="${review.priceSatisfactionRating == 5}"
+                                           th:disabled="${review.priceSatisfactionRating != 5}">
+                                    매우 만족
                                 </label>
                             </div>
                         </div>
-            
+
                         <div class="question">
                             <label for="improvements">4. 서비스 개선을 위한 제안 사항이 있으신가요?</label>
-                            <textarea name="improvements" id="improvements" rows="8" readonly></textarea>
+                            <textarea name="improvements" id="improvements" rows="8" readonly th:text="${review.reviewContent}"></textarea>
                         </div>
+
                     </div>
                 </div>
             </div>
 
             <div class="btn-group">
-                <button type="button" class="btn-go-back" onclick="">
+                <button type="button" class="btn-go-back" onclick="location.href='/admin/review'">
                     목록으로
                 </button>
+                <form th:action="@{/admin/review/{id}/delete(id=${review.reviewId})}" method="POST"
+                      onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                    <button type="submit" class="btn-delete-all">
+                        삭제
+                    </button>
+                </form>
             </div>
         </div>
 
