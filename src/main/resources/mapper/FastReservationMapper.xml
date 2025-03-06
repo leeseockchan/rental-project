@@ -70,8 +70,8 @@
 
     <!--     예약하기     -->
     <insert id="reserve" parameterType="com.road_friends.rentalcar.dto.FastReservationDto">
-        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num,reservation_id)
-        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum},#{reservationId});
+        INSERT INTO fast_reservation (car_id, rental_location, rental_datetime,  return_location,  return_datetime, user_num,reservation_id,payment)
+        VALUES (#{carId},#{rentalLocation},#{rentalDatetime},#{returnLocation},#{returnDatetime},#{userNum},#{reservationId},#{totalPrice});
     </insert>
 
     <!--    예약취소    -->
@@ -97,7 +97,6 @@
         JOIN parking p ON c.rental_station = p.parking_id  -- 차량의 대여 지점(지역) 조회
         WHERE p.parking_province = #{province}
         AND p.parking_district = #{district}  -- 선택한 지역 필터링
-        AND c.car_status = 0
         AND NOT EXISTS (
         -- 이미 해당 지역과 시간에 예약된 차량 목록 제외
         SELECT 1 FROM fast_reservation fr
@@ -223,12 +222,6 @@
         WHERE reservation_id = #{reservationId};
     </update>
 
-<!--    car 테이블 car_status 업데이트 -->
-    <update id="updateCarStatusTo1" parameterType="int">
-        UPDATE car
-        SET car_status = 1
-        WHERE car_id = #{carId};
-    </update>
 
     <update id="updateCarStatusTo0" parameterType="int">
         UPDATE car
