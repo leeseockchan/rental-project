@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/admin/review")
 public class AdminReviewController {
@@ -23,10 +25,20 @@ public class AdminReviewController {
     public String getReviewList(@RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "10") int size,
                                 Model model) {
+        // 페이지네이션 처리
         PageDto<ReviewDTO> pageDto = adminReviewService.getAllReviews(page, size);
         model.addAttribute("pageDto", pageDto);
+
+        // 응답률 계산
+        Map<String, Object> responseStats = adminReviewService.getReviewResponseStats();
+        long totalResponded = (long) responseStats.get("totalResponded");
+        int responseRate = (int) responseStats.get("responseRate"); // 응답률을 int로 받기
+        model.addAttribute("totalResponded", totalResponded);
+        model.addAttribute("responseRate", responseRate);
+
         return "review/review-list";
     }
+
 
     // 특정 리뷰 상세 페이지 반환
     @GetMapping("/{id}")

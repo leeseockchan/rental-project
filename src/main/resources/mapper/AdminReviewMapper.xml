@@ -28,4 +28,12 @@
         DELETE FROM review WHERE review_id = #{id}
     </delete>
 
+    <!-- 응답이 있는 리뷰 개수 조회 -->
+    <select id="getRespondedReviewCount" resultType="int">
+        SELECT COUNT(*) FROM review
+        WHERE car_condition_satisfaction_rating > 0
+        AND reservation_process_satisfaction_rating > 0
+        AND price_satisfaction_rating > 0
+    </select>
+
 </mapper>
