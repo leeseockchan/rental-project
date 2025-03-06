@@ -79,9 +79,6 @@ public class ShortReservationService {
 
         // reservation 테이블의 short_reservation_id 업데이트
         shortReservationMapper.updateShortReservationId(reservationId, shortReservationDto.getReservationSId());
-        // car 테이블의 car_status 0 -> 1 업데이트
-        shortReservationMapper.updateCarStatusTo1(shortReservationDto.getCarId());
-
     }
 
     // 예약 삭제
