@@ -1,8 +1,10 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.dto.FastReservationResponseDto;
 import com.road_friends.rentalcar.service.APIFastReservationService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,10 +20,11 @@ public class APIFastReservationController {
         this.apiFastReservationService = apiFastReservationService;
     }
 
-    // 로그인한 사용자의 빠른 예약 전체 조회
+    // 로그인한 사용자의 빠른 예약 전체 조회 (JWT에서 userNum 가져오기)
     @GetMapping
-    public List<FastReservationResponseDto> getUserFastReservations(@RequestParam("userNum") Long userNum){
-        return  apiFastReservationService.getUserFastReservations(userNum);
+    public List<FastReservationResponseDto> getUserFastReservations(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userNum = userDetails.getUserNum();  // JWT에서 userNum 가져오기
+        return apiFastReservationService.getUserFastReservations(userNum);
     }
 
     // 특정 빠른 예약 상세 조회
@@ -57,12 +60,15 @@ public class APIFastReservationController {
     }
 
 
-    // 예약 정보 수정
+    // 예약 정보 수정 (JWT에서 userNum 가져오기)
     @PutMapping("/{reservationId}")
-    public int updateFastReservation(@PathVariable("reservationId") int reservationId, @RequestParam("userNum") Long userNum,
-                                 @RequestBody FastReservationResponseDto fastReservationResponseDto){
+    public int updateFastReservation(
+            @PathVariable("reservationId") int reservationId,
+            @AuthenticationPrincipal CustomUserDetails userDetails,  // JWT에서 userNum 가져오기
+            @RequestBody FastReservationResponseDto fastReservationResponseDto) {
+
         fastReservationResponseDto.setReservationId(reservationId);
-        fastReservationResponseDto.setUserNum(userNum);
+        fastReservationResponseDto.setUserNum(userDetails.getUserNum());  // JWT에서 가져온 userNum 사용
         return apiFastReservationService.updateFastReservation(fastReservationResponseDto);
     }
 
