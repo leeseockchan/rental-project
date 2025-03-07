@@ -9,7 +9,7 @@
         rental_parking.parking_name AS rentalLocationName,
         fr.rental_datetime,
         return_parking.parking_name AS returnLocationName,
-        fr.return_datetime, fr.user_num, fr.fast_reservation_create_at
+        fr.return_datetime, fr.user_num, fr.fast_reservation_create_at, fr.payment
         FROM fast_reservation fr
         JOIN car c ON fr.car_id = c.car_id
         JOIN model m ON c.model_id = m.model_id

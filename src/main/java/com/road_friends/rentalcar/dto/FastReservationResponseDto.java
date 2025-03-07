@@ -85,4 +85,5 @@ public class FastReservationResponseDto {
     private List<ParkingDto> parkingList;
     private Long totalPrice;
 
+    private int payment;
 }
