@@ -35,6 +35,12 @@ public class AdminReviewController {
         model.addAttribute("fastResponseRate", stats.get("fastResponseRate"));
         model.addAttribute("shortResponseRate", stats.get("shortResponseRate"));
 
+        Map<String, Object> chartStats = adminReviewService.getSatisfactionStatistics();
+        model.addAttribute("carConditionStats", chartStats.get("carConditionStats"));
+        model.addAttribute("reservationProcessStats", chartStats.get("reservationProcessStats"));
+        model.addAttribute("priceStats", chartStats.get("priceStats"));
+
+
         return "review/review-list";
     }
 

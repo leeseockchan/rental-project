@@ -5,20 +5,10 @@
 <head>
     <title>리뷰 관리 목록</title>
 
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/review/review-list.css}">
-    </th:block>
+    <link rel="stylesheet" th:href="@{/css/review/review-list.css}">
 
     <!--    아파치 E차트-->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
-
-    <th:block layout:fragment="js">
-        <script th:inline="javascript" defer>
-
-        </script>
-
-        <script th:inline="javascript" th:src="@{/js/review/review-chart.js}" defer></script>
-    </th:block>
 
 </head>
 
@@ -156,6 +146,17 @@
 
         </div>
     </div>
+
+    <th:block layout:fragment="js">
+        <script th:inline="javascript">
+            let carConditionStats = /*[[${carConditionStats}]]*/ [];
+            let reservationProcessStats = /*[[${reservationProcessStats}]]*/ [];
+            let priceStats = /*[[${priceStats}]]*/ [];
+
+            console.log("차량 상태 만족도:", carConditionStats);
+        </script>
+        <script th:inline="javascript" th:src="@{/js/review/review-chart.js}"></script>
+    </th:block>
 
 </body>
 

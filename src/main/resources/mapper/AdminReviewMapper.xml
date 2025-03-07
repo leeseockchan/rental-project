@@ -59,5 +59,26 @@
         WHERE res.short_reservation_id IS NOT NULL
     </select>
 
+    <!-- 차트 -->
+    <select id="getCarConditionSatisfactionStats" resultType="map">
+        SELECT car_condition_satisfaction_rating AS rating, COUNT(*) AS count
+        FROM review
+        GROUP BY car_condition_satisfaction_rating
+        ORDER BY rating;
+    </select>
+
+    <select id="getReservationProcessSatisfactionStats" resultType="map">
+        SELECT reservation_process_satisfaction_rating AS rating, COUNT(*) AS count
+        FROM review
+        GROUP BY reservation_process_satisfaction_rating
+        ORDER BY rating;
+    </select>
+
+    <select id="getPriceSatisfactionStats" resultType="map">
+        SELECT price_satisfaction_rating AS rating, COUNT(*) AS count
+        FROM review
+        GROUP BY price_satisfaction_rating
+        ORDER BY rating;
+    </select>
 
 </mapper>

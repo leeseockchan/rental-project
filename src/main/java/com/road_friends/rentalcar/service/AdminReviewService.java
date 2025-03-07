@@ -61,4 +61,19 @@ public class AdminReviewService {
 
         return stats;
     }
+
+    // 차트
+    public Map<String, Object> getSatisfactionStatistics() {
+        Map<String, Object> chartStats = new HashMap<>();
+
+        List<Map<String, Object>> carConditionStats = adminReviewMapper.getCarConditionSatisfactionStats();
+        List<Map<String, Object>> reservationProcessStats = adminReviewMapper.getReservationProcessSatisfactionStats();
+        List<Map<String, Object>> priceStats = adminReviewMapper.getPriceSatisfactionStats();
+
+        chartStats.put("carConditionStats", carConditionStats);
+        chartStats.put("reservationProcessStats", reservationProcessStats);
+        chartStats.put("priceStats", priceStats);
+
+        return chartStats;
+    }
 }
