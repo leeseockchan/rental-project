@@ -34,15 +34,26 @@ public class APIPayPalController {
     this.paymentService = paymentService;
   }
 
-  @GetMapping("/pay")
-  public ResponseEntity<?> payment() {
+  @PostMapping("/pay")
+  public ResponseEntity<?> payment(@RequestBody Map<String, Object> request) {
     try {
+      // 가격 정보 받기
+      Object paymentObj = request.get("payment");
+
+      // Integer를 Double로 변환 (이 경우 자동으로 변환되지 않음)
+      double paymentAmount = 0.0;
+      if (paymentObj instanceof Integer) {
+        paymentAmount = ((Integer) paymentObj).doubleValue();  // Integer -> Double로 변환
+      } else if (paymentObj instanceof Double) {
+        paymentAmount = (Double) paymentObj;
+      }
+
       // TODO 예약정보 검증
 
-      String redirectUrl = payPalService.createPayment(20.00, "USD", "paypal",
+      String redirectUrl = payPalService.createPayment(paymentAmount, "USD", "paypal",
               "sale", "Payment Description",
-              serverUrl+"/api/paypal/cancel",
-              serverUrl+"/api/paypal/success");
+              serverUrl + "/api/paypal/cancel",
+              serverUrl + "/api/paypal/success");
 
       // 클라이언트에게 리디렉션 URL을 JSON 응답으로 전달
       return ResponseEntity.ok(Map.of("redirectUrl", redirectUrl));
@@ -76,6 +87,7 @@ public class APIPayPalController {
 
       // DB에 저장
       paymentService.createPayment(paymentDto);
+
 
       // 응답
       return ResponseEntity.ok().body(paymentDto.getResponseMap());
