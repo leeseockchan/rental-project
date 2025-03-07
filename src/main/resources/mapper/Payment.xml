@@ -4,7 +4,7 @@
     <insert id="insertPayment" parameterType="com.road_friends.rentalcar.dto.PaymentDto">
         INSERT INTO payments (payment_id, payer_id, reservation_id, reservation_type, amount, currency,
         payment_gateway, state)
-        VALUE (#{paymentId}, #{payerId}, #{reservationId}, #{reservationType},
+        VALUES (#{paymentId}, #{payerId}, #{reservationId}, #{reservationType},
         #{amount}, #{currency}, #{paymentGateway}, #{state});
     </insert>
 </mapper>

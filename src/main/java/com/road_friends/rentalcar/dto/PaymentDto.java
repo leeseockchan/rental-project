@@ -15,7 +15,7 @@ public class PaymentDto {
   private Long id;
   private String paymentId;
   private String payerId;
-  private Long reservationId;
+  private int reservationId;
   private String reservationType; // fast, short
   private BigDecimal amount;
   private String currency; // krw(원화), usd(미국달러)
