@@ -25,8 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data: fastHourLabels,
             axisLabel: {
                 fontSize: 14,
-                interval: 0,
-                rotate: 45
+                interval: 0
             }
         },
         yAxis: {
@@ -60,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     fastReservationChart.setOption(chartOption);
-    window.addEventListener("resize", fastReservationChart.resize);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -90,8 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data: shortRentalHours,
             axisLabel: {
                 fontSize: 14,
-                interval: 0,
-                rotate: 45
+                interval: 0
             }
         },
         yAxis: {
@@ -109,15 +106,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 symbol: "circle",
                 symbolSize: 8,
                 lineStyle: {
-                    color: "#42A5F5",
+                    color: "#91cc75",
                     width: 3
                 },
                 itemStyle: {
-                    color: "#42A5F5"
+                    color: "#91cc75"
                 },
                 emphasis: {
                     itemStyle: {
-                        color: "#357ABD"
+                        color: "#62964a"
                     }
                 }
             }
@@ -125,5 +122,4 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     fastReservationChart.setOption(chartOption);
-    window.addEventListener("resize", fastReservationChart.resize);
 });

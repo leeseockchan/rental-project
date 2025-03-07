@@ -17,10 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
         tooltip: {
-            trigger: "axis",
-            axisPointer: {
-                type: "shadow"
-            }
+            trigger: "axis"
         },
         xAxis: {
             type: "category", // X축을 카테고리로 설정 (지역 표시)
@@ -28,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
             axisLabel: {
                 fontSize: 14,
                 interval: 0, // 라벨 표시 간격 설정
-                rotate: 45 // 라벨을 회전하여 표시
             }
         },
         yAxis: {
@@ -53,15 +49,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 emphasis: {
                     itemStyle: {
-                        color: "#357ABD"
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.2)"
                     }
-                }
+                },
             }
         ]
     };
 
     fastRentalLocationsChart.setOption(chartOption);
-    window.addEventListener("resize", fastRentalLocationsChart.resize); // 윈도우 크기 조정 시 차트 크기 조정
 });
 
 
@@ -85,9 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         tooltip: {
             trigger: "axis",
-            axisPointer: {
-                type: "shadow"
-            }
         },
         xAxis: {
             type: "category", // X축을 카테고리로 설정 (지역 표시)
@@ -95,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
             axisLabel: {
                 fontSize: 14,
                 interval: 0, // 라벨 표시 간격 설정
-                rotate: 45 // 라벨을 회전하여 표시
             }
         },
         yAxis: {
@@ -120,13 +113,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 emphasis: {
                     itemStyle: {
-                        color: "#357ABD"
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: "rgba(0, 0, 0, 0.2)"
                     }
-                }
+                },
             }
         ]
     };
 
     shortRentalLocationsChart.setOption(chartOption);
-    window.addEventListener("resize", shortRentalLocationsChart.resize); // 윈도우 크기 조정 시 차트 크기 조정
 });

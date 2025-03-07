@@ -9,17 +9,19 @@ document.addEventListener("DOMContentLoaded", function () {
     var chartOption = {
         tooltip: {
             trigger: 'item',
-            formatter: "{b}: {c}건 ({d}%)" // 차량명: 예약 횟수 (퍼센트)
+            formatter: "{b} {c}건 ({d}%)" // 차량명: 예약 횟수 (퍼센트)
         },
         legend: {
-            top: '5%',
-            left: 'center'
+            top: '20%',
+            left: '7%',
+            orient: 'vertical'
         },
         series: [
             {
                 name: '예약 횟수',
                 type: 'pie',
-                radius: ['40%', '70%'],
+                radius: ['40%', '80%'],
+                center: ['50%', '50%'],
                 avoidLabelOverlap: false,
                 itemStyle: {
                     borderRadius: 10,
@@ -49,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     carPopularChart.setOption(chartOption);
-    window.addEventListener("resize", carPopularChart.resize);
 });
 
 // 단기 예약 - 차량별 예약 횟수 (원형 차트)
@@ -63,17 +64,19 @@ document.addEventListener("DOMContentLoaded", function () {
     var chartOption = {
         tooltip: {
             trigger: 'item',
-            formatter: "{b}: {c}건 ({d}%)"
+            formatter: "{b} {c}건 ({d}%)"
         },
         legend: {
-            top: '5%',
-            left: 'center'
+            top: '20%',
+            left: '7%',
+            orient: 'vertical'
         },
         series: [
             {
                 name: '예약 횟수',
                 type: 'pie',
-                radius: ['40%', '70%'],
+                radius: ['40%', '80%'],
+                center: ['50%', '50%'],
                 avoidLabelOverlap: false,
                 itemStyle: {
                     borderRadius: 10,
@@ -103,5 +106,4 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     shortCarPopularChart.setOption(chartOption);
-    window.addEventListener("resize", shortCarPopularChart.resize);
 });

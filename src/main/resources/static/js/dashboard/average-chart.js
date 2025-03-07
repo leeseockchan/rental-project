@@ -26,8 +26,7 @@
         data: fastCarLabels,
         axisLabel: {
           fontSize: 14,
-          interval: 0,
-          rotate: 45
+          interval: 0
         }
       },
       yAxis: {
@@ -42,12 +41,12 @@
           type: "bar",
           data: fastCarCounts,
           itemStyle: {
-            color: "#4A90E2",
+            color: "#ee6666",
             borderRadius: [5, 5, 0, 0]
           },
           emphasis: {
             itemStyle: {
-              color: "#357ABD"
+              color: "#ce2222"
             }
           }
         }
@@ -55,7 +54,6 @@
     };
 
     carRentalChart.setOption(chartOption);
-    window.addEventListener("resize", carRentalChart.resize);
   });
 
 
@@ -87,8 +85,7 @@
         data: fastRegionLabels,
         axisLabel: {
           fontSize: 14,
-          interval: 0,
-          rotate: 45
+          interval: 0
         }
       },
       yAxis: {
@@ -103,12 +100,12 @@
           type: "bar",
           data: fastRegionCounts,
           itemStyle: {
-            color: "#4A90E2",
+            color: "#fac858",
             borderRadius: [5, 5, 0, 0]
           },
           emphasis: {
             itemStyle: {
-              color: "#357ABD"
+              color: "#cf9b25"
             }
           }
         }
@@ -116,7 +113,6 @@
     };
 
     regionRentalChart.setOption(chartOption);
-    window.addEventListener("resize", regionRentalChart.resize);
   });
 
 
@@ -148,8 +144,7 @@
           data: fastUserLabels,
           axisLabel: {
             fontSize: 14,
-            interval: 0,
-            rotate: 45
+            interval: 0
           }
         },
         yAxis: {
@@ -164,12 +159,12 @@
             type: "bar",
             data: fastUserCounts,
             itemStyle: {
-              color: "#4A90E2",
+              color: "#91cc75",
               borderRadius: [5, 5, 0, 0]
             },
             emphasis: {
               itemStyle: {
-                color: "#357ABD"
+                color: "#5ca33a"
               }
             }
           }
@@ -177,7 +172,6 @@
       };
 
       userRentalChart.setOption(chartOption);
-      window.addEventListener("resize", userRentalChart.resize);
     });
 
 
@@ -210,8 +204,7 @@
         data: shortCarLabels,
         axisLabel: {
           fontSize: 14,
-          interval: 0,
-          rotate: 45
+          interval: 0
         }
       },
       yAxis: {
@@ -226,12 +219,12 @@
           type: "bar",
           data: shortCarCounts,
           itemStyle: {
-            color: "#4A90E2",
+            color: "#5470c6",
             borderRadius: [5, 5, 0, 0]
           },
           emphasis: {
             itemStyle: {
-              color: "#357ABD"
+              color: "#23419f"
             }
           }
         }
@@ -239,7 +232,6 @@
     };
 
     carRentalChart.setOption(chartOption);
-    window.addEventListener("resize", carRentalChart.resize);
   });
 
 
@@ -272,8 +264,7 @@
         data: shortRegionLabels,
         axisLabel: {
           fontSize: 14,
-          interval: 0,
-          rotate: 45
+          interval: 0
         }
       },
       yAxis: {
@@ -288,12 +279,12 @@
           type: "bar",
           data: shortRegionCounts,
           itemStyle: {
-            color: "#4A90E2",
+            color: "#73c0de",
             borderRadius: [5, 5, 0, 0]
           },
           emphasis: {
             itemStyle: {
-              color: "#357ABD"
+              color: "#3385a5"
             }
           }
         }
@@ -301,7 +292,6 @@
     };
 
     regionRentalChart.setOption(chartOption);
-    window.addEventListener("resize", regionRentalChart.resize);
   });
 
 
@@ -333,8 +323,7 @@
         data: shortUserLabels,
         axisLabel: {
           fontSize: 14,
-          interval: 0,
-          rotate: 45
+          interval: 0
         }
       },
       yAxis: {
@@ -349,12 +338,12 @@
           type: "bar",
           data: shortUserCounts,
           itemStyle: {
-            color: "#4A90E2",
+            color: "#dd73de",
             borderRadius: [5, 5, 0, 0]
           },
           emphasis: {
             itemStyle: {
-              color: "#357ABD"
+              color: "#ab3cac"
             }
           }
         }
@@ -362,5 +351,4 @@
     };
 
     userRentalChart.setOption(chartOption);
-    window.addEventListener("resize", userRentalChart.resize);
   });
