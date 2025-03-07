@@ -3,6 +3,7 @@ package com.road_friends.rentalcar.mapper;
 import com.road_friends.rentalcar.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,4 +56,8 @@ public interface ShortReservationMapper {
     void updateCarStatusTo1(int carId);
 
     void updateCarStatusTo0(int carId);
+
+    // rental_state 0 -> 1 변경
+    @Update("UPDATE short_reservation SET rental_state = 1 WHERE reservation_s_id = #{reservationId}")
+    void updateRentalState(@Param("reservationId") int reservationId);
 }

@@ -169,4 +169,9 @@ public class ShortReservationService {
     public ModelDto getModelById(int modelId) {
         return shortReservationMapper.getModelById(modelId);
     }
+
+    // rental_state를 0에서 1로 업데이트
+    public void updateRentalStateToConfirmed(int reservationId) {
+        shortReservationMapper.updateRentalState(reservationId);
+    }
 }

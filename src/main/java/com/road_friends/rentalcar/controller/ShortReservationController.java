@@ -112,5 +112,4 @@ public class ShortReservationController {
         return new ResponseEntity<>(shortReservationDto, HttpStatus.OK);
     }
 
-
 }

@@ -8,6 +8,7 @@ import com.road_friends.rentalcar.dto.PaymentDto;
 import com.road_friends.rentalcar.service.FastReservationService;
 import com.road_friends.rentalcar.service.PayPalService;
 import com.road_friends.rentalcar.service.PaymentService;
+import com.road_friends.rentalcar.service.ShortReservationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,23 +32,26 @@ public class APIPayPalController {
   private final PayPalService payPalService;
   private final PaymentService paymentService;
   private final FastReservationService fastReservationService;
+  private final ShortReservationService shortReservationService;
 
   // Map의 선언을 이렇게 변경
   private Map<String, Integer> reservationMap = new HashMap<>();
 
 
-  public APIPayPalController(PayPalService payPalService, PaymentService paymentService, FastReservationService fastReservationService) {
+  public APIPayPalController(PayPalService payPalService, PaymentService paymentService, FastReservationService fastReservationService, ShortReservationService shortReservationService) {
     this.payPalService = payPalService;
     this.paymentService = paymentService;
     this.fastReservationService = fastReservationService;
+    this.shortReservationService = shortReservationService;
   }
 
   @PostMapping("/pay")
   public ResponseEntity<?> payment(@RequestBody Map<String, Object> request) {
     try {
-      // 결제 금액과 예약 ID 받기
+      // 가격 정보, 예약번호 및 예약타입 받기
       Object paymentObj = request.get("payment");
       Object reservationObj = request.get("reservationId");
+      Object reservationTypeObj = request.get("reservationType");
 
       double paymentAmount = 0.0;
       if (paymentObj instanceof Integer) {
@@ -61,19 +65,18 @@ public class APIPayPalController {
         reservationId = (Integer) reservationObj;
       }
 
-      // PayPal 결제 생성, redirectUrl에 reservationId를 쿼리 파라미터로 추가
-      String redirectUrl = payPalService.createPayment(paymentAmount, "USD", "paypal",
-              "sale", "Payment Description",
+      // 예약 타입 받기 (fast 또는 short)
+      String reservationType = reservationTypeObj instanceof String ? (String) reservationTypeObj : "fast";
+
+      // success URL에 reservationId와 reservationType을 쿼리 파라미터로 추가
+      String successUrl = serverUrl + "/api/paypal/success?reservationId=" + reservationId + "&reservationType=" + reservationType;
+
+      // PayPal 결제 생성
+      String redirectUrl = payPalService.createPayment(paymentAmount, "USD", "paypal", "sale", "Payment Description",
               serverUrl + "/api/paypal/cancel",
-              serverUrl + "/api/paypal/success?reservationId=" + reservationId);
+              successUrl); // 수정된 successUrl 사용
 
-      // 예약 ID와 결제 ID 매핑
-      reservationMap.put(redirectUrl, reservationId);
-
-      // 디버그 로그 추가: reservationMap에 저장된 값 확인
-      System.out.println("reservationMap: " + reservationMap);
-      System.out.println("Redirect URL: " + redirectUrl); // Redirect URL 확인
-
+      // 결제 생성 후 리다이렉션 URL 반환
       return ResponseEntity.ok(Map.of("redirectUrl", redirectUrl));
     } catch (PayPalRESTException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -84,12 +87,14 @@ public class APIPayPalController {
   @GetMapping("/success")
   public ResponseEntity<?> success(@RequestParam("paymentId") String paymentId,
                                    @RequestParam("PayerID") String payerId,
-                                   @RequestParam("reservationId") int reservationId) {  // reservationId를 URL에서 받음
+                                   @RequestParam("reservationId") int reservationId,
+                                   @RequestParam("reservationType") String reservationType) {
     try {
       Payment payment = payPalService.executePayment(paymentId, payerId);
 
       // 디버그 출력
       System.out.println("Received reservationId: " + reservationId);  // reservationId 확인
+      System.out.println("Received reservationType: " + reservationType);  // reservationType 확인
       System.out.println("paymentId: " + paymentId);
       System.out.println("PayerID: " + payerId);
 
@@ -98,7 +103,7 @@ public class APIPayPalController {
       paymentDto.setPaymentId(payment.getId());
       paymentDto.setPayerId(payment.getPayer().getPayerInfo().getPayerId());
       paymentDto.setReservationId(reservationId);  // reservationId 설정
-      paymentDto.setReservationType("fast");
+      paymentDto.setReservationType(reservationType);  // reservationType 설정
       paymentDto.setPaymentGateway("paypal");
       paymentDto.setState(payment.getState());
       paymentDto.setStatus("success");
@@ -114,9 +119,12 @@ public class APIPayPalController {
       // DB 저장
       paymentService.createPayment(paymentDto);
 
-      // fast_reservation 테이블의 rental_state를 0에서 1로 업데이트
-      fastReservationService.updateRentalStateToConfirmed(reservationId);
-
+      // 예약 상태 업데이트
+      if ("fast".equals(reservationType)) {
+        fastReservationService.updateRentalStateToConfirmed(reservationId); // fast 예약 처리
+      } else if ("short".equals(reservationType)) {
+        shortReservationService.updateRentalStateToConfirmed(reservationId); // short 예약 처리
+      }
       return ResponseEntity.ok().body(paymentDto.getResponseMap());
     } catch (PayPalRESTException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
