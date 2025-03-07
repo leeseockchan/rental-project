@@ -29,12 +29,11 @@ public class AdminReviewController {
         PageDto<ReviewDTO> pageDto = adminReviewService.getAllReviews(page, size);
         model.addAttribute("pageDto", pageDto);
 
-        // 응답률 계산
-        Map<String, Object> responseStats = adminReviewService.getReviewResponseStats();
-        long totalResponded = (long) responseStats.get("totalResponded");
-        int responseRate = (int) responseStats.get("responseRate"); // 응답률을 int로 받기
-        model.addAttribute("totalResponded", totalResponded);
-        model.addAttribute("responseRate", responseRate);
+        Map<String, Object> stats = adminReviewService.getReviewStatistics();
+        model.addAttribute("totalResponded", stats.get("totalResponded"));
+        model.addAttribute("responseRate", stats.get("responseRate"));
+        model.addAttribute("fastResponseRate", stats.get("fastResponseRate"));
+        model.addAttribute("shortResponseRate", stats.get("shortResponseRate"));
 
         return "review/review-list";
     }

@@ -45,12 +45,14 @@
                                 <div class="info-box-title">이용률 대비 응답률</div>
                                 <div class="info-box-content"><span th:text="${responseRate}"></span> %</div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="info-box-big semi-circle-box-big">
-                        <div class="info-box-big-header" style="margin-bottom : 0">서비스 만족도</div>
-                        <div class="chart-box semi-circle-box">
-                            <div class="chart-content chart1" id="chart-container1"></div>
+                            <div class="info-box box3">
+                                <div class="info-box-title">빠른예약 사용자 응답률</div>
+                                <div class="info-box-content"><span th:text="${fastResponseRate}"></span> %</div>
+                            </div>
+                            <div class="info-box box4">
+                                <div class="info-box-title">단기예약 사용자 응답률</div>
+                                <div class="info-box-content"><span th:text="${shortResponseRate}"></span> %</div>
+                            </div>
                         </div>
                     </div>
                 </div>

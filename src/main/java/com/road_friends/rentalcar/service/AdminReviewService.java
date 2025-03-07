@@ -38,30 +38,27 @@ public class AdminReviewService {
         adminReviewMapper.deleteReview(id);
     }
 
-    // 응답이 있는 리뷰 개수 가져오기
-    public long getRespondedReviewCount() {
-        return adminReviewMapper.getRespondedReviewCount();
-    }
+    // 통계
+    public Map<String, Object> getReviewStatistics() {
+        Map<String, Object> stats = new HashMap<>();
 
-    // 전체 리뷰 개수와 응답률 계산 (응답률을 정수로 처리)
-    public Map<String, Object> getReviewResponseStats() {
-        // 전체 리뷰 개수
-        int totalReviews = adminReviewMapper.getTotalReviewCount();
+        int totalResponded = adminReviewMapper.getTotalResponded();
+        int totalReservations = adminReviewMapper.getTotalReservations();
+        int fastReservations = adminReviewMapper.getFastReservations();
+        int shortReservations = adminReviewMapper.getShortReservations();
+        int fastResponded = adminReviewMapper.getFastResponded();
+        int shortResponded = adminReviewMapper.getShortResponded();
 
-        // 응답이 있는 리뷰 개수
-        long respondedReviews = getRespondedReviewCount();
+        // 소수점 이하 버림 처리
+        int responseRate = (totalReservations > 0) ? (int) ((double) totalResponded / totalReservations * 100) : 0;
+        int fastResponseRate = (fastReservations > 0) ? (int) ((double) fastResponded / fastReservations * 100) : 0;
+        int shortResponseRate = (shortReservations > 0) ? (int) ((double) shortResponded / shortReservations * 100) : 0;
 
-        // 응답률 계산 (정수로 계산)
-        int responseRate = 0;
-        if (totalReviews > 0) {
-            responseRate = (int) ((respondedReviews * 100) / totalReviews); // 정수로 계산
-        }
+        stats.put("totalResponded", totalResponded);
+        stats.put("responseRate", responseRate);
+        stats.put("fastResponseRate", fastResponseRate);
+        stats.put("shortResponseRate", shortResponseRate);
 
-        // 응답 개수와 응답률 반환
-        Map<String, Object> responseStats = new HashMap<>();
-        responseStats.put("totalResponded", respondedReviews);
-        responseStats.put("responseRate", responseRate);
-
-        return responseStats;
+        return stats;
     }
 }

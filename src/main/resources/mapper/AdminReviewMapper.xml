@@ -28,12 +28,36 @@
         DELETE FROM review WHERE review_id = #{id}
     </delete>
 
-    <!-- 응답이 있는 리뷰 개수 조회 -->
-    <select id="getRespondedReviewCount" resultType="int">
+    <!-- 통계 -->
+    <select id="getTotalResponded" resultType="int">
         SELECT COUNT(*) FROM review
-        WHERE car_condition_satisfaction_rating > 0
-        AND reservation_process_satisfaction_rating > 0
-        AND price_satisfaction_rating > 0
     </select>
+
+    <select id="getTotalReservations" resultType="int">
+        SELECT COUNT(*) FROM reservation
+    </select>
+
+    <select id="getFastReservations" resultType="int">
+        SELECT COUNT(*) FROM reservation WHERE fast_reservation_id IS NOT NULL
+    </select>
+
+    <select id="getShortReservations" resultType="int">
+        SELECT COUNT(*) FROM reservation WHERE short_reservation_id IS NOT NULL
+    </select>
+
+    <select id="getFastResponded" resultType="int">
+        SELECT COUNT(r.review_id)
+        FROM review r
+        JOIN reservation res ON r.reservation_id = res.reservation_id
+        WHERE res.fast_reservation_id IS NOT NULL
+    </select>
+
+    <select id="getShortResponded" resultType="int">
+        SELECT COUNT(r.review_id)
+        FROM review r
+        JOIN reservation res ON r.reservation_id = res.reservation_id
+        WHERE res.short_reservation_id IS NOT NULL
+    </select>
+
 
 </mapper>

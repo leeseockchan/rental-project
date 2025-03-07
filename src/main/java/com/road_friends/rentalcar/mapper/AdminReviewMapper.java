@@ -19,5 +19,11 @@ public interface AdminReviewMapper {
 
     void deleteReview(@Param("id") Long id);
 
-    int getRespondedReviewCount();
+    // 통계
+    int getTotalResponded();
+    int getTotalReservations();
+    int getFastReservations();
+    int getShortReservations();
+    int getFastResponded();
+    int getShortResponded();
 }
