@@ -1,7 +1,7 @@
 // ✅ 차량 등급별 차트 (반원형)
 var gradeChart = echarts.init(document.getElementById('chart-container1'));
 var gradeOption = {
-    title: { text: '차량 등급별 개수', left: 'center' },
+    title: { text: '', left: 'center' },
     tooltip: { trigger: "item" },
     legend: {
         bottom: '10%',
@@ -12,7 +12,7 @@ var gradeOption = {
         name: '차량 등급',
         type: 'pie',
         radius: ['40%', '100%'],
-        center: ["50%", "75%"],
+        center: ["50%", "70%"],
         startAngle: 180,
         endAngle: 360,
         data: carGradeParsed.map(item => ({ value: item.count, name: item.category })), // 데이터 키 수정
@@ -27,17 +27,20 @@ gradeChart.setOption(gradeOption);
 // ✅ 보유 차량 순위 (원형)
 var rankingPieChart = echarts.init(document.getElementById('chart-container2'));
 var rankingPieOption = {
-    title: { text: '보유 차량 순위 (원형)', left: 'center' },
+    title: { text: '', left: 'center' },
     tooltip: { trigger: "item" },
-    legend: { top: '5%', left: "center" },
+    legend: { bottom: '5%', left: "center" },
     series: [{
         name: '보유 차량',
         type: 'pie',
         radius: ["30%", "70%"],
+        center: ["50%", "40%"],
         data: carRankingParsed.map(item => ({ value: item.value, name: item.label })),
-        itemStyle: { borderRadius: 10, borderColor: "#fff", borderWidth: 2 },
+        itemStyle: { borderRadius: 0, borderColor: "#fff", borderWidth: 2 },
+        label: { show: false, position: 'center'},
         emphasis: {
-            itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: "rgba(0, 0, 0, 0.5)" }
+            itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: "rgba(0, 0, 0, 0.5)" },
+            label: { show: true, fontSize: 20, fontWeight: 'bold'}
         }
     }]
 };
@@ -46,12 +49,12 @@ rankingPieChart.setOption(rankingPieOption);
 // ✅ 제조사별 차량 대수 (세로 막대 그래프)
 var brandChart = echarts.init(document.getElementById('chart-container3'));
 var brandOption = {
-    title: { text: '제조사별 차량 개수', left: 'center' },
+    title: { text: '', left: 'center' },
     tooltip: { trigger: 'axis' },
     xAxis: {
         type: 'category',
         data: carBrandParsed.map(item => item.manufacturer), // label → manufacturer 수정
-        axisLabel: { interval: 0, rotate: 45 }
+        axisLabel: { interval: 0, rotate: 0 }
     },
     yAxis: {
         type: 'value',
