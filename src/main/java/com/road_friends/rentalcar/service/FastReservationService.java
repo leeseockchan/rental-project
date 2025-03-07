@@ -187,4 +187,9 @@ public class FastReservationService {
     public ModelDto getModelById(int modelId) {
         return fastReservationMapper.getModelById(modelId);
     }
+
+    // rental_state를 0에서 1로 업데이트
+    public void updateRentalStateToConfirmed(int reservationId) {
+        fastReservationMapper.updateRentalState(reservationId);
+    }
 }

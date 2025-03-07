@@ -5,6 +5,7 @@ import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.PayPalRESTException;
 import com.road_friends.rentalcar.dto.PaymentDto;
+import com.road_friends.rentalcar.service.FastReservationService;
 import com.road_friends.rentalcar.service.PayPalService;
 import com.road_friends.rentalcar.service.PaymentService;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,14 +30,16 @@ public class APIPayPalController {
 
   private final PayPalService payPalService;
   private final PaymentService paymentService;
+  private final FastReservationService fastReservationService;
 
   // Map의 선언을 이렇게 변경
   private Map<String, Integer> reservationMap = new HashMap<>();
 
 
-  public APIPayPalController(PayPalService payPalService, PaymentService paymentService) {
+  public APIPayPalController(PayPalService payPalService, PaymentService paymentService, FastReservationService fastReservationService) {
     this.payPalService = payPalService;
     this.paymentService = paymentService;
+    this.fastReservationService = fastReservationService;
   }
 
   @PostMapping("/pay")
@@ -110,6 +113,9 @@ public class APIPayPalController {
 
       // DB 저장
       paymentService.createPayment(paymentDto);
+
+      // fast_reservation 테이블의 rental_state를 0에서 1로 업데이트
+      fastReservationService.updateRentalStateToConfirmed(reservationId);
 
       return ResponseEntity.ok().body(paymentDto.getResponseMap());
     } catch (PayPalRESTException e) {

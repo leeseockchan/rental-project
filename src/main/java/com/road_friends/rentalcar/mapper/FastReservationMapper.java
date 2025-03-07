@@ -3,6 +3,7 @@ package com.road_friends.rentalcar.mapper;
 import com.road_friends.rentalcar.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,4 +54,7 @@ public interface FastReservationMapper {
     int getLastInsertId();
 
     void updateCarStatusTo0(int carId);
+
+    @Update("UPDATE fast_reservation SET rental_state = 1 WHERE reservation_id = #{reservationId}")
+    void updateRentalState(@Param("reservationId") int reservationId);
 }
