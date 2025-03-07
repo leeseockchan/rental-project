@@ -114,4 +114,12 @@ public class AdminReviewService {
 
         return chartStats;
     }
+
+    // 필터
+    public PageDto<ReviewDTO> getReviewsByDate(int page, int size, Integer year, Integer month) {
+        int totalElements = adminReviewMapper.countReviewsByDate(year, month);
+        int offset = (page - 1) * size;
+        List<ReviewDTO> items = adminReviewMapper.findReviewsByDate(year, month, size, offset);
+        return new PageDto<>(page, size, totalElements, items);
+    }
 }

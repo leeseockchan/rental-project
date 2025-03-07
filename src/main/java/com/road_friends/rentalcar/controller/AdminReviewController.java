@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Controller
@@ -25,10 +26,25 @@ public class AdminReviewController {
     @GetMapping
     public String getReviewList(@RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "10") int size,
+                                @RequestParam(required = false) Integer year,
+                                @RequestParam(required = false) Integer month,
                                 Model model) {
-        // 페이지네이션 처리
-        PageDto<ReviewDTO> pageDto = adminReviewService.getAllReviews(page, size);
+
+        PageDto<ReviewDTO> pageDto;
+
+        if (year != null || month != null) {
+            pageDto = adminReviewService.getReviewsByDate(page, size, year, month);
+        } else {
+            pageDto = adminReviewService.getAllReviews(page, size);
+        }
+
+        // null 방지: pageDto가 null이면 빈 리스트를 할당
+        if (pageDto == null) {
+            pageDto = new PageDto<>(page, size, 0, Collections.emptyList());
+        }
         model.addAttribute("pageDto", pageDto);
+        model.addAttribute("selectedYear", year);
+        model.addAttribute("selectedMonth", month);
 
         Map<String, Object> stats = adminReviewService.getReviewStatistics();
         model.addAttribute("totalResponded", stats.get("totalResponded"));
@@ -40,7 +56,6 @@ public class AdminReviewController {
         model.addAttribute("carConditionStats", chartStats.get("carConditionStats"));
         model.addAttribute("reservationProcessStats", chartStats.get("reservationProcessStats"));
         model.addAttribute("priceStats", chartStats.get("priceStats"));
-
 
         return "review/review-list";
     }

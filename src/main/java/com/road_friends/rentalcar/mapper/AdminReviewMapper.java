@@ -42,4 +42,8 @@ public interface AdminReviewMapper {
     List<Map<String, Object>> getCarConditionSatisfactionStats();
     List<Map<String, Object>> getReservationProcessSatisfactionStats();
     List<Map<String, Object>> getPriceSatisfactionStats();
+
+    // 필터
+    int countReviewsByDate(Integer year, Integer month);
+    List<ReviewDTO> findReviewsByDate(Integer year, Integer month, int size, int offset);
 }
