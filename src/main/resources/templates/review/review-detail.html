@@ -77,33 +77,29 @@
                 </div>
 
                 <div class="info-box box2">
-                    <div class="info-box-title">이용 서비스(현재 연결된 dto 없음)</div>
+                    <div class="info-box-title">예약 정보</div>
                     <div class="info-box-content">
                         <table class="info-box-content-table">
                             <tbody>
                                 <tr>
                                     <th>예약 번호</th>
-                                    <td text="">00</td>
+                                    <td th:text="${reservation.reservationId}"></td>
                                 </tr>
                                 <tr>
                                     <th>이용 서비스</th>
-                                    <td text="">00</td>
-                                </tr>
-                                <tr>
-                                    <th>대여 차량</th>
-                                    <td text="">00</td>
+                                    <td th:text="${reservation.service}"></td>
                                 </tr>
                                 <tr>
                                     <th>대여 기간</th>
-                                    <td text="">00</td>
+                                    <td th:text="${reservation.rentalPeriodStartFormatted} + ' ~ ' + ${reservation.rentalPeriodEndFormatted}"></td>
                                 </tr>
                                 <tr>
                                     <th>대여 장소</th>
-                                    <td text="">00</td>
+                                    <td th:text="${reservation.rentalLocationName}"></td>
                                 </tr>
                                 <tr>
                                     <th>반납 장소</th>
-                                    <td text="">00</td>
+                                    <td th:text="${reservation.returnLocationName}"></td>
                                 </tr>
                             </tbody>
                         </table>

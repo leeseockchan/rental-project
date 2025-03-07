@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.PageDto;
+import com.road_friends.rentalcar.dto.ReservationDTO;
 import com.road_friends.rentalcar.dto.ReviewDTO;
 import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.service.AdminReviewService;
@@ -52,6 +53,11 @@ public class AdminReviewController {
         ReviewDTO review = adminReviewService.getReviewById(id);
         // 리뷰 작성자의 사용자 정보 조회
         UserDTO user = adminReviewService.getUserById(review.getUserNum());
+
+        // 리뷰 ID를 통해 예약 정보를 찾는다
+        ReservationDTO reservationDTO = adminReviewService.getReservationDetailsByReviewId(id);
+        // 예약 정보를 모델에 추가
+        model.addAttribute("reservation", reservationDTO);
 
         // 모델에 추가
         model.addAttribute("review", review);

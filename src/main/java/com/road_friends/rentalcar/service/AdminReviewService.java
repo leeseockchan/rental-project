@@ -1,11 +1,10 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.PageDto;
-import com.road_friends.rentalcar.dto.ReviewDTO;
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.*;
 import com.road_friends.rentalcar.mapper.AdminReviewMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +35,45 @@ public class AdminReviewService {
 
     public void deleteReview(Long id) {
         adminReviewMapper.deleteReview(id);
+    }
+
+    // 예약 정보
+    public ReservationDTO getReservationDetailsByReviewId(Long reviewId) {
+        // 1. review_id를 사용하여 해당 review의 reservation_id를 찾는다
+        int reservationId = adminReviewMapper.findReservationIdByReviewId(reviewId);
+
+        // 2. 예약 정보 조회
+        ReservationDTO reservationDTO = adminReviewMapper.findReservationById(reservationId);
+
+        // 3. 예약의 fast_reservation_id 또는 short_reservation_id에 따라 이용 서비스를 결정한다.
+        if (reservationDTO.getFastReservationId() != 0) {
+            reservationDTO.setService("빠른예약");
+            // 4. fast_reservation_id가 존재한다면, fast_reservation 테이블에서 필요한 값들을 가져온다.
+            FastReservationDTO fastReservationDTO = adminReviewMapper.findFastReservationById(reservationDTO.getFastReservationId());
+            reservationDTO.setRentalLocationName(fastReservationDTO.getRentalLocationName());
+            reservationDTO.setReturnLocationName(fastReservationDTO.getReturnLocationName());
+            reservationDTO.setRentalPeriodStart(fastReservationDTO.getRentalDatetime());
+            reservationDTO.setRentalPeriodEnd(fastReservationDTO.getReturnDatetime());
+        } else if (reservationDTO.getShortReservationId() != 0) {
+            reservationDTO.setService("단기예약");
+            // 5. short_reservation_id가 존재한다면, short_reservation 테이블에서 필요한 값들을 가져온다.
+            ShortReservationDTO shortReservationDTO = adminReviewMapper.findShortReservationById(reservationDTO.getShortReservationId());
+            reservationDTO.setRentalLocationName(shortReservationDTO.getRentalLocationName());
+            reservationDTO.setReturnLocationName(shortReservationDTO.getReturnLocationName());
+            reservationDTO.setRentalPeriodStart(shortReservationDTO.getRentalDatetime());
+            reservationDTO.setRentalPeriodEnd(shortReservationDTO.getReturnDatetime());
+        }
+
+        // 날짜 포맷 처리
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        if (reservationDTO.getRentalPeriodStart() != null) {
+            reservationDTO.setRentalPeriodStartFormatted(reservationDTO.getRentalPeriodStart().format(formatter));
+        }
+        if (reservationDTO.getRentalPeriodEnd() != null) {
+            reservationDTO.setRentalPeriodEndFormatted(reservationDTO.getRentalPeriodEnd().format(formatter));
+        }
+
+        return reservationDTO;
     }
 
     // 통계
