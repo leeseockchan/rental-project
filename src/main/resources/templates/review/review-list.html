@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <title>리뷰 관리 목록</title>
+
+    <link rel="stylesheet" th:href="@{/css/review/review-list.css}">
+    <!--    아파치 E차트-->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
+</head>
+
+<body>
+    <div class="content" layout:fragment="content">
+
+        <div class="header">
+            리뷰 관리
+        </div>
+
+        <div class="info">
+            <div class="info-header">리뷰 통계</div>
+
+            <div class="info-group">
+                <div class="info-box-big-group">
+                    <div class="info-box-big only-text-box-big">
+                        <div class="info-box-big-header">리뷰 응답률</div>
+                        <div class="info-box-sm">
+                            <div class="info-box box1">
+                                <div class="info-box-title">총 응답 개수</div>
+                                <div class="info-box-content"><span th:text="${totalResponded}"></span> 명</div>
+                            </div>
+                            <div class="info-box box2">
+                                <div class="info-box-title">이용률 대비 응답률</div>
+                                <div class="info-box-content"><span th:text="${responseRate}"></span> %</div>
+                            </div>
+                            <div class="info-box box3">
+                                <div class="info-box-title">빠른예약 사용자 응답률</div>
+                                <div class="info-box-content"><span th:text="${fastResponseRate}"></span> %</div>
+                            </div>
+                            <div class="info-box box4">
+                                <div class="info-box-title">단기예약 사용자 응답률</div>
+                                <div class="info-box-content"><span th:text="${shortResponseRate}"></span> %</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box-big-group">
+                    <div class="info-box-big">
+                        <div class="info-box-big-header">만족도 상세 통계</div>
+                        <div class="chart-box">
+                            <div class="chart-content chart2" id="chart-container2"></div>
+                            <div class="chart-content chart3" id="chart-container3"></div>
+                            <div class="chart-content chart4" id="chart-container4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list">
+            <div class="info-header">리뷰 조회</div>
+
+            <div class="filter-box-big">
+                <div class="filter-box">
+                    <label for="filter-year">연도</label>
+                    <select id="filter-year" name="year">
+                        <option value="" selected>연도 선택</option>
+                        <option value="2024" th:selected="${year == 2024}">2024</option>
+                        <option value="2025" th:selected="${year == 2025}">2025</option>
+                    </select>
+
+                    <label for="filter-month">월</label>
+                    <select id="filter-month" name="month">
+                        <option value="" selected>월 선택</option>
+                        <option value="1" th:selected="${month == 1}">1월</option>
+                        <option value="2" th:selected="${month == 2}">2월</option>
+                        <option value="3" th:selected="${month == 3}">3월</option>
+                        <option value="4" th:selected="${month == 4}">4월</option>
+                        <option value="5" th:selected="${month == 5}">5월</option>
+                        <option value="6" th:selected="${month == 6}">6월</option>
+                        <option value="7" th:selected="${month == 7}">7월</option>
+                        <option value="8" th:selected="${month == 8}">8월</option>
+                        <option value="9" th:selected="${month == 9}">9월</option>
+                        <option value="10" th:selected="${month == 10}">10월</option>
+                        <option value="11" th:selected="${month == 11}">11월</option>
+                        <option value="12" th:selected="${month == 12}">12월</option>
+                    </select>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn-update" onclick="searchReviews()">검색</button>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table-box">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">리뷰 번호</th>
+                        <th style="width: 70px;">회원 번호</th>
+                        <th style="width: 70px; text-align: center;">차량 상태 만족도</th>
+                        <th style="width: 70px; text-align: center;">예약 과정 만족도</th>
+                        <th style="width: 70px; text-align: center;">가격 만족도</th>
+                        <th style="width: 150px;">리뷰 내용</th>
+                        <th style="width: 120px;">리뷰 작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="review : ${pageDto.items}"
+                        th:attr="data-href=@{/admin/review/{id}(id=${review.reviewId})}"
+                        onclick="location.href=this.getAttribute('data-href')">
+                        <td th:text="${review.reviewId}" style="max-width: 70px;"></td>
+                        <td th:text="${review.userNum}" style="max-width: 70px;"></td>
+                        <td th:text="${review.carConditionSatisfactionRating}" style="max-width: 70px; text-align: center;"></td>
+                        <td th:text="${review.reservationProcessSatisfactionRating}" style="max-width: 70px; text-align: center;"></td>
+                        <td th:text="${review.priceSatisfactionRating}" style="max-width: 70px; text-align: center;"></td>
+                        <td th:text="${review.reviewContent}" style="max-width: 150px;"></td>
+                        <td th:text="${#temporals.format(review.reviewCreatedAt, 'yyyy-MM-dd HH:mm:ss')}" style="max-width: 120px;"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <a th:href="@{/admin/review(page=${pageDto.start - 1}, size=${pageDto.size})}"
+                   th:if="${pageDto.prev}">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+                </a>
+                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/admin/review(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                </span>
+                <a th:href="@{/admin/review(page=${pageDto.end + 1}, size=${pageDto.size})}"
+                   th:if="${pageDto.next}">
+                    <span class="material-symbols-outlined">
+                        chevron_right
+                    </span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <th:block layout:fragment="js">
+        <script th:inline="javascript">
+            let carConditionStats = /*[[${carConditionStats}]]*/ [];
+            let reservationProcessStats = /*[[${reservationProcessStats}]]*/ [];
+            let priceStats = /*[[${priceStats}]]*/ [];
+        </script>
+        <script th:inline="javascript" th:src="@{/js/review/review-chart.js}"></script>
+        <script th:inline="javascript" th:src="@{/js/review/review-filter.js}"></script>
+    </th:block>
+
+</body>
+
+</html>

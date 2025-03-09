@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.road_friends.rentalcar.mapper.AdminReviewMapper">
+
+    <!-- 페이징된 리뷰 목록 조회 -->
+    <select id="getAllReviews" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
+        SELECT * FROM review
+        ORDER BY review_id
+            LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 전체 리뷰 개수 조회 -->
+    <select id="getTotalReviewCount" resultType="int">
+        SELECT COUNT(*) FROM review
+    </select>
+
+    <!-- 특정 리뷰 조회 (필수 추가) -->
+    <select id="getReviewById" parameterType="long" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
+        SELECT * FROM review WHERE review_id = #{id}
+    </select>
+
+    <select id="getUserById" parameterType="long" resultType="com.road_friends.rentalcar.dto.UserDto">
+        SELECT * FROM user WHERE user_num = #{userNum}
+    </select>
+
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="long">
+        DELETE FROM review WHERE review_id = #{id}
+    </delete>
+
+    <!-- 예약 정보 -->
+    <!-- 1. review_id로 reservation_id 찾기 -->
+    <select id="findReservationIdByReviewId" resultType="int">
+        SELECT reservation_id
+        FROM review
+        WHERE review_id = #{reviewId}
+    </select>
+    <!-- 2. reservation_id로 예약 정보 조회 -->
+    <select id="findReservationById" resultType="com.road_friends.rentalcar.dto.ReviewReservationDTO">
+        SELECT reservation_id, fast_reservation_id, short_reservation_id
+        FROM reservation
+        WHERE reservation_id = #{reservationId}
+    </select>
+    <!-- 3. fast_reservation_id로 fast reservation 정보 조회 -->
+    <select id="findFastReservationById" resultType="com.road_friends.rentalcar.dto.ReviewFastReservationDTO">
+        SELECT
+        fr.car_id,
+        m.model_name,
+        fr.rental_location,
+        fr.rental_datetime,
+        fr.return_location,
+        fr.return_datetime,
+        pl1.parking_name AS rental_location_name,
+        pl2.parking_name AS return_location_name
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        JOIN parking pl1 ON fr.rental_location = pl1.parking_id
+        JOIN parking pl2 ON fr.return_location = pl2.parking_id
+        WHERE fr.reservation_id = #{fastReservationId}
+    </select>
+
+    <!-- 4. short_reservation_id로 short reservation 정보 조회 -->
+    <select id="findShortReservationById" resultType="com.road_friends.rentalcar.dto.ReviewShortReservationDTO">
+        SELECT
+        sr.car_id,
+        m.model_name,
+        sr.rental_station_start,
+        sr.reservation_s_start_date AS rental_datetime,
+        sr.return_station_end,
+        sr.reservation_s_end_date AS return_datetime,
+        pl1.parking_name AS rental_location_name,
+        pl1.parking_name AS return_location_name
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        JOIN parking pl1 ON sr.rental_station_start = pl1.parking_id
+        WHERE sr.reservation_s_id = #{shortReservationId}
+    </select>
+
+    <!-- 통계 -->
+    <select id="getTotalResponded" resultType="int">
+        SELECT COUNT(*) FROM review
+    </select>
+
+    <select id="getTotalReservations" resultType="int">
+        SELECT COUNT(*) FROM reservation
+    </select>
+
+    <select id="getFastReservations" resultType="int">
+        SELECT COUNT(*) FROM reservation WHERE fast_reservation_id IS NOT NULL
+    </select>
+
+    <select id="getShortReservations" resultType="int">
+        SELECT COUNT(*) FROM reservation WHERE short_reservation_id IS NOT NULL
+    </select>
+
+    <select id="getFastResponded" resultType="int">
+        SELECT COUNT(r.review_id)
+        FROM review r
+        JOIN reservation res ON r.reservation_id = res.reservation_id
+        WHERE res.fast_reservation_id IS NOT NULL
+    </select>
+
+    <select id="getShortResponded" resultType="int">
+        SELECT COUNT(r.review_id)
+        FROM review r
+        JOIN reservation res ON r.reservation_id = res.reservation_id
+        WHERE res.short_reservation_id IS NOT NULL
+    </select>
+
+    <!-- 차트 -->
+    <select id="getCarConditionSatisfactionStats" resultType="map">
+        SELECT car_condition_satisfaction_rating AS rating, COUNT(*) AS count
+        FROM review
+        GROUP BY car_condition_satisfaction_rating
+        ORDER BY rating;
+    </select>
+
+    <select id="getReservationProcessSatisfactionStats" resultType="map">
+        SELECT reservation_process_satisfaction_rating AS rating, COUNT(*) AS count
+        FROM review
+        GROUP BY reservation_process_satisfaction_rating
+        ORDER BY rating;
+    </select>
+
+    <select id="getPriceSatisfactionStats" resultType="map">
+        SELECT price_satisfaction_rating AS rating, COUNT(*) AS count
+        FROM review
+        GROUP BY price_satisfaction_rating
+        ORDER BY rating;
+    </select>
+
+    <!-- 필터 -->
+    <select id="countReviewsByDate" resultType="int">
+        SELECT COUNT(*) FROM review
+        WHERE
+        <if test="year != null">
+            YEAR(review_created_at) = #{year}
+        </if>
+        <if test="month != null">
+            AND MONTH(review_created_at) = #{month}
+        </if>
+    </select>
+
+    <select id="findReviewsByDate" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
+        SELECT * FROM review
+        WHERE
+        <if test="year != null">
+            YEAR(review_created_at) = #{year}
+        </if>
+        <if test="month != null">
+            AND MONTH(review_created_at) = #{month}
+        </if>
+        ORDER BY review_id
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+</mapper>
