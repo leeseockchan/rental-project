@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.road_friends.rentalcar.mapper.ReservationMapper">
+
+    <!-- 예약이 많은 시간대 TOP 5 (빠른 예약) -->
+    <select id="getTopFastRentalHours" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT HOUR(rental_datetime) AS label, COUNT(*) AS count
+        FROM fast_reservation
+        WHERE rental_datetime IS NOT NULL
+        GROUP BY HOUR(rental_datetime)
+        ORDER BY count DESC
+        LIMIT 5;
+    </select>
+
+    <!-- 예약이 많은 시간대 TOP 5 (단기 예약) -->
+    <select id="getTopShortRentalHours" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT HOUR(reservation_s_start_date) AS label, COUNT(*) AS count
+        FROM short_reservation
+        WHERE reservation_s_start_date IS NOT NULL
+        GROUP BY HOUR(reservation_s_start_date)
+        ORDER BY count DESC
+        LIMIT 5;
+    </select>
+
+    <!-- 가장 많이 대여된 지역 TOP 5 (빠른 예약) -->
+    <select id="getTopFastRentalLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 빠른 예약의 가장 많이 대여된 지역 상위 5개 -->
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+        FROM fast_reservation fr
+        JOIN parking p ON fr.rental_location = p.parking_id
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!--  가장 많이 대여된 지역 TOP 5 (단기 예약) -->
+    <select id="getTopShortRentalLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+        FROM short_reservation sr
+        JOIN parking p ON sr.rental_station_start = p.parking_id
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5;
+    </select>
+
+    <!-- 가장 많이 반납된 지역 TOP 5 (빠른 예약) -->
+    <select id="getTopFastReturnLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+        FROM fast_reservation fr
+        JOIN parking p ON fr.return_location = p.parking_id
+        WHERE fr.return_location IS NOT NULL
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 가장 많이 반납된 지역 TOP 5 (단기 예약) -->
+    <select id="getTopShortReturnLocations" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label, COUNT(*) AS count
+        FROM short_reservation sr
+        JOIN parking p ON sr.return_station_end = p.parking_id
+        WHERE sr.return_station_end IS NOT NULL
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+
+    <!-- 가장 인기 있는 차량 TOP 5 (빠른 예약) -->
+    <select id="getTopFastPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 빠른 예약의 가장 인기 있는 차량 상위 5개 -->
+        SELECT m.model_name AS label, COUNT(*) AS count
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 가장 인기 있는 차량 TOP 5 (단기 예약) -->
+    <select id="getTopShortPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 단기 예약의 가장 인기 있는 차량 상위 5개 -->
+        SELECT m.model_name AS label, COUNT(*) AS count
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 차량별 평균 렌트 시간 TOP 5 (빠른 예약) -->
+    <select id="getTopFastCarRentalDuration" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 빠른 예약의 차량별 평균 렌트 시간 상위 5개 -->
+        SELECT m.model_name AS label,
+        AVG(TIMESTAMPDIFF(HOUR, fr.rental_datetime, fr.return_datetime)) AS count
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        WHERE fr.return_datetime IS NOT NULL
+        GROUP BY m.model_name
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 차량별 평균 렌트 시간 TOP 5 (단기 예약) -->
+    <select id="getTopShortCarRentalDuration" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 단기 예약의 차량별 평균 렌트 시간 상위 5개 -->
+        SELECT m.model_name AS label,
+        AVG(TIMESTAMPDIFF(HOUR, sr.reservation_s_start_date, sr.reservation_s_end_date)) AS count
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        WHERE sr.reservation_s_end_date IS NOT NULL
+        GROUP BY m.model_name
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 지역별 평균 렌트 시간 TOP 5 (빠른 예약) -->
+    <select id="getTopFastRegionRentalDuration" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 빠른 예약의 지역별 평균 렌트 시간 상위 5개 -->
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label,
+        AVG(TIMESTAMPDIFF(HOUR, fr.rental_datetime, fr.return_datetime)) AS count
+        FROM fast_reservation fr
+        JOIN parking p ON fr.rental_location = p.parking_id
+        WHERE fr.return_datetime IS NOT NULL
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 지역별 평균 렌트 시간 TOP 5 (단기 예약) -->
+    <select id="getTopShortRegionRentalDuration" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT CONCAT(p.parking_province, ' ', p.parking_district) AS label,
+        AVG(TIMESTAMPDIFF(HOUR, sr.reservation_s_start_date, sr.reservation_s_end_date)) AS count
+        FROM short_reservation sr
+        JOIN parking p ON sr.rental_station_start = p.parking_id
+        WHERE sr.reservation_s_end_date IS NOT NULL
+        GROUP BY p.parking_province, p.parking_district
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 사용자별 평균 렌트 시간 TOP 5 (빠른 예약) -->
+    <select id="getTopFastUserRentalDuration" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 빠른 예약의 사용자별 평균 렌트 시간 상위 5개 -->
+        SELECT u.user_name AS label,
+        AVG(TIMESTAMPDIFF(HOUR, fr.rental_datetime, fr.return_datetime)) AS count
+        FROM fast_reservation fr
+        JOIN user u ON fr.user_num = u.user_num
+        WHERE fr.return_datetime IS NOT NULL
+        GROUP BY u.user_name
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 사용자별 평균 렌트 시간 TOP 5 (단기 예약) -->
+    <select id="getTopShortUserRentalDuration" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        <!-- 단기 예약의 사용자별 평균 렌트 시간 상위 5개 -->
+        SELECT u.user_name AS label,
+        AVG(TIMESTAMPDIFF(HOUR, sr.reservation_s_start_date, sr.reservation_s_end_date)) AS count
+        FROM short_reservation sr
+        JOIN user u ON sr.user_num = u.user_num
+        WHERE sr.reservation_s_end_date IS NOT NULL
+        GROUP BY u.user_name
+        ORDER BY count DESC
+        LIMIT 5
+    </select>
+
+    <!-- 가장 인기 있는 차량 TOP 5 -->
+    <select id="getTopAllPopularCars" resultType="com.road_friends.rentalcar.dto.DataPoint">
+        SELECT label, count
+        FROM (
+        SELECT m.model_name AS label, COUNT(*) AS count
+        FROM fast_reservation fr
+        JOIN car c ON fr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name
+        UNION ALL
+        SELECT m.model_name AS label, COUNT(*) AS count
+        FROM short_reservation sr
+        JOIN car c ON sr.car_id = c.car_id
+        JOIN model m ON c.model_id = m.model_id
+        GROUP BY m.model_name
+        ) AS combined_data
+        ORDER BY count DESC
+        LIMIT 5;
+    </select>
+
+</mapper>

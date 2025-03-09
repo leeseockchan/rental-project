@@ -1,0 +1,19 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+  <div class="header-sm">
+    ⬆️ 단기 예약 시간대 TOP 5
+  </div>
+
+  <!-- ✅ 막대 그래프 컨테이너 추가 -->
+  <div id="chart2" style="width: 100%; height: 400px;"></div>
+
+  <!-- ✅ Thymeleaf 데이터를 JavaScript 변수로 전달 -->
+  <script th:inline="javascript">
+    var shortRentalHours = [[${topShortRentalHours.![label + '시']}]]; // 시간대
+    var rentalCounts = [[${topShortRentalHours.![count]}]]; // 예약 횟수
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/hours-chart.js}" defer></script>
+
+</div>

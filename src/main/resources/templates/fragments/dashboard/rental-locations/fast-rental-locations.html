@@ -1,0 +1,19 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+  <div class="header-sm">
+    🚗 빠른 예약 - 가장 많이 대여한 지역 TOP 5
+  </div>
+
+  <!-- ✅ 막대 그래프 컨테이너 추가 -->
+  <div id="chart3" style="width: 100%; height: 400px;"></div>
+
+  <script th:inline="javascript">
+    var fastRentalLocationLabels = [[${topFastRentalLocations.![label]}]];
+    var fastRentalLocationCounts = [[${topFastRentalLocations.![count]}]];
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/rental-location-chart.js}"></script>
+
+</div>
+

@@ -1,0 +1,33 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <div class="header-sm">
+       ⏳ 빠른 예약 평균 렌트 시간 (Top 5)
+    </div>
+
+    <!-- 차량별 평균 렌트 시간 차트 -->
+    <h3>🚗 차량별 평균 렌트 시간</h3>
+    <div id="chart7" style="width: 100%; height: 400px;"></div>
+
+    <!-- 지역별 평균 렌트 시간 차트 -->
+    <h3>📍 지역별 평균 렌트 시간</h3>
+    <div id="chart8" style="width: 100%; height: 400px;"></div>
+
+    <!-- 사용자별 평균 렌트 시간 -->
+    <h3>👤 사용자별 평균 렌트 시간</h3>
+    <div id="chart9" style="width: 100%; height: 400px;"></div>
+
+    <script th:inline="javascript">
+        var fastCarLabels = [[${topFastCarRentalDuration.![label]}]];  <!-- 차량명 데이터 -->
+        var fastCarCounts = [[${topFastCarRentalDuration.![count]}]];   <!-- 평균 렌트 시간 데이터 -->
+
+        var fastRegionLabels = [[${topFastRegionRentalDuration.![label]}]];  <!-- 지역명 데이터 -->
+        var fastRegionCounts = [[${topFastRegionRentalDuration.![count]}]];   <!-- 평균 렌트 시간 데이터 -->
+
+        var fastUserLabels = [[${topFastUserRentalDuration.![label]}]];  <!-- 사용자명 데이터 -->
+        var fastUserCounts = [[${topFastUserRentalDuration.![count]}]];   <!-- 평균 렌트 시간 데이터 -->
+    </script>
+
+    <!-- ✅ 차트 스크립트 로드 -->
+    <script th:src="@{/js/dashboard/average-chart.js}"></script>
+
+</div>

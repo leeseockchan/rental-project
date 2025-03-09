@@ -1,0 +1,18 @@
+<div th:fragment="sectionContent" xmlns:th="http://www.w3.org/1999/xhtml">
+
+  <div class="header-sm">
+    🔥 빠른 예약 - 가장 인기 있는 차량 TOP 5
+  </div>
+
+  <!-- 차량별 예약 횟수 차트 -->
+  <div id="carPopularChart" style="width: 100%; height: 400px;"></div>
+
+  <script th:inline="javascript">
+    var carLabels = [[${topFastPopularCars.![label]}]];  <!-- 차량명 데이터 -->
+    var carCounts = [[${topFastPopularCars.![count]}]];   <!-- 예약 횟수 데이터 -->
+  </script>
+
+  <!-- ✅ 차트 스크립트 로드 -->
+  <script th:src="@{/js/dashboard/popular-chart.js}"></script>
+
+</div>

@@ -31,9 +31,9 @@ public class UserController {
     return "/user/login";
   }
 
-  @GetMapping("/admin/dashboard")
-  public String dashboard(){
-    return "/common/dashboard";
-  }
+//  @GetMapping("/admin/dashboard")
+//  public String dashboard(){
+//    return "/common/dashboard";
+//  }
 }
 
