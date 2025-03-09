@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>사용자 관리 상세 조회</title>
+
+  <link rel="stylesheet" th:href="@{/css/users/users-detail.css}">
+
+  <th:block layout:fragment="js">
+    <script th:inline="javascript" th:src="@{/js/users/users.js}" defer></script>
+  </th:block>
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      사용자 관리
+    </div>
+
+    <div class="info">
+      <div class="header-sm">
+        사용자 관리 > 가입자 목록 상세 조회
+      </div>
+
+      <form id="update-form" th:action="@{/admin/users/{userNum}(userNum=${user.userNum})}" method="post">
+        <div class="info-box-big">
+          <div class="info-box box1">
+            <div class="info-box-title" th:text="|${user.userName}의 상세 정보|"></div>
+            <div class="info-box-content">
+              <table class="info-box-content-table">
+                <tbody>
+                  <tr>
+                    <th>회원번호</th>
+                    <td th:text="${user.userNum}"></td>
+                  </tr>
+                  <tr>
+                    <th>회원 아이디</th>
+                    <td th:text="${user.userId}"></td>
+                  </tr>
+                  <tr>
+                    <th>이름</th>
+                    <td><input type="text" name="userName" id="userName" th:value="${user.userName}"></td>
+                  </tr>
+                  <tr>
+                    <th>성별</th>
+                    <td th:text="${user.userGender == 0 ? '남성' : '여성'}"></td>
+                  </tr>
+                  <tr>
+                    <th>생년월일</th>
+                    <td><input type="text" name="userBirth" id="birth" th:value="${user.userBirth}"></td>
+                  </tr>
+                  <tr>
+                    <th>주소</th>
+                    <td><input type="text" name="userAddress" id="address" th:value="${user.userAddress}"></td>
+                  </tr>
+                  <tr>
+                    <th>이메일</th>
+                    <td><input type="text" name="userEmail" id="email" th:value="${user.userEmail}"></td>
+                  </tr>
+                  <tr>
+                    <th>전화번호</th>
+                    <td><input type="text" name="userPhone" id="phone" th:value="${user.userPhone}"></td>
+                  </tr>
+                  <tr>
+                    <th>계정 활성화</th>
+                    <td th:text="${user.enabled ? '활성화됨' : '비활성화됨'}"></td>
+                  </tr>
+                  <tr>
+                    <th>활성 상태</th>
+                    <td>
+                      <select name="userStatus" id="status">
+                        <option value="0" th:selected="${user.userStatus == 0}">활성</option>
+                        <option value="1" th:selected="${user.userStatus == 1}">비활성</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>역할(현재 구현X)</th>
+                    <td>
+                      <select name="role" id="role">
+                        <option value="ROLE_USER" selected="">일반 사용자</option>
+                        <option value="ROLE_ADMIN" selected="">관리자</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="info-box box2">
+            <div class="info-box-title" th:text="|${user.userName}의 대여 기록|"></div>
+            <div class="info-box-content">
+              <table class="info-box-content-table2">
+                <thead>
+                  <tr>
+                    <th class="center">예약번호</th>
+                    <th>카테고리</th>
+                    <th>대여일</th>
+                    <th>반납일</th>
+                    <th>모델</th>
+                    <th>금액</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td text="" class="center">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                    <td text="">00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn-go-back" onclick="location.href='/admin/users'">
+            목록으로
+          </button>
+          <button type="submit" class="btn-update">
+            수정
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</body>
+
+</html>

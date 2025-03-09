@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+  layout:decorate="~{layout/layout}">
+
+<head>
+  <title>사용자 관리 목록</title>
+
+  <link rel="stylesheet" th:href="@{/css/users/users-list.css}">
+
+  <!--    아파치 E차트-->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
+  <th:block layout:fragment="js">
+    <script defer>
+      function searchUser() {
+          var name = document.getElementById("filter-user").value;
+          window.location.href = "/admin/users?name=" + encodeURIComponent(name);
+      }
+    </script>
+    <script defer>
+      var ageStats = {
+              twenties: [[${twentiesCount}]],
+              thirties: [[${thirtiesCount}]],
+              forties: [[${fortiesCount}]],
+              fifties: [[${fiftiesCount}]],
+              sixties: [[${sixtiesCount}]]
+          };
+    </script>
+    <script th:inline="javascript" th:src="@{/js/users/users-chart.js}"></script>
+  </th:block>
+
+</head>
+
+<body>
+  <div class="content" layout:fragment="content">
+
+    <div class="header">
+      사용자 관리
+    </div>
+
+    <div class="info">
+      <div class="info-header">사용자 통계</div>
+
+      <div class="info-group">
+        <div class="info-box-big-group">
+          <div class="info-box-big only-text-box-big">
+            <div class="info-box-big-header">전체 사용자 통계</div>
+            <div class="info-box-sm">
+              <div class="info-box box1">
+                <div class="info-box-title">총 가입자 수</div>
+                <div class="info-box-content"><span th:text="${userCount}"></span> 명</div>
+              </div>
+              <div class="info-box box2">
+                <div class="info-box-title">활성 사용자 수</div>
+                <div class="info-box-content"><span th:text="${activeUserCount}"></span> 명</div>
+              </div>
+              <div class="info-box box3">
+                <div class="info-box-title">탈퇴 사용자 수</div>
+                <div class="info-box-content"><span th:text="${inactiveUserCount}"></span> 명</div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box-big semi-circle-box-big">
+            <div class="info-box-big-header" style="margin-bottom : 0">사용자 성별 비율</div>
+            <div class="chart-box semi-circle-box">
+              <div class="chart-content chart1" id="chart-container1"
+                   th:data-male="${maleUserCount}"
+                   th:data-female="${femaleUserCount}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box-big-group">
+          <div class="info-box-big">
+            <div class="info-box-big-header">연령대별 사용자 수</div>
+            <div class="chart-box">
+              <div class="chart-content chart2" id="chart-container2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="list">
+      <div class="info-header">가입자 목록</div>
+
+      <div class="filter-box-big">
+        <div class="filter-box">
+          <label for="filter-user">이름</label>
+          <input type="text" id="filter-user" name="filter-user" placeholder="이름을 입력하세요"
+                 th:value="${param.name}">
+          <div class="btn-group">
+            <button type="button" class="btn-update" onclick="searchUser()">
+              검색
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <table class="table-box">
+        <thead>
+          <tr>
+            <th style="width: 70px; text-align: center;">회원번호</th>
+            <th style="width: 100px;">회원 아이디</th>
+            <th style="width: 100px;">이름</th>
+            <th style="width: 50px;">성별</th>
+            <th style="width: 120px;">이메일</th>
+            <th style="width: 120px;">전화번호</th>
+            <th style="width: 70px; text-align: center;">활성 상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="user : ${users}"
+              th:attr="data-href=@{/admin/users/{userNum}(userNum=${user.userNum})}"
+              onclick="location.href=this.getAttribute('data-href')">
+            <td th:text="${user.userNum}" style="max-width: 70px; text-align: center;"></td>
+            <td th:text="${user.userId}" style="max-width: 100px;"></td>
+            <td th:text="${user.userName}" style="max-width: 100px;"></td>
+            <td th:text="${user.userGender == 0 ? '남자' : '여자'}" style="max-width: 50px;"></td>
+            <td th:text="${user.userEmail}" style="max-width: 120px;"></td>
+            <td th:text="${user.userPhone}" style="max-width: 120px;"></td>
+            <td th:text="${user.userStatus == 0 ? '활성' : '탈퇴'}" style="max-width: 70px; text-align: center;"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 페이지네이션 -->
+      <div class="pagination">
+        <a th:href="@{/admin/users(page=${pageDto.start - 1}, size=${pageDto.size})}"
+           th:if="${pageDto.prev}">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+        </a>
+        <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/admin/users(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                </span>
+        <a th:href="@{/admin/users(page=${pageDto.end + 1}, size=${pageDto.size})}"
+           th:if="${pageDto.next}">
+                    <span class="material-symbols-outlined">
+                        chevron_right
+                    </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+</html>
