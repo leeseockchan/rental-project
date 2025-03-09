@@ -1,29 +1,26 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.UserStatsDto;
-import com.road_friends.rentalcar.dto.ReservationDto;
 import com.road_friends.rentalcar.service.ReservationService;
-import com.road_friends.rentalcar.service.UserService;
+import com.road_friends.rentalcar.service.DashboardUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class DashboardController {
 
-    private final UserService userService;
+    private final DashboardUserService dashboardUserService;
     private final ReservationService reservationService;
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
         // ✅ 사용자 통계 데이터
-        UserStatsDto userStats = userService.getUserStats();
+        UserStatsDto userStats = dashboardUserService.getUserStats();
         model.addAttribute("userStats", userStats);
 
         // ✅ 가장 인기 있는 차량 (전체)

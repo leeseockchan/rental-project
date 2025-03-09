@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface UserMapper {
+public interface DashboardUserMapper {
 
     // ✅ 전체 회원 수 조회
     int getTotalUsers();
