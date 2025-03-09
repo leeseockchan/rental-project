@@ -38,42 +38,42 @@ public class AdminReviewService {
     }
 
     // 예약 정보
-    public ReservationDTO getReservationDetailsByReviewId(Long reviewId) {
+    public ReviewReservationDTO getReservationDetailsByReviewId(Long reviewId) {
         // 1. review_id를 사용하여 해당 review의 reservation_id를 찾는다
         int reservationId = adminReviewMapper.findReservationIdByReviewId(reviewId);
 
         // 2. 예약 정보 조회
-        ReservationDTO reservationDTO = adminReviewMapper.findReservationById(reservationId);
+        ReviewReservationDTO reviewReservationDTO = adminReviewMapper.findReservationById(reservationId);
 
         // 3. 예약의 fast_reservation_id 또는 short_reservation_id에 따라 이용 서비스를 결정한다.
-        if (reservationDTO.getFastReservationId() != 0) {
-            reservationDTO.setService("빠른예약");
+        if (reviewReservationDTO.getFastReservationId() != 0) {
+            reviewReservationDTO.setService("빠른예약");
             // 4. fast_reservation_id가 존재한다면, fast_reservation 테이블에서 필요한 값들을 가져온다.
-            FastReservationDTO fastReservationDTO = adminReviewMapper.findFastReservationById(reservationDTO.getFastReservationId());
-            reservationDTO.setRentalLocationName(fastReservationDTO.getRentalLocationName());
-            reservationDTO.setReturnLocationName(fastReservationDTO.getReturnLocationName());
-            reservationDTO.setRentalPeriodStart(fastReservationDTO.getRentalDatetime());
-            reservationDTO.setRentalPeriodEnd(fastReservationDTO.getReturnDatetime());
-        } else if (reservationDTO.getShortReservationId() != 0) {
-            reservationDTO.setService("단기예약");
+            ReviewFastReservationDTO reviewFastReservationDTO = adminReviewMapper.findFastReservationById(reviewReservationDTO.getFastReservationId());
+            reviewReservationDTO.setRentalLocationName(reviewFastReservationDTO.getRentalLocationName());
+            reviewReservationDTO.setReturnLocationName(reviewFastReservationDTO.getReturnLocationName());
+            reviewReservationDTO.setRentalPeriodStart(reviewFastReservationDTO.getRentalDatetime());
+            reviewReservationDTO.setRentalPeriodEnd(reviewFastReservationDTO.getReturnDatetime());
+        } else if (reviewReservationDTO.getShortReservationId() != 0) {
+            reviewReservationDTO.setService("단기예약");
             // 5. short_reservation_id가 존재한다면, short_reservation 테이블에서 필요한 값들을 가져온다.
-            ShortReservationDTO shortReservationDTO = adminReviewMapper.findShortReservationById(reservationDTO.getShortReservationId());
-            reservationDTO.setRentalLocationName(shortReservationDTO.getRentalLocationName());
-            reservationDTO.setReturnLocationName(shortReservationDTO.getReturnLocationName());
-            reservationDTO.setRentalPeriodStart(shortReservationDTO.getRentalDatetime());
-            reservationDTO.setRentalPeriodEnd(shortReservationDTO.getReturnDatetime());
+            ReviewShortReservationDTO reviewShortReservationDTO = adminReviewMapper.findShortReservationById(reviewReservationDTO.getShortReservationId());
+            reviewReservationDTO.setRentalLocationName(reviewShortReservationDTO.getRentalLocationName());
+            reviewReservationDTO.setReturnLocationName(reviewShortReservationDTO.getReturnLocationName());
+            reviewReservationDTO.setRentalPeriodStart(reviewShortReservationDTO.getRentalDatetime());
+            reviewReservationDTO.setRentalPeriodEnd(reviewShortReservationDTO.getReturnDatetime());
         }
 
         // 날짜 포맷 처리
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        if (reservationDTO.getRentalPeriodStart() != null) {
-            reservationDTO.setRentalPeriodStartFormatted(reservationDTO.getRentalPeriodStart().format(formatter));
+        if (reviewReservationDTO.getRentalPeriodStart() != null) {
+            reviewReservationDTO.setRentalPeriodStartFormatted(reviewReservationDTO.getRentalPeriodStart().format(formatter));
         }
-        if (reservationDTO.getRentalPeriodEnd() != null) {
-            reservationDTO.setRentalPeriodEndFormatted(reservationDTO.getRentalPeriodEnd().format(formatter));
+        if (reviewReservationDTO.getRentalPeriodEnd() != null) {
+            reviewReservationDTO.setRentalPeriodEndFormatted(reviewReservationDTO.getRentalPeriodEnd().format(formatter));
         }
 
-        return reservationDTO;
+        return reviewReservationDTO;
     }
 
     // 통계

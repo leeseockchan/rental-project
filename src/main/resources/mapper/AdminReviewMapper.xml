@@ -36,13 +36,13 @@
         WHERE review_id = #{reviewId}
     </select>
     <!-- 2. reservation_id로 예약 정보 조회 -->
-    <select id="findReservationById" resultType="com.road_friends.rentalcar.dto.ReservationDTO">
+    <select id="findReservationById" resultType="com.road_friends.rentalcar.dto.ReviewReservationDTO">
         SELECT reservation_id, fast_reservation_id, short_reservation_id
         FROM reservation
         WHERE reservation_id = #{reservationId}
     </select>
     <!-- 3. fast_reservation_id로 fast reservation 정보 조회 -->
-    <select id="findFastReservationById" resultType="com.road_friends.rentalcar.dto.FastReservationDTO">
+    <select id="findFastReservationById" resultType="com.road_friends.rentalcar.dto.ReviewFastReservationDTO">
         SELECT
         fr.car_id,
         m.model_name,
@@ -61,7 +61,7 @@
     </select>
 
     <!-- 4. short_reservation_id로 short reservation 정보 조회 -->
-    <select id="findShortReservationById" resultType="com.road_friends.rentalcar.dto.ShortReservationDTO">
+    <select id="findShortReservationById" resultType="com.road_friends.rentalcar.dto.ReviewShortReservationDTO">
         SELECT
         sr.car_id,
         m.model_name,

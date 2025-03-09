@@ -3,7 +3,6 @@ package com.road_friends.rentalcar.mapper;
 import com.road_friends.rentalcar.dto.*;
 import org.apache.ibatis.annotations.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +23,11 @@ public interface AdminReviewMapper {
     // 1. review_id로 reservation_id를 찾는다.
     int findReservationIdByReviewId(Long reviewId);
     // 2. reservation_id로 예약 정보 조회
-    ReservationDTO findReservationById(int reservationId);
+    ReviewReservationDTO findReservationById(int reservationId);
     // 3. fast_reservation_id로 fast reservation 정보 조회
-    FastReservationDTO findFastReservationById(int fastReservationId);
+    ReviewFastReservationDTO findFastReservationById(int fastReservationId);
     // 4. short_reservation_id로 short reservation 정보 조회
-    ShortReservationDTO findShortReservationById(int shortReservationId);
+    ReviewShortReservationDTO findShortReservationById(int shortReservationId);
 
     // 통계
     int getTotalResponded();
