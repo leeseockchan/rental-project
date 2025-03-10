@@ -1,30 +1,27 @@
 package com.road_friends.rentalcar.controller;
 
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.PostDto;
-import com.road_friends.rentalcar.service.PostService;
+import com.road_friends.rentalcar.service.ApiPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ApiPostController {
-  private final PostService postService;
+  private final ApiPostService apiPostService;
 
   @GetMapping
-  public ResponseEntity<List<PostDto>> getAllPosts() {
-    return ResponseEntity.ok(postService.getAllPosts());
+  public PageDto<PostDto> getAllPosts(@RequestParam(defaultValue = "1") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
+    return apiPostService.getAllPosts(page, size);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<PostDto> getPost(@PathVariable Long id) {
-    return ResponseEntity.ok(postService.getPost(id));
+    return ResponseEntity.ok(apiPostService.getPost(id));
   }
 }

@@ -6,9 +6,12 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface PostMapper {
-  @Select("SELECT * FROM posts ORDER BY created_at DESC")
-  List<PostDto> getAllPosts();
+public interface ApiPostMapper {
+  @Select("SELECT COUNT(*) FROM posts")
+  int getTotalPosts();
+
+  @Select("SELECT id, title, content, created_at FROM posts ORDER BY id DESC LIMIT #{size} OFFSET #{offset}")
+  List<PostDto> getPagedPosts(@Param("offset") int offset, @Param("size") int size);
 
   @Insert("INSERT INTO posts (title, content) VALUES (#{title}, #{content})")
   void insertPost(PostDto postDto);
