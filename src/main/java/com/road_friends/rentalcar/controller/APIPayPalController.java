@@ -69,8 +69,8 @@ public class APIPayPalController {
       String reservationType = reservationTypeObj instanceof String ? (String) reservationTypeObj : "fast";
 
       // success URL에 reservationId와 reservationType을 쿼리 파라미터로 추가
-      String successUrl = serverUrl + "/api/paypal/success?reservationId=" + reservationId + "&reservationType=" + reservationType;
-
+//      String successUrl = serverUrl + "/api/paypal/success?reservationId=" + reservationId + "&reservationType=" + reservationType;
+      String successUrl = "http://localhost:3000/myPage/history";
       // PayPal 결제 생성
       String redirectUrl = payPalService.createPayment(paymentAmount, "USD", "paypal", "sale", "Payment Description",
               serverUrl + "/api/paypal/cancel",
