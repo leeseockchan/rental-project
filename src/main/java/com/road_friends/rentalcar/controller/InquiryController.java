@@ -1,16 +1,16 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.InquiryDto;
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.service.InquiryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/inquiry")
+@CrossOrigin(origins = "http://localhost:3000")
 public class InquiryController {
 
     @Autowired
@@ -18,9 +18,10 @@ public class InquiryController {
 
     // 고객 질문 전체 조회
     @GetMapping
-    public ResponseEntity<List<InquiryDto>> getAllInquiry() {
-        List<InquiryDto> inquiry = inquiryService.getAllInquiry();
-        return new ResponseEntity<>(inquiry, HttpStatus.OK);
+    public ResponseEntity<PageDto<InquiryDto>> getAllInquiry(@RequestParam(defaultValue = "1") int page,
+                                                             @RequestParam(defaultValue = "10") int size) {
+        PageDto<InquiryDto> inquiryPage = inquiryService.getAllInquiry(page, size);
+        return new ResponseEntity<>(inquiryPage, HttpStatus.OK);
     }
 
     // 고객 질문 상세 조회

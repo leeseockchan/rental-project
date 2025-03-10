@@ -1,12 +1,12 @@
 package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.InquiryDto;
+import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.mapper.InquiryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InquiryService {
@@ -14,8 +14,12 @@ public class InquiryService {
     @Autowired
     InquiryMapper inquiryMapper;
 
-    public List<InquiryDto> getAllInquiry() {
-        return inquiryMapper.findAllInquiry();
+    public PageDto<InquiryDto> getAllInquiry(int page, int size) {
+        int totalElements = inquiryMapper.getTotalInquiries();
+        int offset = (page - 1) * size;
+        List<InquiryDto> inquiryDtos = inquiryMapper.getPagedInquiries(offset, size);
+        PageDto<InquiryDto> pageDto = new PageDto<>(page, size, totalElements, inquiryDtos);
+        return pageDto;
     }
 
     public InquiryDto getInquiryById(int inquiryId) {
