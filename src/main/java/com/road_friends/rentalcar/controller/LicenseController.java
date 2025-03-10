@@ -72,13 +72,25 @@ public class LicenseController {
 
   private String saveLicensePhoto(MultipartFile licensePhoto) {
     try {
-      String fileName = licensePhoto.getOriginalFilename();
-      Path path = Paths.get("E:/images/user/license/" + fileName);
-      Files.copy(licensePhoto.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-      return path.toString();
+      // 저장할 경로 설정
+      String uploadDir = "C:/images/user/license/";
+      Path directoryPath = Paths.get(uploadDir);
+
+      // 디렉토리가 존재하지 않으면 생성
+      if (!Files.exists(directoryPath)) {
+        Files.createDirectories(directoryPath);
+      }
+
+      // 파일명 중복 방지를 위해 시간 기반 파일명 설정
+      String fileName = System.currentTimeMillis() + "_" + licensePhoto.getOriginalFilename();
+      Path filePath = directoryPath.resolve(fileName);
+
+      Files.copy(licensePhoto.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+      return filePath.toString(); // 저장된 파일 경로 반환
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException("파일 저장 실패");
     }
   }
+
 }
