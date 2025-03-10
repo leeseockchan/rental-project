@@ -54,7 +54,7 @@ public class APIReservationDto {
     private BigDecimal rentalLocationLatitude;
     private BigDecimal rentalLocationLongitude;
 
-    private int payments;
+    private int payment;
     //쉐어 옵션
     private boolean shareOption;
 
