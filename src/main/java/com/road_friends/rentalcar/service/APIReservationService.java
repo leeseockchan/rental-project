@@ -75,6 +75,9 @@ public class APIReservationService {
             return false;
         }
 
+        // 3. 차량 상태 업데이트 (car_status: 1 → 2 정비중)
+        int carUpdatedRows = apiReservationMapper.updateCarStatus(carId, 1, 0);
+
         return updatedRows > 0;
     }
 
