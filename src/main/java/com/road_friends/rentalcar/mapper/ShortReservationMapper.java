@@ -53,8 +53,6 @@ public interface ShortReservationMapper {
     void insertReservation(ReservationDto reservationDto);
     int getLastInsertId();
 
-    void updateCarStatusTo1(int carId);
-
     void updateCarStatusTo0(int carId);
 
     // rental_state 0 -> 1 변경

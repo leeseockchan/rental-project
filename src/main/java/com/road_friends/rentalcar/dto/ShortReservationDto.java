@@ -56,5 +56,6 @@ public class ShortReservationDto {
 
     private CarDto carDto;
 
+    @JsonProperty("payment")
     private Long totalPrice;
 }
