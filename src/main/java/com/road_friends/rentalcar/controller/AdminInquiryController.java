@@ -18,15 +18,18 @@ public class AdminInquiryController {
     private AdminInquiryService adminInquiryService;
 
     // 문의 목록 조회 (HTML 렌더링)
-    // 요청URL 형식: /items?page=1&size=10
     @GetMapping
     public String getAllInquiry(@RequestParam(name="page", defaultValue = "1") int page,
-                               @RequestParam(name="size", defaultValue = "10") int size,
-                               Model model) {
-        PageDto pageDto = adminInquiryService.getAllInquiry(page, size);
-        AdminInquiryDto counts = adminInquiryService.getInquiryCounts();
+                                @RequestParam(name="size", defaultValue = "10") int size,
+                                @RequestParam(name="content", required = false) String content,
+                                Model model) {
+        PageDto<AdminInquiryDto> pageDto = adminInquiryService.getAllInquiry(page, size, content);
+        AdminInquiryDto counts = adminInquiryService.getInquiryCounts();  // 통계 데이터
+
         model.addAttribute("pageDto", pageDto);
-        model.addAttribute("counts", counts);
+        model.addAttribute("counts", counts);  // 통계 데이터를 뷰로 전달
+        model.addAttribute("content", content);  // 검색어 전달
+
         return "inquiry/inquiry-list";  // inquiry_list.html로 이동
     }
 

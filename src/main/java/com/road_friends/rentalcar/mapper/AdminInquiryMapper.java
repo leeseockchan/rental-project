@@ -9,9 +9,6 @@ import java.util.List;
 @Mapper
 public interface AdminInquiryMapper {
 
-    List<AdminInquiryDto> findAllInquiry(@Param("size") int size, @Param("offset") int offset);
-    int countTotal();
-
     AdminInquiryDto findInquiryById(int inquiryId);
 
     AdminInquiryDto findInquiryReplyById(int inquiryId);
@@ -29,4 +26,10 @@ public interface AdminInquiryMapper {
     long countAnsweredInquiries();
 
     long countUnansweredInquiries();
+
+
+    List<AdminInquiryDto> getInquiries(@Param("offset") int offset, @Param("size") int size);
+    List<AdminInquiryDto> getInquiriesByContent(@Param("offset") int offset, @Param("size") int size, @Param("content") String content);
+    int getTotalCount();
+    int getTotalCountByContent(@Param("content") String content);
 }
