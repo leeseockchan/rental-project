@@ -39,11 +39,18 @@ public class InquiryController {
     }
 
     // 고객 질문 수정
-     @PostMapping("/{inquiryId}")
-     public ResponseEntity<InquiryDto> updateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestBody InquiryDto inquiryDto) {
-         inquiryDto.setInquiryId(inquiryId);
-         inquiryService.updateInquiry(inquiryDto);
-         return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
+    @PostMapping("/{inquiryId}")
+    public ResponseEntity<InquiryDto> updateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestBody InquiryDto inquiryDto) {
+        // ID 설정
+        inquiryDto.setInquiryId(inquiryId);
+
+        // 업데이트 실행
+        boolean updated = inquiryService.updateInquiry(inquiryDto);
+        if (updated) {
+            return new ResponseEntity<>(inquiryDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 업데이트 실패 시 404 반환
+        }
     }
 
     // 고객 질문 삭제

@@ -22,13 +22,14 @@ public interface InquiryMapper {
     InquiryDto findInquiryById(int inquiryId);
 
     // 고객 질문 추가
-    @Insert("INSERT INTO inquiries (user_num, inquiries_q) VALUES (#{userNum}, #{inquiriesQ})")
-    @Options(useGeneratedKeys = true, keyProperty = "inquiriesNum")
+    @Insert("INSERT INTO inquiries (user_num, inquiries_q, inquiries_q_created_at) " +
+            "VALUES (#{userNum}, #{inquiriesQ}, CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul'))")
+    @Options(useGeneratedKeys = true, keyProperty = "inquiriesNum", keyColumn = "inquiries_num")
     void insertInquiry(InquiryDto inquiryDto);
 
     // 고객 질문 수정
-    @Update("UPDATE inquiries SET inquiries_q = #{inquiriesQ} WHERE inquiries_num = #{inquiriesNum}")
-    void updateInquiry(InquiryDto inquiryDto);
+    @Update("UPDATE inquiries SET inquiries_q = #{inquiriesQ} WHERE inquiries_num = #{inquiryId}")
+    int updateInquiry(InquiryDto inquiryDto);
 
     // 고객 질문 삭제
     @Delete("DELETE FROM inquiries WHERE inquiries_num = #{inquiryId}")
