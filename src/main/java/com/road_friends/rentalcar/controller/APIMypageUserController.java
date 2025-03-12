@@ -1,8 +1,10 @@
 package com.road_friends.rentalcar.controller;
 
 
+import com.road_friends.rentalcar.component.CustomUserDetails;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.APIMypageUserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +21,10 @@ public class APIMypageUserController {
 
     // 로그인한 사용자의 정보 조회
     @GetMapping("/mypage")
-    public UserDto getUserInfo() {
+    public UserDto getUserInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
         // 현재 인증된 사용자의 userId 추출
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+//        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userId = userDetails.getUsername();
         return apiMypageUserService.getUserInfo(userId);
     }
 
@@ -41,7 +44,4 @@ public class APIMypageUserController {
         apiMypageUserService.disableUser(userId);
         return "회원 탈퇴처리가 완료되었습니다.";
     }
-
-
-
 }
