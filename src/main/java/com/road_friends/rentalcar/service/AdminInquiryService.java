@@ -39,8 +39,8 @@ public class AdminInquiryService {
         adminInquiryMapper.clearInquiryAnswer(inquiryId);
     }
 
-    public void deleteInquiry(int inquiryId) {
-        adminInquiryMapper.deleteInquiry(inquiryId);
+    public void updateInquiryStatus(int inquiryId, int status) {
+        adminInquiryMapper.updateInquiryStatus(inquiryId, status);
     }
 
     public AdminInquiryDto getInquiryCounts() {
