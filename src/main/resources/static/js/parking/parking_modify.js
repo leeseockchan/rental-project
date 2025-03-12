@@ -11,7 +11,7 @@ document.getElementById('parkingModify').addEventListener('submit', function(e) 
         district: document.getElementById('parkingDistrict').value,
     }
      // 서버로 PUT 요청 보내기
-        fetch(`/api/admin/parkings/${parkingId}/modify`, {
+        fetch(`/admin/parkings/${parkingId}/modify`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ document.getElementById('parkingModify').addEventListener('submit', function(e) 
         .then(response => {
             if (response.ok) {
                 alert('수정이 완료되었습니다!');
-                window.location.href = `/api/admin/parkings/${parkingId}`;
+                window.location.href = `/admin/parkings/${parkingId}`;
             } else {
                 alert('수정에 실패했습니다.');
             }

@@ -21,7 +21,7 @@
             <div class="header-sm">
                 차량 관리 > 차량 상세 조회 > 차량 수정
             </div>
-            <form id="model_modify" th:action="@{/api/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
+            <form id="model_modify" th:action="@{/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
                 method="post">
                 <div class="info-box-big">
 
@@ -129,12 +129,12 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn-go-back"
-                        th:onclick="'location.href=\'' + @{/api/admin/vehicles} + '\''">
+                        th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
                         목록으로
                     </button>
                     <div>
                         <button type="button" class="btn-reset" id="reset"
-                            th:onclick="'location.href=\'' + @{/api/admin/vehicles/{carId}(carId=${modify.carId})} + '\''">
+                            th:onclick="'location.href=\'' + @{/admin/vehicles/{carId}(carId=${modify.carId})} + '\''">
                             취소하기
                         </button>
                         <button type="submit" class="btn-update" id="submit">
@@ -173,7 +173,7 @@
             console.log("carOptions:", carOptions);
             console.log("parkingId:", parkingId);
 
-            fetch(`/api/admin/vehicles/modify/${carId}`, {
+            fetch(`/admin/vehicles/modify/${carId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -193,7 +193,7 @@
                 .then(data => {
                     if (data.success) {
                         alert("수정 완료");
-                        window.location.href = `/api/admin/vehicles/${carId}`;
+                        window.location.href = `/admin/vehicles/${carId}`;
                     } else {
                         alert("수정 실패: " + data.message);
                     }
@@ -219,7 +219,7 @@
                 longitudeInput.value = "";
 
                 if (province) {
-                    fetch(`/api/admin/vehicles/districts?province=${encodeURIComponent(province)}`)
+                    fetch(`/admin/vehicles/districts?province=${encodeURIComponent(province)}`)
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(district => {
@@ -240,7 +240,7 @@
                 longitudeInput.value = "";
 
                 if (province && district) {
-                    fetch(`/api/admin/vehicles/parkings?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
+                    fetch(`/admin/vehicles/parkings?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(parking => {

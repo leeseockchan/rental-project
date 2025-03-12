@@ -31,7 +31,7 @@
                 $("#districtSelect").empty().append('<option value="">구/군을 선택하세요</option>');
 
                 if (province) {
-                    $.get("/api/admin/vehicles/districts", { province: province }, function (data) {
+                    $.get("/admin/vehicles/districts", { province: province }, function (data) {
                         $.each(data, function (index, district) {
                             $("#districtSelect").append('<option value="' + district + '">' + district + '</option>');
                         });
@@ -48,7 +48,7 @@
                     return;
                 }
 
-                $.get("/api/admin/vehicles/search", { district: district }, function (cars) {
+                $.get("/admin/vehicles/search", { district: district }, function (cars) {
                     console.log("검색된 차량 데이터:", cars);  // 👉 실제 응답 확인
 
                     let carListHtml = "";
@@ -56,7 +56,7 @@
                         console.log("개별 차량 데이터:", car);  // 👉 개별 차량 데이터 확인
 
                         carListHtml += `
-                        <tr onclick="location.href='/api/admin/vehicles/${car.carId}'" style="cursor: pointer;">
+                        <tr onclick="location.href='/admin/vehicles/${car.carId}'" style="cursor: pointer;">
                             <td>${car.carId}</td>
                             <td>${car.model.modelBrand}</td>
                             <td>${car.model.modelName}</td>
@@ -153,7 +153,7 @@
 
                 <div class="btn-group">
                     <button type="button" id="add_car" class="btn-update"
-                        th:onclick="'location.href=\'' + @{/api/admin/vehicles/add} + '\''">
+                        th:onclick="'location.href=\'' + @{/admin/vehicles/add} + '\''">
                         주차장에 새 차량을 등록
                     </button>
                 </div>
@@ -172,7 +172,7 @@
                     </tr>
                 </thead>
                 <tbody id="carList">
-                    <tr th:each="car : ${cars}" th:attr="data-href=@{/api/admin/vehicles/{carId}(carId=${car.carId})}"
+                    <tr th:each="car : ${cars}" th:attr="data-href=@{/admin/vehicles/{carId}(carId=${car.carId})}"
                         onclick="location.href=this.getAttribute('data-href')">
                         <td th:text="${car.carId}" style="max-width: 50px;"></td>
                         <td th:text="${car.model.modelBrand}" style="max-width: 80px;"></td>

@@ -21,7 +21,7 @@
                 $("#parkingLongitude").val('');
 
                 if (selectedProvince) {
-                    $.get("/api/admin/vehicles/districts", { province: selectedProvince }, function (data) {
+                    $.get("/admin/vehicles/districts", { province: selectedProvince }, function (data) {
                         $.each(data, function (index, district) {
                             $("#parkingDistrict").append('<option value="' + district + '">' + district + '</option>');
                         });
@@ -38,7 +38,7 @@
                 $("#parkingLongitude").val('');
 
                 if (selectedDistrict) {
-                    $.get("/api/admin/vehicles/parkings", { province: selectedProvince, district: selectedDistrict }, function (data) {
+                    $.get("/admin/vehicles/parkings", { province: selectedProvince, district: selectedDistrict }, function (data) {
                         $.each(data, function (index, parking) {
                             $("#carParking").append('<option value="' + parking.parkingId + '" data-lat="' + parking.parkingLatitude + '" data-lng="' + parking.parkingLongtitude + '">' + parking.parkingName + '</option>');
                         });
@@ -71,7 +71,7 @@
             <div class="header-sm">
                 차량 관리 > 신규 차량 등록
             </div>
-            <form id="add_carData" th:action="@{/api/admin/vehicles/add}" method="post">
+            <form id="add_carData" th:action="@{/admin/vehicles/add}" method="post">
                 <div class="info-box-big">
 
                     <div class="info-box box1">
@@ -161,7 +161,7 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn-go-back"
-                        th:onclick="'location.href=\'' + @{/api/admin/vehicles} + '\''">
+                        th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
                         목록으로
                     </button>
                     <button type="submit" class="btn-update" id="submit">

@@ -27,7 +27,7 @@
             주차장 관리 > 주차장 상세 조회 > 주차장 정보 수정
         </div>
         <form id="parkingModify"
-               th:action="@{/api/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
+               th:action="@{/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
                method="post">
         <input type="hidden" name="_method" value="PUT">
             <div class="info-box-big">
@@ -79,12 +79,12 @@
 
             <div class="btn-group">
                 <button type="button" class="btn-go-back"
-                        th:onclick="|location.href='@{/api/admin/parkings}'|">
+                        th:onclick="|location.href='@{/admin/parkings}'|">
                     목록으로
                 </button>
                 <div>
                     <button type="button" class="btn-reset" id="reset"
-                            th:onclick="'location.href=\'' + @{/api/admin/parkings/{parkingId}(parkingId=${modify.parkingId})} + '\''">
+                            th:onclick="'location.href=\'' + @{/admin/parkings/{parkingId}(parkingId=${modify.parkingId})} + '\''">
                         취소하기
                     </button>
                     <button type="submit" class="btn-update" id="submit">

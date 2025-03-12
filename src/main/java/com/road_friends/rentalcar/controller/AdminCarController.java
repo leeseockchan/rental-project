@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("api/admin/vehicles")
+@RequestMapping("/admin/vehicles")
 public class AdminCarController {
 
     @Autowired
@@ -113,7 +113,7 @@ public class AdminCarController {
     @PostMapping("/add")
     public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
         adminCarService.insertCar(adminCarDto);
-        return "redirect:/api/admin/vehicles";
+        return "redirect:/admin/vehicles";
     }
 
     //    차량 관리 수정
@@ -190,7 +190,7 @@ public class AdminCarController {
     @DeleteMapping("/{carId}")
     public String deleteCarStatus(@PathVariable int carId) {
         adminCarService.deleteCarStatus(carId);
-        return "redirect:/api/admin/vehicles";
+        return "redirect:/admin/vehicles";
     }
 }
 

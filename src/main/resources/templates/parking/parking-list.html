@@ -34,7 +34,7 @@
           districtSelect.innerHTML = '<option value="">구/군을 선택하세요</option>';
 
           if (province) {
-              fetch(`/api/admin/parkings/districts?province=` + encodeURIComponent(province))
+              fetch(`/admin/parkings/districts?province=` + encodeURIComponent(province))
                   .then(response => response.json())
                   .then(data => {
                       data.forEach(district => {
@@ -51,7 +51,7 @@
       document.getElementById("searchBtn").addEventListener("click", function() {
         var district = document.getElementById("districtSelect").value;
 
-        fetch(`/api/admin/parkings/search?district=` + encodeURIComponent(district))
+        fetch(`/admin/parkings/search?district=` + encodeURIComponent(district))
             .then(response => response.json())
             .then(data => {
                 var tableBody = document.querySelector("tbody");
@@ -59,7 +59,7 @@
 
                 data.forEach(parking => {
                     var row = document.createElement("tr");
-                    row.setAttribute("data-href", `/api/admin/parkings/${parking.parkingId}`); // 🚀 data-href 추가
+                    row.setAttribute("data-href", `/admin/parkings/${parking.parkingId}`); // 🚀 data-href 추가
 
                     row.innerHTML = `
                         <td>${parking.parkingName}</td>
@@ -182,7 +182,7 @@
         </div>
 
         <div class="btn-group">
-          <button type="button" class="btn-update" th:onclick="|location.href='@{/api/admin/parkings/add}'|">
+          <button type="button" class="btn-update" th:onclick="|location.href='@{/admin/parkings/add}'|">
             신규 주차장 등록
           </button>
         </div>
@@ -202,7 +202,7 @@
         </thead>
         <tbody>
         <tr th:each="parking : ${parkingList}"
-            th:data-href="@{/api/admin/parkings/{parkingId}(parkingId=${parking.parkingId})}">
+            th:data-href="@{/admin/parkings/{parkingId}(parkingId=${parking.parkingId})}">
             <td th:text="${parking.parkingName}"></td>
             <td th:text="${parking.parkingAddress}"></td>
             <td th:text="${parking.parkingProvince}"></td>
