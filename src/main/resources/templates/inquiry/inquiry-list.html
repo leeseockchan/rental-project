@@ -50,9 +50,10 @@
                         <th style="width: 60px;">사용자 번호</th>
                         <th style="width: 60px;">관리자 번호</th>
                         <th style="width: 180px;">질문</th>
-                        <th style="width: 180px;">답변</th>
+                        <th style="width: 100px;">답변</th>
                         <th style="width: 120px;">질문 작성일</th>
                         <th style="width: 120px;">답변 작성일</th>
+                        <th style="width: 70px;">상태</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,10 +65,14 @@
                         <td th:text="${inquiry.adminNum}" style="max-width: 60px;"></td>
                         <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px; text-align: left;"></td>
                         <td th:text="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '답변 완료' : '답변 없음'}"
-                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: red;'}"
-                            style="max-width: 180px;"></td>
+                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: #ddd;'}"
+                            style="max-width: 100px;"></td>
                         <td th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
                         <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
+                        <td th:text="${inquiry.inquiriesStatus == 1 ? '활성' : '비활성'}"
+                            th:style="${inquiry.inquiriesStatus == 1 ? 'color: black;' : 'color: red;'}"
+                            style="max-width: 70px;">
+                        </td>
                     </tr>
                 </tbody>
             </table>

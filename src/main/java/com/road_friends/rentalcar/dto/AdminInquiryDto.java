@@ -25,6 +25,8 @@ public class AdminInquiryDto {
 
     private String inquiriesACreatedAt;
 
+    private int inquiriesStatus;
+
     // 차트용
     private long total;
     private long answered;

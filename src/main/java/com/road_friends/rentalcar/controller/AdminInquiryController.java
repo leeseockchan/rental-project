@@ -71,12 +71,18 @@ public class AdminInquiryController {
         return "redirect:/admin/inquiry";
     }
 
-    // 관리자 문의 게시글 삭제
-    @PostMapping("/{inquiryId}/delete")
-    public String deleteInquiry(@PathVariable("inquiryId") int inquiryId,
-                                RedirectAttributes redirectAttributes) {
-        adminInquiryService.deleteInquiry(inquiryId);
-        redirectAttributes.addFlashAttribute("successMessage", "문의가 삭제되었습니다.");
-        return "redirect:/admin/inquiry";
+    // 문의 비활성화
+    @PostMapping("/{inquiryId}/deactivate")
+    public String deactivateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestParam("status") int status) {
+        adminInquiryService.updateInquiryStatus(inquiryId, status);  // inquiries_status를 0으로 설정
+        return "redirect:/api/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
     }
+
+    // 문의 활성화
+    @PostMapping("/{inquiryId}/activate")
+    public String activateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestParam("status") int status) {
+        adminInquiryService.updateInquiryStatus(inquiryId, status);  // inquiries_status를 1로 설정
+        return "redirect:/api/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
+    }
+
 }
