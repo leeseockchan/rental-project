@@ -43,6 +43,17 @@
         <div class="list">
             <div class="info-header">문의사항 목록</div>
 
+            <div class="filter-box-big">
+                <div class="filter-box">
+                    <label for="filter-content">키워드</label>
+                    <input type="text" id="filter-content" name="filter-content" placeholder="검색할 키워드를 입력하세요"
+                           th:value="${param.content}"> <!-- 검색어 유지 -->
+                    <div class="btn-group">
+                        <button type="button" class="btn-search" onclick="searchCon()">검색</button>
+                    </div>
+                </div>
+            </div>
+
             <table class="table-box">
                 <thead>
                     <tr>
@@ -79,23 +90,30 @@
 
             <!-- 페이지네이션 -->
             <div class="pagination">
-                <a th:href="@{/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
-                    th:if="${pageDto.prev}">
-                    <span class="material-symbols-outlined">
-                        chevron_left
-                    </span>
+                <!-- 이전 페이지 링크 -->
+                <a th:href="@{/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size}, content=${param.content})}"
+                   th:if="${pageDto.prev}">
+        <span class="material-symbols-outlined">
+            chevron_left
+        </span>
                 </a>
+
+                <!-- 페이지 번호 링크 -->
                 <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-                    <a th:href="@{/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
-                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
-                </span>
-                <a th:href="@{/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
-                    th:if="${pageDto.next}">
-                    <span class="material-symbols-outlined">
-                        chevron_right
-                    </span>
+        <a th:href="@{/admin/inquiry(page=${pageNum}, size=${pageDto.size}, content=${param.content})}"
+           th:text="${pageNum}"
+           th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+    </span>
+
+                <!-- 다음 페이지 링크 -->
+                <a th:href="@{/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size}, content=${param.content})}"
+                   th:if="${pageDto.next}">
+        <span class="material-symbols-outlined">
+            chevron_right
+        </span>
                 </a>
             </div>
+
 
         </div>
     </div>

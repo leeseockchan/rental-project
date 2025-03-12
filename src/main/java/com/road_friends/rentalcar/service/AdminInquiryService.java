@@ -16,11 +16,22 @@ public class AdminInquiryService {
     @Autowired
     AdminInquiryMapper adminInquiryMapper;
 
-    public PageDto getAllInquiry(int page, int size) {
+    public PageDto<AdminInquiryDto> getAllInquiry(int page, int size, String content) {
         int offset = (page - 1) * size;
-        List<AdminInquiryDto> items = adminInquiryMapper.findAllInquiry(size, offset);
-        int totalElements = adminInquiryMapper.countTotal();
-        return new PageDto(page, size, totalElements, items);
+
+        // 검색어가 있으면 검색된 문의사항, 없으면 전체 문의사항 조회
+        List<AdminInquiryDto> items;
+        int totalCount;
+
+        if (content != null && !content.isEmpty()) {
+            items = adminInquiryMapper.getInquiriesByContent(offset, size, content);
+            totalCount = adminInquiryMapper.getTotalCountByContent(content);
+        } else {
+            items = adminInquiryMapper.getInquiries(offset, size);
+            totalCount = adminInquiryMapper.getTotalCount();
+        }
+
+        return new PageDto<>(page, size, totalCount, items);
     }
 
     public AdminInquiryDto getInquiryById(int inquiryId) {
