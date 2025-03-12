@@ -83,6 +83,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 API 허용
                     .requestMatchers("/api/quick-rent/cars/**").permitAll() // 차량 조회 페이지 접근 허용
                     .requestMatchers("/api/short-rent/cars/**").permitAll() // 단기 대여 차량 조회 페이지 접근 허용
+                    .requestMatchers("/api/fast/reservations/**").permitAll()
 
                     // 특정 경로에 대해서만 권한 설정
                     .requestMatchers("/api/quick-rent/reservations/**").hasAuthority("ROLE_VERIFIED") // ROLE_VERIFIED 권한이 있어야 접근 가능
