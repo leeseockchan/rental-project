@@ -24,7 +24,7 @@
       <div class="list-flex-box">
         <div class="info-header">공지사항 목록</div>
         <div class="btn-group">
-          <button type="button" class="btn-update" th:onclick="'location.href=\'' + @{/posts/write} + '\''">
+          <button type="button" class="btn-update" th:onclick="'location.href=\'' + @{/admin/posts/write} + '\''">
             새로운 공지사항 작성
           </button>
         </div>
@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="post : ${pageDto.items}" th:attr="data-href=@{/posts/view/{id}(id=${post.id})}"
+          <tr th:each="post : ${pageDto.items}" th:attr="data-href=@{/admin/posts/view/{id}(id=${post.id})}"
             onclick="location.href=this.getAttribute('data-href')">
             <td th:text="${post.id}" style="max-width: 70px; text-align: center;"></td>
             <td text="" style="max-width: 100px;">00</td>
@@ -52,16 +52,16 @@
 
       <!-- 페이지네이션 -->
       <div class="pagination">
-        <a th:href="@{/posts/list(page=${pageDto.start - 1}, size=${pageDto.size})}" th:if="${pageDto.prev}">
+        <a th:href="@{/adimn/posts/list(page=${pageDto.start - 1}, size=${pageDto.size})}" th:if="${pageDto.prev}">
           <span class="material-symbols-outlined">
             chevron_left
           </span>
         </a>
         <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-          <a th:href="@{/posts/list(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+          <a th:href="@{/admin/posts/list(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
             th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
         </span>
-        <a th:href="@{/posts/list(page=${pageDto.end + 1}, size=${pageDto.size})}" th:if="${pageDto.next}">
+        <a th:href="@{/admin/posts/list(page=${pageDto.end + 1}, size=${pageDto.size})}" th:if="${pageDto.next}">
           <span class="material-symbols-outlined">
             chevron_right
           </span>
