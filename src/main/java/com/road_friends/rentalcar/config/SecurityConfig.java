@@ -79,14 +79,11 @@ public class SecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless 환경
             )
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/public/**").permitAll() // 공개 API
-                    .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 페이지
-                    .requestMatchers("/api/quick-rent/cars/**").permitAll() //차량 조회 페이지
-                    .requestMatchers("/api/short-rent/cars/**").permitAll()
+                    .requestMatchers("/api/**").permitAll() // 공개 API
 
                     // 로그인한 사용자 중에서 "ROLE_VERIFIED" 권한이 있는 경우만 접근 가능
-                    .requestMatchers("/api/quick-rent/reservations").hasAuthority("VERIFIED")
-                    .requestMatchers("/api/short-rent/reservations").hasAuthority("VERIFIED")
+                    .requestMatchers("/api/quick-rent/reservations").hasRole("VERIFIED")
+                    .requestMatchers("/api/short-rent/reservations").hasRole("VERIFIED")
 
                     .anyRequest().authenticated() // 나머지 요청은 인증 필요
             )
