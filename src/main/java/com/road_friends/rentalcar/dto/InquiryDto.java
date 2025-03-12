@@ -34,4 +34,7 @@ public class InquiryDto {
 
     @JsonProperty("inquiries_a_created_at")
     private String inquiriesACreatedAt;
+
+    @JsonProperty("inquiries_status")
+    private int inquiriesStatus;
 }
