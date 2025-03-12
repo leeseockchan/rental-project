@@ -80,6 +80,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/**").permitAll() // 공개 API
+                    .requestMatchers("/api/auth/**").permitAll() // 공개 API
 
                     // 로그인한 사용자 중에서 "ROLE_VERIFIED" 권한이 있는 경우만 접근 가능
                     .requestMatchers("/api/quick-rent/reservations").hasRole("VERIFIED")
