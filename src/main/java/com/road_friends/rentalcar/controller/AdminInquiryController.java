@@ -75,14 +75,14 @@ public class AdminInquiryController {
     @PostMapping("/{inquiryId}/deactivate")
     public String deactivateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestParam("status") int status) {
         adminInquiryService.updateInquiryStatus(inquiryId, status);  // inquiries_status를 0으로 설정
-        return "redirect:/api/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
+        return "redirect:/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
     }
 
     // 문의 활성화
     @PostMapping("/{inquiryId}/activate")
     public String activateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestParam("status") int status) {
         adminInquiryService.updateInquiryStatus(inquiryId, status);  // inquiries_status를 1로 설정
-        return "redirect:/api/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
+        return "redirect:/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
     }
 
 }
