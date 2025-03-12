@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/api/admin/inquiry")
+@RequestMapping("/admin/inquiry")
 public class AdminInquiryController {
     
     @Autowired
@@ -35,7 +35,7 @@ public class AdminInquiryController {
     public String getInquiryById(@PathVariable("inquiryId") int inquiryId, Model model) {
         AdminInquiryDto inquiry = adminInquiryService.getInquiryById(inquiryId);
         if (inquiry == null) {
-            return "redirect:/api/admin/inquiry";
+            return "redirect:/admin/inquiry";
         }
         model.addAttribute("inquiry", inquiry);
         return "inquiry/inquiry-detail";
@@ -59,7 +59,7 @@ public class AdminInquiryController {
 
         adminInquiryService.updateInquiryReply(inquiryId, adminNum, inquiriesA);
         redirectAttributes.addFlashAttribute("successMessage", "답변을 등록하였습니다.");  // 성공 메시지 추가
-        return "redirect:/api/admin/inquiry/" + inquiryId;  // 해당 문의 상세 페이지로 리디렉션
+        return "redirect:/admin/inquiry/" + inquiryId;  // 해당 문의 상세 페이지로 리디렉션
     }
 
     // 관리자 답변 삭제
@@ -68,21 +68,21 @@ public class AdminInquiryController {
                                      RedirectAttributes redirectAttributes) {
         adminInquiryService.clearInquiryAnswer(inquiryId);
         redirectAttributes.addFlashAttribute("successMessage", "답변이 삭제되었습니다.");
-        return "redirect:/api/admin/inquiry";
+        return "redirect:/admin/inquiry";
     }
 
     // 문의 비활성화
     @PostMapping("/{inquiryId}/deactivate")
     public String deactivateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestParam("status") int status) {
         adminInquiryService.updateInquiryStatus(inquiryId, status);  // inquiries_status를 0으로 설정
-        return "redirect:/api/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
+        return "redirect:/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
     }
 
     // 문의 활성화
     @PostMapping("/{inquiryId}/activate")
     public String activateInquiry(@PathVariable("inquiryId") int inquiryId, @RequestParam("status") int status) {
         adminInquiryService.updateInquiryStatus(inquiryId, status);  // inquiries_status를 1로 설정
-        return "redirect:/api/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
+        return "redirect:/admin/inquiry/" + inquiryId;  // inquiryId를 경로에 직접 넣어 리다이렉트
     }
 
 }
