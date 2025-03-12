@@ -15,10 +15,14 @@
             <li><a th:href="@{/api/admin/inquiry}">문의사항 관리</a></li>
         </ul>
     </div>
+
+
     <div class="logout">
         <a th:href="@{/}">
             <span class="material-symbols-outlined">logout</span>
-            로그아웃
+            <form method="post" action="/admin/logout">
+                <button type="submit">로그아웃</button>
+            </form>
         </a>
     </div>
 </div>

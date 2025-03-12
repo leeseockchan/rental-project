@@ -2,6 +2,8 @@ package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,14 @@ public class UserController {
     return "/user/login";
   }
 
+  @PostMapping("/admin/logout")
+  public String logout(HttpServletRequest request, HttpServletResponse response) {
+    // 세션 무효화
+    request.getSession().invalidate();
+
+    // 로그아웃 후 리다이렉트
+    return "redirect:/admin/login?logout";
+  }
 //  @GetMapping("/admin/dashboard")
 //  public String dashboard(){
 //    return "/common/dashboard";

@@ -42,7 +42,6 @@ li {
 
 .logo {
     margin: 50px 20px 0;
-    background-color: #AFFF4F;
     height: 100px;
 }
 
@@ -84,5 +83,16 @@ li {
 
 .logout>a:hover {
     cursor: pointer;
+    color: #AFFF4F;
+}
+
+.logout > a > form > button{
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: white;
+    font-size: 18px;
+}
+.logout > a > form > button:hover{
     color: #AFFF4F;
 }
