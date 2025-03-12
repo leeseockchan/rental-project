@@ -22,7 +22,7 @@ public interface AdminInquiryMapper {
 
     void clearInquiryAnswer(int inquiryId);
 
-    void deleteInquiry(int inquiryId);
+    void updateInquiryStatus(@Param("inquiryId") int inquiryId, @Param("status") int status);
 
     long countTotalInquiries();
 
