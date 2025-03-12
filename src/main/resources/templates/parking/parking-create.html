@@ -26,7 +26,7 @@
       <div class="header-sm">
         주차장 관리 > 신규 주차장 등록
       </div>
-      <form id="parkingForm" th:action="@{/api/admin/parkings/add}" method="post">
+      <form id="parkingForm" th:action="@{/admin/parkings/add}" method="post">
         <div class="info-box-big">
 
           <div class="info-box box1">
@@ -81,7 +81,7 @@
 
         <div class="btn-group">
           <button type="button" class="btn-go-back"
-                  th:onclick="|location.href='@{/api/admin/parkings}'|">
+                  th:onclick="|location.href='@{/admin/parkings}'|">
             목록으로
           </button>
           <button type="submit" class="btn-update" id="submit">

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/posts")
+@RequestMapping("/admin/posts")
 @RequiredArgsConstructor
 public class PostController {
   private final PostService postService;
@@ -43,7 +43,7 @@ public class PostController {
   @PostMapping("/write")
   public String savePost(@ModelAttribute PostDto postDto) {
     postService.savePost(postDto);
-    return "redirect:/posts/list";
+    return "redirect:/admin/posts/list";
   }
 
   @GetMapping("/edit/{id}")
@@ -55,12 +55,12 @@ public class PostController {
   @PostMapping("/edit")
   public String updatePost(@ModelAttribute PostDto postDto) {
     postService.updatePost(postDto);
-    return "redirect:/posts/list";
+    return "redirect:/admin/posts/list";
   }
 
   @GetMapping("/delete/{id}")
   public String deletePost(@PathVariable Long id) {
     postService.deletePost(id);
-    return "redirect:/posts/list";
+    return "redirect:/admin/posts/list";
   }
 }

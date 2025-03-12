@@ -22,11 +22,11 @@
                 <div class="btn-group">
                     <!-- 수정 -->
                     <button type="button" class="btn-update"
-                        th:onclick="'location.href=\'' + @{/api/admin/vehicles/modify/{carId}(carId=${car.carId})} + '\''">
+                        th:onclick="'location.href=\'' + @{/admin/vehicles/modify/{carId}(carId=${car.carId})} + '\''">
                         수정
                     </button>
                     <!-- 삭제 -->
-                    <form th:action="@{/api/admin/vehicles/{carId}(carId=${car.carId})}" method="post">
+                    <form th:action="@{/admin/vehicles/{carId}(carId=${car.carId})}" method="post">
                         <button type="submit" class="btn-delete-all" onclick="return confirm('정말 차량 정보를 삭제하시겠습니까?');">
                             삭제
                         </button>
@@ -111,7 +111,7 @@
             </div>
             <div class="btn-group">
                 <button type="button" class="btn-go-back"
-                    th:onclick="'location.href=\'' + @{/api/admin/vehicles} + '\''">
+                    th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
                     목록으로
                 </button>
             </div>

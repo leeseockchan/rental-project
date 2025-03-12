@@ -51,7 +51,7 @@
       공지사항 관리 > 공지사항 작성
     </div>
 
-    <form th:action="@{/posts/write}" method="post">
+    <form th:action="@{/admin/posts/write}" method="post">
       <div class="info-box-big">
         <div class="info-box box1">
           <div class="info-box-title">공지사항 작성</div>
@@ -87,7 +87,7 @@
       </div>
 
       <div class="btn-group">
-        <button type="button" class="btn-go-back" th:onclick="'location.href=\'' + @{/posts/list} + '\''">
+        <button type="button" class="btn-go-back" th:onclick="'location.href=\'' + @{/admin/posts/list} + '\''">
           목록으로
         </button>
         <button type="submit" class="btn-update" id="submit">

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/admin/parkings")
+@RequestMapping("/admin/parkings")
 public class AdminParkingController {
 
     @Autowired
@@ -82,7 +82,7 @@ public class AdminParkingController {
     @PostMapping("/add")
     public String add(@ModelAttribute AdminParkingDto adminParkingDto){
         adminParkingService.addParking(adminParkingDto);
-        return "redirect:/api/admin/parkings";
+        return "redirect:/admin/parkings";
     }
 
     //    주차장 정보 수정
@@ -98,13 +98,13 @@ public class AdminParkingController {
                                 @ModelAttribute AdminParkingDto adminParkingDto) {
         adminParkingDto.setParkingId(parkingId);
         adminParkingService.modifyParking(adminParkingDto);
-        return "redirect:/api/admin/parkings/" + parkingId;
+        return "redirect:/admin/parkings/" + parkingId;
     }
 
     //      주차장 삭제
     @DeleteMapping("/{parkingId}")
     public String deleteParking(@PathVariable int parkingId) {
         adminParkingService.deleteParking(parkingId);
-        return "redirect:/api/admin/parkings";  // 삭제 후 목록 페이지로 리디렉션
+        return "redirect:/admin/parkings";  // 삭제 후 목록 페이지로 리디렉션
     }
 }

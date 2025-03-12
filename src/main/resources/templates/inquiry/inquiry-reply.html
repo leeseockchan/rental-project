@@ -32,7 +32,7 @@
             <div class="header-sm">
                 문의사항 관리 > 문의사항 상세 조회 > 문의사항 답변
             </div>
-            <form id="reply-form" th:action="@{/api/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})}"
+            <form id="reply-form" th:action="@{/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})}"
                 method="post" onsubmit="return validateForm()">
                 <div class="info-box-big">
                     <div class="info-box box1">
@@ -98,7 +98,7 @@
                 </div>
                 <div class="btn-group">
                     <button type="button" class="btn-go-back"
-                        th:onclick="'location.href=\'' + @{/api/admin/inquiry} + '\''">
+                        th:onclick="'location.href=\'' + @{/admin/inquiry} + '\''">
                         목록으로
                     </button>
                     <button type="submit" class="btn-update" id="submitReply">

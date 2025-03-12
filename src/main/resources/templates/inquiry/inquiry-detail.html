@@ -34,18 +34,18 @@
                 <div class="btn-group">
                     <!-- 문의 수정 -->
                     <button type="button" class="btn-update"
-                        th:onclick="'location.href=\'' + @{/api/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})} + '\''">
+                        th:onclick="'location.href=\'' + @{/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})} + '\''">
                         수정/답변 입력
                     </button>
                     <!-- 답변 삭제 -->
-                    <form th:action="@{/api/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}"
+                    <form th:action="@{/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}"
                         method="post">
                         <button type="submit" class="btn-delete-reply" onclick="return confirm('정말 답변을 삭제하시겠습니까?');">
                             답변만 삭제
                         </button>
                     </form>
                     <!-- 문의 삭제 -->
-                    <form th:action="@{/api/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}"
+                    <form th:action="@{/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}"
                         method="post">
                         <button type="submit" class="btn-delete-all" onclick="return confirm('정말 문의를 삭제하시겠습니까?');">
                             내용 전체 삭제
@@ -107,7 +107,7 @@
             </div>
             <div class="btn-group">
                 <button type="button" class="btn-go-back"
-                    th:onclick="'location.href=\'' + @{/api/admin/inquiry} + '\''">
+                    th:onclick="'location.href=\'' + @{/admin/inquiry} + '\''">
                     목록으로
                 </button>
             </div>

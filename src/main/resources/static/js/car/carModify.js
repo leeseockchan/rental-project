@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("수전 정 행정구역:", selectedDistrict);
 
     if (selectedProvince) {
-        fetch('/api/admin/vehicles/api/districts/' + encodeURIComponent(selectedProvince))
+        fetch('/admin/vehicles/api/districts/' + encodeURIComponent(selectedProvince))
             .then(response => response.json())
             .then(data => {
                 console.log("행정구역 데이터:", data);
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log("carId:", carId);
 
-        fetch('/api/admin/vehicles/modify/' + carId, {
+        fetch('/admin/vehicles/modify/' + carId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

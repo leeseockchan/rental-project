@@ -1,7 +1,7 @@
 document.getElementById("parkingProvince").addEventListener("change", function() {
     var province = this.value;
 
-    fetch(`/api/admin/vehicles/getDistricts?province=${province}`, {
+    fetch(`/admin/vehicles/getDistricts?province=${province}`, {
         method: 'POST'
     })
     .then(response => response.json())
