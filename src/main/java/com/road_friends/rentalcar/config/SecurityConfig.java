@@ -72,31 +72,31 @@ public class SecurityConfig {
   public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 
     http
-            .securityMatcher("/api/**")  // 모든 /api/** 경로에 대해 보안 설정
+            .securityMatcher("/api/**")
             .cors(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless 환경
             )
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/public/**").permitAll() // 공개 API에 대해 접근 허용
-                    .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 API 허용
-                    .requestMatchers("/api/quick-rent/cars/**").permitAll() // 차량 조회 페이지 접근 허용
-                    .requestMatchers("/api/short-rent/cars/**").permitAll() // 단기 대여 차량 조회 페이지 접근 허용
-                    .requestMatchers("/api/fast/reservations/**").permitAll()
+                    .requestMatchers("/api/public/**").permitAll() // 공개 API
+                    .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 페이지
+                    .requestMatchers("/api/quick-rent/cars/**").permitAll() //차량 조회 페이지
+                    .requestMatchers("/api/short-rent/cars/**").permitAll()
 
-                    // 특정 경로에 대해서만 권한 설정
-                    .requestMatchers("/api/quick-rent/reservations/**").hasAuthority("ROLE_VERIFIED") // ROLE_VERIFIED 권한이 있어야 접근 가능
-                    .requestMatchers("/api/short-rent/reservations").hasAuthority("ROLE_VERIFIED") // ROLE_VERIFIED 권한이 있어야 접근 가능
+                    // 로그인한 사용자 중에서 "ROLE_VERIFIED" 권한이 있는 경우만 접근 가능
+                    .requestMatchers("/api/quick-rent/reservations").hasAuthority("VERIFIED")
+                    .requestMatchers("/api/short-rent/reservations").hasAuthority("VERIFIED")
 
-                    // 나머지 경로는 인증 필요
-                    .anyRequest().authenticated()
+                    .anyRequest().authenticated() // 나머지 요청은 인증 필요
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 추가
             .logout(AbstractHttpConfigurer::disable);
 
     return http.build();
   }
+
+
 
 
   @Bean
