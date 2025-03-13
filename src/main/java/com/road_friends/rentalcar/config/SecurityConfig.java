@@ -67,34 +67,34 @@ public class SecurityConfig {
     return http.build();
   }
 
-  @Bean
-  @Order(2)
-  public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
-
-    http
-            .securityMatcher("/api/**")
-            .cors(Customizer.withDefaults())
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless 환경
-            )
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/public/**").permitAll() // 공개 API
-                    .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 페이지
-                    .requestMatchers("/api/quick-rent/cars/**").permitAll() //차량 조회 페이지
-                    .requestMatchers("/api/short-rent/cars/**").permitAll()
-
-                    // 로그인한 사용자 중에서 "ROLE_VERIFIED" 권한이 있는 경우만 접근 가능
-                    .requestMatchers("/api/quick-rent/reservations").hasAuthority("VERIFIED")
-                    .requestMatchers("/api/short-rent/reservations").hasAuthority("VERIFIED")
-
-                    .anyRequest().authenticated() // 나머지 요청은 인증 필요
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 추가
-            .logout(AbstractHttpConfigurer::disable);
-
-    return http.build();
-  }
+//  @Bean
+//  @Order(2)
+//  public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+//
+//    http
+//            .securityMatcher("/api/**")
+//            .cors(Customizer.withDefaults())
+//            .csrf(AbstractHttpConfigurer::disable)
+//            .sessionManagement(session -> session
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless 환경
+//            )
+//            .authorizeHttpRequests(auth -> auth
+//                    .requestMatchers("/api/public/**").permitAll() // 공개 API
+//                    .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 페이지
+//                    .requestMatchers("/api/quick-rent/cars/**").permitAll() //차량 조회 페이지
+//                    .requestMatchers("/api/short-rent/cars/**").permitAll()
+//
+//                    // 로그인한 사용자 중에서 "ROLE_VERIFIED" 권한이 있는 경우만 접근 가능
+//                    .requestMatchers("/api/quick-rent/reservations").hasAuthority("VERIFIED")
+//                    .requestMatchers("/api/short-rent/reservations").hasAuthority("VERIFIED")
+//
+//                    .anyRequest().authenticated() // 나머지 요청은 인증 필요
+//            )
+//            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 추가
+//            .logout(AbstractHttpConfigurer::disable);
+//
+//    return http.build();
+//  }
 
 
 
