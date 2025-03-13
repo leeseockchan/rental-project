@@ -17,13 +17,22 @@ public class PostController {
   private final PostService postService;
 
   @GetMapping("/list")
-  public String list(@RequestParam(name="page", defaultValue = "1") int page,
-                     @RequestParam(name="size", defaultValue = "10") int size,
+  public String list(@RequestParam(name = "page", defaultValue = "1") int page,
+                     @RequestParam(name = "size", defaultValue = "10") int size,
+                     @RequestParam(name = "title", required = false) String title,
                      Model model) {
-    PageDto pageDto = postService.getAllPosts(page, size);
-//    List<PostDto> posts = postService.getAllPosts();
+    PageDto pageDto;
+
+    if (title != null && !title.isEmpty()) {
+      // 제목 검색 적용
+      pageDto = postService.getPostsByTitle(page, size, title);
+    } else {
+      // 기존 전체 목록 조회
+      pageDto = postService.getAllPosts(page, size);
+    }
+
     model.addAttribute("pageDto", pageDto);
-//    model.addAttribute("posts", posts);
+    model.addAttribute("title", title); // 검색어 유지
     return "notice/notice-list";
   }
 

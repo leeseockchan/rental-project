@@ -7,8 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface PostMapper {
-//  @Select("SELECT * FROM posts ORDER BY created_at DESC")
-//  List<PostDto> getAllPosts();
+  @Select("SELECT * FROM posts ORDER BY id DESC LIMIT #{size} OFFSET #{offset}")
+  List<PostDto> getAllPosts(@Param("size") int size, @Param("offset") int offset);
 
   @Insert("INSERT INTO posts (title, content, created_at) VALUES (#{title}, #{content}, CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul'))")
   void insertPost(PostDto postDto);
@@ -22,9 +22,13 @@ public interface PostMapper {
   @Delete("DELETE FROM posts WHERE id = #{id}")
   void deletePost(Long id);
 
-  @Select("SELECT * FROM posts ORDER BY created_at DESC LIMIT #{size} OFFSET #{offset}")
-  List<PostDto> getAllPosts(@Param("size") int size, @Param("offset") int offset);
-
   @Select("SELECT count(*) FROM posts")
   int countTotal();
+
+  @Select("SELECT * FROM posts WHERE title LIKE CONCAT('%', #{title}, '%') " +
+          "ORDER BY id DESC LIMIT #{size} OFFSET #{offset}")
+  List<PostDto> findByTitle(@Param("title") String title, @Param("size") int size, @Param("offset") int offset);
+
+  @Select("SELECT COUNT(*) FROM posts WHERE title LIKE CONCAT('%', #{title}, '%')")
+  int countByTitle(@Param("title") String title);
 }
