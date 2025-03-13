@@ -58,7 +58,9 @@ public class AdminInquiryService {
         long total = adminInquiryMapper.countTotalInquiries();
         long answered = adminInquiryMapper.countAnsweredInquiries();
         long unanswered = adminInquiryMapper.countUnansweredInquiries();
+        long deactivated = adminInquiryMapper.countDeactivatedInquiries();
+        long activated = adminInquiryMapper.countActivatedInquiries();
 
-        return new AdminInquiryDto(total, answered, unanswered);
+        return new AdminInquiryDto(total, answered, unanswered, activated, deactivated);
     }
 }

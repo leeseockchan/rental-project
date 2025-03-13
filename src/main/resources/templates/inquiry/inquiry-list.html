@@ -32,9 +32,17 @@
                         <div class="info-box-title">답변완료 게시글</div>
                         <div class="info-box-content"><span th:text="${counts.answered}"></span> 개</div>
                     </div>
-                    <div class="info-box box3">
+                    <div class="info-box box2">
                         <div class="info-box-title">미답변 게시글</div>
                         <div class="info-box-content"><span th:text="${counts.unanswered}"></span> 개</div>
+                    </div>
+                    <div class="info-box box2">
+                        <div class="info-box-title">활성화 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.activated}"></span> 개</div>
+                    </div>
+                    <div class="info-box box3">
+                        <div class="info-box-title">비활성화 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.deactivated}"></span> 개</div>
                     </div>
                 </div>
             </div>
@@ -50,6 +58,7 @@
                            th:value="${param.content}"> <!-- 검색어 유지 -->
                     <div class="btn-group">
                         <button type="button" class="btn-search" onclick="searchCon()">검색</button>
+                        <button type="button" class="btn-reset" onclick="resetCon()">검색 취소</button>
                     </div>
                 </div>
             </div>

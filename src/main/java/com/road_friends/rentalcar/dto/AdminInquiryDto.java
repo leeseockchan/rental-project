@@ -31,10 +31,14 @@ public class AdminInquiryDto {
     private long total;
     private long answered;
     private long unanswered;
+    private long activated;
+    private long deactivated;
 
-    public AdminInquiryDto(long total, long answered, long unanswered) {
+    public AdminInquiryDto(long total, long answered, long unanswered, long activated, long deactivated) {
         this.total = total;
         this.answered = answered;
         this.unanswered = unanswered;
+        this.activated = activated;
+        this.deactivated = deactivated;
     }
 }

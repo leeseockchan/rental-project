@@ -35,7 +35,6 @@
         WHERE inquiries_q LIKE CONCAT('%', #{content}, '%')
     </select>
 
-
     <!-- 관리자 질문 상세 조회 -->
     <select id="findInquiryById" resultType="com.road_friends.rentalcar.dto.AdminInquiryDto">
         SELECT inquiries_num, user_num, admin_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at, inquiries_status
@@ -86,6 +85,16 @@
     <!-- 미답변 게시글 개수 (inquiriesA가 NULL인 경우) -->
     <select id="countUnansweredInquiries" resultType="long">
         SELECT COUNT(*) FROM inquiries WHERE inquiries_a IS NULL;
+    </select>
+
+    <!-- 활성화 게시글 개수 (inquiriesStatus가 1인 경우) -->
+    <select id="countActivatedInquiries" resultType="long">
+        SELECT COUNT(*) FROM inquiries WHERE inquiries_status = 1;
+    </select>
+
+    <!-- 비활성화 게시글 개수 (inquiriesStatus가 0인 경우) -->
+    <select id="countDeactivatedInquiries" resultType="long">
+        SELECT COUNT(*) FROM inquiries WHERE inquiries_status = 0;
     </select>
 
 </mapper>

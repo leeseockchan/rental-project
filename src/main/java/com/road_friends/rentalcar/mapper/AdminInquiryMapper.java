@@ -22,11 +22,10 @@ public interface AdminInquiryMapper {
     void updateInquiryStatus(@Param("inquiryId") int inquiryId, @Param("status") int status);
 
     long countTotalInquiries();
-
     long countAnsweredInquiries();
-
     long countUnansweredInquiries();
-
+    long countActivatedInquiries();
+    long countDeactivatedInquiries();
 
     List<AdminInquiryDto> getInquiries(@Param("offset") int offset, @Param("size") int size);
     List<AdminInquiryDto> getInquiriesByContent(@Param("offset") int offset, @Param("size") int size, @Param("content") String content);
