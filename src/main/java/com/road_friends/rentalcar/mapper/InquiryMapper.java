@@ -9,12 +9,11 @@ import java.util.List;
 public interface InquiryMapper {
 
     // 고객 질문 전체 조회 (페이지네이션)
-    @Select("SELECT COUNT(*) FROM inquiries")
+    @Select("SELECT COUNT(*) FROM inquiries WHERE inquiries_status != 0")
     int getTotalInquiries();
 
-    // 고객 질문 조회 (페이지네이션)
-    @Select("SELECT inquiries_num, user_num, inquiries_q, inquiries_q_created_at, inquiries_a, inquiries_a_created_at " +
-            "FROM inquiries ORDER BY inquiries_num DESC LIMIT #{size} OFFSET #{offset}")
+    @Select("SELECT inquiries_num, user_num, inquiries_q, inquiries_q_created_at, inquiries_a, inquiries_a_created_at, inquiries_status " +
+            "FROM inquiries WHERE inquiries_status != 0 ORDER BY inquiries_num DESC LIMIT #{size} OFFSET #{offset}")
     List<InquiryDto> getPagedInquiries(@Param("offset") int offset, @Param("size") int size);
 
     // 고객 질문 상세 조회
@@ -22,13 +21,14 @@ public interface InquiryMapper {
     InquiryDto findInquiryById(int inquiryId);
 
     // 고객 질문 추가
-    @Insert("INSERT INTO inquiries (user_num, inquiries_q) VALUES (#{userNum}, #{inquiriesQ})")
-    @Options(useGeneratedKeys = true, keyProperty = "inquiriesNum")
+    @Insert("INSERT INTO inquiries (user_num, inquiries_q, inquiries_q_created_at) " +
+            "VALUES (#{userNum}, #{inquiriesQ}, CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul'))")
+    @Options(useGeneratedKeys = true, keyProperty = "inquiriesNum", keyColumn = "inquiries_num")
     void insertInquiry(InquiryDto inquiryDto);
 
     // 고객 질문 수정
-    @Update("UPDATE inquiries SET inquiries_q = #{inquiriesQ} WHERE inquiries_num = #{inquiriesNum}")
-    void updateInquiry(InquiryDto inquiryDto);
+    @Update("UPDATE inquiries SET inquiries_q = #{inquiriesQ} WHERE inquiries_num = #{inquiryId}")
+    int updateInquiry(InquiryDto inquiryDto);
 
     // 고객 질문 삭제
     @Delete("DELETE FROM inquiries WHERE inquiries_num = #{inquiryId}")

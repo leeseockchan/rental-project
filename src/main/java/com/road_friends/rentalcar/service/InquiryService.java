@@ -30,8 +30,9 @@ public class InquiryService {
         inquiryMapper.insertInquiry(inquiryDto);
     }
 
-    public void updateInquiry(InquiryDto inquiryDto) {
-        inquiryMapper.updateInquiry(inquiryDto);
+    public boolean updateInquiry(InquiryDto inquiryDto) {
+        int rowsAffected = inquiryMapper.updateInquiry(inquiryDto);
+        return rowsAffected > 0; // 업데이트 성공 여부 반환
     }
 
     public void deleteInquiry(int inquiryId) {
