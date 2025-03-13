@@ -159,7 +159,7 @@
 
 <!--    반납 가능한 주차장 조회 - 동일 지역 (4시간 이하)   -->
     <select id="getParkingStationBelow4hours" parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto" >
-        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude
+        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude, p.parking_province, p.parking_district
         FROM parking p
         WHERE p.parking_district = (
             SELECT parking_district FROM parking WHERE parking_id = (
@@ -168,7 +168,7 @@
 
 <!--    반납 가능한 주차장 조회 - 모든 주차장 (4시간 이상 + 단, 제주->육지/ 육지->제주 제외)     -->
     <select id="getAllParkingStation" parameterType="int" resultType="com.road_friends.rentalcar.dto.ParkingDto">
-        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude
+        SELECT p.parking_id, p.parking_name, p.parking_address, p.parking_latitude, p.parking_longtitude, p.parking_province, p.parking_district
         FROM parking p
                  JOIN car c ON c.rental_station = p.parking_id
         WHERE
