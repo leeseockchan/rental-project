@@ -63,3 +63,10 @@ function searchCon() {
     window.location.href = currentUrl + "?" + params.toString();
 }
 
+// 검색취소
+function resetCon() {
+    document.getElementById("filter-content").value = ""; // 검색 입력 필드 초기화
+    window.location.href = "/admin/inquiry"; // 검색어 없이 목록 다시 불러오기
+}
+
+
