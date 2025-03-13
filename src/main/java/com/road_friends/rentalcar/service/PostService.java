@@ -13,9 +13,12 @@ import java.util.List;
 public class PostService {
   private final PostMapper postMapper;
 
-//  public List<PostDto> getAllPosts() {
-//    return postMapper.getAllPosts();
-//  }
+  public PageDto getAllPosts(int page, int size) {
+    int offset = (page - 1) * size;
+    List<PostDto> items = postMapper.getAllPosts(size, offset);
+    int totalElements = postMapper.countTotal();
+    return new PageDto(page, size, totalElements, items);
+  }
 
   public void savePost(PostDto postDto) {
     postMapper.insertPost(postDto);
@@ -33,10 +36,11 @@ public class PostService {
     postMapper.deletePost(id);
   }
 
-  public PageDto getAllPosts(int page, int size) {
+  public PageDto getPostsByTitle(int page, int size, String title) {
     int offset = (page - 1) * size;
-    List<PostDto> items = postMapper.getAllPosts(size, offset);
-    int totalElements = postMapper.countTotal();
-    return new PageDto(page, size, totalElements, items);
+    List<PostDto> posts = postMapper.findByTitle(title, size, offset);
+    int totalCount = postMapper.countByTitle(title);
+
+    return new PageDto(page, size, totalCount, posts);
   }
 }
