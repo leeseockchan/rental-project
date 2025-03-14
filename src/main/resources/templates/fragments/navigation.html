@@ -1,22 +1,28 @@
 <div class="sidebar" th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="logo">로고 들어갈 자리</div>
+    <div class="logo">
+        <img th:src="@{/images/everycar_logo_white.png}" alt="EveryCar Logo">
+    </div>
     <div class="navigation-box">
         <ul class="navigation">
-            <li><a th:href="@{/con}">대시보드</a></li>
+            <li><a th:href="@{/admin/dashboard}">대시보드</a></li>
             <li><a th:href="@{/admin/reservations}">빠른 예약 관리</a></li>
-            <li><a th:href="@{/}">단기 예약 관리</a></li>
-            <li><a th:href="@{/car}">차량 관리</a></li>
-            <li><a th:href="@{/parking}">주차 관리</a></li>
+            <li><a th:href="@{/admin/shortreservations}">단기 예약 관리</a></li>
+            <li><a th:href="@{/admin/vehicles}">차량 관리</a></li>
+            <li><a th:href="@{/admin/parkings}">주차 관리</a></li>
             <li><a th:href="@{/admin/users}">사용자 관리</a></li>
-            <li><a th:href="@{/notice}">공지사항 관리</a></li>
-            <li><a th:href="@{/review}">리뷰 관리</a></li>
-            <li><a th:href="@{/inquiry}">문의사항 관리</a></li>
+            <li><a th:href="@{/admin/posts/list}">공지사항 관리</a></li>
+            <li><a th:href="@{/admin/review}">리뷰 관리</a></li>
+            <li><a th:href="@{/admin/inquiry}">문의사항 관리</a></li>
         </ul>
     </div>
+
+
     <div class="logout">
         <a th:href="@{/}">
             <span class="material-symbols-outlined">logout</span>
-            로그아웃
+            <form method="post" action="/admin/logout">
+                <button type="submit">로그아웃</button>
+            </form>
         </a>
     </div>
 </div>
