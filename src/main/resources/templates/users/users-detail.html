@@ -106,14 +106,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td text="" class="center">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                  </tr>
+                <tr th:each="rental : ${rentalHistory}">
+                  <td class="center" th:text="${rental.reservationId}"></td>
+                  <td th:text="${rental.category}"></td>
+                  <td th:text="${#temporals.format(rental.rentalDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                  <td th:text="${#temporals.format(rental.returnDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                  <td th:text="${rental.model}"></td>
+                  <td th:text="|₩${#numbers.formatInteger(rental.totalPrice, 3, 'COMMA')}|"></td>
+                </tr>
                 </tbody>
               </table>
             </div>

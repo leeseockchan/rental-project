@@ -1,5 +1,7 @@
 package com.road_friends.rentalcar.service;
 
+import com.road_friends.rentalcar.dto.PageDto;
+import com.road_friends.rentalcar.dto.RentalHistoryDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;
@@ -84,5 +86,9 @@ public class UserAdminService {
     // 특정 사용자 정보 수정
     public boolean updateUser(UserDto userDto) {
         return userAdminMapper.updateUser(userDto) > 0;
+    }
+
+    public List<RentalHistoryDto> getUserRentalHistory(Long userNum) {
+        return userAdminMapper.getUserRentalHistory(userNum);
     }
 }

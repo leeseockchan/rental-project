@@ -41,4 +41,8 @@ public interface UserAdminMapper {
 
     // 특정 사용자 정보 수정 (관리자용)
     int updateUser(UserDto userDto);
+
+
+    // 특정 사용자의 대여 기록 조회
+    List<RentalHistoryDto> getUserRentalHistory(@Param("userNum") Long userNum);
 }
