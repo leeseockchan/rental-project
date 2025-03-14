@@ -65,9 +65,13 @@ public class APIUserController {
       Long userNum = ((CustomUserDetails) userDetails).getUserNum();
 
       // JWT 토큰 생성 (userNum 포함)
-      String token = jwtUtil.generateToken(userDetails.getUsername(), userNum, roles);
+      String accessToken = jwtUtil.generateToken(userDetails.getUsername(), userNum, roles);
+      String refreshToken = jwtUtil.generateRefreshToken(userDetails.getUsername(), userNum);
 
-      return Map.of("token", token);
+      return Map.of(
+              "accessToken", accessToken,
+              "refreshToken", refreshToken
+      );
 
     } catch (AuthenticationException e) {
       throw new RuntimeException("Invalid credentials");
@@ -83,4 +87,27 @@ public class APIUserController {
     return ResponseEntity.ok(Map.of("token", newToken));
   }
 
+  // 리프레시 토큰
+  @PostMapping("/refresh")
+  public Map<String, String> refresh(@RequestBody Map<String, String> tokenRequest) {
+    String refreshToken = tokenRequest.get("refreshToken");
+
+    // 리프레시 토큰 검증
+    if (refreshToken != null && jwtUtil.validateToken(refreshToken)) {
+      String userId = jwtUtil.extractUsername(refreshToken);
+      Long userNum = jwtUtil.extractUserNum(refreshToken);
+
+      // 사용자 정보 가져오기
+      UserDetails userDetails = customUserDetailService.loadUserByUsername(userId);
+
+      // 새로운 액세스 토큰 생성
+      String newAccessToken = jwtUtil.generateToken(userDetails.getUsername(), userNum, userDetails.getAuthorities().stream()
+              .map(GrantedAuthority::getAuthority)
+              .collect(Collectors.toList()));
+
+      return Map.of("accessToken", newAccessToken);
+    } else {
+      throw new RuntimeException("Invalid refresh token");
+    }
+  }
 }

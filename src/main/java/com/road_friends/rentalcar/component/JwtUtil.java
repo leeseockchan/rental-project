@@ -22,6 +22,9 @@ public class JwtUtil {
   @Value("${jwt.expiration-time}") // 보안성을 위해 환경변수로 관리 권장
   private long EXPIRATION_TIME; // 1일 (ms)
 
+  @Value("${jwt.refresh-expiration-time}")
+  private long REFRESH_EXPIRATION_TIME;
+
   // JWT 토큰 생성 (userNum 추가)
   public String generateToken(String userId, Long userNum, List<String> roles) {
     return Jwts.builder()
@@ -61,4 +64,16 @@ public class JwtUtil {
             .parseClaimsJws(token)
             .getBody();
   }
+
+  // 리프레시 토큰 생성
+  public String generateRefreshToken(String userId, Long userNum) {
+    return Jwts.builder()
+            .setSubject(userId)
+            .claim("user_num", userNum)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION_TIME)) // 더 긴 유효시간 설정
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
+  }
+
 }
