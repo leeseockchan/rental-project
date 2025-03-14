@@ -1,6 +1,7 @@
 package com.road_friends.rentalcar.service;
 
 import com.road_friends.rentalcar.dto.PageDto;
+import com.road_friends.rentalcar.dto.RentalHistoryDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 public class UserAdminService {
 
     private final UserAdminMapper userAdminMapper;
+
 
     // 전체 회원 수 조회
     public int getUserCount() {
@@ -112,4 +114,7 @@ public class UserAdminService {
         return userAdminMapper.updateUser(userDto) > 0;
     }
 
+    public List<RentalHistoryDto> getUserRentalHistory(Long userNum) {
+        return userAdminMapper.getUserRentalHistory(userNum);
+    }
 }
