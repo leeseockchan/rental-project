@@ -52,11 +52,16 @@ document.getElementById("reply-form").onsubmit = function(event) {
 
 // 검색
 function searchCon() {
-    var filterContent = document.getElementById("filter-content").value;
+    var filterContent = document.getElementById("filter-content").value.trim();
     var currentUrl = window.location.pathname;
     var params = new URLSearchParams(window.location.search);
 
-    // 기존에 'content' 파라미터가 있으면 제거하고 새로 추가
+    if (filterContent === "") {
+        alert("검색어를 입력하세요.");
+        return;
+    }
+
+    // 'content' 파라미터 추가
     params.set("content", filterContent);
 
     // 검색 후 해당 페이지로 이동
