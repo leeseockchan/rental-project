@@ -20,6 +20,18 @@
         sixties: [[${ sixtiesCount }]]
       };
     </script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function () {
+          var userId = document.getElementById("filter-user").value.trim();
+          var totalResults = /*[[${pageDto.totalElements}]]*/ 0;
+
+          if (totalResults === 0 && userId !== "") {
+              alert("검색 결과가 없습니다.");
+          }
+      };
+      /*]]>*/
+    </script>
     <script th:inline="javascript" th:src="@{/js/users/users-chart.js}"></script>
     <script th:inline="javascript" th:src="@{/js/users/users.js}"></script>
   </th:block>
@@ -118,7 +130,7 @@
       </table>
 
       <!-- 페이지네이션 -->
-      <div class="pagination">
+      <div class="pagination" th:if="${pageDto.totalElements > 0}">
         <a th:href="@{/admin/users(page=${pageDto.start - 1}, size=${pageDto.size}, userId=${param.userId})}"
           th:if="${pageDto.prev}">
           <span class="material-symbols-outlined">
