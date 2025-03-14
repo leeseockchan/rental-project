@@ -83,16 +83,16 @@
           <div class="info-box box2">
             <div class="info-box-title">주차장 보유 차량</div>
             <div class="info-box-content">
-              <table class="info-box-content-table2">
+              <table class="info-box-content-table2" th:if="${not #lists.isEmpty(carList)}">
                 <thead>
-                  <tr>
-                    <th>차량 ID</th>
-                    <th>모델 브랜드</th>
-                    <th>모델명</th>
-                    <th>차량 연식</th>
-                    <th>연료 타입</th>
-                    <th>등급</th>
-                  </tr>
+                <tr>
+                  <th>차량 ID</th>
+                  <th>모델 브랜드</th>
+                  <th>모델명</th>
+                  <th>차량 연식</th>
+                  <th>연료 타입</th>
+                  <th>등급</th>
+                </tr>
                 </thead>
                 <tbody>
                 <tr th:each="car : ${carList}" th:data-href="@{/admin/vehicles/{carId}(carId=${car.carId})}">
@@ -105,8 +105,13 @@
                 </tr>
                 </tbody>
               </table>
+              <!-- 차량이 없을 경우 메시지 출력 -->
+              <p th:if="${#lists.isEmpty(carList)}" class="info-box-no-content">
+                현재 차량이 없습니다.
+              </p>
             </div>
           </div>
+
         </div>
 
         <div class="info-box-big">
