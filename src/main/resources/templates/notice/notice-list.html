@@ -9,6 +9,21 @@
   </th:block>
   <script th:src="@{/js/notice/notice.js}" defer></script>
 
+  <th:block layout:fragment="js">
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function () {
+          var keyword = document.getElementById("filter-content").value.trim();
+          var totalResults = /*[[${pageDto.totalElements}]]*/ 0;
+
+          if (totalResults === 0 && keyword !== "") {
+              alert("검색 결과가 없습니다.");
+          }
+      };
+      /*]]>*/
+    </script>
+  </th:block>
+
 </head>
 
 <body>
@@ -62,7 +77,7 @@
       </table>
 
       <!-- 페이지네이션 -->
-      <div class="pagination">
+      <div class="pagination" th:if="${pageDto.totalElements > 0}">
         <a th:href="@{/admin/posts/list(page=${pageDto.start - 1}, size=${pageDto.size}, title=${title})}"
            th:if="${pageDto.prev}">
           <span class="material-symbols-outlined">chevron_left</span>
