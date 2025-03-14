@@ -16,64 +16,70 @@ import java.util.stream.Collectors;
 @Component
 public class JwtUtil {
 
-  @Value("${jwt.secret-key}")
-  private String SECRET_KEY;
+  private final SecretKey secretKey;
+  private final long EXPIRATION_TIME;
+  private final long REFRESH_EXPIRATION_TIME;
 
-  @Value("${jwt.expiration-time}") // 보안성을 위해 환경변수로 관리 권장
-  private long EXPIRATION_TIME; // 1일 (ms)
+  public JwtUtil(@Value("${jwt.secret-key}") String secretKeyString,
+                 @Value("${jwt.expiration-time}") long expirationTime,
+                 @Value("${jwt.refresh-expiration-time}") long refreshExpirationTime) {
+    // ✅ Base64 디코딩 후 SecretKey 생성
+    byte[] keyBytes = Base64.getDecoder().decode(secretKeyString);
+    this.secretKey = Keys.hmacShaKeyFor(keyBytes);
 
-  @Value("${jwt.refresh-expiration-time}")
-  private long REFRESH_EXPIRATION_TIME;
+    this.EXPIRATION_TIME = expirationTime;
+    this.REFRESH_EXPIRATION_TIME = refreshExpirationTime;
+  }
 
-  // JWT 토큰 생성 (userNum 추가)
+  // ✅ JWT 토큰 생성 (SecretKey 사용)
   public String generateToken(String userId, Long userNum, List<String> roles) {
     return Jwts.builder()
             .setSubject(userId)
-            .claim("user_num", userNum)  // user_num 추가
-            .claim("roles", roles) // 권한 정보 추가
+            .claim("user_num", userNum)
+            .claim("roles", roles)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .signWith(secretKey, SignatureAlgorithm.HS256) // ✅ SecretKey 적용
             .compact();
   }
 
-  // JWT 토큰에서 사용자 정보 추출
-  public String extractUsername(String token) {
-    return extractClaims(token).getSubject();
-  }
-
-  // user_num 추출
-  public Long extractUserNum(String token) {
-    return extractClaims(token).get("user_num", Long.class);
-  }
-
-  // 권한(roles) 정보 추출
-  public List<String> extractRoles(String token) {
-    return extractClaims(token).get("roles", List.class);
-  }
-
-  // 토큰 유효성 검증
-  public boolean validateToken(String token) {
-    return !extractClaims(token).getExpiration().before(new Date());
-  }
-
-  // Claims 추출
-  private Claims extractClaims(String token) {
-    return Jwts.parser()
-            .setSigningKey(SECRET_KEY)
-            .parseClaimsJws(token)
-            .getBody();
-  }
-
-  // 리프레시 토큰 생성
+  // ✅ 리프레시 토큰 생성
   public String generateRefreshToken(String userId, Long userNum) {
     return Jwts.builder()
             .setSubject(userId)
             .claim("user_num", userNum)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION_TIME)) // 더 긴 유효시간 설정
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION_TIME))
+            .signWith(secretKey, SignatureAlgorithm.HS256) // ✅ SecretKey 적용
             .compact();
   }
 
+  // ✅ 토큰에서 클레임(Claims) 추출
+  private Claims extractClaims(String token) {
+    return Jwts.parserBuilder()
+            .setSigningKey(secretKey)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+  }
+
+  // ✅ 토큰에서 유저 정보 추출
+  public String extractUsername(String token) {
+    return extractClaims(token).getSubject();
+  }
+
+  // ✅ 토큰에서 user_num 추출
+  public Long extractUserNum(String token) {
+    return extractClaims(token).get("user_num", Long.class);
+  }
+
+  // ✅ 토큰에서 권한(roles) 추출
+  public List<String> extractRoles(String token) {
+    return extractClaims(token).get("roles", List.class);
+  }
+
+  // ✅ 토큰 유효성 검증
+  public boolean validateToken(String token) {
+    return !extractClaims(token).getExpiration().before(new Date());
+  }
 }
