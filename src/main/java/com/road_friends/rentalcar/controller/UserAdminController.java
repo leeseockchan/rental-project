@@ -1,6 +1,5 @@
 package com.road_friends.rentalcar.controller;
 
-
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.UserDTO;
 import com.road_friends.rentalcar.service.UserAdminService;
@@ -21,83 +20,63 @@ public class UserAdminController {
     }
 
     @GetMapping
-    public String getAllUsers(@RequestParam(name="page", defaultValue = "1") int page,
-                              @RequestParam(name="size", defaultValue = "10") int size,
-                              @RequestParam(value = "name", required = false) String name,
+    public String getAllUsers(@RequestParam(name = "page", defaultValue = "1") int page,
+                              @RequestParam(name = "size", defaultValue = "10") int size,
+                              @RequestParam(value = "userId", required = false) String userId,
                               Model model) {
-        List<UserDTO> users;
 
-        // 이름 검색 시
-        if (name != null && !name.isEmpty()) {
-            users = userAdminService.searchUsersByName(name, page, size); // 이름 검색 결과를 페이지네이션 포함하여 가져오기
-        } else {
-            // 전체 회원 목록 조회 (페이지네이션 포함)
-            users = userAdminService.getAllUsers(page, size);
+        // 공백 입력 방지
+        if (userId != null) {
+            userId = userId.trim();
+            if (userId.isEmpty()) {
+                userId = null;
+            }
         }
-        // 전체 사용자 수 조회
-        int totalUsers = userAdminService.getUserCount(name);
-        // PageDto 생성
-        PageDto<UserDTO> pageDto = new PageDto<>(page, size, totalUsers, users);
-        model.addAttribute("pageDto", pageDto);  // 페이지네이션 정보 전달
 
-        // 회원 수 조회
-        int userCount = userAdminService.getUserCount();
-        model.addAttribute("userCount", userCount);
+        List<UserDTO> users = (userId != null) ?
+                userAdminService.searchUsersById(userId, page, size) : // 아이디 검색
+                userAdminService.getAllUsers(page, size); // 전체 목록
 
-        // 활성 사용자 수
-        int activeUserCount = userAdminService.getActiveUserCount();
-        model.addAttribute("activeUserCount", activeUserCount);
+        // 전체 사용자 수 조회 (아이디 검색 포함)
+        int totalUsers = userAdminService.getUserCountById(userId);
 
-        // 탈퇴 사용자 수
-        int inactiveUserCount = userAdminService.getInactiveUserCount();
-        model.addAttribute("inactiveUserCount", inactiveUserCount);
-
-        // 성별 통계
-        int maleUserCount = userAdminService.getMaleUserCount();
-        int femaleUserCount = userAdminService.getFemaleUserCount();
-        model.addAttribute("maleUserCount", maleUserCount);
-        model.addAttribute("femaleUserCount", femaleUserCount);
-
-        // 연령대 통계
-        int twentiesCount = userAdminService.getTwentiesCount();
-        int thirtiesCount = userAdminService.getThirtiesCount();
-        int fortiesCount = userAdminService.getFortiesCount();
-        int fiftiesCount = userAdminService.getFiftiesCount();
-        int sixtiesCount = userAdminService.getSixtiesCount();
-
-        model.addAttribute("twentiesCount", twentiesCount);
-        model.addAttribute("thirtiesCount", thirtiesCount);
-        model.addAttribute("fortiesCount", fortiesCount);
-        model.addAttribute("fiftiesCount", fiftiesCount);
-        model.addAttribute("sixtiesCount", sixtiesCount);
-
-        // 사용자 목록을 모델에 추가
+        // PageDto 생성 후 모델에 추가
+        model.addAttribute("pageDto", new PageDto<>(page, size, totalUsers, users));
         model.addAttribute("users", users);
+        model.addAttribute("userId", userId); // 검색 후 필드 유지
 
-        // 검색 후 필드 안에 이름 그대로 남기기
-        model.addAttribute("name", name);
+        // 전체 회원 수
         model.addAttribute("userCount", totalUsers);
 
-        return "users/users-list"; // 템플릿으로 반환
-    }
+        // 활성 및 탈퇴 회원 수
+        model.addAttribute("activeUserCount", userAdminService.getActiveUserCount());
+        model.addAttribute("inactiveUserCount", userAdminService.getInactiveUserCount());
 
+        // 성별 통계
+        model.addAttribute("maleUserCount", userAdminService.getMaleUserCount());
+        model.addAttribute("femaleUserCount", userAdminService.getFemaleUserCount());
+
+        // 연령대 통계
+        model.addAttribute("twentiesCount", userAdminService.getTwentiesCount());
+        model.addAttribute("thirtiesCount", userAdminService.getThirtiesCount());
+        model.addAttribute("fortiesCount", userAdminService.getFortiesCount());
+        model.addAttribute("fiftiesCount", userAdminService.getFiftiesCount());
+        model.addAttribute("sixtiesCount", userAdminService.getSixtiesCount());
+
+        return "users/users-list"; // 사용자 목록 페이지 반환
+    }
 
     // 특정 사용자 상세 조회
     @GetMapping("/{userNum}")
     public String getUserDetail(@PathVariable("userNum") Long userNum, Model model) {
-        UserDTO user = userAdminService.getUserDetail(userNum);
-        model.addAttribute("user", user);
-        return "users/users-detail"; // templates/user-detail.html로 이동
+        model.addAttribute("user", userAdminService.getUserDetail(userNum));
+        return "users/users-detail"; // 상세 페이지 반환
     }
 
     // 특정 사용자 정보 수정
     @PostMapping("/{userNum}")
     public String updateUser(@PathVariable("userNum") Long userNum, @ModelAttribute UserDTO userDto) {
         userDto.setUserNum(userNum);
-        boolean updated = userAdminService.updateUser(userDto);
-
-        // 수정 성공 시 목록으로 리다이렉트
-        return updated ? "redirect:/admin/users" : "error";
+        return userAdminService.updateUser(userDto) ? "redirect:/admin/users" : "error";
     }
-
 }
