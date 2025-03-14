@@ -135,11 +135,11 @@ public class ShortReservationService {
         Long hoursBetween = ChronoUnit.HOURS.between(rentalDatetime, returnDatetime);
         Long daysBetween = ChronoUnit.DAYS.between(rentalDatetime, returnDatetime);
 
-        if (hoursBetween < 1) {
-            throw new IllegalArgumentException("최소 1시간 이상 예약 가능");
+        if (daysBetween < 14) { // 최소 14일 이상
+            throw new IllegalArgumentException("최소 14일 이상 예약 가능");
         }
-        if (daysBetween > 14) {
-            throw new IllegalArgumentException("최대 14일까지 예약 가능");
+        if (daysBetween > 120) { // 최대 120일 까지
+            throw new IllegalArgumentException("최대 120일까지만 예약 가능");
         }
 
         int hourPrice = carDto.getModel().getModelAmountHour();
