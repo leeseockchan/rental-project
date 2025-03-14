@@ -92,6 +92,9 @@
                     <div class="btn-group">
                         <button type="button" class="btn-update" onclick="searchReviews()">검색</button>
                     </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-reset" onclick="resetReviews()">검색 취소</button>
+                    </div>
                 </div>
             </div>
 
@@ -123,7 +126,7 @@
             </table>
 
             <!-- 페이지네이션 -->
-            <div class="pagination">
+            <div class="pagination" th:if="${pageDto.totalElements > 0}">
                 <a th:href="@{/admin/review(page=${pageDto.start - 1}, size=${pageDto.size})}"
                    th:if="${pageDto.prev}">
                     <span class="material-symbols-outlined">
@@ -150,6 +153,22 @@
             let carConditionStats = /*[[${carConditionStats}]]*/ [];
             let reservationProcessStats = /*[[${reservationProcessStats}]]*/ [];
             let priceStats = /*[[${priceStats}]]*/ [];
+        </script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            window.onload = function () {
+                // Thymeleaf가 전달한 검색 결과 총 개수 (숫자로 변환)
+                var totalResults = parseInt(/*[[${pageDto.totalElements}]]*/ '0', 10);
+                // 검색 조건으로 선택된 연도와 월 (빈 문자열이면 검색 조건 없음)
+                var year = /*[[${param.year}]]*/ "";
+                var month = /*[[${param.month}]]*/ "";
+
+                // 검색 조건이 있을 때 검색 결과가 0이면 alert 띄우기
+                if (totalResults === 0 && (year !== "" || month !== "")) {
+                    alert("검색 결과가 없습니다.");
+                }
+            };
+            /*]]>*/
         </script>
         <script th:inline="javascript" th:src="@{/js/review/review-chart.js}"></script>
         <script th:inline="javascript" th:src="@{/js/review/review-filter.js}"></script>
