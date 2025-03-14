@@ -177,8 +177,6 @@ public class AdminCarController {
         return ResponseEntity.ok(response);
     }
 
-
-
     // 행정 지역 가져오기 엔드포인트
     @GetMapping("/api/districts/{province}")
     @ResponseBody
