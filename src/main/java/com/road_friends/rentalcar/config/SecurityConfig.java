@@ -80,7 +80,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/api/public/**").permitAll() // 공개 API
-                    .requestMatchers("/api/auth/login", "/api/auth/signup").permitAll() // 로그인, 회원가입 페이지
+                    .requestMatchers("/api/auth/login", "/api/auth/signup", "/api/auth/delete").permitAll() // 로그인, 회원가입 페이지
                     .requestMatchers("/api/auth/refresh").permitAll() // 리프레시 토큰
                     .requestMatchers("/api/quick-rent/cars/**").permitAll() //차량 조회 페이지
                     .requestMatchers("/api/short-rent/cars/**").permitAll()

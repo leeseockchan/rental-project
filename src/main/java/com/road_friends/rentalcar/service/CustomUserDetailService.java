@@ -26,12 +26,24 @@ public class CustomUserDetailService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found with username: " + userId);
     }
 
+    // 탈퇴 여부 확인
+    if (!userDTO.isEnabled() || userDTO.getUserStatus() == 2) {
+      throw new RuntimeException("This account has been deactivated.");
+    }
+
     // 권한 정보 생성
     List<String> roles = userDTO.getRoles().stream()
             .map(RoleDto::getName) // RoleDto의 이름을 가져오는 방법은 필요에 맞게 수정
             .collect(Collectors.toList());
 
     // CustomUserDetails 객체 생성
-    return new CustomUserDetails(userDTO.getUserNum(), userDTO.getUserId(), userDTO.getUserPassword(), roles);
+    return new CustomUserDetails(
+            userDTO.getUserNum(),
+            userDTO.getUserId(),
+            userDTO.getUserPassword(),
+            userDTO.isEnabled(),
+            userDTO.getUserStatus(),
+            roles
+    );
   }
 }

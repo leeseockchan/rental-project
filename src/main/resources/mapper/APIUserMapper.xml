@@ -37,4 +37,21 @@
         WHERE ur.user_id = #{userNum}
     </select>
 
+    <update id="deleteUser">
+        UPDATE user
+        SET enabled = 0, user_status = 2
+        WHERE user_num = #{userNum}
+    </update>
+
+    <select id="findByUserId" resultType="com.road_friends.rentalcar.dto.UserDto">
+        SELECT
+        user_num,
+        user_id,
+        user_password,
+        enabled,
+        user_status
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
 </mapper>

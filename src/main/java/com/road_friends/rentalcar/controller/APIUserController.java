@@ -7,6 +7,7 @@ import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.APIUserService;
 import com.road_friends.rentalcar.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,13 +43,24 @@ public class APIUserController {
 
   @PostMapping("/login")
   public Map<String, String> login(@RequestBody Map<String, String> user) {
+
+    // 사용자 정보 조회
+    UserDetails userDetails = customUserDetailService.loadUserByUsername(user.get("userId"));
+    CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+
+
+    // 탈퇴 여부 확인
+    if (customUserDetails.getUserStatus() == 2 || customUserDetails.isEnabled() == false) {
+      throw new RuntimeException("This account has been deactivated.");
+    }
+
     try {
       Authentication authentication = authenticationManager.authenticate(
               new UsernamePasswordAuthenticationToken(user.get("userId"), user.get("userPassword"))
       );
 
       // 인증된 사용자 정보 가져오기
-      UserDetails userDetails = customUserDetailService.loadUserByUsername(user.get("userId"));
+//      UserDetails userDetails = customUserDetailService.loadUserByUsername(user.get("userId"));
 
       // 사용자의 권한(role) 가져오기
       List<String> roles = userDetails.getAuthorities()
@@ -103,6 +115,20 @@ public class APIUserController {
       return Map.of("accessToken", newAccessToken);
     } else {
       throw new RuntimeException("Invalid refresh token");
+    }
+  }
+
+  // 회원 탈퇴 API
+  @PostMapping("/delete")
+  public ResponseEntity<String> deleteUser(@RequestBody Map<String, Long> requestBody) {
+    Long userNum = requestBody.get("userNum");
+
+    boolean success = apiUserService.deleteUser(userNum);
+
+    if (success) {
+      return ResponseEntity.ok("User deleted successfully.");
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
   }
 }

@@ -47,4 +47,9 @@ public class APIUserService {
     // 새로운 JWT 토큰 생성 (userNum 추가)
     return jwtUtil.generateToken(userId, userNum, updatedRoles);
   }
+
+  public boolean deleteUser(Long userNum) {
+    int updatedRows = apiUserMapper.deleteUser(userNum);
+    return updatedRows > 0;
+  }
 }

@@ -22,4 +22,10 @@ public interface APIUserMapper {
 
   // 사용자의 새로운 권한 리스트 조회
   List<String> getUserRoles(@Param("userNum") Long userNum);
+
+  // 회원 조회
+  UserDto findByUserId(@Param("userId") String userId);
+
+  // 회원 탈퇴
+  int deleteUser(@Param("userNum") Long userNum);
 }
