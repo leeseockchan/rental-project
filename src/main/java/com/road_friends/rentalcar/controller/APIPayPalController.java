@@ -125,7 +125,15 @@ public class APIPayPalController {
       } else if ("short".equals(reservationType)) {
         shortReservationService.updateRentalStateToConfirmed(reservationId); // short 예약 처리
       }
-      return ResponseEntity.ok().body(paymentDto.getResponseMap());
+
+      // React 애플리케이션 결제 완료 페이지로 리디렉션
+      String reactSuccessUrl = "http://localhost:3000/myPage/history";
+
+      // 리디렉션을 위한 ResponseEntity 반환
+      return ResponseEntity.status(HttpStatus.FOUND)
+              .header(HttpHeaders.LOCATION, reactSuccessUrl)  // React 결제 완료 페이지로 리디렉션
+              .build();
+
     } catch (PayPalRESTException e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body(Map.of("error", "Payment execution failed."));
