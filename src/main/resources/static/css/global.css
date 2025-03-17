@@ -63,7 +63,8 @@ li {
 }
 
 .navigation a.active {
-    color: #AFFF4F;
+    color: #AFFF4F !important;
+    background-color: #2A2C3E;
 }
 
 .navigation li:hover {
