@@ -65,8 +65,17 @@
                     <td><input type="text" name="userPhone" id="phone" th:value="${user.userPhone}"></td>
                   </tr>
                   <tr>
-                    <th>계정 활성화</th>
-                    <td th:text="${user.enabled ? '활성화됨' : '비활성화됨'}"></td>
+                  <tr>
+                    <th>면허번호</th>
+                    <td th:text="${license != null ? license.licenseNum : '없음'}"></td>
+                  </tr>
+                  <tr>
+                    <th>발급일</th>
+                    <td th:text="${license != null ? #temporals.format(license.licenseDate, 'yyyy-MM-dd') : '없음'}"></td>
+                  </tr>
+                  <tr>
+                    <th>만료일</th>
+                    <td th:text="${license != null ? #temporals.format(license.licenseEndDate, 'yyyy-MM-dd') : '없음'}"></td>
                   </tr>
                   <tr>
                     <th>활성 상태</th>

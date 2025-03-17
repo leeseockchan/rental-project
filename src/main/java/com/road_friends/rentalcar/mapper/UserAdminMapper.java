@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.mapper;
 
+import com.road_friends.rentalcar.dto.LicenseDto;
 import com.road_friends.rentalcar.dto.RentalHistoryDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -46,7 +47,10 @@ public interface UserAdminMapper {
     // 특정 사용자 정보 수정 (관리자용)
     int updateUser(UserDto userDto);
 
-
     // 특정 사용자의 대여 기록 조회
     List<RentalHistoryDto> getUserRentalHistory(@Param("userNum") Long userNum);
+
+    // 특정 사용자의 면허 정보 조회 (관리자용)
+    LicenseDto getUserLicenseDetail(@Param("userNum") Long userNum);
+
 }

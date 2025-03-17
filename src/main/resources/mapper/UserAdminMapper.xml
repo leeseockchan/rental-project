@@ -121,6 +121,21 @@
         ORDER BY rental_datetime DESC
     </select>
 
+    <!-- 특정 사용자의 면허 정보 조회 (관리자용) -->
+    <select id="getUserLicenseDetail" resultType="com.road_friends.rentalcar.dto.LicenseDto">
+        SELECT
+        license_id AS licenseId,
+        license_num AS licenseNum,
+        license_date AS licenseDate,
+        license_end_date AS licenseEndDate,
+        license_photo_path AS licensePhotoPath,
+        user_num AS userNum
+        FROM license
+        WHERE user_num = #{userNum}
+        LIMIT 1
+    </select>
+
+
 
 
 </mapper>

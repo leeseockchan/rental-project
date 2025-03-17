@@ -1,10 +1,12 @@
 package com.road_friends.rentalcar.controller;
 
 
+import com.road_friends.rentalcar.dto.LicenseDto;
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.RentalHistoryDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.UserAdminService;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -88,8 +90,10 @@ public class UserAdminController {
     public String getUserDetail(@PathVariable("userNum") Long userNum, Model model) {
         UserDto user = userAdminService.getUserDetail(userNum);
         List<RentalHistoryDto> rentalHistory = userAdminService.getUserRentalHistory(userNum); // 대여 기록 조회
+        LicenseDto license = userAdminService.getUserLicenseDetail(userNum);
         model.addAttribute("user", user);
         model.addAttribute("rentalHistory", rentalHistory); // 모델에 추가
+        model.addAttribute("license", license);
         return "users/users-detail"; // templates/user-detail.html로 이동
     }
 

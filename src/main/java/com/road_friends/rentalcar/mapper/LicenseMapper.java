@@ -14,4 +14,5 @@ public interface LicenseMapper {
 
   // 사용자 권한을 ROLE_VERIFIED (3)로 변경
   void updateUserRoleToVerified(@Param("userNum") Long userNum);
+
 }
