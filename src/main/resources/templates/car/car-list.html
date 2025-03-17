@@ -28,7 +28,7 @@
             // 시/도 선택 시, 해당 구/군 가져오기
             $("#provinceSelect").change(function () {
                 let province = $(this).val();
-                $("#districtSelect").empty().append('<option value="">구/군을 선택하세요</option>');
+                $("#districtSelect").empty().append('<option value="">시/군/구를 선택하세요</option>');
 
                 if (province) {
                     $.get("/admin/vehicles/districts", { province: province }, function (data) {
@@ -44,7 +44,7 @@
                 let district = $("#districtSelect").val();
 
                 if (!district) {
-                    alert("구/군을 선택해주세요.");
+                    alert("시/군/구를 선택해주세요.");
                     return;
                 }
 
@@ -142,7 +142,7 @@
 
                     <label for="districtSelect">시/군/구</label>
                     <select id="districtSelect">
-                        <option value="">구/군을 선택하세요</option>
+                        <option value="">시/군/구를 선택하세요</option>
                     </select>
 
                     <div class="btn-group">
@@ -162,48 +162,28 @@
             <table class="table-box">
                 <thead>
                     <tr>
-                        <th style="width: 50px;">차량 번호</th>
-                        <th style="width: 80px;">제조사</th>
-                        <th style="width: 80px;">모델명</th>
-                        <th style="width: 80px;">등급</th>
-                        <th style="width: 80px;">카테고리</th>
-                        <th style="width: 100px;">대여 상태</th>
-                        <th style="width: 180px;">현재 위치한 주차장</th>
+                        <th style="width: 10%;">차량 번호</th>
+                        <th style="width: 10%;">제조사</th>
+                        <th style="width: 15%;">모델명</th>
+                        <th style="width: 15%;">등급</th>
+                        <th style="width: 15%;">카테고리</th>
+                        <th style="width: 15%;">대여 상태</th>
+                        <th style="width: 20%;">현재 위치한 주차장</th>
                     </tr>
                 </thead>
                 <tbody id="carList">
                     <tr th:each="car : ${cars}" th:attr="data-href=@{/admin/vehicles/{carId}(carId=${car.carId})}"
                         onclick="location.href=this.getAttribute('data-href')">
-                        <td th:text="${car.carId}" style="max-width: 50px;"></td>
-                        <td th:text="${car.model.modelBrand}" style="max-width: 80px;"></td>
-                        <td th:text="${car.model.modelName}" style="max-width: 80px;"></td>
-                        <td th:text="${car.carGrade}" style="max-width: 80px;"></td>
-                        <td th:text="${car.carCategory}" style="max-width: 80px;"></td>
-                        <td th:text="${car.carStatus}" style="max-width: 100px;"></td>
-                        <td th:text="${car.parking.parkingName}" style="max-width: 180px;"></td>
+                        <td th:text="${car.carId}"></td>
+                        <td th:text="${car.model.modelBrand}"></td>
+                        <td th:text="${car.model.modelName}"></td>
+                        <td th:text="${car.carGrade}"></td>
+                        <td th:text="${car.carCategory}"></td>
+                        <td th:text="${car.carStatus}"></td>
+                        <td th:text="${car.parking.parkingName}"></td>
                     </tr>
                 </tbody>
             </table>
-
-            <!-- 페이지네이션 -->
-            <!--            <div class="pagination">-->
-            <!--                <a th:href="@{/api/admin/vehicles(page=${pageDto.start - 1}, size=${pageDto.size})}"-->
-            <!--                    th:if="${pageDto.prev}">-->
-            <!--                    <span class="material-symbols-outlined">-->
-            <!--                        chevron_left-->
-            <!--                    </span>-->
-            <!--                </a>-->
-            <!--                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">-->
-            <!--                    <a th:href="@{/api/admin/vehicles(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"-->
-            <!--                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>-->
-            <!--                </span>-->
-            <!--                <a th:href="@{/api/admin/vehicles(page=${pageDto.end + 1}, size=${pageDto.size})}"-->
-            <!--                    th:if="${pageDto.next}">-->
-            <!--                    <span class="material-symbols-outlined">-->
-            <!--                        chevron_right-->
-            <!--                    </span>-->
-            <!--                </a>-->
-            <!--            </div>-->
 
         </div>
     </div>

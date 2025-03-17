@@ -31,7 +31,7 @@
           var province = this.value;
           var districtSelect = document.getElementById("districtSelect");
 
-          districtSelect.innerHTML = '<option value="">구/군을 선택하세요</option>';
+          districtSelect.innerHTML = '<option value="">시/군/구를 선택하세요</option>';
 
           if (province) {
               fetch(`/admin/parkings/districts?province=` + encodeURIComponent(province))
@@ -173,7 +173,7 @@
 
           <label for="districtSelect">시/군/구</label>
           <select id="districtSelect">
-            <option value="">구/군을 선택하세요</option>
+            <option value="">시/군/구를 선택하세요</option>
           </select>
 
           <div class="btn-group">
@@ -191,13 +191,13 @@
       <table class="table-box">
         <thead>
           <tr>
-            <th style="width: 100px;">주차장 이름</th>
-            <th style="width: 150px;">주소</th>
-            <th style="width: 100px;">지역</th>
-            <th style="width: 100px;">도시</th>
-            <th style="width: 100px;">위도</th>
-            <th style="width: 100px;">경도</th>
-            <th style="width: 100px;">보유차량 대수</th>
+            <th style="width: 20%;">주차장 이름</th>
+            <th style="width: 20%;">주소</th>
+            <th style="width: 10%;">지역</th>
+            <th style="width: 10%;">도시</th>
+            <th style="width: 15%;">위도</th>
+            <th style="width: 15%;">경도</th>
+            <th style="width: 10%;">보유차량 대수</th>
           </tr>
         </thead>
         <tbody>
@@ -214,23 +214,6 @@
         </tbody>
 
       </table>
-
-<!--      &lt;!&ndash; 페이지네이션 &ndash;&gt;-->
-<!--      <div class="pagination">-->
-<!--        <a href="" if="">-->
-<!--          <span class="material-symbols-outlined">-->
-<!--            chevron_left-->
-<!--          </span>-->
-<!--        </a>-->
-<!--        <span class="page-number" each="">-->
-<!--          <a href="" text="" classappend=""></a>-->
-<!--        </span>-->
-<!--        <a href="" if="">-->
-<!--          <span class="material-symbols-outlined">-->
-<!--            chevron_right-->
-<!--          </span>-->
-<!--        </a>-->
-<!--      </div>-->
 
     </div>
   </div>
