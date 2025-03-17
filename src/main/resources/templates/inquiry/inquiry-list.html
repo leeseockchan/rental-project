@@ -79,7 +79,6 @@
                     <tr>
                         <th style="width: 50px;">문의 번호</th>
                         <th style="width: 60px;">사용자 번호</th>
-                        <th style="width: 60px;">관리자 번호</th>
                         <th style="width: 180px;">질문</th>
                         <th style="width: 100px;">답변</th>
                         <th style="width: 120px;">질문 작성일</th>
@@ -93,7 +92,6 @@
                         onclick="location.href=this.getAttribute('data-href')">
                         <td th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
                         <td th:text="${inquiry.userNum}" style="max-width: 60px;"></td>
-                        <td th:text="${inquiry.adminNum}" style="max-width: 60px;"></td>
                         <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px; text-align: left;"></td>
                         <td th:text="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '답변 완료' : '답변 없음'}"
                             th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: #ddd;'}"

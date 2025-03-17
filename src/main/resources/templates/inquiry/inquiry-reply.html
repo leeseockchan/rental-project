@@ -71,14 +71,6 @@
                                         <td th:text="${inquiry.inquiriesNum}"></td>
                                     </tr>
                                     <tr>
-                                        <th>관리자 번호</th>
-                                        <td>
-                                            <input type="text" id="adminNum" class="form-control" name="adminNum"
-                                                th:value="${inquiry.adminNum}" required oninput="validateAdminNum()" />
-                                            <span id="error-adminNum" style="color: red;"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <th>답변</th>
                                         <td>
                                             <textarea id="inquiriesA" class="form-control" name="inquiriesA" rows="5"
