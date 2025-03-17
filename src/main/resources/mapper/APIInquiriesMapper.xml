@@ -3,12 +3,18 @@
 <mapper namespace="com.road_friends.rentalcar.mapper.APIInquiriesMapper">
 
     <!-- 로그인한 사용자의 문의사항 전체 조회 -->
-    <select id="getUserInquiries"  resultType="com.road_friends.rentalcar.dto.APIInquiriesDto">
+    <select id="getUserInquiries" resultType="com.road_friends.rentalcar.dto.APIInquiriesDto">
         SELECT
         inquiries_num, user_num, admin_num, inquiries_q, inquiries_a,
         inquiries_q_created_at, inquiries_a_created_at, inquiries_status
         FROM inquiries
-        WHERE user_num = #{userNum};
+        WHERE user_num = #{userNum}
+        LIMIT #{offset}, #{size};  <!-- LIMIT과 OFFSET을 사용하여 페이징 처리 -->
+    </select>
+
+    <!-- 전체 데이터의 수를 구하는 쿼리 추가 -->
+    <select id="getUserInquiriesCount" resultType="int">
+        SELECT COUNT(*) FROM inquiries WHERE user_num = #{userNum};
     </select>
 
     <!-- 로그인한 사용자의 특정 문의사항 상세 조회 -->
