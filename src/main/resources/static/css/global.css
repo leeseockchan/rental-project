@@ -62,6 +62,10 @@ li {
     font-weight: 600;
 }
 
+.navigation a.active {
+    color: #AFFF4F;
+}
+
 .navigation li:hover {
     background-color: #2A2C3E;
     cursor: pointer;
