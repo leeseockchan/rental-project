@@ -60,17 +60,17 @@ public class APIPayPalController {
         paymentAmount = (Double) paymentObj;
       }
 
-      int reservationId = 0;
-      if (reservationObj instanceof Integer) {
-        reservationId = (Integer) reservationObj;
-      }
+//      int reservationId = 0;
+//      if (reservationObj instanceof Integer) {
+//        reservationId = (Integer) reservationObj;
+//      }
 
       // 예약 타입 받기 (fast 또는 short)
       String reservationType = reservationTypeObj instanceof String ? (String) reservationTypeObj : "fast";
 
       // success URL에 reservationId와 reservationType을 쿼리 파라미터로 추가
-//      String successUrl = serverUrl + "/api/paypal/success?reservationId=" + reservationId + "&reservationType=" + reservationType;
-      String successUrl = "http://localhost:3000/myPage/history";
+      String successUrl = serverUrl + "/api/paypal/success?reservationId=" + reservationObj + "&reservationType=" + reservationType;
+//      String successUrl = "http://localhost:3000/myPage/history";
       // PayPal 결제 생성
       String redirectUrl = payPalService.createPayment(paymentAmount, "USD", "paypal", "sale", "Payment Description",
               serverUrl + "/api/paypal/cancel",
