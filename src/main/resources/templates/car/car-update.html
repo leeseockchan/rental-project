@@ -6,7 +6,7 @@
     <title>차량 관리 수정</title>
 
     <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
-    <!--    <script th:src="@{/js/car/carModify.js}" defer></script>-->
+    <script th:src="@{/js/car/carModify.js}" defer></script>
 
 </head>
 
@@ -21,8 +21,7 @@
             <div class="header-sm">
                 차량 관리 > 차량 상세 조회 > 차량 수정
             </div>
-            <form id="model_modify" th:action="@{/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
-                method="post">
+            <form id="model_modify" th:action="@{/admin/vehicles/modify/{carId}(carId=${modify.carId})}" method="post">
                 <div class="info-box-big">
 
                     <div class="info-box box1">
@@ -148,115 +147,155 @@
     </div>
 
     <th:block layout:fragment="js">
-    <script>
-        document.getElementById("model_modify").addEventListener("submit", function (event) {
-            event.preventDefault(); // 기본 폼 제출 방지
+        <script>
+            document.getElementById("model_modify").addEventListener("submit", function (event) {
+                event.preventDefault(); // 기본 폼 제출 방지
 
-            const carId = document.getElementById("carId")?.value;
-            const modelName = document.getElementById("modelName")?.value;
-            const carCategory = document.getElementById("carCategory")?.value;
-            const carStatus = document.getElementById("carStatus")?.value;
-            const carYear = document.getElementById("carYear")?.value;
-            const carFuel = document.getElementById("carFuel")?.value;
-            const carGrade = document.getElementById("carGrade")?.value;
-            const carOptions = document.getElementById("carOptions")?.value;
-            const parkingId = document.getElementById("carParking")?.value;
+                const carId = document.getElementById("carId")?.value;
+                const modelName = document.getElementById("modelName")?.value;
+                const carCategory = document.getElementById("carCategory")?.value;
+                const carStatus = document.getElementById("carStatus")?.value;
+                const carYear = document.getElementById("carYear")?.value;
+                const carFuel = document.getElementById("carFuel")?.value;
+                const carGrade = document.getElementById("carGrade")?.value;
+                const carOptions = document.getElementById("carOptions")?.value;
+                const parkingId = document.getElementById("carParking")?.value;
 
-            console.log("🔹 전송 데이터:");
-            console.log("carId:", carId);
-            console.log("modelName:", modelName);
-            console.log("carCategory:", carCategory);
-            console.log("carStatus:", carStatus);
-            console.log("carYear:", carYear);
-            console.log("carFuel:", carFuel);
-            console.log("carGrade:", carGrade);
-            console.log("carOptions:", carOptions);
-            console.log("parkingId:", parkingId);
+                console.log("🔹 전송 데이터:");
+                console.log("carId:", carId);
+                console.log("modelName:", modelName);
+                console.log("carCategory:", carCategory);
+                console.log("carStatus:", carStatus);
+                console.log("carYear:", carYear);
+                console.log("carFuel:", carFuel);
+                console.log("carGrade:", carGrade);
+                console.log("carOptions:", carOptions);
+                console.log("parkingId:", parkingId);
 
-            fetch(`/admin/vehicles/modify/${carId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: { modelName: modelName },
-                    carCategory: carCategory,
-                    carStatus: carStatus,
-                    carYear: carYear,
-                    carFuel: carFuel,
-                    carGrade: carGrade,
-                    carOptions: carOptions,
-                    parking: { parkingId: parkingId }
+                fetch(`/admin/vehicles/modify/${carId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: { modelName: modelName },
+                        carCategory: carCategory,
+                        carStatus: carStatus,
+                        carYear: carYear,
+                        carFuel: carFuel,
+                        carGrade: carGrade,
+                        carOptions: carOptions,
+                        parking: { parkingId: parkingId }
+                    })
                 })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("수정 완료");
-                        window.location.href = `/admin/vehicles/${carId}`;
-                    } else {
-                        alert("수정 실패: " + data.message);
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("수정 완료");
+                            window.location.href = `/admin/vehicles/${carId}`;
+                        } else {
+                            alert("수정 실패: " + data.message);
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            });
+
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const provinceSelect = document.getElementById("parkingProvince");
+                const districtSelect = document.getElementById("parkingDistrict");
+                const parkingSelect = document.getElementById("carParking");
+                const latitudeInput = document.getElementById("parkingLatitude");
+                const longitudeInput = document.getElementById("parkingLongitude");
+
+                // ✅ 현재 선택된 값 가져오기
+                const defaultProvince = provinceSelect.value;
+                const defaultDistrict = districtSelect.value;
+                const defaultParkingId = parkingSelect.value;
+
+                // ✅ 1. 도/시 목록 가져오기
+                fetch("/admin/vehicles/provinces")
+                    .then(response => response.json())
+                    .then(provinces => {
+                        provinceSelect.innerHTML = '<option value="">도/시 선택</option>';
+                        provinces.forEach(province => {
+                            let option = new Option(province, province);
+                            if (province === defaultProvince) option.selected = true;
+                            provinceSelect.add(option);
+                        });
+
+                        if (defaultProvince) {
+                            provinceSelect.dispatchEvent(new Event("change"));
+                        }
+                    })
+                    .catch(error => console.error("Error fetching provinces:", error));
+
+                // ✅ 2. 도/시 선택 시 행정구역 목록 가져오기
+                provinceSelect.addEventListener("change", function () {
+                    const province = this.value;
+                    districtSelect.innerHTML = '<option value="">행정구역 선택</option>';
+                    parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
+                    latitudeInput.value = "";
+                    longitudeInput.value = "";
+
+                    if (province) {
+                        fetch(`/admin/vehicles/districts?province=${encodeURIComponent(province)}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.forEach(district => {
+                                    let option = new Option(district, district);
+                                    if (district === defaultDistrict) option.selected = true;
+                                    districtSelect.add(option);
+                                });
+
+                                if (defaultDistrict) {
+                                    districtSelect.dispatchEvent(new Event("change"));
+                                }
+                            })
+                            .catch(error => console.error("Error fetching districts:", error));
                     }
-                })
-                .catch(error => console.error("Error:", error));
-        });
+                });
 
+                // ✅ 3. 행정구역 선택 시 주차장 목록 가져오기
+                districtSelect.addEventListener("change", function () {
+                    const province = provinceSelect.value;
+                    const district = this.value;
+                    parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
+                    latitudeInput.value = "";
+                    longitudeInput.value = "";
 
+                    if (province && district) {
+                        fetch(`/admin/vehicles/parkings?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.forEach(parking => {
+                                    let option = new Option(parking.parkingName, parking.parkingId);
+                                    option.dataset.latitude = parseFloat(parking.parkingLatitude).toFixed(6); // ✅ 소수점 6자리 유지
+                                    option.dataset.longitude = parseFloat(parking.parkingLongtitude).toFixed(6); // ✅ 소수점 6자리 유지
+                                    parkingSelect.add(option);
+                                });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const provinceSelect = document.getElementById("parkingProvince");
-            const districtSelect = document.getElementById("parkingDistrict");
-            const parkingSelect = document.getElementById("carParking");
-            const latitudeInput = document.getElementById("parkingLatitude");
-            const longitudeInput = document.getElementById("parkingLongitude");
+                                setTimeout(() => {
+                                    parkingSelect.value = defaultParkingId;
+                                    parkingSelect.dispatchEvent(new Event("change"));
+                                }, 100);
+                            })
+                            .catch(error => console.error("Error fetching parkings:", error));
+                    }
+                });
 
-            // 1. 도/시 선택 시 해당 시/도의 행정구역 목록 가져오기
-            provinceSelect.addEventListener("change", function () {
-                const province = this.value;
-                districtSelect.innerHTML = '<option value="">행정구역 선택</option>';
-                parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
-                latitudeInput.value = "";
-                longitudeInput.value = "";
-
-                if (province) {
-                    fetch(`/admin/vehicles/districts?province=${encodeURIComponent(province)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            data.forEach(district => {
-                                let option = new Option(district, district);
-                                districtSelect.add(option);
-                            });
-                        })
-                        .catch(error => console.error("Error fetching districts:", error));
-                }
+                // ✅ 4. 주차장 선택 시 위도/경도 입력
+                parkingSelect.addEventListener("change", function () {
+                    const selectedOption = parkingSelect.options[parkingSelect.selectedIndex];
+                    latitudeInput.value = selectedOption.dataset.latitude || "";
+                    longitudeInput.value = selectedOption.dataset.longitude || "";
+                });
             });
+        </script>
 
-            // 2. 행정구역 선택 시 해당 지역의 주차장 목록 가져오기
-            districtSelect.addEventListener("change", function () {
-                const province = provinceSelect.value;
-                const district = this.value;
-                parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
-                latitudeInput.value = "";
-                longitudeInput.value = "";
-
-                if (province && district) {
-                    fetch(`/admin/vehicles/parkings?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            data.forEach(parking => {
-                                let option = new Option(parking.parkingName, parking.parkingId);
-                                parkingSelect.add(option);
-                                option.dataset.latitude = parking.latitude;
-                                option.dataset.longitude = parking.longitude;
-                            });
-                        })
-                        .catch(error => console.error("Error fetching parkings:", error));
-                }
-            });
-
-        });
-    </script>
     </th:block>
+
 </body>
 
 </html>
