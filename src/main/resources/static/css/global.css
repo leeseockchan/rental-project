@@ -51,17 +51,36 @@ li {
 }
 
 .navigation-box {
-    margin-bottom: 100px;
+
 }
 
-.navigation li {
+
+.navigation .list2 {
     width: 100%;
     transition: 0.1s;
 }
 
-.navigation li a {
+.navigation .list1 a{
     display: block;
     padding: 15px 40px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.navigation .list1 a:hover{
+    background-color: #2A2C3E;
+    cursor: pointer;
+}
+
+.navigation .list1 p{
+    display: block;
+    padding: 15px 40px;
+    color: #fff;
+}
+.navigation .list2 a {
+    display: block;
+    padding: 15px 80px;
     color: #fff;
     font-size: 18px;
     font-weight: 600;
@@ -72,7 +91,7 @@ li {
     background-color: #2A2C3E;
 }
 
-.navigation li:hover {
+.navigation .list2:hover {
     background-color: #2A2C3E;
     cursor: pointer;
 }
