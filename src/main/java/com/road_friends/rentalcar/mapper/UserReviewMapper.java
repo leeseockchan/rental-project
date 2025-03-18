@@ -9,11 +9,11 @@ import java.util.List;
 public interface UserReviewMapper {
 
     // 리뷰 작성
-    @Insert("INSERT INTO review (user_num, car_id, car_condition_satisfaction_rating, " +
+    @Insert("INSERT INTO review (user_num, reservation_id, car_condition_satisfaction_rating, " +
             "reservation_process_satisfaction_rating, price_satisfaction_rating, " +
-            "review_content, review_created_at) VALUES (#{userNum}, #{carId}, #{carConditionSatisfactionRating}, " +
-            "#{reservationProcessSatisfactionRating}, #{priceSatisfactionRating}, " +
-            "#{reviewContent}, NOW())")
+            "review_content, review_created_at) VALUES (#{userNum}, #{reservationId}, " +
+            "#{carConditionSatisfactionRating}, #{reservationProcessSatisfactionRating}, " +
+            "#{priceSatisfactionRating}, #{reviewContent}, NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "reviewId")
     int insertReview(ReviewDTO review);
 
