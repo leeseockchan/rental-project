@@ -12,6 +12,8 @@ import java.util.Map;
 @Mapper
 public interface AdminParkingMapper {
 
+    List<AdminParkingDto> findByProvinceAndDistrict(@Param("province") String province, @Param("district") String district);
+
     // 1. 모든 도/시(province) 목록 가져오기
     @Select("SELECT DISTINCT parking_province FROM parking ORDER BY parking_province")
     List<String> findAllProvinces();
