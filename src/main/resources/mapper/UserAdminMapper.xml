@@ -2,11 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.UserAdminMapper">
 
-    <!-- 전체 회원 수 조회 -->
-    <select id="getUserCount" resultType="int">
-        SELECT COUNT(*) FROM user
-    </select>
-
     <!-- 활성 사용자 수 조회 (user_status = 0) -->
     <select id="getActiveUserCount" resultType="int">
         SELECT COUNT(*) FROM user WHERE user_status = 0
@@ -17,9 +12,9 @@
         SELECT COUNT(*) FROM user WHERE user_status = 1
     </select>
 
-    <!-- 남자 사용자 수 조회 (user_gender = 0) -->
+    <!-- 남자 사용자 수 조회 (user_gender = 2) -->
     <select id="getMaleUserCount" resultType="int">
-        SELECT COUNT(*) FROM user WHERE user_gender = 0
+        SELECT COUNT(*) FROM user WHERE user_gender = 2
     </select>
 
     <!-- 여자 사용자 수 조회 (user_gender = 1) -->
@@ -40,17 +35,17 @@
         user_status, user_gender, user_birth
         FROM user
         WHERE enabled = 1
-        ORDER BY user_num
+        ORDER BY user_num DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
 
-    <!-- 이름으로 사용자 목록 검색 (관리자용) -->
-    <select id="searchUsersByName" resultType="com.road_friends.rentalcar.dto.UserDto">
+    <!-- 아이디로 사용자 목록 검색 (관리자용) -->
+    <select id="searchUsersById" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
         user_status, user_gender, user_birth
         FROM user
-        WHERE user_name LIKE CONCAT('%', #{name}, '%') AND enabled = 1
-        ORDER BY user_num
+        WHERE user_id LIKE CONCAT('%', #{userId}, '%') AND enabled = 1
+        ORDER BY user_num DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
 
@@ -61,17 +56,17 @@
         WHERE enabled = 1
     </select>
 
-    <!-- 이름으로 검색된 사용자 수 조회 (관리자용) -->
-    <select id="searchUserCountByName" resultType="int">
+    <!-- 아이디로 검색된 사용자 수 조회 (관리자용) -->
+    <select id="searchUserCountById" resultType="int">
         SELECT COUNT(*)
         FROM user
-        WHERE user_name LIKE CONCAT('%', #{name}, '%') AND enabled = 1
+        WHERE user_id LIKE CONCAT('%', #{userId}, '%') AND enabled = 1
     </select>
 
     <!-- 특정 사용자 상세 조회 (관리자용) -->
-    <select id="getUserDetail"  resultType="com.road_friends.rentalcar.dto.UserDto">
+    <select id="getUserDetail" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
-               user_status, user_gender, user_birth
+        user_status, user_gender, user_birth
         FROM user
         WHERE user_num = #{userNum} AND enabled = 1
     </select>
@@ -80,11 +75,11 @@
     <update id="updateUser">
         UPDATE user
         SET user_name = #{userName},
-            user_email = #{userEmail},
-            user_phone = #{userPhone},
-            user_address = #{userAddress},
-            user_status = #{userStatus},
-            user_birth = #{userBirth}
+        user_email = #{userEmail},
+        user_phone = #{userPhone},
+        user_address = #{userAddress},
+        user_status = #{userStatus},
+        user_birth = #{userBirth}
         WHERE user_num = #{userNum} AND enabled = 1
     </update>
 

@@ -158,12 +158,25 @@
     cursor: pointer;
 }
 
+.btn-group .btn-search,
 .btn-group .btn-update,
 .btn-group .btn-go-back {
     background-color: #AFFF4F;
     color: #000;
 }
 
+.btn-group .btn-search{
+    margin-right: 10px;
+}
+
+.btn-group .btn-reset{
+    background-color: #F3F3F3;
+    border: 1px solid #D9D9D9;
+    color: #F21717;
+}
+
+.btn-group .btn-reset:hover,
+.btn-group .btn-search:hover,
 .btn-group .btn-update:hover,
 .btn-group .btn-go-back:hover {
     background-color: #3A3D50;
