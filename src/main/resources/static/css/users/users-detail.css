@@ -91,9 +91,8 @@
 }
 
 .info-box-content-table2{
-    border-radius: 10px;
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
 }
 
 .info-box-content-table2 thead tr th,
