@@ -93,6 +93,7 @@
 .btn-group{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .btn-group form{
