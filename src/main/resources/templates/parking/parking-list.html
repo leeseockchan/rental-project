@@ -31,12 +31,14 @@
           var province = this.value;
           var districtSelect = document.getElementById("districtSelect");
 
-          districtSelect.innerHTML = '<option value="">구/군을 선택하세요</option>';
+          districtSelect.innerHTML = '<option value="">시/군/구를 선택하세요</option>';
 
           if (province) {
               fetch(`/admin/parkings/districts?province=` + encodeURIComponent(province))
                   .then(response => response.json())
                   .then(data => {
+                      console.log("📌 시/군/구 데이터 확인:", data); // 👉 응답 데이터 확인
+
                       data.forEach(district => {
                           var option = document.createElement("option");
                           option.value = district;
@@ -44,22 +46,41 @@
                           districtSelect.appendChild(option);
                       });
                   })
-                  .catch(error => console.error('Error:', error));
+                  .catch(error => console.error('❌ 시/군/구 불러오기 오류:', error));
           }
       });
 
       document.getElementById("searchBtn").addEventListener("click", function() {
+        var province = document.getElementById("provinceSelect").value;
         var district = document.getElementById("districtSelect").value;
 
-        fetch(`/admin/parkings/search?district=` + encodeURIComponent(district))
+        if (!province) {
+            alert("시/도를 선택해주세요.");
+            return;
+        }
+        if (!district) {
+            alert("시/군/구를 선택해주세요.");
+            return;
+        }
+
+        console.log(`🔍 검색 요청: province=${province}, district=${district}`);
+
+        fetch(`/admin/parkings/search?province=` + encodeURIComponent(province) + `&district=` + encodeURIComponent(district))
             .then(response => response.json())
             .then(data => {
+                console.log("📌 검색 결과:", data);
+
                 var tableBody = document.querySelector("tbody");
-                tableBody.innerHTML = ""; // 기존 목록 초기화
+                tableBody.innerHTML = "";
+
+                if (data.length === 0) {
+                    alert("검색 결과가 없습니다.");
+                    return;
+                }
 
                 data.forEach(parking => {
                     var row = document.createElement("tr");
-                    row.setAttribute("data-href", `/admin/parkings/${parking.parkingId}`); // 🚀 data-href 추가
+                    row.setAttribute("data-href", `/admin/parkings/${parking.parkingId}`);
 
                     row.innerHTML = `
                         <td>${parking.parkingName}</td>
@@ -74,30 +95,27 @@
                     tableBody.appendChild(row);
                 });
 
-                // 🚀 새로 추가된 <tr>에도 클릭 이벤트 추가!
                 attachRowClickEvent();
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('❌ 검색 오류:', error));
     });
 
-    // ✅ <tr>에 클릭 이벤트를 다시 추가하는 함수
-    function attachRowClickEvent() {
-        document.querySelectorAll(".table-box tbody tr").forEach(row => {
-            row.addEventListener("click", function() {
-                const url = this.getAttribute("data-href"); // data-href 값 가져오기
-                if (url) {
-                    window.location.href = url;
-                } else {
-                    console.error("data-href가 설정되지 않음:", this);
-                }
-            });
-        });
-    }
+      function attachRowClickEvent() {
+          document.querySelectorAll(".table-box tbody tr").forEach(row => {
+              row.addEventListener("click", function() {
+                  const url = this.getAttribute("data-href");
+                  if (url) {
+                      window.location.href = url;
+                  } else {
+                      console.error("data-href가 설정되지 않음:", this);
+                  }
+              });
+          });
+      }
 
-    // ✅ 페이지가 로드될 때 기존 <tr>에도 이벤트 추가
-    document.addEventListener("DOMContentLoaded", attachRowClickEvent);
-
+      document.addEventListener("DOMContentLoaded", attachRowClickEvent);
     </script>
+
   </th:block>
 
 
@@ -171,9 +189,9 @@
             <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"></option>
           </select>
 
-          <label for="districtSelect">구/군</label>
+          <label for="districtSelect">시/군/구</label>
           <select id="districtSelect">
-            <option value="">구/군을 선택하세요</option>
+            <option value="">시/군/구를 선택하세요</option>
           </select>
 
           <div class="btn-group">
@@ -191,13 +209,13 @@
       <table class="table-box">
         <thead>
           <tr>
-            <th style="width: 100px;">주차장 이름</th>
-            <th style="width: 150px;">주소</th>
-            <th style="width: 100px;">지역</th>
-            <th style="width: 100px;">도시</th>
-            <th style="width: 100px;">위도</th>
-            <th style="width: 100px;">경도</th>
-            <th style="width: 100px;">보유차량 대수</th>
+            <th style="width: 20%;">주차장 이름</th>
+            <th style="width: 20%;">주소</th>
+            <th style="width: 10%;">지역</th>
+            <th style="width: 10%;">도시</th>
+            <th style="width: 15%;">위도</th>
+            <th style="width: 15%;">경도</th>
+            <th style="width: 10%;">보유차량 대수</th>
           </tr>
         </thead>
         <tbody>
@@ -214,23 +232,6 @@
         </tbody>
 
       </table>
-
-<!--      &lt;!&ndash; 페이지네이션 &ndash;&gt;-->
-<!--      <div class="pagination">-->
-<!--        <a href="" if="">-->
-<!--          <span class="material-symbols-outlined">-->
-<!--            chevron_left-->
-<!--          </span>-->
-<!--        </a>-->
-<!--        <span class="page-number" each="">-->
-<!--          <a href="" text="" classappend=""></a>-->
-<!--        </span>-->
-<!--        <a href="" if="">-->
-<!--          <span class="material-symbols-outlined">-->
-<!--            chevron_right-->
-<!--          </span>-->
-<!--        </a>-->
-<!--      </div>-->
 
     </div>
   </div>

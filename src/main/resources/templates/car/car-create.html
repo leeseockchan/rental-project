@@ -12,7 +12,16 @@
 
     <script>
         $(document).ready(function () {
-            // 1. 도/시 선택 시 행정구역 목록 갱신
+            // ✅ 1. 시/도(Province) 목록 불러오기
+            $.get("/admin/vehicles/provinces", function (data) {
+                console.log("📌 시/도 목록:", data); // 🛠 디버깅용 콘솔 출력
+                $("#parkingProvince").empty().append('<option value="">도/시 선택</option>');
+                $.each(data, function (index, province) {
+                    $("#parkingProvince").append('<option value="' + province + '">' + province + '</option>');
+                });
+            });
+
+            // ✅ 2. 시/도 선택 시 행정구역(구/군) 목록 갱신
             $("#parkingProvince").change(function () {
                 let selectedProvince = $(this).val();
                 $("#parkingDistrict").empty().append('<option value="">행정구역 선택</option>');
@@ -22,6 +31,7 @@
 
                 if (selectedProvince) {
                     $.get("/admin/vehicles/districts", { province: selectedProvince }, function (data) {
+                        console.log("📌 행정구역 목록:", data); // 🛠 디버깅용 콘솔 출력
                         $.each(data, function (index, district) {
                             $("#parkingDistrict").append('<option value="' + district + '">' + district + '</option>');
                         });
@@ -29,7 +39,7 @@
                 }
             });
 
-            // 2. 행정구역 선택 시 주차장 목록 갱신
+            // ✅ 3. 행정구역 선택 시 주차장 목록 갱신
             $("#parkingDistrict").change(function () {
                 let selectedProvince = $("#parkingProvince").val();
                 let selectedDistrict = $(this).val();
@@ -39,6 +49,7 @@
 
                 if (selectedDistrict) {
                     $.get("/admin/vehicles/parkings", { province: selectedProvince, district: selectedDistrict }, function (data) {
+                        console.log("📌 주차장 목록:", data); // 🛠 디버깅용 콘솔 출력
                         $.each(data, function (index, parking) {
                             $("#carParking").append('<option value="' + parking.parkingId + '" data-lat="' + parking.parkingLatitude + '" data-lng="' + parking.parkingLongtitude + '">' + parking.parkingName + '</option>');
                         });
@@ -46,7 +57,7 @@
                 }
             });
 
-            // 3. 주차장 선택 시 위도, 경도 자동 입력
+            // ✅ 4. 주차장 선택 시 위도, 경도 자동 입력
             $("#carParking").change(function () {
                 let selectedOption = $(this).find("option:selected");
                 let lat = selectedOption.attr("data-lat");

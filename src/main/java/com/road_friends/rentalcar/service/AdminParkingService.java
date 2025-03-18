@@ -28,6 +28,10 @@ public class AdminParkingService {
         return adminParkingMapper.getDistrictsByProvince(province);
     }
 
+    public List<AdminParkingDto> findByProvinceAndDistrict(String province, String district) {
+        return adminParkingMapper.findByProvinceAndDistrict(province, district);
+    }
+
     public List<AdminParkingDto> findByDistrict(String district) {
         return adminParkingMapper.findByDistrict(district);
     }

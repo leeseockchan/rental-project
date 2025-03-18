@@ -69,6 +69,13 @@
     text-align: left;
 }
 
+.info-box-no-content{
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: gray;
+}
+
 .info-box-content-table tbody tr th,
 .info-box-content-table tbody tr td{
     padding: 0 20px 10px 0;
@@ -131,6 +138,7 @@
 .btn-group{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .btn-group form{

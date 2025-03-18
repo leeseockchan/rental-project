@@ -20,37 +20,32 @@ public class AdminParkingController {
     AdminParkingService adminParkingService;
 
     @GetMapping("/districts")
-    @ResponseBody // JSON 응답을 반환하도록 설정
+    @ResponseBody
     public List<String> getDistricts(@RequestParam String province) {
         return adminParkingService.getDistrictsByProvince(province);
     }
 
     @GetMapping("/search")
     @ResponseBody
-    public List<AdminParkingDto> searchByDistrict(@RequestParam String district) {
-        return adminParkingService.findByDistrict(district);
+    public List<AdminParkingDto> searchByProvinceAndDistrict(@RequestParam String province, @RequestParam String district) {
+        return adminParkingService.findByProvinceAndDistrict(province, district);
     }
 
-    // 주차 도/시 리스트
     private List<String> getProvinceList() {
-        return List.of("서울특별시", "인천광역시" ,"경기도", "충청남도", "충청북도",
-                "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
+        return List.of("서울특별시", "인천광역시" , "대전광역시" ,"부산광역시" , "대구광역시" ,"울산광역시" ,"광주광역시" ,"세종특별자치시" ,
+                "경기도", "충청남도", "충청북도", "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
     }
 
-    // 주차장 전체 목록
     @GetMapping
     public String showAllParking(Model model) {
-        model.addAttribute("provinceList", getProvinceList()); // 시/도 리스트 추가
+        model.addAttribute("provinceList", getProvinceList());
 
-        // 주차장 통계 데이터 가져오기
         Map<String, Integer> parkingStats = adminParkingService.getParkingStatistics();
-        model.addAttribute("parkingStats", parkingStats); // 템플릿에 데이터 추가
+        model.addAttribute("parkingStats", parkingStats);
 
-        // 기타 데이터들
         List<AdminParkingDto> top5ParkingStats = adminParkingService.getTop5ParkingStats();
         model.addAttribute("top5ParkingStats", top5ParkingStats);
 
-        // 지역별 주차장 개수
         List<Map<String, Object>> parkingCountByRegion = adminParkingService.getParkingCountByRegion();
         model.addAttribute("parkingCountByRegion", parkingCountByRegion);
 

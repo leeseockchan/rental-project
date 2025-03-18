@@ -7,15 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
         title: { text: '' },
         tooltip: { trigger: "item" },
         legend: {
-            bottom: '10%',
-            left: 'center',
-            textStyle: { fontSize: 14, color: '#333' }
+            bottom: '20%',
+            left: 'left',
+            textStyle: { fontSize: 14, color: '#333' },
+            orient: 'vertical'
         },
         series: [{
             name: '보유 차량',
             type: 'pie',
             radius: ['40%', '100%'], // 반원형 차트 적용
-            center: ["50%", "75%"],
+            center: ["65%", "75%"],
             startAngle: 180,
             endAngle: 360,
             data: top5ParkingStats.map(item => ({ value: item.carCount, name: item.parkingName })),
@@ -44,17 +45,20 @@ document.addEventListener("DOMContentLoaded", function () {
             formatter: '{b}: {c}개' // 툴팁 포맷
         },
         legend: {
-            bottom: '10%',
-            left: 'center',
+            bottom: '20%',
+            left: 'left',
             textStyle: {
                 fontSize: 14,
                 color: '#333'
-            }
+            },
+            orient: 'vertical'
         },
         series: [{
             name: '주차장 개수',
             type: 'pie', // 차트 유형을 원형 차트(pie)로 설정
-            radius: ['40%', '80%'], // 원형 차트의 반지름
+            radius: ['35%', '80%'], // 원형 차트의 반지름
+            center: ["70%", "45%"],
+            label: { show: false, position: 'center'},
             data: parkingCountByRegion.map(item => ({
                 name: item.region,
                 value: item.parking_count
@@ -68,7 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     shadowBlur: 10,
                     shadowOffsetX: 0,
                     shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
+                },
+                label: { show: true, fontSize: 20, fontWeight: 'bold'}
             }
         }]
     };

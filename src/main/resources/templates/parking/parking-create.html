@@ -48,10 +48,17 @@
               <div class="info-box-content-row">
                 <label for="parkingProvince">주차장 관할 지역</label>
                 <select name="parkingProvince" id="parkingProvince" required>
-                  <option th:each="province : ${provinceList}" th:value="${province}" th:text="${province}"
-                    th:selected="${adminParkingDto.parkingProvince == province}">
+                  <option value="" selected>관할 구역을 선택해주세요</option>
+                  <option th:each="province : ${T(java.util.List).of(
+                      '서울특별시', '인천광역시', '대전광역시', '부산광역시', '대구광역시', '울산광역시',
+                      '광주광역시', '세종특별자치시', '경기도', '충청남도', '충청북도',
+                      '경상북도', '경상남도', '강원도', '전라북도', '전라남도', '제주도'
+                  )}"
+                          th:value="${province}" th:text="${province}"
+                          th:selected="${adminParkingDto.parkingProvince == province}">
                   </option>
                 </select>
+
               </div>
 
               <div class="info-box-content-row">
