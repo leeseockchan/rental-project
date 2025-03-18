@@ -23,7 +23,7 @@
 
     <div class="info">
       <div class="header-sm">
-        차량 관리 > 차량 상세 조회
+        주차장 관리 > 주차장 상세 조회
         <div class="btn-group">
           <!-- 수정 -->
           <button type="button" class="btn-update"
@@ -61,20 +61,20 @@
                     <td th:text="${parkingDetail.parkingAddress}"></td>
                   </tr>
                   <tr>
-                    <th>위도</th>
-                    <td th:text="${parkingDetail.parkingLatitude}"></td>
-                  </tr>
-                  <tr>
-                    <th>경도</th>
-                    <td th:text="${parkingDetail.parkingLongtitude}"></td>
-                  </tr>
-                  <tr>
                     <th>시·도</th>
                     <td th:text="${parkingDetail.parkingProvince}"></td>
                   </tr>
                   <tr>
                     <th>시·군·구</th>
                     <td th:text="${parkingDetail.parkingDistrict}"></td>
+                  </tr>
+                  <tr>
+                    <th>위도</th>
+                    <td th:text="${parkingDetail.parkingLatitude}"></td>
+                  </tr>
+                  <tr>
+                    <th>경도</th>
+                    <td th:text="${parkingDetail.parkingLongtitude}"></td>
                   </tr>
                 </tbody>
               </table>
