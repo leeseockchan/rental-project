@@ -12,21 +12,28 @@
 
   <th:block layout:fragment="js">
     <script defer>
-      function searchUser() {
-          var name = document.getElementById("filter-user").value;
-          window.location.href = "/admin/users?name=" + encodeURIComponent(name);
-      }
-    </script>
-    <script defer>
       var ageStats = {
-              twenties: [[${twentiesCount}]],
-              thirties: [[${thirtiesCount}]],
-              forties: [[${fortiesCount}]],
-              fifties: [[${fiftiesCount}]],
-              sixties: [[${sixtiesCount}]]
-          };
+        twenties: [[${ twentiesCount }]],
+        thirties: [[${ thirtiesCount }]],
+        forties: [[${ fortiesCount }]],
+        fifties: [[${ fiftiesCount }]],
+        sixties: [[${ sixtiesCount }]]
+      };
+    </script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function () {
+          var userId = document.getElementById("filter-user").value.trim();
+          var totalResults = /*[[${pageDto.totalElements}]]*/ 0;
+
+          if (totalResults === 0 && userId !== "") {
+              alert("검색 결과가 없습니다.");
+          }
+      };
+      /*]]>*/
     </script>
     <script th:inline="javascript" th:src="@{/js/users/users-chart.js}"></script>
+    <script th:inline="javascript" th:src="@{/js/users/users.js}"></script>
   </th:block>
 
 </head>
@@ -63,9 +70,8 @@
           <div class="info-box-big semi-circle-box-big">
             <div class="info-box-big-header" style="margin-bottom : 0">사용자 성별 비율</div>
             <div class="chart-box semi-circle-box">
-              <div class="chart-content chart1" id="chart-container1"
-                   th:data-male="${maleUserCount}"
-                   th:data-female="${femaleUserCount}">
+              <div class="chart-content chart1" id="chart-container1" th:data-male="${maleUserCount}"
+                th:data-female="${femaleUserCount}">
               </div>
             </div>
           </div>
@@ -88,13 +94,11 @@
 
       <div class="filter-box-big">
         <div class="filter-box">
-          <label for="filter-user">이름</label>
-          <input type="text" id="filter-user" name="filter-user" placeholder="이름을 입력하세요"
-                 th:value="${param.name}">
+          <label for="filter-user">아이디</label>
+          <input type="text" id="filter-user" name="filter-user" placeholder="아이디를 검색하세요" th:value="${param.userId}">
           <div class="btn-group">
-            <button type="button" class="btn-update" onclick="searchUser()">
-              검색
-            </button>
+            <button type="button" class="btn-search" onclick="searchUser()">검색</button>
+            <button type="button" class="btn-reset" onclick="resetCon()">검색 취소</button>
           </div>
         </div>
       </div>
@@ -112,9 +116,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="user : ${users}"
-              th:attr="data-href=@{/admin/users/{userNum}(userNum=${user.userNum})}"
-              onclick="location.href=this.getAttribute('data-href')">
+          <tr th:each="user : ${users}" th:attr="data-href=@{/admin/users/{userNum}(userNum=${user.userNum})}"
+            onclick="location.href=this.getAttribute('data-href')">
             <td th:text="${user.userNum}" style="max-width: 70px; text-align: center;"></td>
             <td th:text="${user.userId}" style="max-width: 100px;"></td>
             <td th:text="${user.userName}" style="max-width: 100px;"></td>
@@ -127,22 +130,22 @@
       </table>
 
       <!-- 페이지네이션 -->
-      <div class="pagination">
-        <a th:href="@{/admin/users(page=${pageDto.start - 1}, size=${pageDto.size})}"
-           th:if="${pageDto.prev}">
-                    <span class="material-symbols-outlined">
-                        chevron_left
-                    </span>
+      <div class="pagination" th:if="${pageDto.totalElements > 0}">
+        <a th:href="@{/admin/users(page=${pageDto.start - 1}, size=${pageDto.size}, userId=${param.userId})}"
+          th:if="${pageDto.prev}">
+          <span class="material-symbols-outlined">
+            chevron_left
+          </span>
         </a>
         <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-                    <a th:href="@{/admin/users(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
-                       th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
-                </span>
-        <a th:href="@{/admin/users(page=${pageDto.end + 1}, size=${pageDto.size})}"
-           th:if="${pageDto.next}">
-                    <span class="material-symbols-outlined">
-                        chevron_right
-                    </span>
+          <a th:href="@{/admin/users(page=${pageNum}, size=${pageDto.size}, userId=${param.userId})}"
+            th:text="${pageNum}" th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+        </span>
+        <a th:href="@{/admin/users(page=${pageDto.end + 1}, size=${pageDto.size}, userId=${param.userId})}"
+          th:if="${pageDto.next}">
+          <span class="material-symbols-outlined">
+            chevron_right
+          </span>
         </a>
       </div>
 
