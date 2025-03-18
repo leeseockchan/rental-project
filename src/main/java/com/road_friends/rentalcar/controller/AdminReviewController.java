@@ -3,7 +3,7 @@ package com.road_friends.rentalcar.controller;
 import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.ReviewReservationDTO;
 import com.road_friends.rentalcar.dto.ReviewDTO;
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.AdminReviewService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +67,7 @@ public class AdminReviewController {
         // 리뷰 정보 조회
         ReviewDTO review = adminReviewService.getReviewById(id);
         // 리뷰 작성자의 사용자 정보 조회
-        UserDTO user = adminReviewService.getUserById(review.getUserNum());
+        UserDto user = adminReviewService.getUserById(review.getUserNum());
 
         // 리뷰 ID를 통해 예약 정보를 찾는다
         ReviewReservationDTO reviewReservationDTO = adminReviewService.getReservationDetailsByReviewId(id);

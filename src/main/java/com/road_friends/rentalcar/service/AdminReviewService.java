@@ -29,7 +29,7 @@ public class AdminReviewService {
         return adminReviewMapper.getReviewById(id);
     }
 
-    public UserDTO getUserById(Long userNum) {
+    public UserDto getUserById(Long userNum) {
         return adminReviewMapper.getUserById(userNum);
     }
 

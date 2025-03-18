@@ -15,7 +15,7 @@ public interface AdminReviewMapper {
 
     ReviewDTO getReviewById(@Param("id") Long id);
 
-    UserDTO getUserById(@Param("userNum") Long userNum);
+    UserDto getUserById(@Param("userNum") Long userNum);
 
     void deleteReview(@Param("id") Long id);
 

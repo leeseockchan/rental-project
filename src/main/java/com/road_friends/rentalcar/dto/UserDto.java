@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
 @Data
-public class UserDTO {
+public class UserDto {
   private Long userNum;
   private String userId;
   private String userName;
