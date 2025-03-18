@@ -34,16 +34,22 @@ public class AdminCarController {
     // 지역별 차량 검색
     @GetMapping("/search")
     @ResponseBody
-    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
-        return adminCarService.findByDistrict(district);
+    public List<AdminCarDto> searchByProvinceAndDistrict(
+            @RequestParam String province,
+            @RequestParam String district) {
+        return adminCarService.findByProvinceAndDistrict(province, district);
     }
 
     // 1. 도/시(province) 목록 조회
-//    @GetMapping("/provinces")
-//    public ResponseEntity<List<String>> getProvinces() {
-//        List<String> provinces = adminParkingService.getAllProvinces();
-//        return ResponseEntity.ok(provinces);
-//    }
+    @GetMapping("/provinces")
+    public ResponseEntity<List<String>> getProvinces() {
+        List<String> provinces = Arrays.asList(
+                "서울특별시", "인천광역시", "대전광역시", "부산광역시", "대구광역시", "울산광역시",
+                "광주광역시", "세종특별자치시", "경기도", "충청남도", "충청북도",
+                "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도"
+        );
+        return ResponseEntity.ok(provinces);
+    }
 
     // 3. 선택된 행정구역의 주차장 목록 조회
     @GetMapping("/parkings")
@@ -56,8 +62,8 @@ public class AdminCarController {
 
     // 주차 도/시 리스트
     private List<String> getProvinceList() {
-        return List.of("서울특별시", "경기도", "충청북도", "충청남도",
-                "경상북도", "경상남도", "전라북도", "전라남도", "제주도");
+        return List.of("서울특별시", "인천광역시" , "대전광역시" ,"부산광역시" , "대구광역시" ,"울산광역시" ,"광주광역시" ,"세종특별자치시" ,
+                "경기도", "충청남도", "충청북도", "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
     }
 
     private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
@@ -176,8 +182,6 @@ public class AdminCarController {
         response.put("message", "수정 완료");
         return ResponseEntity.ok(response);
     }
-
-
 
     // 행정 지역 가져오기 엔드포인트
     @GetMapping("/api/districts/{province}")

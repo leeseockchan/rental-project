@@ -19,8 +19,8 @@ public class AdminCarService {
         return adminCarMapper.getDistrictsByProvince(province);
     }
 
-    public List<AdminCarDto> findByDistrict(String district) {
-        return adminCarMapper.findByDistrict(district);
+    public List<AdminCarDto> findByProvinceAndDistrict(String province, String district) {
+        return adminCarMapper.findByProvinceAndDistrict(province, district);
     }
 
     //    차량 관리 상세 보기

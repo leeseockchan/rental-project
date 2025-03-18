@@ -23,15 +23,23 @@
         var carBrandParsed = [[${carBrands}]];
     </script>
 
-    <script defer>
+    <script th:inline="javascript">
         $(document).ready(function () {
-            // 시/도 선택 시, 해당 구/군 가져오기
+            // ✅ 시/도 목록 불러오기 (17개가 정상적으로 나오는지 확인)
+            $.get("/admin/vehicles/provinces", function (data) {
+                $("#provinceSelect").empty().append('<option value="">시/도를 선택하세요</option>');
+                $.each(data, function (index, province) {
+                    $("#provinceSelect").append('<option value="' + province + '">' + province + '</option>');
+                });
+            });
+            // ✅ 시/도 선택 시, 해당 시/군/구 가져오기
             $("#provinceSelect").change(function () {
-                let province = $(this).val();
+                let province = $(this).val().trim();
                 $("#districtSelect").empty().append('<option value="">시/군/구를 선택하세요</option>');
 
                 if (province) {
                     $.get("/admin/vehicles/districts", { province: province }, function (data) {
+                        console.log("📌 시/군/구 목록:", data); // 👉 응답 데이터 확인
                         $.each(data, function (index, district) {
                             $("#districtSelect").append('<option value="' + district + '">' + district + '</option>');
                         });
@@ -39,22 +47,29 @@
                 }
             });
 
-            // 차량 검색 버튼 클릭 시
+            // ✅ 차량 검색 버튼 클릭 시
             $("#searchBtn").click(function () {
+                let province = $("#provinceSelect").val();
                 let district = $("#districtSelect").val();
 
+                if (!province) {
+                    alert("시/도를 선택해주세요.");
+                    return;
+                }
                 if (!district) {
                     alert("시/군/구를 선택해주세요.");
                     return;
                 }
 
-                $.get("/admin/vehicles/search", { district: district }, function (cars) {
-                    console.log("검색된 차량 데이터:", cars);  // 👉 실제 응답 확인
+                $.get("/admin/vehicles/search", { province: province, district: district }, function (cars) {
+                    if (cars.length === 0) {
+                        alert("검색 결과가 없습니다.");
+                        $("#carList").html("");  // 테이블 초기화
+                        return;
+                    }
 
                     let carListHtml = "";
                     $.each(cars, function (index, car) {
-                        console.log("개별 차량 데이터:", car);  // 👉 개별 차량 데이터 확인
-
                         carListHtml += `
                         <tr onclick="location.href='/admin/vehicles/${car.carId}'" style="cursor: pointer;">
                             <td>${car.carId}</td>
@@ -67,6 +82,8 @@
                         </tr>`;
                     });
                     $("#carList").html(carListHtml);
+                }).fail(function () {
+                    alert("검색 중 오류가 발생했습니다.");
                 });
             });
         });

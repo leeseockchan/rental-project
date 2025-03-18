@@ -11,7 +11,7 @@ import java.util.Map;
 @Mapper
 public interface AdminCarMapper {
     List<String> getDistrictsByProvince(@Param("province") String province);
-    List<AdminCarDto> findByDistrict(@Param("district") String district);
+    List<AdminCarDto> findByProvinceAndDistrict(@Param("province") String province, @Param("district") String district);
     List<AdminCarDto> findAllCar();
     AdminCarDto findByCarId(int carId);
     void insertCar(AdminCarDto adminCarDto);
