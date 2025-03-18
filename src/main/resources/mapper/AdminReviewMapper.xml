@@ -19,7 +19,7 @@
         SELECT * FROM review WHERE review_id = #{id}
     </select>
 
-    <select id="getUserById" parameterType="long" resultType="com.road_friends.rentalcar.dto.UserDTO">
+    <select id="getUserById" parameterType="long" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT * FROM user WHERE user_num = #{userNum}
     </select>
 
