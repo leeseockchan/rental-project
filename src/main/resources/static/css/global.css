@@ -7,6 +7,11 @@
     margin: 0;
     padding: 0;
     font-family: "Noto Sans KR", serif;
+    overflow-x: hidden;
+}
+
+.content {
+    min-width : 1300px;
 }
 
 .container {
@@ -62,37 +67,47 @@ li {
     font-weight: 600;
 }
 
+.navigation a.active {
+    color: #AFFF4F !important;
+    background-color: #2A2C3E;
+}
+
 .navigation li:hover {
     background-color: #2A2C3E;
     cursor: pointer;
 }
 
-.logout>a {
+.logout {
     margin: 30px 40px;
     font-size: 15px;
     font-weight: 400;
-    display: flex;
-    align-items: center;
     color: #fff;
     transition: 0.1s;
 }
 
-.logout>a>span {
+.logout .logout-group{
+    display: inline-flex;
+}
+
+.logout span {
     margin-right: 5px;
 }
 
-.logout>a:hover {
-    cursor: pointer;
-    color: #AFFF4F;
-}
-
-.logout > a > form > button{
+.logout form button{
     cursor: pointer;
     border: none;
     background: none;
     color: white;
     font-size: 18px;
 }
-.logout > a > form > button:hover{
+
+.logout .logout-group:hover{
+    cursor: pointer;
+}
+
+.logout .logout-group:hover span,
+.logout .logout-group:hover form button{
     color: #AFFF4F;
 }
+
+
