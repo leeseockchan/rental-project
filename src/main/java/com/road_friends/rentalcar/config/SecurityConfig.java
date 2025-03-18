@@ -89,6 +89,7 @@ public class SecurityConfig {
 
                     .requestMatchers("/api/inquiry/**").permitAll()
                     .requestMatchers("/api/posts/**").permitAll()
+                    .requestMatchers("/api/user/reviews").permitAll()
 
                     // 로그인한 사용자 중에서 "ROLE_VERIFIED" 권한이 있는 경우만 접근 가능
                     .requestMatchers("/api/quick-rent/reservations").hasRole("VERIFIED")
