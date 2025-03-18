@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,8 +36,22 @@ public class APIUserController {
   private final AuthenticationManager authenticationManager;
   private final CustomUserDetailService customUserDetailService;
 
+  // 아이디 중복 확인
+  @GetMapping("/check-user-id")
+  public ResponseEntity<Map<String, Object>> checkUserId(@RequestParam String userId) {
+    boolean isDuplicate = apiUserService.isUserIdDuplicate(userId);
+    Map<String, Object> response = new HashMap<>();
+    response.put("isDuplicate", isDuplicate);
+    return ResponseEntity.ok(response);
+  }
+
   @PostMapping("/signup")
   public ResponseEntity<String> signup(@RequestBody UserDto userDTO) {
+    // 아이디 중복 체크
+    if (apiUserService.isUserIdDuplicate(userDTO.getUserId())) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("중복되는 아이디입니다.");
+    }
+
     apiUserService.signup(userDTO);
     return ResponseEntity.ok("Signup successful");
   }

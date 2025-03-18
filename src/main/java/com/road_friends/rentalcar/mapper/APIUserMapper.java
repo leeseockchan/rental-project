@@ -9,6 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface APIUserMapper {
+  // 아이디 중복 체크
+  boolean existsByUserId(String userId);
+
   void save(UserDto userDTO);
   void insertUserRole(@Param("userId") Long userId, @Param("roleId") int roleId);
   // 면허증 정보 삽입

@@ -18,6 +18,12 @@ public class APIUserService {
   private final PasswordEncoder passwordEncoder;
   private final JwtUtil jwtUtil;
 
+  // 아이디 중복 확인
+  public boolean isUserIdDuplicate(String userId) {
+    return apiUserMapper.existsByUserId(userId); // 아이디 존재 여부 확인
+  }
+
+
   //일반회원가입
   public void signup(UserDto userDTO) {
     String encodedPw = passwordEncoder.encode(userDTO.getUserPassword());
