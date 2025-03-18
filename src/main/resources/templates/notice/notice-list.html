@@ -7,9 +7,23 @@
   <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/notice/notice-list.css}">
   </th:block>
+  <script th:src="@{/js/notice/notice.js}" defer></script>
+
   <th:block layout:fragment="js">
-    <script th:src="@{/js/notice/notice.js}" defer></script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      window.onload = function () {
+          var keyword = document.getElementById("filter-content").value.trim();
+          var totalResults = /*[[${pageDto.totalElements}]]*/ 0;
+
+          if (totalResults === 0 && keyword !== "") {
+              alert("검색 결과가 없습니다.");
+          }
+      };
+      /*]]>*/
+    </script>
   </th:block>
+
 </head>
 
 <body>
@@ -23,10 +37,24 @@
 
       <div class="list-flex-box">
         <div class="info-header">공지사항 목록</div>
-        <div class="btn-group">
-          <button type="button" class="btn-update" th:onclick="'location.href=\'' + @{/admin/posts/write} + '\''">
-            새로운 공지사항 작성
-          </button>
+      </div>
+
+      <div class="filter-box-big">
+        <div class="filter-box">
+          <label for="filter-content">키워드</label>
+          <input type="text" id="filter-content" name="filter-content" placeholder="검색할 키워드를 입력하세요"
+                 th:value="${title}"> <!-- 검색어 유지 -->
+          <div class="btn-group">
+            <button type="button" class="btn-search" onclick="searchCon()">검색</button>
+            <button type="button" class="btn-reset" onclick="resetCon()">검색 취소</button>
+          </div>
+        </div>
+        <div class="filter-box">
+          <div class="btn-group">
+            <button type="button" class="btn-update" th:onclick="'location.href=\'' + @{/admin/posts/write} + '\''">
+              새로운 공지사항 작성
+            </button>
+          </div>
         </div>
       </div>
 
@@ -34,7 +62,6 @@
         <thead>
           <tr>
             <th style="width: 70px; text-align: center;">공지 번호</th>
-            <th style="width: 100px;">작성자</th>
             <th style="width: 300px;">제목</th>
             <th style="width: 100px;">작성일</th>
           </tr>
@@ -43,7 +70,6 @@
           <tr th:each="post : ${pageDto.items}" th:attr="data-href=@{/admin/posts/view/{id}(id=${post.id})}"
             onclick="location.href=this.getAttribute('data-href')">
             <td th:text="${post.id}" style="max-width: 70px; text-align: center;"></td>
-            <td text="" style="max-width: 100px;">00</td>
             <td th:text="${post.title}" style="max-width: 300px;"></td>
             <td th:text="${post.createdAt}" style="max-width: 100px;"></td>
           </tr>
@@ -51,20 +77,19 @@
       </table>
 
       <!-- 페이지네이션 -->
-      <div class="pagination">
-        <a th:href="@{/adimn/posts/list(page=${pageDto.start - 1}, size=${pageDto.size})}" th:if="${pageDto.prev}">
-          <span class="material-symbols-outlined">
-            chevron_left
-          </span>
+      <div class="pagination" th:if="${pageDto.totalElements > 0}">
+        <a th:href="@{/admin/posts/list(page=${pageDto.start - 1}, size=${pageDto.size}, title=${title})}"
+           th:if="${pageDto.prev}">
+          <span class="material-symbols-outlined">chevron_left</span>
         </a>
         <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-          <a th:href="@{/admin/posts/list(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
-            th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+          <a th:href="@{/admin/posts/list(page=${pageNum}, size=${pageDto.size}, title=${title})}"
+             th:text="${pageNum}"
+             th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
         </span>
-        <a th:href="@{/admin/posts/list(page=${pageDto.end + 1}, size=${pageDto.size})}" th:if="${pageDto.next}">
-          <span class="material-symbols-outlined">
-            chevron_right
-          </span>
+        <a th:href="@{/admin/posts/list(page=${pageDto.end + 1}, size=${pageDto.size}, title=${title})}"
+           th:if="${pageDto.next}">
+          <span class="material-symbols-outlined">chevron_right</span>
         </a>
       </div>
 
