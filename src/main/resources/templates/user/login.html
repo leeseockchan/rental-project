@@ -2,48 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Login</title>
+  <link rel="stylesheet" th:href="@{/css/user/login.css}">
 </head>
 <body>
-<nav>
-  <ul>
-    <li><a th:href="@{/}">홈</a></li>
-    <li sec:authorize="!isAuthenticated()">
-      <a th:href="@{/admin/login}">로그인</a>
-    </li>
-    <li sec:authorize="hasRole('ADMIN')">
-      <a th:href="@{/admin/users}">사용자 관리</a>
-    </li>
-    <li sec:authorize="isAuthenticated()">
-      <form th:action="@{/logout}" method="post">
-        <button type="submit">로그아웃</button>
-      </form>
-    </li>
-  </ul>
-</nav>
-<h1>Login</h1>
-
-<div th:if="${param.error}">
-  아이디 또는 비밀번호를 다시 확인해주세요
-</div>
-<div th:if="${param.logout}">
-  <p>로그아웃되었습니다.</p>
-</div>
-<!-- 로그인 실패 시 오류 메시지 표시 -->
-<div th:if="${session.loginError != null}" style="color:red;">
-  <p th:text="${session.loginError}"></p>
-</div>
-<form th:action="@{/admin/login}" method="post">
-  <div>
-    <label>Username: <input type="text" name="userId"/></label>
+<div class="loginCont">
+  <div class="logo">
+     <img th:src="@{/images/everycar_logo_black.png}" alt="EveryCar Logo">
+<!--    <img src="./images/everycar_logo_white.png" alt="">-->
   </div>
-  <div>
-    <label>Password: <input type="password" name="userPassword"/></label>
+  <h1>로그인</h1>
+  <p class="subTitle">관리자 전용 로그인 페이지 입니다.</p>
+  <div class="error" th:if="${param.error}">
+    아이디 또는 비밀번호를 다시 확인해주세요
   </div>
-  <div>
-    <input type="submit" value="Login"/>
+  <div class="logoutAlert" th:if="${param.logout}">
+    <p>로그아웃되었습니다.</p>
   </div>
-</form>
-
-<a th:href="@{/}">Back to Home</a>
+  <!-- 로그인 실패 시 오류 메시지 표시 -->
+  <div th:if="${session.loginError != null}" style="color:red;">
+    <p th:text="${session.loginError}"></p>
+  </div>
+  <form th:action="@{/admin/login}" method="post">
+    <div class="inputCont id">
+      <label><input type="text" name="userId" placeholder="아이디를 입력하세요"/></label>
+    </div>
+    <div class="inputCont pw">
+      <label><input type="password" name="userPassword" placeholder="비밀번호를 입력하세요"/></label>
+    </div>
+    <div>
+      <input class="submitBtn" type="submit" value="Login"/>
+    </div>
+  </form>
+</div>
 </body>
 </html>
