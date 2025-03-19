@@ -31,16 +31,16 @@
 .info-box-big-group {
     display: flex;
     justify-content: space-between;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 .info-box-big {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 20px;
     padding: 40px 50px;
-    background-color: #fff;
-    border-radius: 10px;
 }
 
 .info-box {
