@@ -32,7 +32,7 @@ public class CustomUserDetailService implements UserDetailsService {
     }
 
     // 권한 정보 생성
-    List<String> roles = UserDto.getRoles().stream()
+    List<String> roles = userDTO.getRoles().stream()
             .map(RoleDto::getName) // RoleDto의 이름을 가져오는 방법은 필요에 맞게 수정
             .collect(Collectors.toList());
 
