@@ -1,6 +1,5 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;

@@ -9,9 +9,6 @@ import java.util.List;
 @Mapper
 public interface UserAdminMapper {
 
-    // 전체 회원 수 조회
-    int getUserCount();
-
     // 활성 사용자 수 조회
     int getActiveUserCount();
 
