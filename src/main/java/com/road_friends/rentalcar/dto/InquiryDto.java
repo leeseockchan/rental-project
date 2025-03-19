@@ -17,7 +17,7 @@ public class InquiryDto {
     @JsonProperty("inquiries_num")
     private int inquiriesNum;
 
-    @JsonProperty("user_num")
+
     private int userNum;
 
     @JsonProperty("admin_num")

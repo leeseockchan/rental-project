@@ -34,6 +34,8 @@ public class InquiryController {
     // 고객 질문 추가
     @PostMapping
     public ResponseEntity<InquiryDto> addInquiry(@RequestBody InquiryDto inquiryDto) {
+        System.out.println("Received Inquiry: " + inquiryDto);
+        System.out.println("UserNum: " + inquiryDto.getUserNum());
         inquiryService.addInquiry(inquiryDto);
         return new ResponseEntity<>(inquiryDto, HttpStatus.CREATED);
     }
