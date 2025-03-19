@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>차량 정보</title>
+</head>
+<body>
+<h1>차량 정보</h1>
+<table>
+  <thead>
+  <tr>
+    <td>차량 브랜드</td>
+    <td>차량 명</td>
+    <td>차 종</td>
+    <td>차량 정원</td>
+    <td>차량 변속</td>
+    <td>렌트 요금(1시간)</td>
+    <td>렌트 요금(1일)</td>
+    <td>수정</td>
+  </tr>
+  <tr>
+    <a id="model_add" th:href="@{/api/admin/models/create}">
+      <button type="button">차량 정보 추가하기</button>
+    </a>
+  </tr>
+  </thead>
+  <tr th:each="model: ${models}"
+      th:attr="data-href=@{/api/admin/models/{modelId}/modify(modelId=${model.modelId})}"
+      onclick="location.href=this.getAttribute('data-href')">
+    <td th:text="${model.modelBrand}"></td>
+    <td th:text="${model.modelName}"></td>
+    <td th:text="${model.modelCategory}"></td>
+    <td th:text="|${model.modelSeateNum}인승|"></td>
+    <td th:text="${model.modelTransmission}"></td>
+    <td th:text="|${model.modelAmountHour}원|"></td>
+    <td th:text="|${model.modelAmountDay}원|"></td>
+    <td><button type="button" id="modify_btn">수정하기</button></td>
+  </tr>
+</table>
+
+</body>
+</html>
+
