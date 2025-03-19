@@ -11,12 +11,12 @@
 
 .content {
     min-width : 1300px;
-    overflow-x: hidden;
 }
 
 .container {
     display: flex;
     background-color: #F8F9F7;
+    overflow-x: hidden;
 }
 
 a {
