@@ -152,7 +152,7 @@
         <if test="month != null">
             AND MONTH(review_created_at) = #{month}
         </if>
-        ORDER BY review_id
+        ORDER BY review_id DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
 
