@@ -9,8 +9,20 @@
     </select>
 
     <select id="findByProvinceAndDistrict" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
-        SELECT * FROM parking
-        WHERE parking_province = #{province} AND parking_district = #{district}
+        SELECT
+        p.parking_id,
+        p.parking_name,
+        p.parking_address,
+        p.parking_latitude,
+        p.parking_longtitude,
+        p.parking_province,
+        p.parking_district,
+        COUNT(c.car_id) AS carCount
+        FROM parking p
+        LEFT JOIN car c ON p.parking_id = c.rental_station
+        WHERE p.parking_province = #{province}
+        AND p.parking_district = #{district}
+        GROUP BY p.parking_id
     </select>
 
     <!--    전체 주차장 목록-->
@@ -73,5 +85,4 @@
         FROM parking
         GROUP BY parking_province
     </select>
-
 </mapper>
