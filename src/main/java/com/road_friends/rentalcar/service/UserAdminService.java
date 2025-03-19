@@ -1,6 +1,5 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.PageDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,8 @@ public class UserAdminService {
 
     private final UserAdminMapper userAdminMapper;
 
-    // 전체 회원 수 조회
-    public int getUserCount() {
-        return userAdminMapper.getUserCount();
+    public UserAdminService(UserAdminMapper userAdminMapper) {
+        this.userAdminMapper = userAdminMapper;
     }
 
     // 활성 사용자 수 조회
@@ -46,70 +44,45 @@ public class UserAdminService {
     // 연령대별 사용자 수 조회
     public int getAgeGroupCount(int minAge, int maxAge) {
         int currentYear = getCurrentYear();
-        int startYear = currentYear - maxAge; // 연령대 시작 연도
-        int endYear = currentYear - minAge; // 연령대 끝 연도
+        int startYear = currentYear - maxAge;
+        int endYear = currentYear - minAge;
         return userAdminMapper.getAgeGroupCount(startYear, endYear);
     }
 
-    // 20대 사용자 수 조회
-    public int getTwentiesCount() {
-        return getAgeGroupCount(20, 29);
-    }
+    public int getTwentiesCount() { return getAgeGroupCount(20, 29); }
+    public int getThirtiesCount() { return getAgeGroupCount(30, 39); }
+    public int getFortiesCount() { return getAgeGroupCount(40, 49); }
+    public int getFiftiesCount() { return getAgeGroupCount(50, 59); }
+    public int getSixtiesCount() { return getAgeGroupCount(60, 100); }
 
-    // 30대 사용자 수 조회
-    public int getThirtiesCount() {
-        return getAgeGroupCount(30, 39);
-    }
-
-    // 40대 사용자 수 조회
-    public int getFortiesCount() {
-        return getAgeGroupCount(40, 49);
-    }
-
-    // 50대 사용자 수 조회
-    public int getFiftiesCount() {
-        return getAgeGroupCount(50, 59);
-    }
-
-    // 60대 이상 사용자 수 조회
-    public int getSixtiesCount() {
-        return getAgeGroupCount(60, 100);
-    }
-
-    public UserAdminService(UserAdminMapper userAdminMapper) {
-        this.userAdminMapper = userAdminMapper;
-    }
-
-
-    // 전체 사용자 목록 조회 (페이지네이션 적용) (관리자용)
+    // 전체 사용자 목록 조회 (페이지네이션 적용)
     public List<UserDto> getAllUsers(int page, int size) {
-        int offset = (page - 1) * size;  // offset 계산 (시작 위치)
-        return userAdminMapper.selectAllUsers(offset, size);  // offset, size 적용한 조회
+        int offset = (page - 1) * size;
+        return userAdminMapper.selectAllUsers(offset, size);
     }
 
-    // 이름으로 사용자 목록 검색 (페이지네이션 적용) (관리자용)
-    public List<UserDto> searchUsersByName(String name, int page, int size) {
-        int offset = (page - 1) * size;  // offset 계산 (시작 위치)
-        return userAdminMapper.searchUsersByName(name, offset, size);  // 이름 검색 + 페이지네이션 적용
+    // 아이디로 사용자 목록 검색 (페이지네이션 적용)
+    public List<UserDto> searchUsersById(String userId, int page, int size) {
+        int offset = (page - 1) * size;
+        return userAdminMapper.searchUsersById(userId, offset, size);
     }
 
-    // 전체 사용자 목록 조회 (검색 조건에 따른) (관리자용)
-    public int getUserCount(String name) {
-        if (name == null || name.isEmpty()) {
-            return userAdminMapper.selectUserCount();  // 전체 사용자 수 조회
+    // 전체 사용자 목록 조회 (아이디 검색 포함)
+    public int getUserCountById(String userId) {
+        if (userId == null || userId.isEmpty()) {
+            return userAdminMapper.selectUserCount();
         } else {
-            return userAdminMapper.searchUserCountByName(name);  // 이름으로 검색된 사용자 수 조회
+            return userAdminMapper.searchUserCountById(userId);
         }
     }
 
-    // 특정 사용자 상세 조회 (관리자용)
+    // 특정 사용자 상세 조회
     public UserDto getUserDetail(Long userNum) {
         return userAdminMapper.getUserDetail(userNum);
     }
 
-    // 특정 사용자 정보 수정 (관리자용)
+    // 특정 사용자 정보 수정
     public boolean updateUser(UserDto userDto) {
         return userAdminMapper.updateUser(userDto) > 0;
     }
-
 }
