@@ -132,24 +132,22 @@ public class ShortReservationService {
         }
 
         Long totalPrice = 0L;
-        Long hoursBetween = ChronoUnit.HOURS.between(rentalDatetime, returnDatetime);
-        Long daysBetween = ChronoUnit.DAYS.between(rentalDatetime, returnDatetime);
+
+        // "순수한 날짜 차이 + 1"을 적용하여 시작일과 종료일을 포함
+        long daysBetween = ChronoUnit.DAYS.between(rentalDatetime.toLocalDate(), returnDatetime.toLocalDate()) + 1;
 
         if (daysBetween < 14) { // 최소 14일 이상
             throw new IllegalArgumentException("최소 14일 이상 예약 가능");
         }
-        if (daysBetween > 120) { // 최대 120일 까지
+        if (daysBetween > 120) { // 최대 120일까지만 예약 가능
             throw new IllegalArgumentException("최대 120일까지만 예약 가능");
         }
 
         int hourPrice = carDto.getModel().getModelAmountHour();
         int dayPrice = carDto.getModel().getModelAmountDay();
 
-        if (hoursBetween < 24) {
-            totalPrice = hourPrice * hoursBetween;
-        } else {
-            totalPrice = dayPrice * daysBetween + hourPrice * (hoursBetween % 24);
-        }
+        // 일 단위 계산만 적용 (시간 단위는 무시)
+        totalPrice = dayPrice * daysBetween;
 
         if (carDto.getCarGrade().equalsIgnoreCase("Premium")) {
             totalPrice = (long) (totalPrice * 1.2);
