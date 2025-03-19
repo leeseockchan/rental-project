@@ -11,6 +11,7 @@
 
 .content {
     min-width : 1300px;
+    overflow-x: hidden;
 }
 
 .container {
