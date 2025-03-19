@@ -56,11 +56,10 @@ public class AdminInquiryController {
     @PostMapping("/{inquiryId}/reply")
     public String updateInquiryReply(
             @PathVariable("inquiryId") int inquiryId,
-            @RequestParam("adminNum") int adminNum,
             @RequestParam("inquiriesA") String inquiriesA,
             RedirectAttributes redirectAttributes) {
 
-        adminInquiryService.updateInquiryReply(inquiryId, adminNum, inquiriesA);
+        adminInquiryService.updateInquiryReply(inquiryId, inquiriesA);
         redirectAttributes.addFlashAttribute("successMessage", "답변을 등록하였습니다.");  // 성공 메시지 추가
         return "redirect:/admin/inquiry/" + inquiryId;  // 해당 문의 상세 페이지로 리디렉션
     }

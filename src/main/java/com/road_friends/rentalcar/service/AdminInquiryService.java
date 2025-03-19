@@ -42,8 +42,8 @@ public class AdminInquiryService {
         return adminInquiryMapper.findInquiryReplyById(inquiryId);
     }
 
-    public void updateInquiryReply(int inquiryId, int adminNum, String inquiriesA) {
-        adminInquiryMapper.updateInquiryReply(inquiryId, adminNum, inquiriesA);
+    public void updateInquiryReply(int inquiryId, String inquiriesA) {
+        adminInquiryMapper.updateInquiryReply(inquiryId, inquiriesA);
     }
 
     public void clearInquiryAnswer(int inquiryId) {
@@ -63,4 +63,5 @@ public class AdminInquiryService {
 
         return new AdminInquiryDto(total, answered, unanswered, activated, deactivated);
     }
+
 }

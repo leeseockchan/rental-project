@@ -37,14 +37,14 @@
 
     <!-- 관리자 질문 상세 조회 -->
     <select id="findInquiryById" resultType="com.road_friends.rentalcar.dto.AdminInquiryDto">
-        SELECT inquiries_num, user_num, admin_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at, inquiries_status
+        SELECT inquiries_num, user_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at, inquiries_status
         FROM inquiries
         WHERE inquiries_num = #{inquiryId};
     </select>
 
     <!-- 관리자 질문 답변 작성 -->
     <select id="findInquiryReplyById" resultType="com.road_friends.rentalcar.dto.AdminInquiryDto">
-        SELECT inquiries_num, user_num, admin_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at, inquiries_status
+        SELECT inquiries_num, user_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at, inquiries_status
         FROM inquiries
         WHERE inquiries_num = #{inquiryId};
     </select>
@@ -52,8 +52,7 @@
     <!-- 관리자 질문 답변 등록 -->
     <update id="updateInquiryReply" >
         UPDATE inquiries
-        SET admin_num = #{adminNum},
-        inquiries_a = #{inquiriesA},
+        SET inquiries_a = #{inquiriesA},
         inquiries_a_created_at = CONVERT_TZ(NOW(), @@global.time_zone, 'Asia/Seoul')
         WHERE inquiries_num = #{inquiryId};
     </update>
@@ -61,7 +60,7 @@
     <!-- 관리자 질문 답변만 삭제 -->
     <update id="clearInquiryAnswer" parameterType="com.road_friends.rentalcar.dto.AdminInquiryDto">
         UPDATE inquiries
-        SET admin_num = NULL, inquiries_a = NULL, inquiries_a_created_at = NULL
+        SET inquiries_a = NULL, inquiries_a_created_at = NULL
         WHERE inquiries_num = #{inquiryId};
     </update>
 
