@@ -30,7 +30,7 @@
     </select>
 
     <!-- 모든 사용자 목록 조회 (관리자용) -->
-    <select id="selectAllUsers" resultType="com.road_friends.rentalcar.dto.UserDTO">
+    <select id="selectAllUsers" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
         user_status, user_gender, user_birth
         FROM user
@@ -40,7 +40,7 @@
     </select>
 
     <!-- 아이디로 사용자 목록 검색 (관리자용) -->
-    <select id="searchUsersById" resultType="com.road_friends.rentalcar.dto.UserDTO">
+    <select id="searchUsersById" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
         user_status, user_gender, user_birth
         FROM user
@@ -64,7 +64,7 @@
     </select>
 
     <!-- 특정 사용자 상세 조회 (관리자용) -->
-    <select id="getUserDetail" resultType="com.road_friends.rentalcar.dto.UserDTO">
+    <select id="getUserDetail" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
         user_status, user_gender, user_birth
         FROM user

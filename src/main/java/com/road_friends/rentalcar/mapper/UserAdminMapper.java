@@ -1,6 +1,6 @@
 package com.road_friends.rentalcar.mapper;
 
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,10 +25,10 @@ public interface UserAdminMapper {
     int getAgeGroupCount(@Param("startYear") int startYear, @Param("endYear") int endYear);
 
     // 전체 사용자 목록 조회 (페이지네이션 적용) (관리자용)
-    List<UserDTO> selectAllUsers(@Param("offset") int offset, @Param("size") int size);
+    List<UserDto> selectAllUsers(@Param("offset") int offset, @Param("size") int size);
 
     // 아이디로 사용자 목록 검색 (페이지네이션 적용) (관리자용)
-    List<UserDTO> searchUsersById(@Param("userId") String userId, @Param("offset") int offset, @Param("size") int size);
+    List<UserDto> searchUsersById(@Param("userId") String userId, @Param("offset") int offset, @Param("size") int size);
 
     // 전체 사용자 수 조회 (관리자용)
     int selectUserCount();
@@ -37,8 +37,8 @@ public interface UserAdminMapper {
     int searchUserCountById(@Param("userId") String userId);
 
     // 특정 사용자 상세 조회 (관리자용)
-    UserDTO getUserDetail(Long userNum);
+    UserDto getUserDetail(Long userNum);
 
     // 특정 사용자 정보 수정 (관리자용)
-    int updateUser(UserDTO userDto);
+    int updateUser(UserDto userDto);
 }

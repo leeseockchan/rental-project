@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Data
-public class UserDTO {
+public class UserDto {
     @JsonProperty("user_num")
     private Long userNum;
 

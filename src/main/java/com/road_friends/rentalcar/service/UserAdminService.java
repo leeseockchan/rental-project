@@ -1,7 +1,6 @@
 package com.road_friends.rentalcar.service;
 
-import com.road_friends.rentalcar.dto.PageDto;
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;
 
@@ -57,13 +56,13 @@ public class UserAdminService {
     public int getSixtiesCount() { return getAgeGroupCount(60, 100); }
 
     // 전체 사용자 목록 조회 (페이지네이션 적용)
-    public List<UserDTO> getAllUsers(int page, int size) {
+    public List<UserDto> getAllUsers(int page, int size) {
         int offset = (page - 1) * size;
         return userAdminMapper.selectAllUsers(offset, size);
     }
 
     // 아이디로 사용자 목록 검색 (페이지네이션 적용)
-    public List<UserDTO> searchUsersById(String userId, int page, int size) {
+    public List<UserDto> searchUsersById(String userId, int page, int size) {
         int offset = (page - 1) * size;
         return userAdminMapper.searchUsersById(userId, offset, size);
     }
@@ -78,12 +77,12 @@ public class UserAdminService {
     }
 
     // 특정 사용자 상세 조회
-    public UserDTO getUserDetail(Long userNum) {
+    public UserDto getUserDetail(Long userNum) {
         return userAdminMapper.getUserDetail(userNum);
     }
 
     // 특정 사용자 정보 수정
-    public boolean updateUser(UserDTO userDto) {
+    public boolean updateUser(UserDto userDto) {
         return userAdminMapper.updateUser(userDto) > 0;
     }
 }

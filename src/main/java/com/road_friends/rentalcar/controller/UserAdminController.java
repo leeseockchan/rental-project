@@ -1,7 +1,7 @@
 package com.road_friends.rentalcar.controller;
 
 import com.road_friends.rentalcar.dto.PageDto;
-import com.road_friends.rentalcar.dto.UserDTO;
+import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.service.UserAdminService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class UserAdminController {
             }
         }
 
-        List<UserDTO> users = (userId != null) ?
+        List<UserDto> users = (userId != null) ?
                 userAdminService.searchUsersById(userId, page, size) : // 아이디 검색
                 userAdminService.getAllUsers(page, size); // 전체 목록
 
@@ -75,7 +75,7 @@ public class UserAdminController {
 
     // 특정 사용자 정보 수정
     @PostMapping("/{userNum}")
-    public String updateUser(@PathVariable("userNum") Long userNum, @ModelAttribute UserDTO userDto) {
+    public String updateUser(@PathVariable("userNum") Long userNum, @ModelAttribute UserDto userDto) {
         userDto.setUserNum(userNum);
         return userAdminService.updateUser(userDto) ? "redirect:/admin/users" : "error";
     }
