@@ -94,7 +94,7 @@
           <div class="info-box box2">
             <div class="info-box-title" th:text="|${user.userName}의 대여 기록|"></div>
             <div class="info-box-content">
-              <table class="info-box-content-table2">
+              <table class="info-box-content-table2" th:if="${not #lists.isEmpty(rentalHistory)}">
                 <thead>
                   <tr>
                     <th class="center" style="width:13%">예약번호</th>
