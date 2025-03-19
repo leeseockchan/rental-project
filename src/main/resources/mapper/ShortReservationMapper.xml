@@ -96,14 +96,12 @@
         JOIN parking p ON c.rental_station = p.parking_id  -- 차량의 대여 지점(지역) 조회
         WHERE p.parking_province = #{province}
         AND p.parking_district = #{district}  -- 선택한 지역 필터링
+        AND c.car_category = 1  -- 🚀 메인 쿼리에서도 필터링
         AND NOT EXISTS (
         -- 이미 해당 지역과 시간에 예약된 차량 목록 제외
         SELECT 1 FROM short_reservation sr
         WHERE sr.car_id = c.car_id
-        AND
-        c.car_category = 1
-        AND
-        (
+        AND (
         (#{rentalDatetime} BETWEEN sr.reservation_s_start_date AND sr.reservation_s_end_date)
         OR (#{returnDatetime} BETWEEN sr.reservation_s_start_date AND sr.reservation_s_end_date)
         OR (sr.reservation_s_start_date BETWEEN #{rentalDatetime} AND #{returnDatetime})
