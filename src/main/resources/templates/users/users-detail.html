@@ -86,15 +86,6 @@
                       </select>
                     </td>
                   </tr>
-                  <tr>
-                    <th>역할(현재 구현X)</th>
-                    <td>
-                      <select name="role" id="role">
-                        <option value="ROLE_USER" selected="">일반 사용자</option>
-                        <option value="ROLE_ADMIN" selected="">관리자</option>
-                      </select>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -125,6 +116,10 @@
                 </tr>
                 </tbody>
               </table>
+              <!-- 대여 기록이 없을 때 메시지 표시 -->
+              <div class="no-data-message" th:if="${#lists.isEmpty(rentalHistory)}">
+                대여 기록이 없습니다.
+              </div>
             </div>
           </div>
         </div>
