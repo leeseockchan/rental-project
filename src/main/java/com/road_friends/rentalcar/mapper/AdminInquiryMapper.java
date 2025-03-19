@@ -14,8 +14,7 @@ public interface AdminInquiryMapper {
     AdminInquiryDto findInquiryReplyById(int inquiryId);
 
     void updateInquiryReply(@Param("inquiryId") int inquiryId,
-                        @Param("adminNum") int adminNum,
-                        @Param("inquiriesA") String inquiriesA);
+                            @Param("inquiriesA") String inquiriesA);
 
     void clearInquiryAnswer(int inquiryId);
 
