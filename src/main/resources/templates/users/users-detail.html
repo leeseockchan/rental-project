@@ -108,7 +108,7 @@
                 <tbody>
                 <tr th:each="rental : ${rentalHistory}">
                   <td class="center" th:text="${rental.reservationId}"></td>
-                  <td th:text="${rental.category}"></td>
+                  <td th:text="${rental.category == 0} ? '빠른 대여' : '단기 대여'"></td>
                   <td th:text="${#temporals.format(rental.rentalDatetime, 'yyyy-MM-dd HH:mm')}"></td>
                   <td th:text="${#temporals.format(rental.returnDatetime, 'yyyy-MM-dd HH:mm')}"></td>
                   <td th:text="${rental.model}"></td>
