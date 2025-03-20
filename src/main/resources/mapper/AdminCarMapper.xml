@@ -21,6 +21,7 @@
             <result property="modelSeateNum" column="model_seate_num"/>
             <result property="modelAmountHour" column="model_amount_hour"/>
             <result property="modelAmountDay" column="model_amount_day"/>
+            <result property="imageUrl" column="image_url"/>
         </association>
 
         <!-- Parking 매핑 -->
@@ -64,7 +65,7 @@
         c.car_status, c.car_options, c.car_fuel, c.car_year,
         m.model_id, m.model_brand, m.model_name,
         m.model_category, m.model_transmission,
-        m.model_seate_num, m.model_amount_hour, m.model_amount_day,
+        m.model_seate_num, m.model_amount_hour, m.model_amount_day, m.image_url,
         p.parking_id, p.parking_name, p.parking_province, p.parking_district
         FROM car c
         LEFT JOIN parking p ON c.rental_station = p.parking_id
