@@ -56,6 +56,11 @@
     margin-bottom: 20px;
 }
 
+.info-box-content{
+    max-height: 600px;
+    overflow-y: auto;
+}
+
 .info-box-content .info-box-content-table,
 .info-box-content .info-box-content-table2{
     font-size: 14px;
