@@ -14,14 +14,10 @@ public class InquiryDto {
 
     private int inquiryId;
 
-    @JsonProperty("inquiries_num")
-    private int inquiriesNum;
-
-
     private int userNum;
 
-    @JsonProperty("admin_num")
-    private int adminNum;
+    @JsonProperty("inquiries_num")
+    private int inquiriesNum;
 
     @JsonProperty("inquiries_q")
     private String inquiriesQ;
