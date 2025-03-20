@@ -30,30 +30,25 @@ public class LicenseController {
   // 면허증 정보 등록
   @PostMapping("/register")
   public ResponseEntity<Map<String, String>> registerLicense(
-          @RequestParam("licenseNum") String licenseNum,
-          @RequestParam("licenseDate") String licenseDate,
-          @RequestParam("licenseEndDate") String licenseEndDate,
-          @RequestParam("licensePhoto") MultipartFile licensePhoto,
+          @RequestBody LicenseDto licenseDto,  // JSON 데이터 받기
           @AuthenticationPrincipal CustomUserDetails userDetails  // 로그인된 사용자 정보 가져오기
   ) {
     Long userNum = userDetails.getUserNum();  // 로그인한 사용자의 ID
 
-    // 사진 경로 설정 (E:/images/user/license)
-    String photoPath = saveLicensePhoto(licensePhoto);
+    // 면허 정보 DTO에 로그인된 사용자 ID 설정
+    licenseDto.setUserNum(userNum);
 
-    LicenseDto licenseDto = new LicenseDto();
-    licenseDto.setLicenseNum(licenseNum);
-    licenseDto.setLicenseDate(LocalDate.parse(licenseDate));
-    licenseDto.setLicenseEndDate(LocalDate.parse(licenseEndDate));
-    licenseDto.setUserNum(userNum);  // 자동으로 로그인된 사용자 ID 사용
-    licenseDto.setLicensePhotoPath(photoPath);
 
+
+    // 면허 정보 등록 서비스 호출
     licenseService.registerLicense(licenseDto);
 
+    // 성공 메시지 응답
     Map<String, String> response = new HashMap<>();
     response.put("message", "면허증 정보와 사진이 등록되었습니다.");
     return ResponseEntity.ok(response);  // JSON 응답 반환
   }
+
 
   // 면허증 정보 조회 (JWT 토큰에서 사용자 정보 추출)
   @GetMapping("/myLicense")

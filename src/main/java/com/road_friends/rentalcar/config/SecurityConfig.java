@@ -87,7 +87,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/fast/reservations/**").permitAll()
                     .requestMatchers("/api/paypal/**").permitAll()
                     .requestMatchers("/api/auth/check-user-id/**").permitAll()
-
+                    .requestMatchers("/api/license/register").permitAll()
                     .requestMatchers("/api/inquiry/**").permitAll()
                     .requestMatchers("/api/posts/**").permitAll()
                     .requestMatchers("/api/user/reviews").permitAll()
