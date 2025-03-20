@@ -74,40 +74,43 @@
             <div class="info-box box2">
                 <div class="info-box-title" th:text="|${car.model.modelName}의 제원정보|"></div>
                 <div class="info-box-content">
-                    <table class="info-box-content-table">
-                        <tbody>
-                        <tr>
-                            <th>제조사</th>
-                            <td th:text="${car.model.modelBrand}">00</td>
-                        </tr>
-                        <tr>
-                            <th>모델명</th>
-                            <td th:text="${car.model.modelName}">00</td>
-                        </tr>
-                        <tr>
-                            <th>차 종</th>
-                            <td th:text="${car.model.modelCategory}">00</td>
-                        </tr>
-                        <tr>
-                            <th>변속방식</th>
-                            <td th:text="${car.model.modelTransmission}">00</td>
-                        </tr>
-                        <tr>
-                            <th>좌석 수</th>
-                            <td th:text="${car.model.modelSeateNum}">00</td>
-                        </tr>
-                        <tr>
-                            <th>1시간 대여료</th>
-                            <td th:text="${car.model.modelAmountHour}">00</td>
-                        </tr>
-                        <tr>
-                            <th>1일 대여료</th>
-                            <td th:text="${car.model.modelAmountDay}">00</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="car-image-container">
-                        <img th:src="${car.model.imageUrl}" alt="차량 이미지" class="car-image">
+                    <!-- 테이블과 이미지를 나란히 배치할 div -->
+                    <div class="table-image-container">
+                        <table class="info-box-content-table">
+                            <tbody>
+                            <tr>
+                                <th>제조사</th>
+                                <td th:text="${car.model.modelBrand}">00</td>
+                            </tr>
+                            <tr>
+                                <th>모델명</th>
+                                <td th:text="${car.model.modelName}">00</td>
+                            </tr>
+                            <tr>
+                                <th>차 종</th>
+                                <td th:text="${car.model.modelCategory}">00</td>
+                            </tr>
+                            <tr>
+                                <th>변속방식</th>
+                                <td th:text="${car.model.modelTransmission}">00</td>
+                            </tr>
+                            <tr>
+                                <th>좌석 수</th>
+                                <td th:text="${car.model.modelSeateNum}">00</td>
+                            </tr>
+                            <tr>
+                                <th>1시간 대여료</th>
+                                <td th:text="${car.model.modelAmountHour}">00</td>
+                            </tr>
+                            <tr>
+                                <th>1일 대여료</th>
+                                <td th:text="${car.model.modelAmountDay}">00</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="car-image-container">
+                            <img th:src="${car.model.imageUrl}" alt="차량 이미지" class="car-image">
+                        </div>
                     </div>
                 </div>
             </div>
