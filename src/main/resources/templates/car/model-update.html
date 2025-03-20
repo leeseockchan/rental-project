@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/car/model-update.css}">
     <title>차량 정보 수정</title>
 </head>
 <body>
@@ -39,14 +40,14 @@
         </tr>
         </tbody>
     </table>
+        <!-- 이미지 미리보기 -->
+        <div>
+            <img id="preview"
+                 th:src="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"
+                 alt="차량 이미지 미리보기"
+                 th:data-image-url="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"/>
+        </div>
 
-    <!-- 이미지 미리보기 -->
-    <div>
-        <img id="preview"
-             th:src="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"
-             alt="차량 이미지 미리보기"
-             th:data-image-url="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"/>
-    </div>
 
     <div>
         <button type="submit" id="submit">수정 완료</button>
