@@ -106,25 +106,25 @@
       <table class="table-box">
         <thead>
           <tr>
-            <th style="width: 70px; text-align: center;">회원번호</th>
+            <th style="width: 70px;">회원번호</th>
             <th style="width: 100px;">회원 아이디</th>
-            <th style="width: 100px;">이름</th>
+            <th style="width: 70px;">이름</th>
             <th style="width: 50px;">성별</th>
             <th style="width: 120px;">이메일</th>
-            <th style="width: 120px;">전화번호</th>
-            <th style="width: 70px; text-align: center;">활성 상태</th>
+            <th style="width: 100px;">전화번호</th>
+            <th style="width: 70px;">활성 상태</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="user : ${users}" th:attr="data-href=@{/admin/users/{userNum}(userNum=${user.userNum})}"
             onclick="location.href=this.getAttribute('data-href')">
-            <td th:text="${user.userNum}" style="max-width: 70px; text-align: center;"></td>
-            <td th:text="${user.userId}" style="max-width: 100px;"></td>
-            <td th:text="${user.userName}" style="max-width: 100px;"></td>
-            <td th:text="${user.userGender == 2 ? '남자' : '여자'}" style="max-width: 50px;"></td>
-            <td th:text="${user.userEmail}" style="max-width: 120px;"></td>
-            <td th:text="${user.userPhone}" style="max-width: 120px;"></td>
-            <td th:text="${user.userStatus == 0 ? '활성' : '탈퇴'}" style="max-width: 70px; text-align: center;"></td>
+            <td th:text="${user.userNum}"></td>
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.userGender == 2 ? '남자' : '여자'}"></td>
+            <td th:text="${user.userEmail}"></td>
+            <td th:text="${user.userPhone}"></td>
+            <td th:text="${user.userStatus == 0 ? '활성' : '탈퇴'}"></td>
           </tr>
         </tbody>
       </table>

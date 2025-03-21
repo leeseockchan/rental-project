@@ -141,6 +141,7 @@ width: 300px;
 
 /* 정보 리스트 박스 - 테이블 */
 .table-box {
+    table-layout:fixed;
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
@@ -157,12 +158,16 @@ width: 300px;
 
 .table-box th,
 .table-box td {
-    padding: 10px;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.table-box th:last-child,
+.table-box td:last-child {
     text-align: center;
 }
 
 .table-box td{
-    padding: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

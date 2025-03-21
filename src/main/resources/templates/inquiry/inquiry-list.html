@@ -79,7 +79,7 @@
                     <tr>
                         <th style="width: 50px;">문의 번호</th>
                         <th style="width: 60px;">사용자 번호</th>
-                        <th style="width: 180px;">질문</th>
+                        <th style="width: 200px;">질문</th>
                         <th style="width: 100px;">답변</th>
                         <th style="width: 120px;">질문 작성일</th>
                         <th style="width: 120px;">답변 작성일</th>
@@ -90,18 +90,15 @@
                     <tr th:each="inquiry : ${pageDto.items}"
                         th:attr="data-href=@{/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
                         onclick="location.href=this.getAttribute('data-href')">
-                        <td th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
-                        <td th:text="${inquiry.userNum}" style="max-width: 60px;"></td>
-                        <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px; text-align: left;"></td>
+                        <td th:text="${inquiry.inquiriesNum}"></td>
+                        <td th:text="${inquiry.userNum}"></td>
+                        <td th:text="${inquiry.inquiriesQ}"></td>
                         <td th:text="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '답변 완료' : '답변 없음'}"
-                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: #ddd;'}"
-                            style="max-width: 100px;"></td>
-                        <td th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
-                        <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
+                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: #ddd;'}"></td>
+                        <td th:text="${inquiry.inquiriesQCreatedAt}"></td>
+                        <td th:text="${inquiry.inquiriesACreatedAt}"></td>
                         <td th:text="${inquiry.inquiriesStatus == 1 ? '활성' : '비활성'}"
-                            th:style="${inquiry.inquiriesStatus == 1 ? 'color: black;' : 'color: red;'}"
-                            style="max-width: 70px;">
-                        </td>
+                            th:style="${inquiry.inquiriesStatus == 1 ? 'color: black;' : 'color: red;'}"></td>
                     </tr>
                 </tbody>
             </table>

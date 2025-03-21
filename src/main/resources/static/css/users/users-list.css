@@ -186,6 +186,7 @@
 
 /* 정보 리스트 박스 - 테이블 */
 .table-box {
+    table-layout:fixed;
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
@@ -206,8 +207,12 @@
     text-align: left;
 }
 
+.table-box th:last-child,
+.table-box td:last-child {
+    text-align: center;
+}
+
 .table-box td {
-    padding: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
