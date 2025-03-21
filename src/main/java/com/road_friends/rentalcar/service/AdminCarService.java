@@ -144,5 +144,8 @@ public class AdminCarService {
         return adminCarMapper.getCarBrandCount();
     }
 
-
+    // 제조사-모델 셀렉트 조회
+    public List<String> getModelsByBrand(String brand) {
+        return adminCarMapper.getModelsByBrand(brand);
+    }
 }

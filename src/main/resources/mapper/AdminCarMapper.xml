@@ -123,4 +123,10 @@
         GROUP BY model.model_brand
     </select>
 
+    <select id="getModelsByBrand" resultType="string">
+        SELECT model_name
+        FROM model
+        WHERE model_brand = #{model.modelBrand}
+        ORDER BY model_name;
+    </select>
 </mapper>

@@ -38,4 +38,6 @@ public interface AdminCarMapper {
     List<Map<String, Object>> getCarRanking();
     // 제조사별 차량 개수 조회
     List<Map<String, Object>> getCarBrandCount();
+
+    List<String> getModelsByBrand(String brand);
 }

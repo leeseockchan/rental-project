@@ -34,6 +34,7 @@
                             <div class="info-box-content-row">
                                 <label for="modelBrand">제조사</label>
                                 <select id="modelBrand" name="model.modelBrand">
+                                    <option value="" selected>-- 제조사 선택 --</option>
                                     <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}"
                                         th:selected="${modify.model.modelBrand == brand}">
                                     </option>
@@ -42,6 +43,7 @@
                             <div class="info-box-content-row">
                                 <label for="modelName">모델명</label>
                                 <select id="modelName" name="model.modelName">
+                                    <option value="">-- 모델 선택 --</option>
                                     <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}"
                                         th:selected="${modify.model.modelName == mName}">
                                     </option>
@@ -84,7 +86,7 @@
                             <div class="info-box-content-row">
                                 <label for="parkingProvince">도/시</label>
                                 <select id="parkingProvince" name="parking.province">
-                                    <option value="">도/시 선택</option>
+                                    <option value="">-- 도/시 선택 --</option>
                                     <option th:each="province : ${provinceList}" th:value="${province}"
                                         th:text="${province}"
                                         th:selected="${province == modify.parking.parkingProvince}">
@@ -94,7 +96,7 @@
                             <div class="info-box-content-row">
                                 <label for="parkingDistrict">행정구역</label>
                                 <select id="parkingDistrict" name="parking.district">
-                                    <option value="">행정구역 선택</option>
+                                    <option value="">-- 행정구역 선택 --</option>
                                     <option th:each="district : ${districtList}" th:value="${district}"
                                         th:text="${district}"
                                         th:selected="${district == modify.parking.parkingDistrict}">
@@ -104,7 +106,7 @@
                             <div class="info-box-content-row">
                                 <label for="carParking">주차장 이름</label>
                                 <select id="carParking" name="parking.parkingId">
-                                    <option value="">주차장 선택</option>
+                                    <option value="">-- 주차장 선택 --</option>
                                     <option th:each="parking : ${parkingList}" th:value="${parking.parkingId}"
                                         th:text="${parking.parkingName}"
                                         th:selected="${parking.parkingId == modify.parking.parkingId}">
@@ -218,7 +220,7 @@
                 fetch("/admin/vehicles/provinces")
                     .then(response => response.json())
                     .then(provinces => {
-                        provinceSelect.innerHTML = '<option value="">도/시 선택</option>';
+                        provinceSelect.innerHTML = '<option value="">-- 도/시 선택 --</option>';
                         provinces.forEach(province => {
                             let option = new Option(province, province);
                             if (province === defaultProvince) option.selected = true;
@@ -234,8 +236,8 @@
                 // ✅ 2. 도/시 선택 시 행정구역 목록 가져오기
                 provinceSelect.addEventListener("change", function () {
                     const province = this.value;
-                    districtSelect.innerHTML = '<option value="">행정구역 선택</option>';
-                    parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
+                    districtSelect.innerHTML = '<option value="">-- 행정구역 선택 --</option>';
+                    parkingSelect.innerHTML = '<option value="">-- 주차장 선택 --</option>';
                     latitudeInput.value = "";
                     longitudeInput.value = "";
 
@@ -261,7 +263,7 @@
                 districtSelect.addEventListener("change", function () {
                     const province = provinceSelect.value;
                     const district = this.value;
-                    parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
+                    parkingSelect.innerHTML = '<option value="">-- 주차장 선택 --</option>';
                     latitudeInput.value = "";
                     longitudeInput.value = "";
 
