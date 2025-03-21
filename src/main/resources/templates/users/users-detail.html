@@ -65,8 +65,17 @@
                     <td><input type="text" name="userPhone" id="phone" th:value="${user.userPhone}"></td>
                   </tr>
                   <tr>
-                    <th>계정 활성화</th>
-                    <td th:text="${user.enabled ? '활성화됨' : '비활성화됨'}"></td>
+                  <tr>
+                    <th>면허번호</th>
+                    <td th:text="${license != null ? license.licenseNum : '없음'}"></td>
+                  </tr>
+                  <tr>
+                    <th>발급일</th>
+                    <td th:text="${license != null ? #temporals.format(license.licenseDate, 'yyyy-MM-dd') : '없음'}"></td>
+                  </tr>
+                  <tr>
+                    <th>만료일</th>
+                    <td th:text="${license != null ? #temporals.format(license.licenseEndDate, 'yyyy-MM-dd') : '없음'}"></td>
                   </tr>
                   <tr>
                     <th>활성 상태</th>
@@ -74,15 +83,6 @@
                       <select name="userStatus" id="status">
                         <option value="0" th:selected="${user.userStatus == 0}">활성</option>
                         <option value="1" th:selected="${user.userStatus == 1}">비활성</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>역할(현재 구현X)</th>
-                    <td>
-                      <select name="role" id="role">
-                        <option value="ROLE_USER" selected="">일반 사용자</option>
-                        <option value="ROLE_ADMIN" selected="">관리자</option>
                       </select>
                     </td>
                   </tr>
@@ -94,28 +94,32 @@
           <div class="info-box box2">
             <div class="info-box-title" th:text="|${user.userName}의 대여 기록|"></div>
             <div class="info-box-content">
-              <table class="info-box-content-table2">
+              <table class="info-box-content-table2" th:if="${not #lists.isEmpty(rentalHistory)}">
                 <thead>
                   <tr>
-                    <th class="center">예약번호</th>
-                    <th>카테고리</th>
-                    <th>대여일</th>
-                    <th>반납일</th>
-                    <th>모델</th>
-                    <th>금액</th>
+                    <th class="center" style="width:13%">예약번호</th>
+                    <th style="width:17%">카테고리</th>
+                    <th style="width:20%">대여일</th>
+                    <th style="width:20%">반납일</th>
+                    <th style="width:15%">모델</th>
+                    <th style="width:15%">금액</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td text="" class="center">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                    <td text="">00</td>
-                  </tr>
+                <tr th:each="rental : ${rentalHistory}">
+                  <td class="center" th:text="${rental.reservationId}"></td>
+                  <td th:text="${rental.category == 0} ? '빠른 대여' : '단기 대여'"></td>
+                  <td th:text="${#temporals.format(rental.rentalDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                  <td th:text="${#temporals.format(rental.returnDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                  <td th:text="${rental.model}"></td>
+                  <td th:text="|₩${#numbers.formatInteger(rental.totalPrice, 3, 'COMMA')}|"></td>
+                </tr>
                 </tbody>
               </table>
+              <!-- 대여 기록이 없을 때 메시지 표시 -->
+              <div class="no-data-message" th:if="${#lists.isEmpty(rentalHistory)}">
+                대여 기록이 없습니다.
+              </div>
             </div>
           </div>
         </div>

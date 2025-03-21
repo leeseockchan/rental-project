@@ -7,7 +7,6 @@
     margin: 0;
     padding: 0;
     font-family: "Noto Sans KR", serif;
-    overflow-x: hidden;
 }
 
 .content {
@@ -17,6 +16,7 @@
 .container {
     display: flex;
     background-color: #F8F9F7;
+    overflow-x: hidden;
 }
 
 a {

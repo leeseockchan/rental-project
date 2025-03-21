@@ -46,6 +46,7 @@
 
 /* 정보 리스트 박스 - 테이블 */
 .table-box {
+    table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
@@ -60,17 +61,14 @@
     color: #fff;
 }
 
-.table-box thead th:first-child {
-    border-top-left-radius: 10px;
-}
-
-.table-box thead th:last-child {
-    border-top-right-radius: 10px;
-}
-
 .table-box th,
 .table-box td {
-    padding: 10px;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.table-box th:last-child,
+.table-box td:last-child {
     text-align: center;
 }
 

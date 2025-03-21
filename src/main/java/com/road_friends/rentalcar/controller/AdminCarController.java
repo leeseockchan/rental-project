@@ -25,6 +25,15 @@ public class AdminCarController {
     @Autowired
     private AdminParkingService adminParkingService;
 
+    @GetMapping("/getCarModels")
+    @ResponseBody
+    public Map<String, Object> getCarModels(@RequestParam String brand) {
+        Map<String, Object> response = new HashMap<>();
+        List<String> models = adminCarService.getModelsByBrand(brand);
+        response.put("models", models);
+        return response;
+    }
+
     @GetMapping("/districts")
     @ResponseBody
     public List<String> getDistricts(@RequestParam String province) {

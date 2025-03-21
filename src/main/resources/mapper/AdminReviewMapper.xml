@@ -5,7 +5,7 @@
     <!-- 페이징된 리뷰 목록 조회 -->
     <select id="getAllReviews" resultType="com.road_friends.rentalcar.dto.ReviewDTO">
         SELECT * FROM review
-        ORDER BY review_id
+        ORDER BY review_id DESC
             LIMIT #{size} OFFSET #{offset}
     </select>
 
@@ -152,7 +152,7 @@
         <if test="month != null">
             AND MONTH(review_created_at) = #{month}
         </if>
-        ORDER BY review_id
+        ORDER BY review_id DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
 

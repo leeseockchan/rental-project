@@ -17,9 +17,7 @@
       },
       tooltip: {
         trigger: "axis",
-        axisPointer: {
-          type: "shadow"
-        }
+        formatter: "{b}  {c}시간"
       },
       xAxis: {
         type: "category",
@@ -76,9 +74,7 @@
       },
       tooltip: {
         trigger: "axis",
-        axisPointer: {
-          type: "shadow"
-        }
+        formatter: "{b}  {c}시간"
       },
       xAxis: {
         type: "category",
@@ -134,10 +130,8 @@
           }
         },
         tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "shadow"
-          }
+            trigger: "axis",
+            formatter: "{b}  {c}시간"
         },
         xAxis: {
           type: "category",
@@ -195,9 +189,7 @@
       },
       tooltip: {
         trigger: "axis",
-        axisPointer: {
-          type: "shadow"
-        }
+        formatter: "{b}  {c}시간"
       },
       xAxis: {
         type: "category",
@@ -255,9 +247,7 @@
       },
       tooltip: {
         trigger: "axis",
-        axisPointer: {
-          type: "shadow"
-        }
+        formatter: "{b}  {c}시간"
       },
       xAxis: {
         type: "category",
@@ -314,9 +304,7 @@
       },
       tooltip: {
         trigger: "axis",
-        axisPointer: {
-          type: "shadow"
-        }
+        formatter: "{b}  {c}시간"
       },
       xAxis: {
         type: "category",

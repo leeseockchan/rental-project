@@ -61,17 +61,17 @@
       <table class="table-box">
         <thead>
           <tr>
-            <th style="width: 70px; text-align: center;">공지 번호</th>
-            <th style="width: 300px;">제목</th>
+            <th style="width: 100px;">공지 번호</th>
+            <th style="width: 500px;">제목</th>
             <th style="width: 100px;">작성일</th>
           </tr>
         </thead>
         <tbody>
           <tr th:each="post : ${pageDto.items}" th:attr="data-href=@{/admin/posts/view/{id}(id=${post.id})}"
             onclick="location.href=this.getAttribute('data-href')">
-            <td th:text="${post.id}" style="max-width: 70px; text-align: center;"></td>
-            <td th:text="${post.title}" style="max-width: 300px;"></td>
-            <td th:text="${post.createdAt}" style="max-width: 100px;"></td>
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.createdAt}"></td>
           </tr>
         </tbody>
       </table>

@@ -72,8 +72,8 @@
       <tr>
         <th style="width: 100px;">예약 ID</th>
         <th style="width: 100px;">차량 ID</th>
-        <th style="width: 100px;">대여 장소</th>
-        <th style="width: 100px;">반납 장소</th>
+        <th style="width: 150px;">대여 장소</th>
+        <th style="width: 150px;">반납 장소</th>
         <th style="width: 100px;">대여 시간</th>
         <th style="width: 100px;">반납 시간</th>
         <th style="width: 100px;">예약 상태</th>
@@ -86,7 +86,7 @@
         <td th:text="${reservation.reservationId}"></td>
         <td th:text="${reservation.modelName}"></td> <!-- 차량 모델명 -->
         <td th:text="${reservation.rentalLocationName}"></td>
-        <td th:text="${reservation.returnLocationName}"></td>
+        <td th:text="${reservation.rentalLocationName}"></td>
         <td th:text="${reservation.rentalDatetime}"></td>
         <td th:text="${reservation.returnDatetime}"></td>
         <td th:switch="${reservation.rentalState}">

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
             text: "",
             left: "center"
         },
-        tooltip: { trigger: "item" },
+        tooltip: { trigger: "item", formatter: '{c}명'},
         series: [
             {
                 name: '성별 비율',
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
             text: "",
             left: "center"
         },
-        tooltip: { trigger: 'axis' },
+        tooltip: { trigger: 'axis', formatter: '{c}명'},
         xAxis: {
             type: "category",
             data: ["20대", "30대", "40대", "50대", "60대 이상"],

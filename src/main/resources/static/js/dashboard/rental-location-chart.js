@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
         tooltip: {
-            trigger: "axis"
+            trigger: "axis",
+            formatter: "{b}  {c}건"
         },
         xAxis: {
             type: "category", // X축을 카테고리로 설정 (지역 표시)
@@ -82,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         tooltip: {
             trigger: "axis",
+            formatter: "{b}  {c}건"
         },
         xAxis: {
             type: "category", // X축을 카테고리로 설정 (지역 표시)

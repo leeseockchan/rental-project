@@ -32,11 +32,6 @@
             <div class="header-sm">
                 문의사항 관리 > 문의사항 상세 조회
                 <div class="btn-group">
-                    <!-- 문의 수정 -->
-                    <button type="button" class="btn-update"
-                        th:onclick="'location.href=\'' + @{/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})} + '\''">
-                        수정/답변 입력
-                    </button>
                     <!-- 답변 삭제 -->
                     <form th:action="@{/admin/inquiry/{inquiryId}/reply/clear(inquiryId=${inquiry.inquiriesNum})}"
                         method="post">
@@ -44,18 +39,38 @@
                             답변만 삭제
                         </button>
                     </form>
-                    <!-- 문의 삭제 -->
-                    <form th:action="@{/admin/inquiry/{inquiryId}/delete(inquiryId=${inquiry.inquiriesNum})}"
-                        method="post">
-                        <button type="submit" class="btn-delete-all" onclick="return confirm('정말 문의를 삭제하시겠습니까?');">
-                            내용 전체 삭제
-                        </button>
-                    </form>
+
+                    <!-- 문의 상태가 활성화일 경우 (inquiriesStatus == 1) -->
+                    <div th:if="${inquiry.inquiriesStatus == 1}">
+                        <form th:action="@{/admin/inquiry/{inquiryId}/deactivate(inquiryId=${inquiry.inquiriesNum})}" method="post">
+                            <!-- status 값을 hidden 필드로 전달 -->
+                            <input type="hidden" name="status" value="0" />
+                            <button type="submit" class="btn-hide-all" onclick="return confirm('정말 문의를 비활성화 하시겠습니까?');">
+                                문의 비활성화
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- 문의 상태가 비활성화일 경우 (inquiriesStatus == 0) -->
+                    <div th:if="${inquiry.inquiriesStatus == 0}">
+                        <form th:action="@{/admin/inquiry/{inquiryId}/activate(inquiryId=${inquiry.inquiriesNum})}" method="post">
+                            <!-- status 값을 hidden 필드로 전달 -->
+                            <input type="hidden" name="status" value="1" />
+                            <button type="submit" class="btn-activate" onclick="return confirm('정말 문의를 활성화 하시겠습니까?');">
+                                문의 활성화
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
             <div class="info-box-big">
                 <div class="info-box box1">
-                    <div class="info-box-title">이용자 정보 및 질문</div>
+                    <div class="info-box-title">이용자 정보 및 질문
+                        <span class="info-status"
+                        th:text="${inquiry.inquiriesStatus == 1 ? '(활성화)' : '(비활성화)'}"
+                        th:style="${inquiry.inquiriesStatus == 1 ? 'color: black;' : 'color: red;'}"></span>
+                    </div>
                     <div class="info-box-content">
                         <table class="info-box-content-table">
                             <tbody>
@@ -89,10 +104,6 @@
                                     <td th:text="${inquiry.inquiriesNum}"></td>
                                 </tr>
                                 <tr>
-                                    <th>관리자 번호</th>
-                                    <td th:text="${inquiry.adminNum}"></td>
-                                </tr>
-                                <tr>
                                     <th>답변</th>
                                     <td th:text="${inquiry.inquiriesA}"></td>
                                 </tr>
@@ -110,6 +121,18 @@
                     th:onclick="'location.href=\'' + @{/admin/inquiry} + '\''">
                     목록으로
                 </button>
+                <div>
+                    <!-- 답변 작성 -->
+                    <button type="button" class="btn-reply"
+                            th:onclick="'location.href=\'' + @{/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})} + '\''">
+                        답변 입력
+                    </button>
+                    <!-- 문의 수정 -->
+                    <button type="button" class="btn-update"
+                            th:onclick="'location.href=\'' + @{/admin/inquiry/{inquiryId}/reply(inquiryId=${inquiry.inquiriesNum})} + '\''">
+                        수정
+                    </button>
+                </div>
             </div>
         </div>
 

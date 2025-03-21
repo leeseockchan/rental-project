@@ -89,3 +89,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modelBrandSelect = document.getElementById('modelBrand');
+    const modelNameSelect = document.getElementById('modelName');
+
+    // 제조사 선택 이벤트
+    modelBrandSelect.addEventListener('change', function () {
+        const selectedBrand = modelBrandSelect.value;
+
+        // 모델 셀렉트 초기화
+        modelNameSelect.innerHTML = '<option value="">-- 모델 선택 --</option>'; // 기본 옵션 유지
+
+        if (selectedBrand) {
+            // AJAX 요청 (제조사에 맞는 모델 목록 요청)
+            fetch(`/admin/vehicles/getCarModels?brand=${selectedBrand}`)
+                .then(response => response.json())
+                .then(data => {
+                    // 응답 받은 모델 목록을 모델 셀렉트 박스에 추가
+                    data.models.forEach(function (model) {
+                        const option = document.createElement('option');
+                        option.value = model;
+                        option.textContent = model;
+                        modelNameSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching car models:", error);
+                });
+        }
+    });
+});

@@ -1,32 +1,4 @@
-// 커서 깜박임 방지
-//document.addEventListener("DOMContentLoaded", function () {
-//    document.body.addEventListener("mousedown", function (event) {
-//        const target = event.target;
-//
-//        if (target.tagName !== "INPUT" && target.tagName !== "TEXTAREA") {
-//            document.activeElement.blur();
-//            event.preventDefault();
-//        }
-//    });
-//});
-
 // 유효성 검사
-function validateAdminNum() {
-    const adminNum = document.getElementById("adminNum").value.trim();
-    const errorAdminNum = document.getElementById("error-adminNum");
-
-    if (!adminNum) {
-        errorAdminNum.textContent = "관리자 번호는 필수 입력값입니다.";
-        return false;
-    } else if (!/^\d+$/.test(adminNum) || adminNum[0] === '0' || parseInt(adminNum, 10) < 1) {
-        errorAdminNum.textContent = "관리자 번호는 1 이상의 숫자여야 하며, 0으로 시작할 수 없습니다.";
-        return false;
-    } else {
-        errorAdminNum.textContent = "";
-        return true;
-    }
-}
-
 function validateInquiriesA() {
     const inquiriesA = document.getElementById("inquiriesA").value.trim();
     const errorInquiriesA = document.getElementById("error-inquiriesA");
@@ -49,3 +21,29 @@ document.getElementById("reply-form").onsubmit = function(event) {
         return false;
     }
 };
+
+// 검색
+function searchCon() {
+    var filterContent = document.getElementById("filter-content").value.trim();
+    var currentUrl = window.location.pathname;
+    var params = new URLSearchParams(window.location.search);
+
+    if (filterContent === "") {
+        alert("검색어를 입력하세요.");
+        return;
+    }
+
+    // 'content' 파라미터 추가
+    params.set("content", filterContent);
+
+    // 검색 후 해당 페이지로 이동
+    window.location.href = currentUrl + "?" + params.toString();
+}
+
+// 검색취소
+function resetCon() {
+    document.getElementById("filter-content").value = ""; // 검색 입력 필드 초기화
+    window.location.href = "/admin/inquiry"; // 검색어 없이 목록 다시 불러오기
+}
+
+

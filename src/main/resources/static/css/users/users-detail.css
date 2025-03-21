@@ -56,6 +56,11 @@
     margin-bottom: 20px;
 }
 
+.info-box-content{
+    max-height: 600px;
+    overflow-y: auto;
+}
+
 .info-box-content .info-box-content-table,
 .info-box-content .info-box-content-table2{
     font-size: 14px;
@@ -91,9 +96,8 @@
 }
 
 .info-box-content-table2{
-    border-radius: 10px;
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
 }
 
 .info-box-content-table2 thead tr th,
@@ -110,6 +114,12 @@
 
 .info-box-content-table2 .center{
     text-align : center;
+}
+.no-data-message{
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: gray;
 }
 
 /* 버튼 */

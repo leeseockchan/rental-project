@@ -15,7 +15,7 @@
             // ✅ 1. 시/도(Province) 목록 불러오기
             $.get("/admin/vehicles/provinces", function (data) {
                 console.log("📌 시/도 목록:", data); // 🛠 디버깅용 콘솔 출력
-                $("#parkingProvince").empty().append('<option value="">도/시 선택</option>');
+                $("#parkingProvince").empty().append('<option value="">-- 도/시 선택 --</option>');
                 $.each(data, function (index, province) {
                     $("#parkingProvince").append('<option value="' + province + '">' + province + '</option>');
                 });
@@ -24,8 +24,8 @@
             // ✅ 2. 시/도 선택 시 행정구역(구/군) 목록 갱신
             $("#parkingProvince").change(function () {
                 let selectedProvince = $(this).val();
-                $("#parkingDistrict").empty().append('<option value="">행정구역 선택</option>');
-                $("#carParking").empty().append('<option value="">주차장 선택</option>');
+                $("#parkingDistrict").empty().append('<option value="">-- 행정구역 선택 --</option>');
+                $("#carParking").empty().append('<option value="">-- 주차장 선택 --</option>');
                 $("#parkingLatitude").val('');
                 $("#parkingLongitude").val('');
 
@@ -43,7 +43,7 @@
             $("#parkingDistrict").change(function () {
                 let selectedProvince = $("#parkingProvince").val();
                 let selectedDistrict = $(this).val();
-                $("#carParking").empty().append('<option value="">주차장 선택</option>');
+                $("#carParking").empty().append('<option value="">-- 주차장 선택 --</option>');
                 $("#parkingLatitude").val('');
                 $("#parkingLongitude").val('');
 
@@ -91,6 +91,7 @@
                             <div class="info-box-content-row">
                                 <label for="carBrand">제조사</label>
                                 <select id="carBrand" name="model.modelBrand">
+                                    <option value="" selected>-- 제조사 선택 --</option>
                                     <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}">
                                     </option>
                                 </select>
@@ -98,8 +99,8 @@
                             <div class="info-box-content-row">
                                 <label for="carModelName">차량 모델</label>
                                 <select id="carModelName" name="model.modelName">
-                                    <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}">
-                                    </option>
+                                    <option value="">-- 모델 선택 --</option>
+                                    <!-- 차량 모델 옵션이 동적으로 추가됨 -->
                                 </select>
                             </div>
                             <div class="info-box-content-row">
@@ -138,7 +139,7 @@
                             <div class="info-box-content-row">
                                 <label for="parkingProvince">도/시</label>
                                 <select id="parkingProvince" name="parking.province">
-                                    <option value="">도/시 선택</option>
+                                    <option value="">-- 도/시 선택 --</option>
                                     <option th:each="province : ${provinceList}" th:value="${province}"
                                         th:text="${province}"></option>
                                 </select>
@@ -146,13 +147,13 @@
                             <div class="info-box-content-row">
                                 <label for="parkingDistrict">행정구역</label>
                                 <select id="parkingDistrict" name="parking.district">
-                                    <option value="">행정구역 선택</option>
+                                    <option value="">-- 행정구역 선택 --</option>
                                 </select>
                             </div>
                             <div class="info-box-content-row">
                                 <label for="carParking">주차장 이름</label>
                                 <select id="carParking" name="parking.parkingId">
-                                    <option value="">주차장 선택</option>
+                                    <option value="">-- 주차장 선택 --</option>
                                 </select>
                             </div>
                         </div>

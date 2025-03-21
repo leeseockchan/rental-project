@@ -9,6 +9,17 @@
     </th:block>
     <th:block layout:fragment="js">
         <script th:src="@{/js/inquiry/inquiry.js}" defer></script>
+        <script th:inline="javascript">
+            window.onload = function () {
+                var inputElement = document.getElementById("filter-content");
+                var totalResults = /*[[${pageDto.totalElements}]]*/ 0; // 페이지 데이터 개수
+                var searchedContent = inputElement.value.trim();
+
+                if (totalResults === 0 && searchedContent !== "") {
+                    alert("검색 결과가 없습니다.");
+                }
+            };
+        </script>
     </th:block>
 </head>
 
@@ -32,9 +43,17 @@
                         <div class="info-box-title">답변완료 게시글</div>
                         <div class="info-box-content"><span th:text="${counts.answered}"></span> 개</div>
                     </div>
-                    <div class="info-box box3">
+                    <div class="info-box box2">
                         <div class="info-box-title">미답변 게시글</div>
                         <div class="info-box-content"><span th:text="${counts.unanswered}"></span> 개</div>
+                    </div>
+                    <div class="info-box box2">
+                        <div class="info-box-title">활성화 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.activated}"></span> 개</div>
+                    </div>
+                    <div class="info-box box3">
+                        <div class="info-box-title">비활성화 게시글</div>
+                        <div class="info-box-content"><span th:text="${counts.deactivated}"></span> 개</div>
                     </div>
                 </div>
             </div>
@@ -43,48 +62,65 @@
         <div class="list">
             <div class="info-header">문의사항 목록</div>
 
+            <div class="filter-box-big">
+                <div class="filter-box">
+                    <label for="filter-content">키워드</label>
+                    <input type="text" id="filter-content" name="filter-content" placeholder="검색할 키워드를 입력하세요"
+                        th:value="${param.content}">
+                    <div class="btn-group">
+                        <button type="button" class="btn-search" onclick="searchCon()">검색</button>
+                        <button type="button" class="btn-reset" onclick="resetCon()">검색 취소</button>
+                    </div>
+                </div>
+            </div>
+
             <table class="table-box">
                 <thead>
                     <tr>
                         <th style="width: 50px;">문의 번호</th>
                         <th style="width: 60px;">사용자 번호</th>
-                        <th style="width: 60px;">관리자 번호</th>
-                        <th style="width: 180px;">질문</th>
-                        <th style="width: 180px;">답변</th>
+                        <th style="width: 200px;">질문</th>
+                        <th style="width: 100px;">답변</th>
                         <th style="width: 120px;">질문 작성일</th>
                         <th style="width: 120px;">답변 작성일</th>
+                        <th style="width: 70px;">상태</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="inquiry : ${pageDto.items}"
                         th:attr="data-href=@{/admin/inquiry/{inquiryId}(inquiryId=${inquiry.inquiriesNum})}"
                         onclick="location.href=this.getAttribute('data-href')">
-                        <td th:text="${inquiry.inquiriesNum}" style="max-width: 50px;"></td>
-                        <td th:text="${inquiry.userNum}" style="max-width: 60px;"></td>
-                        <td th:text="${inquiry.adminNum}" style="max-width: 60px;"></td>
-                        <td th:text="${inquiry.inquiriesQ}" style="max-width: 180px; text-align: left;"></td>
+                        <td th:text="${inquiry.inquiriesNum}"></td>
+                        <td th:text="${inquiry.userNum}"></td>
+                        <td th:text="${inquiry.inquiriesQ}"></td>
                         <td th:text="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '답변 완료' : '답변 없음'}"
-                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: red;'}"
-                            style="max-width: 180px;"></td>
-                        <td th:text="${inquiry.inquiriesQCreatedAt}" style="max-width: 120px;"></td>
-                        <td th:text="${inquiry.inquiriesACreatedAt}" style="max-width: 120px;"></td>
+                            th:style="${inquiry.inquiriesA != null && !inquiry.inquiriesA.isEmpty() ? '' : 'color: #ddd;'}"></td>
+                        <td th:text="${inquiry.inquiriesQCreatedAt}"></td>
+                        <td th:text="${inquiry.inquiriesACreatedAt}"></td>
+                        <td th:text="${inquiry.inquiriesStatus == 1 ? '활성' : '비활성'}"
+                            th:style="${inquiry.inquiriesStatus == 1 ? 'color: black;' : 'color: red;'}"></td>
                     </tr>
                 </tbody>
             </table>
 
             <!-- 페이지네이션 -->
-            <div class="pagination">
-                <a th:href="@{/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
+            <div class="pagination" th:if="${pageDto.totalElements > 0}">
+                <!-- 이전 페이지 링크 -->
+                <a th:href="@{/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size}, content=${param.content})}"
                     th:if="${pageDto.prev}">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
                 </a>
+
+                <!-- 페이지 번호 링크 -->
                 <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
-                    <a th:href="@{/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
-                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                    <a th:href="@{/admin/inquiry(page=${pageNum}, size=${pageDto.size}, content=${param.content})}"
+                        th:text="${pageNum}" th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
                 </span>
-                <a th:href="@{/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
+
+                <!-- 다음 페이지 링크 -->
+                <a th:href="@{/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size}, content=${param.content})}"
                     th:if="${pageDto.next}">
                     <span class="material-symbols-outlined">
                         chevron_right

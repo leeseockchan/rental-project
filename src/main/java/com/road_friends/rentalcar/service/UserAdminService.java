@@ -1,6 +1,8 @@
 package com.road_friends.rentalcar.service;
 
+import com.road_friends.rentalcar.dto.LicenseDto;
 import com.road_friends.rentalcar.dto.PageDto;
+import com.road_friends.rentalcar.dto.RentalHistoryDto;
 import com.road_friends.rentalcar.dto.UserDto;
 import com.road_friends.rentalcar.mapper.UserAdminMapper;
 import org.springframework.stereotype.Service;
@@ -86,4 +88,13 @@ public class UserAdminService {
     public boolean updateUser(UserDto userDto) {
         return userAdminMapper.updateUser(userDto) > 0;
     }
+
+    public List<RentalHistoryDto> getUserRentalHistory(Long userNum) {
+        return userAdminMapper.getUserRentalHistory(userNum);
+    }
+
+    public LicenseDto getUserLicenseDetail(Long userNum) {
+        return userAdminMapper.getUserLicenseDetail(userNum);
+    }
+
 }

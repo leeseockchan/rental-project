@@ -43,11 +43,7 @@
                                 <tbody>
                                     <tr>
                                         <th>공지 번호</th>
-                                        <td><input type="hidden" name="id" class="my-notice" th:value="${post.id}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th>작성자</th>
-                                        <td></td>
+                                        <td th:text="${post.id}"></td>
                                     </tr>
                                     <tr>
                                         <th>제목</th>
@@ -58,10 +54,6 @@
                                         <td>
                                             <textarea id="summernote" name="content" th:text="${post.content}"></textarea>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <th>작성일</th>
-                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>

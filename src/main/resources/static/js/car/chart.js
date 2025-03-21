@@ -2,7 +2,7 @@
 var gradeChart = echarts.init(document.getElementById('chart-container1'));
 var gradeOption = {
     title: { text: '', left: 'center' },
-    tooltip: { trigger: "item" },
+    tooltip: { trigger: "item", formatter: "{c}대"},
     legend: {
         bottom: '10%',
         left: 'center',
@@ -19,7 +19,13 @@ var gradeOption = {
         itemStyle: { borderColor: "#fff", borderWidth: 2 },
         emphasis: {
             itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: "rgba(0, 0, 0, 0.5)" }
-        }
+        },
+        label: {
+            show: true,
+            position: "outside",
+            formatter: "{b} {d}%", // 라벨 포맷
+            fontSize: 14
+        },
     }]
 };
 gradeChart.setOption(gradeOption);
@@ -28,7 +34,7 @@ gradeChart.setOption(gradeOption);
 var rankingPieChart = echarts.init(document.getElementById('chart-container2'));
 var rankingPieOption = {
     title: { text: '', left: 'center' },
-    tooltip: { trigger: "item" },
+    tooltip: { trigger: "item" , formatter: "{b} {c}대 ({d}%)"},
     legend: { bottom: '5%', left: "center" },
     series: [{
         name: '보유 차량',
@@ -50,7 +56,7 @@ rankingPieChart.setOption(rankingPieOption);
 var brandChart = echarts.init(document.getElementById('chart-container3'));
 var brandOption = {
     title: { text: '', left: 'center' },
-    tooltip: { trigger: 'axis' },
+    tooltip: { trigger: 'axis', formatter: "{c}대"},
     xAxis: {
         type: 'category',
         data: carBrandParsed.map(item => item.manufacturer), // label → manufacturer 수정
