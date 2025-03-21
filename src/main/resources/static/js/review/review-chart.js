@@ -29,7 +29,8 @@ function createChart(containerId, title, data, color) {
             left: "center"
         },
         tooltip: {
-            trigger: "axis"
+            trigger: "axis",
+            formatter: '{c}개'
         },
         xAxis: {
             type: "category",

@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
             trigger: "axis",
             axisPointer: {
                 type: "line"
-            }
+            },
+            formatter: "{c}건"
         },
         xAxis: {
             type: "category",
@@ -81,7 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
             trigger: "axis",
             axisPointer: {
                 type: "line"
-            }
+            },
+            formatter: "{c}건"
         },
         xAxis: {
             type: "category",

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var parkingChart1 = echarts.init(document.getElementById('chart-container1'));
     var parkingOption1 = {
         title: { text: '' },
-        tooltip: { trigger: "item" },
+        tooltip: { trigger: "item", formatter: "{b} {c}대 ({d}%)"},
         legend: {
             bottom: '20%',
             left: 'left',
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         tooltip: {
             trigger: 'item',
-            formatter: '{b}: {c}개' // 툴팁 포맷
+            formatter: '{b} {c}개 ({d}%)' // 툴팁 포맷
         },
         legend: {
             bottom: '20%',
