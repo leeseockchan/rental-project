@@ -17,7 +17,7 @@ public class UserController {
 
   @GetMapping("/admin/signup")
   public String signup() {
-    return "/user/signup";
+    return "user/signup";
   }
 
   @PostMapping("/admin/signup")
@@ -30,7 +30,7 @@ public class UserController {
 
   @GetMapping("/admin/login")
   public String login() {
-    return "/user/login";
+    return "user/login";
   }
 
   @PostMapping("/admin/logout")
