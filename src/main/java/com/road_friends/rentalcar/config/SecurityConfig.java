@@ -19,6 +19,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -73,7 +76,19 @@ public class SecurityConfig {
 
     http
             .securityMatcher("/api/**")
-            .cors(Customizer.withDefaults())
+            .cors(cors -> cors.configurationSource(request -> {
+              CorsConfiguration config = new CorsConfiguration();
+              config.setAllowedOrigins(List.of(
+                      "http://127.0.0.1:5500",
+                      "http://localhost:3000",
+                      "https://roadfriends-everycar.shop",
+                      "http://everycar-react-app.s3-website.ap-northeast-2.amazonaws.com"
+              ));
+              config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+              config.setAllowedHeaders(List.of("*"));
+              config.setAllowCredentials(true);
+              return config;
+            }))
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless 환경

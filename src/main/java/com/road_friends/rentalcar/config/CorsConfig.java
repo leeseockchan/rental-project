@@ -13,7 +13,12 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://127.0.0.1:5500", "http://localhost:3000")
+                        .allowedOrigins(
+                                "http://127.0.0.1:5500",
+                                "http://localhost:3000",
+                                "https://roadfriends-everycar.shop",
+                                "http://everycar-react-app.s3-website.ap-northeast-2.amazonaws.com"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
