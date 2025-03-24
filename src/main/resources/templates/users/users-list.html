@@ -124,7 +124,7 @@
             <td th:text="${user.userGender == 2 ? '남자' : '여자'}"></td>
             <td th:text="${user.userEmail}"></td>
             <td th:text="${user.userPhone}"></td>
-            <td th:text="${user.userStatus == 0 ? '활성' : '탈퇴'}"></td>
+            <td th:text="${user.enabled ? '활성' : '탈퇴'}"></td>
           </tr>
         </tbody>
       </table>

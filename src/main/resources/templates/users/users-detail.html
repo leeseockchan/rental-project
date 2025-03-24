@@ -80,9 +80,9 @@
                   <tr>
                     <th>활성 상태</th>
                     <td>
-                      <select name="userStatus" id="status">
-                        <option value="0" th:selected="${user.userStatus == 0}">활성</option>
-                        <option value="1" th:selected="${user.userStatus == 1}">비활성</option>
+                      <select name="enabled" id="enabled">
+                        <option value="true" th:selected="${user.enabled}">활성</option>
+                        <option value="false" th:selected="${not user.enabled}">탈퇴</option>
                       </select>
                     </td>
                   </tr>
