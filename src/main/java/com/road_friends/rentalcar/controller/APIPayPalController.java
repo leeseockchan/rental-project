@@ -127,7 +127,7 @@ public class APIPayPalController {
       }
 
       // React 애플리케이션 결제 완료 페이지로 리디렉션
-      String reactSuccessUrl = "http://localhost:3000/myPage/history";
+      String reactSuccessUrl = "http://everycar-react-app.s3-website.ap-northeast-2.amazonaws.com/myPage/history";
 
       // 리디렉션을 위한 ResponseEntity 반환
       return ResponseEntity.status(HttpStatus.FOUND)
