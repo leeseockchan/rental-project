@@ -97,4 +97,7 @@ public class UserAdminService {
         return userAdminMapper.getUserLicenseDetail(userNum);
     }
 
+    public int getUserCount() {
+        return userAdminMapper.selectUserCount();
+    }
 }

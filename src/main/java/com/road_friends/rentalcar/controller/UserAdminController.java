@@ -44,13 +44,16 @@ public class UserAdminController {
         // 전체 사용자 수 조회 (아이디 검색 포함)
         int totalUsers = userAdminService.getUserCountById(userId);
 
+        // 전체 사용자 수 조회 (통계용)
+        int totalUsersCount = userAdminService.getUserCount();
+
         // PageDto 생성 후 모델에 추가
         model.addAttribute("pageDto", new PageDto<>(page, size, totalUsers, users));
         model.addAttribute("users", users);
         model.addAttribute("userId", userId); // 검색 후 필드 유지
 
         // 전체 회원 수
-        model.addAttribute("userCount", totalUsers);
+        model.addAttribute("totalUserCount", totalUsersCount);
 
         // 활성 및 탈퇴 회원 수
         model.addAttribute("activeUserCount", userAdminService.getActiveUserCount());

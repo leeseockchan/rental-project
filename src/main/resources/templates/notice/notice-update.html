@@ -44,6 +44,7 @@
                                     <tr>
                                         <th>공지 번호</th>
                                         <td th:text="${post.id}"></td>
+                                        <input type="hidden" name="id" th:value="${post.id}">
                                     </tr>
                                     <tr>
                                         <th>제목</th>

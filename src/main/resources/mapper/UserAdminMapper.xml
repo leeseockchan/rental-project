@@ -35,9 +35,8 @@
     <!-- 모든 사용자 목록 조회 (관리자용) -->
     <select id="selectAllUsers" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
-        user_status, user_gender, user_birth
+        enabled, user_gender, user_birth
         FROM user
-        WHERE enabled = 1
         ORDER BY user_num DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
@@ -45,9 +44,9 @@
     <!-- 아이디로 사용자 목록 검색 (관리자용) -->
     <select id="searchUsersById" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
-        user_status, user_gender, user_birth
+        enabled, user_gender, user_birth
         FROM user
-        WHERE user_id LIKE CONCAT('%', #{userId}, '%') AND enabled = 1
+        WHERE user_id LIKE CONCAT('%', #{userId}, '%')
         ORDER BY user_num DESC
         LIMIT #{size} OFFSET #{offset}
     </select>
@@ -63,15 +62,15 @@
     <select id="searchUserCountById" resultType="int">
         SELECT COUNT(*)
         FROM user
-        WHERE user_id LIKE CONCAT('%', #{userId}, '%') AND enabled = 1
+        WHERE user_id LIKE CONCAT('%', #{userId}, '%')
     </select>
 
     <!-- 특정 사용자 상세 조회 (관리자용) -->
     <select id="getUserDetail" resultType="com.road_friends.rentalcar.dto.UserDto">
         SELECT user_num, user_id, user_name, user_email, user_phone, user_address,
-        user_status, user_gender, user_birth
+        enabled, user_gender, user_birth
         FROM user
-        WHERE user_num = #{userNum} AND enabled = 1
+        WHERE user_num = #{userNum}
     </select>
 
     <!-- 특정 사용자 정보 수정 (관리자용) -->
@@ -81,9 +80,9 @@
         user_email = #{userEmail},
         user_phone = #{userPhone},
         user_address = #{userAddress},
-        user_status = #{userStatus},
-        user_birth = #{userBirth}
-        WHERE user_num = #{userNum} AND enabled = 1
+        user_birth = #{userBirth},
+        enabled = #{enabled}
+        WHERE user_num = #{userNum}
     </update>
 
     <!-- 특정 사용자의 대여 기록 조회 (관리자용) -->
