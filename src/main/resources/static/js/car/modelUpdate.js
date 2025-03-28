@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 서버로 폼 데이터 전송
-        fetch('/api/admin/models/'+modelId.value+'/modify', {
+        fetch('/admin/models/'+modelId.value+'/modify', {
             method: 'POST',
             body: model
         })
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
        .then(data => {
            if (data.success) {
                alert('수정 완료되었습니다.');
-               window.location.href = '/api/admin/models';
+               window.location.href = '/admin/models';
            } else {
                alert('수정에 실패했습니다.');
            }

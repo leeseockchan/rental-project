@@ -22,7 +22,7 @@ import java.util.UUID;
 import static org.springframework.web.servlet.function.ServerResponse.ok;
 
 @Controller
-@RequestMapping("/api/admin/models")
+@RequestMapping("/admin/models")
 public class AdminModelController {
 
     @Autowired

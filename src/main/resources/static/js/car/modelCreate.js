@@ -33,7 +33,7 @@ const form = document.getElementById('model_create');
         }
 
         // 서버로 폼 데이터 전송
-        fetch('/api/admin/models/create', {
+        fetch('/admin/models/create', {
             method: 'POST',
             body: model
         })
@@ -44,7 +44,7 @@ const form = document.getElementById('model_create');
                 // 새로 추가된 모델의 이미지 URL을 사용하여 미리보기 업데이트
                 const newImageUrl = data.model.imageUrl;  // 응답에서 새 이미지 URL 가져오기
                 document.getElementById('preview').src = newImageUrl; // 미리보기 이미지 갱신
-                window.location.href = '/api/admin/models';
+                window.location.href = '/admin/models';
             } else {
                 alert('차량 정보 추가에 실패했습니다.');
             }
