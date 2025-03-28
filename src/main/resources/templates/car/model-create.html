@@ -1,48 +1,62 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/car/model-create.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>차량 정보 추가</title>
 </head>
 <body>
-<h1>차량 정보 생성</h1>
-<form id="model_create" th:action="@{/api/admin/models/create}" method="POST" enctype="multipart/form-data">
-    <table>
-        <thead>
-        <tr>
-            <th><label for="modelId">차량 번호</label></th>
-            <th><label for="modelBrand">차량 브랜드</label></th>
-            <th><label for="modelName">차량 이름</label></th>
-            <th><label for="modelCategory">차 종</label></th>
-            <th><label for="modelSeateNum">차량 정원</label></th>
-            <th><label for="modelTransmission">차량 변속기</label></th>
-            <th><label for="modelAmountHour">렌트 요금(1시간)</label></th>
-            <th><label for="modelAmountDay">렌트 요금(1일)</label></th>
-            <th><label for="imageFile">차량 사진 등록)</label></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><input type="text" id="modelId" name="modelId" required></td>
-            <td><input type="text" id="modelBrand" name="modelBrand" required></td>
-            <td><input type="text" id="modelName" name="modelName" required></td>
-            <td><input type="text" id="modelCategory" name="modelCategory" required></td>
-            <td><input type="number" id="modelSeateNum" name="modelSeateNum" required></td>
-            <td><input type="text" id="modelTransmission" name="modelTransmission" required></td>
-            <td><input type="number" id="modelAmountHour" name="modelAmountHour" required></td>
-            <td><input type="number" id="modelAmountDay" name="modelAmountDay" required></td>
-            <td><input type="file" id="imageFile" name="imageFile" accept="image/*"></td>
-        </tr>
-        </tbody>
-    </table>
-    <div>
-        <img id="preview" src="/images/car/defaultModel.png" alt="차량 이미지 미리보기" />
+<div class="content" layout:fragment="content">
+    <div class="header">
+        차량 정보
     </div>
-    <button type="submit">차량 추가</button>
-    <button type="button" onclick="window.location.href='/api/admin/models'">취소</button>
-</form>
-
+    <div class="header-sm">
+        차량 정보 관리 > 신규 차량 정보 등록
+    </div>
+    <form id="model_create" th:action="@{/admin/models/create}" method="POST"
+          enctype="multipart/form-data">
+        <table>
+            <thead>
+            <tr>
+                <th><label for="modelId">차량 번호</label></th>
+                <th><label for="modelBrand">차량 브랜드</label></th>
+                <th><label for="modelName">차량 이름</label></th>
+                <th><label for="modelCategory">차 종</label></th>
+                <th><label for="modelSeateNum">차량 정원</label></th>
+                <th><label for="modelTransmission">차량 변속기</label></th>
+                <th><label for="modelAmountHour">렌트 요금(1시간)</label></th>
+                <th><label for="modelAmountDay">렌트 요금(1일)</label></th>
+                <th><label for="imageFile">차량 사진 등록)</label></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" id="modelId" name="modelId" required></td>
+                <td><input type="text" id="modelBrand" name="modelBrand" required></td>
+                <td><input type="text" id="modelName" name="modelName" required></td>
+                <td><input type="text" id="modelCategory" name="modelCategory" required></td>
+                <td><input type="number" id="modelSeateNum" name="modelSeateNum" required></td>
+                <td><input type="text" id="modelTransmission" name="modelTransmission" required></td>
+                <td><input type="number" id="modelAmountHour" name="modelAmountHour" required></td>
+                <td><input type="number" id="modelAmountDay" name="modelAmountDay" required></td>
+                <td><input type="file" id="imageFile" name="imageFile" accept="image/*"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <img id="preview"
+                 src="/images/car/defaultModel.png"
+                 alt="차량 이미지 미리보기"/>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn-update" id="submit">차량 추가</button>
+            <button type="button" class="btn-go-back"
+                    th:onclick="'location.href=\'' + @{/admin/models} + '\''">
+                목록으로
+            </button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

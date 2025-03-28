@@ -8,6 +8,12 @@
     margin-left: 373px;
 }
 
+.header {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
 h1 {
     font-size: 32px;
     font-weight: 600;
@@ -26,17 +32,24 @@ h1 {
 
 .table-box thead {
     background-color: #3A3D50;
-    color: #fff;
+       border-radius: 10px;
+       color: #fff;
 }
 
 .table-box th,
 .table-box td {
-    padding: 15px;
+    padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #D9D9D9;
 }
 
-.table-box tbody tr {
+.table-box td{
+    padding: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-box tbody tr{
     transition: 0.1s;
 }
 
@@ -45,18 +58,18 @@ h1 {
     cursor: pointer;
 }
 
+.table-box tbody td a {
+    width: 100%;
+}
+
 /* 버튼 스타일 */
-.btn-group button,
-button {
-    padding: 8px 15px;
-    margin-right: 5px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    transition: 0.1s all;
-    cursor: pointer;
-    background-color: #AFFF4F;
-    color: #000;
-    font-size: 14px;
+.btn-group button{
+    padding : 5px 10px;
+       margin-right: 5px;
+       border: 1px solid transparent;
+       border-radius : 5px;
+       transition : 0.1s all;
+       cursor: pointer;
 }
 
 .btn-group button:hover,
