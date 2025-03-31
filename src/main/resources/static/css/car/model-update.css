@@ -43,8 +43,8 @@ td input {
 /* 이미지 미리보기 */
 #preview {
     display: block;
-    width: 450px;
-    height: 250px;
+    width: 400px;
+    height: 200px;
     margin: 15px auto;
     border-radius: 5px;
     object-fit: cover;
