@@ -43,7 +43,7 @@
                 <td><input type="text" name="modelTransmission" th:value="${modify.modelTransmission}" required></td>
                 <td><input type="number" name="modelAmountHour" th:value="${modify.modelAmountHour}" required></td>
                 <td><input type="number" name="modelAmountDay" th:value="${modify.modelAmountDay}" required></td>
-                <td><input type="file" name="imageFile" accept="image/*"></td>
+                <td><input type="file" name="imageFile" accept="image/*" required></td>
             </tr>
             </tbody>
         </table>
@@ -54,20 +54,19 @@
                  alt="차량 이미지 미리보기"
                  th:data-image-url="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"/>
         </div>
-
-
+        <div class="btn-group">
+            <button type="submit" class="btn-update" id="submit">수정 완료</button>
+            <button type="button" class="btn-cancel" id="reset"
+                    th:onclick="'location.href=\'' + @{/admin/models} + '\''">
+                목록으로
+            </button>
+            <button type="button" class="btn-delete" id="delete_btn">삭제하기</button>
+        </div>
     </form>
-    <div class="btn-group">
-        <button type="submit" class="btn-update" id="submit">수정 완료</button>
-        <button type="button" class="btn-reset" id="reset"
-                th:onclick="'location.href=\'' + @{/admin/models/{modelId}(modelId=${modify.modelId})} + '\''">
-            취소하기
-        </button>
-        <form id="delete" th:action="@{/admin/models/{modelId}(modelId=${modify.modelId})}" method="post">
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" id="delete_btn">삭제</button>
-        </form>
-    </div>
+    <form id="delete_form" class="btn-delete" th:action="@{/admin/models/{modelId}(modelId=${modify.modelId})}" method="post" style="display: none;">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
+
 </div>
 <div layout:fragment="js">
     <script src="/js/car/modelUpdate.js"></script>

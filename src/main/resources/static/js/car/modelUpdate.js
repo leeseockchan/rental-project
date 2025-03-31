@@ -70,4 +70,15 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('수정 중 오류가 발생했습니다.');
         });
     });
+
+    const deleteBtn = document.getElementById('delete_btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function() {
+            if (confirm('정말 삭제하시겠습니까?')) {
+                document.getElementById('delete_form').submit();
+            }
+        });
+    }
+
+
 });

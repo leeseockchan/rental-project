@@ -12,10 +12,14 @@
     font-weight: 600;
     margin-bottom: 55px;
 }
-
+.header-sm {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
 /* 테이블 스타일 */
-
-
 th, td {
     padding: 15px;
     text-align: center;
@@ -39,8 +43,8 @@ td input {
 /* 이미지 미리보기 */
 #preview {
     display: block;
-    width: 400px;
-    height: 200px;
+    width: 450px;
+    height: 250px;
     margin: 15px auto;
     border-radius: 5px;
     object-fit: cover;
@@ -57,9 +61,11 @@ td input {
     display: flex;
     align-items: center;
 }
-
+.btn-group .btn-update,
+.btn-group .btn-cancel,
+.btn-group .btn-delete,
 .btn-group button,
-.btn-group form button {
+.btn-group form button{
     padding: 5px 10px;
     margin-right: 5px;
     border: 1px solid transparent;
@@ -69,13 +75,24 @@ td input {
 }
 
 .btn-group .btn-update,
-.btn-group .btn-go-back {
+.btn-group .btn-cancel{
     background-color: #AFFF4F;
     color: #000;
 }
+.btn-group .btn-delete{
+    background-color: #FF4F4F;
+    border: 1px solid #FF4F4F
+    color: #000;
+}
+
+.btn-group .btn-delete:hover{
+    background-color: #D43F3F;
+    border: 1px solid #D43F3F;
+    color: #FFF;
+}
 
 .btn-group .btn-update:hover,
-.btn-group .btn-go-back:hover{
+.btn-group .btn-cancel:hover{
     background-color: #3A3D50;
     border: 1px solid #3A3D50;
     color: #AFFF4F;
