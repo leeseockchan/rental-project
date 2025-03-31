@@ -45,7 +45,7 @@ public class AdminModelController {
 
     @PostMapping("/create")
     public  ResponseEntity<Map<String, Object>> addModel(@ModelAttribute AdminModelDto adminModelDto,
-                                                        @RequestParam(value = "imageFile", required = false) MultipartFile file) {
+                                                        @RequestParam(value = "imageFile") MultipartFile file) {
         try {
             // 이미지가 선택된 경우
             if (file != null && !file.isEmpty()) {
@@ -131,7 +131,7 @@ public class AdminModelController {
     @DeleteMapping("/{modelId}")
     public String deleteModel(@PathVariable String modelId) {
         adminModelService.deleteModel(modelId);
-        return "redirect:/api/admin/models";
+        return "redirect:/admin/models";
     }
 
 }

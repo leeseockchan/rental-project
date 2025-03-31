@@ -9,9 +9,14 @@
     font-family: "Noto Sans KR", serif;
 }
 
+.content {
+    min-width : 1300px;
+}
+
 .container {
     display: flex;
     background-color: #F8F9F7;
+    overflow-x: hidden;
 }
 
 a {
@@ -42,7 +47,6 @@ li {
 
 .logo {
     margin: 50px 20px 0;
-    background-color: #AFFF4F;
     height: 100px;
 }
 
