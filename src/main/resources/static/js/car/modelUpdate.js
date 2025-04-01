@@ -70,4 +70,18 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('수정 중 오류가 발생했습니다.');
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 삭제하기 버튼 클릭 이벤트
+        const deleteBtn = document.getElementById('delete_btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', function() {
+                if (confirm('정말 삭제하시겠습니까?')) {
+                    // 삭제 확인 후, 숨겨진 form을 제출
+                    document.getElementById('delete_form').submit();
+                }
+            });
+        }
+    });
+
 });
