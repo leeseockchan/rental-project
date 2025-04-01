@@ -55,13 +55,13 @@
 
     <!-- 취소 버튼 -->
     <div>
-        <a th:href="@{/api/admin/models}">
+        <a th:href="@{/admin/models}">
             <button type="button">취소</button>
         </a>
     </div>
 </form>
 
-<form id="delete" th:action="@{/api/admin/models/{modelId}(modelId=${modify.modelId})}" method="post">
+<form id="delete" th:action="@{/admin/models/{modelId}(modelId=${modify.modelId})}" method="post">
     <input type="hidden" name="_method" value="DELETE">
     <button type="submit" id="delete_btn">삭제</button>
 </form>
