@@ -82,6 +82,12 @@
     font-weight: 400;
 }
 
+/* 지도 */
+.info-box-big .info-box-map{
+    width : 100%;
+    height: 200px;
+}
+
 /* 정보 입력창 */
 .form-control {
     width: 100%;
@@ -137,3 +143,4 @@
     border: 1px solid #3A3D50;
     color: #AFFF4F;
 }
+

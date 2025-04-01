@@ -25,3 +25,40 @@
 //           alert('오류가 발생했습니다.');
 //       };
 //   };
+document.addEventListener("DOMContentLoaded", function () {
+    // 초기 위도, 경도 값을 입력 필드에서 가져옴
+    let latitude = parseFloat(document.getElementById("parkingLatitude").value) || 37.560052; // 기본값: 서울
+    let longitude = parseFloat(document.getElementById("parkingLongitude").value) || 126.975296; // 기본값: 서울
+
+    // 카카오 지도 API 초기화
+    let mapContainer = document.getElementById('map');
+    let mapOption = {
+        center: new kakao.maps.LatLng(latitude, longitude), // 지도 초기 중심 위치
+        level: 3 // 지도 확대 레벨
+    };
+
+    let map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 마커 생성
+    let marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(latitude, longitude), // 마커 위치
+        map: map
+    });
+
+    // 위도와 경도 입력 값이 변경되면 마커와 지도를 업데이트하는 함수
+    function updateMarker() {
+        let newLat = parseFloat(document.getElementById("parkingLatitude").value);
+        let newLng = parseFloat(document.getElementById("parkingLongitude").value);
+
+        // 입력 값이 유효한지 확인
+        if (!isNaN(newLat) && !isNaN(newLng)) {
+            let newPosition = new kakao.maps.LatLng(newLat, newLng);
+            marker.setPosition(newPosition); // 마커 위치 변경
+            map.setCenter(newPosition); // 지도 중심 변경
+        }
+    }
+
+    // 입력 필드의 변경 사항을 감지하여 마커와 지도를 업데이트
+    document.getElementById("parkingLatitude").addEventListener("input", updateMarker);
+    document.getElementById("parkingLongitude").addEventListener("input", updateMarker);
+});

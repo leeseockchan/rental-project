@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("File input changed!");
 
         if (file) {
-        // 이미지 파일이 맞는지 확인
-            if (!file.type.startsWith('image/')) {
-                alert("이미지 파일을 선택해주세요.");
+        // 이미지 파일만 가능
+            if (!file.type || !file.type.startsWith("image/")) {
+                alert("이미지 파일만 선택이 가능합니다.");
                 imageInput.value = ""; // 입력 초기화
                 preview.src = "/images/car/defaultModel.png"; // 기본 이미지 복구
                 return;

@@ -19,6 +19,7 @@ public class AdminParkingService {
     public List<String> getAllProvinces() {
         return adminParkingMapper.findAllProvinces();
     }
+
     // 3. 특정 행정구역의 주차장 목록 조회
     public List<AdminParkingDto> getParkingsByDistrict(String province, String district) {
         return adminParkingMapper.findParkingsByDistrict(province, district);
@@ -36,10 +37,12 @@ public class AdminParkingService {
     public List<AdminParkingDto> findAll() {
         return adminParkingMapper.findAll();
     }
+
     //      특정 주차장 조회
     public AdminParkingDto findByParking(int parkingId) {
         return adminParkingMapper.findByParking(parkingId);
     }
+
     public List<AdminCarDto> findCarsByParking(int parkingId) {
         return adminParkingMapper.findCarsByParking(parkingId);
     }

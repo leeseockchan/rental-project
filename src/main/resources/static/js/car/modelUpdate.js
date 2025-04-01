@@ -19,6 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const file = event.target.files[0];
 
         if (file) {
+//        이미지 파일만 가능
+         if (!file.type || !file.type.startsWith("image/")) {
+                        alert("이미지 파일만 선택이 가능합니다.");
+                        imageInput.value = ""; // 입력 초기화
+                        preview.src = "/images/car/defaultModel.png"; // 기본 이미지 복구
+                        return;
+                    }
+
             const reader = new FileReader();
             reader.onload = function (e) {
                 preview.src = e.target.result;  // 사용자가 선택한 이미지로 미리보기 변경
