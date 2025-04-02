@@ -12,7 +12,6 @@
     <!-- 카카오 지도 -->
     <script type="text/javascript"
             src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=7466a0cf7003b23d8dfdda02010725c3"></script>
-
 </head>
 
 <body>
@@ -21,27 +20,29 @@
     <div class="header">
         주차장 관리
     </div>
-
-    <div class="info">
         <div class="header-sm">
             주차장 관리 > 주차장 상세 조회 > 주차장 정보 수정
         </div>
-        <form id="parkingModify"
-               th:action="@{/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
-               method="post">
-        <input type="hidden" name="_method" value="PUT">
-            <div class="info-box-big">
 
-                <div class="info-box box1">
+    <div class="info">
+        <div class="info-box-big">
+            <form id="parkingModify"
+                  th:action="@{/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
+                  method="post">
+                <input type="hidden" name="_method" value="PUT">
+
+                <div class="info-box box">
                     <div class="info-box-title" th:text="|${modify.parkingName} 주차장의 정보 수정|"></div>
                     <div class="info-box-content">
                         <div class="info-box-content-row">
                             <label for="parkingName">주차장 이름</label>
-                            <input type="text" id="parkingName" name="parkingName" th:value="${modify.parkingName}" required>
+                            <input type="text" id="parkingName" name="parkingName" th:value="${modify.parkingName}"
+                                   required>
                         </div>
                         <div class="info-box-content-row">
                             <label for="parkingAddress">주차장 주소</label>
-                            <input type="text" id="parkingAddress" name="parkingAddress" th:value="${modify.parkingAddress}"
+                            <input type="text" id="parkingAddress" name="parkingAddress"
+                                   th:value="${modify.parkingAddress}"
                                    required>
                         </div>
                         <div class="info-box-content-row">
@@ -56,15 +57,15 @@
                         </div>
                         <div class="info-box-content-row">
                             <label for="parkingDistrict">주차장 관할 도시</label>
-                            <input type="text" id="parkingDistrict" name="parkingDistrict" th:value="${modify.parkingDistrict}"
+                            <input type="text" id="parkingDistrict" name="parkingDistrict"
+                                   th:value="${modify.parkingDistrict}"
                                    required>
                         </div>
-                    </div>
 
-                    <div class="info-box-content">
                         <div class="info-box-content-row">
                             <label for="parkingLatitude">위도</label>
-                            <input type="text" id="parkingLatitude" name="parkingLatitude" th:value="${modify.parkingLatitude}"
+                            <input type="text" id="parkingLatitude" name="parkingLatitude"
+                                   th:value="${modify.parkingLatitude}"
                                    required>
                         </div>
                         <div class="info-box-content-row">
@@ -75,27 +76,32 @@
                     </div>
                 </div>
 
-            </div>
-
-            <div class="btn-group">
-                <button type="button" class="btn-go-back"
-                        th:onclick="|location.href='@{/admin/parkings}'|">
-                    목록으로
-                </button>
-                <div>
-                    <button type="button" class="btn-reset" id="reset"
-                            th:onclick="'location.href=\'' + @{/admin/parkings/{parkingId}(parkingId=${modify.parkingId})} + '\''">
-                        취소하기
+                <div class="btn-group">
+                    <button type="button" class="btn-go-back"
+                            th:onclick="|location.href='@{/admin/parkings}'|">
+                        목록으로
                     </button>
-                    <button type="submit" class="btn-update" id="submit">
-                        수정완료
-                    </button>
+                    <div>
+                        <button type="submit" class="btn-update" id="submit">
+                            수정완료
+                        </button>
+                        <button type="button" class="btn-reset" id="reset"
+                                th:onclick="'location.href=\'' + @{/admin/parkings/{parkingId}(parkingId=${modify.parkingId})} + '\''">
+                            취소하기
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <!-- 지도 -->
+        <div class="info-box-big">
+            <div id="map" class="info-box-map"></div>
+        </div>
     </div>
-
 </div>
-</body>
 
+<th:block layout:fragment="js">
+    <script th:src="@{/js/parking/parking_modify.js}"></script>
+</th:block>
+</body>
 </html>

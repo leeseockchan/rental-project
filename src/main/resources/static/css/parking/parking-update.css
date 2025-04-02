@@ -19,6 +19,9 @@
 /* 정보 박스 */
 .info {
     margin-bottom: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .header-sm {
@@ -32,14 +35,17 @@
 .info-box-big {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    width: 100%;
     margin-bottom: 20px;
     background-color: #fff;
     border-radius: 10px;
     padding: 40px 50px;
+    justify-content: space-between;
 }
 
 .info-box {
-    width: 100%;
+    margin-bottom: 45px;
 }
 
 .info-box-title {
@@ -52,18 +58,17 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 50px;
-    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .info-box-content-row {
     display: flex;
     flex-direction: column;
-    padding: 10px 20px 30px 0;
+    padding: 10px 20px 10px 0;
 }
 
-.info-box-content-row:nth-child(3),
-.info-box-content-row:nth-child(4) {
+.info-box-content-row:nth-child(5),
+.info-box-content-row:nth-child(6) {
     padding-bottom: 0;
 }
 
@@ -75,7 +80,7 @@
 
 .info-box-content-row input,
 .info-box-content-row select {
-    width: 550px;
+    width: 400px;
     padding: 10px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
@@ -83,13 +88,20 @@
     font-weight: 400;
 }
 
-.info-box-content-row input#parking-latitude,
-.info-box-content-row input#parking-longtitude,
-.info-box-content-row select#parking-province,
-.info-box-content-row select#parking-district{
-    width: 260px;
+.info-box-content-row input#parkingLatitude,
+.info-box-content-row input#parkingLongtitude,
+.info-box-content-row select#parkingProvince,
+.info-box-content-row select#parkingDistrict{
+    width: 300px;
 }
 
+/* 지도 */
+.info-box-map{
+    min-width: 400px;
+    min-height: 400px;
+    width : 100%;
+    height: 600px;
+}
 
 /* 버튼 */
 .btn-group {
@@ -118,9 +130,7 @@
     color: #000;
 }
 
-.btn-group .btn-reset,
-.btn-group .btn-delete-all,
-.btn-group .btn-delete-reply {
+.btn-group .btn-reset {
     background-color: #F3F3F3;
     border: 1px solid #D9D9D9;
     color: #F21717;
@@ -128,9 +138,7 @@
 
 .btn-group .btn-update:hover,
 .btn-group .btn-go-back:hover,
-.btn-group .btn-reset:hover,
-.btn-group .btn-delete-all:hover,
-.btn-group .btn-delete-reply:hover {
+.btn-group .btn-reset:hover{
     background-color: #3A3D50;
     border: 1px solid #3A3D50;
     color: #AFFF4F;
