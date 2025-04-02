@@ -26,40 +26,49 @@
 //       };
 //   };
 document.addEventListener("DOMContentLoaded", function () {
-    // 카카오 지도 API 초기화
+    console.log("카카오 API 로드 확인:", typeof kakao !== "undefined" && kakao.maps);
+
     let mapContainer = document.getElementById('map');
 
-    // 초기 위도, 경도 값을 입력 필드에서 가져옴
-    let latitude = parseFloat(document.getElementById("parkingLatitude").value) || 37.560052; // 기본값: 서울
-    let longitude = parseFloat(document.getElementById("parkingLongitude").value) || 126.975296; // 기본값: 서울
+    if (!mapContainer) {
+        console.error("지도를 표시할 #map 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    // 위도, 경도 값 가져오기 (기본값: 서울)
+    let latitude = parseFloat(document.getElementById("parkingLatitude").value) || 37.560052;
+    let longtitude = parseFloat(document.getElementById("parkingLongtitude").value) || 126.975296;
 
     let mapOption = {
-        center: new kakao.maps.LatLng(latitude, longitude), // 지도 초기 중심 위치
-        level: 3 // 지도 확대 레벨
+        center: new kakao.maps.LatLng(latitude, longtitude), // 초기 지도 중심
+        level: 3 // 확대 레벨
     };
 
     let map = new kakao.maps.Map(mapContainer, mapOption);
 
     // 마커 생성
     let marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(latitude, longitude), // 마커 위치
+        position: new kakao.maps.LatLng(latitude, longtitude),
         map: map
     });
 
-    // 위도와 경도 입력 값이 변경되면 마커와 지도를 업데이트하는 함수
+    console.log("초기 지도 중심:", latitude, longtitude);
+
+    // 위도/경도 입력 필드 변경 시 마커 이동
     function updateMarker() {
         let newLat = parseFloat(document.getElementById("parkingLatitude").value);
-        let newLng = parseFloat(document.getElementById("parkingLongitude").value);
+        let newLng = parseFloat(document.getElementById("parkingLongtitude").value);
 
-        // 입력 값이 유효한지 확인
         if (!isNaN(newLat) && !isNaN(newLng)) {
             let newPosition = new kakao.maps.LatLng(newLat, newLng);
-            marker.setPosition(newPosition); // 마커 위치 변경
-            map.setCenter(newPosition); // 지도 중심 변경
+            marker.setPosition(newPosition);
+            map.setCenter(newPosition);
+            console.log("마커 위치 변경:", newLat, newLng);
         }
     }
 
-    // 입력 필드의 변경 사항을 감지하여 마커와 지도를 업데이트
+    // input 이벤트 리스너 추가 (즉시 반영)
     document.getElementById("parkingLatitude").addEventListener("input", updateMarker);
-    document.getElementById("parkingLongitude").addEventListener("input", updateMarker);
+    document.getElementById("parkingLongtitude").addEventListener("input", updateMarker);
 });
+

@@ -26,79 +26,63 @@
         <div class="header-sm">
             주차장 관리 > 신규 주차장 등록
         </div>
-        <form id="parkingForm" th:action="@{/admin/parkings/add}" method="post">
-            <div class="info-box-big-group">
-                <div class="info-box-big">
+        <div class="info-box-big-group">
+            <!-- 주차장 정보 입력 -->
+            <div class="info-box-big">
+                <form id="parkingForm" th:action="@{/admin/parkings/add}" method="post">
                     <div class="info-box box">
                         <div class="info-box-title">주차장 정보</div>
                         <div class="info-box-content">
                             <div class="info-box-content-table">
                                 <div class="info-box-content-row">
-                                    <input type="hidden" id="parkingId" name="parkingId"
-                                           th:value="${adminParkingDto.parkingId}">
                                     <label for="parkingName">주차장 이름</label>
-                                    <input type="text" id="parkingName" name="parkingName" placeholder="주차장의 이름을 입력해주세요"
-                                           required>
+                                    <input type="text" id="parkingName" name="parkingName" required>
                                 </div>
-
                                 <div class="info-box-content-row">
                                     <label for="parkingAddress">주차장 주소</label>
-                                    <input type="text" id="parkingAddress" name="parkingAddress"
-                                           placeholder="주차장의 주소를 입력해주세요"
-                                           required>
+                                    <input type="text" id="parkingAddress" name="parkingAddress" required>
                                 </div>
-
                                 <div class="info-box-content-row">
                                     <label for="parkingProvince">주차장 관할 지역</label>
                                     <select name="parkingProvince" id="parkingProvince" required>
                                         <option th:each="province : ${provinceList}" th:value="${province}"
-                                                th:text="${province}"
-                                                th:selected="${adminParkingDto.parkingProvince == province}">
-                                        </option>
+                                                th:text="${province}"></option>
                                     </select>
                                 </div>
-
                                 <div class="info-box-content-row">
                                     <label for="parkingDistrict">주차장 관할 도시</label>
-                                    <input type="text" id="parkingDistrict" name="parkingDistrict"
-                                           placeholder="도시의 이름을 입력해주세요" required>
+                                    <input type="text" id="parkingDistrict" name="parkingDistrict" required>
                                 </div>
-
                                 <div class="info-box-content-row">
                                     <label for="parkingLatitude">주차장 위도</label>
-                                    <input type="text" id="parkingLatitude" name="parkingLatitude"
-                                           placeholder="위도의 값을 정확히 입력해주세요"
-                                           required>
+                                    <input type="text" id="parkingLatitude" name="parkingLatitude" required>
                                 </div>
-
                                 <div class="info-box-content-row">
                                     <label for="parkingLongtitude">주차장 경도</label>
-                                    <input type="text" id="parkingLongtitude" name="parkingLongtitude"
-                                           placeholder="경도의 값을 정확히 입력해주세요"
-                                           required>
+                                    <input type="text" id="parkingLongtitude" name="parkingLongtitude" required>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- 지도 추가 -->
-                <div class="info-box-big">
-                    <div id="map" class="info-box-map">
+
+                    <!-- 버튼 그룹 -->
+                    <div class="btn-group">
+                        <button type="button" class="btn-go-back" th:onclick="|location.href='@{/admin/parkings}'|">
+                            목록으로
+                        </button>
+                        <button type="submit" class="btn-update" id="submit">
+                            주차장 등록
+                        </button>
                     </div>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn-go-back"
-                            th:onclick="|location.href='@{/admin/parkings}'|">
-                        목록으로
-                    </button>
-                    <button type="submit" class="btn-update" id="submit">
-                        주차장 등록
-                    </button>
-                </div>
+                </form>
             </div>
-        </form>
+
+            <!-- 지도 -->
+            <div class="info-box-big">
+                <div id="map" class="info-box-map"></div>
+            </div>
+        </div>
+
     </div>
 </div>
 <th:block layout:fragment="js">
