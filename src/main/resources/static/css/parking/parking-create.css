@@ -88,17 +88,17 @@
     font-weight: 400;
 }
 
-.info-box-content-row input#parking-latitude,
-.info-box-content-row input#parking-longtitude,
-.info-box-content-row select#parking-province,
-.info-box-content-row select#parking-district{
+.info-box-content-row input#parkingLatitude,
+.info-box-content-row input#parkingLongtitude,
+.info-box-content-row select#parkingProvince,
+.info-box-content-row select#parkingDistrict{
     width: 260px;
 }
 
 /* 지도 */
 .info-box-big .info-box-map{
     width : 100%;
-    height: 400px;
+    height: 600px;
 }
 
 /* 버튼 */

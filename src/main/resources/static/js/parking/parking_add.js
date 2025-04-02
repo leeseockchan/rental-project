@@ -26,12 +26,13 @@
 //       };
 //   };
 document.addEventListener("DOMContentLoaded", function () {
+    // 카카오 지도 API 초기화
+    let mapContainer = document.getElementById('map');
+
     // 초기 위도, 경도 값을 입력 필드에서 가져옴
     let latitude = parseFloat(document.getElementById("parkingLatitude").value) || 37.560052; // 기본값: 서울
     let longitude = parseFloat(document.getElementById("parkingLongitude").value) || 126.975296; // 기본값: 서울
 
-    // 카카오 지도 API 초기화
-    let mapContainer = document.getElementById('map');
     let mapOption = {
         center: new kakao.maps.LatLng(latitude, longitude), // 지도 초기 중심 위치
         level: 3 // 지도 확대 레벨
