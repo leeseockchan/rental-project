@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+    layout:decorate="~{layout/layout}">
+
+<head>
+    <title>차량 관리 등록</title>
+
+    <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/car/carAdd.js}" defer></script>
+
+    <script>
+        $(document).ready(function () {
+            // 1. 도/시 선택 시 행정구역 목록 갱신
+            $("#parkingProvince").change(function () {
+                let selectedProvince = $(this).val();
+                $("#parkingDistrict").empty().append('<option value="">행정구역 선택</option>');
+                $("#carParking").empty().append('<option value="">주차장 선택</option>');
+                $("#parkingLatitude").val('');
+                $("#parkingLongitude").val('');
+
+                if (selectedProvince) {
+                    $.get("/admin/vehicles/districts", { province: selectedProvince }, function (data) {
+                        $.each(data, function (index, district) {
+                            $("#parkingDistrict").append('<option value="' + district + '">' + district + '</option>');
+                        });
+                    });
+                }
+            });
+
+            // 2. 행정구역 선택 시 주차장 목록 갱신
+            $("#parkingDistrict").change(function () {
+                let selectedProvince = $("#parkingProvince").val();
+                let selectedDistrict = $(this).val();
+                $("#carParking").empty().append('<option value="">주차장 선택</option>');
+                $("#parkingLatitude").val('');
+                $("#parkingLongitude").val('');
+
+                if (selectedDistrict) {
+                    $.get("/admin/vehicles/parkings", { province: selectedProvince, district: selectedDistrict }, function (data) {
+                        $.each(data, function (index, parking) {
+                            $("#carParking").append('<option value="' + parking.parkingId + '" data-lat="' + parking.parkingLatitude + '" data-lng="' + parking.parkingLongtitude + '">' + parking.parkingName + '</option>');
+                        });
+                    });
+                }
+            });
+
+            // 3. 주차장 선택 시 위도, 경도 자동 입력
+            $("#carParking").change(function () {
+                let selectedOption = $(this).find("option:selected");
+                let lat = selectedOption.attr("data-lat");
+                let lng = selectedOption.attr("data-lng");
+
+                $("#parkingLatitude").val(lat ? lat : '');
+                $("#parkingLongitude").val(lng ? lng : '');
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="content" layout:fragment="content">
+
+        <div class="header">
+            차량 관리
+        </div>
+
+        <div class="info">
+            <div class="header-sm">
+                차량 관리 > 신규 차량 등록
+            </div>
+            <form id="add_carData" th:action="@{/admin/vehicles/add}" method="post">
+                <div class="info-box-big">
+
+                    <div class="info-box box1">
+                        <div class="info-box-title">차량 정보 등록</div>
+                        <div class="info-box-content">
+                            <div class="info-box-content-row">
+                                <label for="carBrand">제조사</label>
+                                <select id="carBrand" name="model.modelBrand">
+                                    <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carModelName">차량 모델</label>
+                                <select id="carModelName" name="model.modelName">
+                                    <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carYear">연식</label>
+                                <select id="carYear" name="carYear">
+                                    <option th:each="yearList: ${yearList}" th:value="${yearList}"
+                                        th:text="${yearList}"></option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carFuel">연료</label>
+                                <select id="carFuel" name="carFuel">
+                                    <option th:each="fuel : ${fuelList}" th:value="${fuel}" th:text="${fuel}"></option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carGrade">등급</label>
+                                <select id="carGrade" name="carGrade">
+                                    <option th:each="grade : ${gradeList}" th:value="${grade}" th:text="${grade}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carCategory">서비스 카테고리</label>
+                                <select id="carCategory" name="carCategory" required>
+                                    <option value="0">빠른대여</option>
+                                    <option value="1">단기대여</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box box2">
+                        <div class="info-box-title">보유 주차장</div>
+                        <div class="info-box-content two">
+                            <div class="info-box-content-row">
+                                <label for="parkingProvince">도/시</label>
+                                <select id="parkingProvince" name="parking.province">
+                                    <option value="">도/시 선택</option>
+                                    <option th:each="province : ${provinceList}" th:value="${province}"
+                                        th:text="${province}"></option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="parkingDistrict">행정구역</label>
+                                <select id="parkingDistrict" name="parking.district">
+                                    <option value="">행정구역 선택</option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carParking">주차장 이름</label>
+                                <select id="carParking" name="parking.parkingId">
+                                    <option value="">주차장 선택</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="info-box-content">
+                            <div class="info-box-content-row">
+                                <label for="parkingLatitude">위도</label>
+                                <input type="text" id="parkingLatitude" name="parkingLatitude" readonly />
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="parkingLongitude">경도</label>
+                                <input type="text" id="parkingLongitude" name="parkingLongitude" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-go-back"
+                        th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
+                        목록으로
+                    </button>
+                    <button type="submit" class="btn-update" id="submit">
+                        등록하기
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>

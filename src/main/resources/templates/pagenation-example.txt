@@ -1,0 +1,124 @@
+페이지네이션 구현 ::
+
+list.html ------------------
+
+<!-- 페이지네이션 -->
+            <div class="pagination">
+                <a th:href="@{/admin/inquiry(page=${pageDto.start - 1}, size=${pageDto.size})}"
+                    th:if="${pageDto.prev}">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+                </a>
+                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">
+                    <a th:href="@{/admin/inquiry(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"
+                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>
+                </span>
+                <a th:href="@{/admin/inquiry(page=${pageDto.end + 1}, size=${pageDto.size})}"
+                    th:if="${pageDto.next}">
+                    <span class="material-symbols-outlined">
+                        chevron_right
+                    </span>
+                </a>
+            </div>
+
+
+
+Controller ------------------
+
+// 요청URL 형식: /items?page=1&size=10
+    @GetMapping
+    public String getAllInquiry(@RequestParam(name="page", defaultValue = "1") int page,
+                               @RequestParam(name="size", defaultValue = "10") int size,
+                               Model model) {
+        PageDto pageDto = adminInquiryService.getAllInquiry(page, size);
+        model.addAttribute("pageDto", pageDto);
+        return "inquiry/inquiry-list";  // inquiry_list.html로 이동
+    }
+
+
+
+
+PageDto --------------------
+
+package com.road_friends.rentalcar.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
+@Getter
+@Setter
+public class PageDto<T> {
+    private int page;
+    private int size; // 페이지당 항목 수
+    private int totalPages;
+    private int totalElements;
+    private int pageGroupSize = 5;
+    private int start; // 시작 페이지 번호
+    private int end; // 끝 페이지 번호
+    private boolean prev;
+    private boolean next;
+    private List<T> items;
+
+    public PageDto(int page, int size, int totalElements, List<T> items) {
+        this.page = page;
+        this.size = size;
+        this.totalElements = totalElements;
+
+        // 끝 페이지 계산
+        this.totalPages = (int) Math.ceil((double) totalElements / size);
+
+        // 시작 페이지 계산
+        this.start = ((page - 1) / pageGroupSize) * pageGroupSize + 1;
+
+        // 끝 페이지 계산
+        this.end = Math.min(start + pageGroupSize - 1, totalPages);
+
+        // 이전/다음 버튼 표시 여부
+        this.prev = start > 1;
+        this.next = end < totalPages;
+
+        this.items = items;
+    }
+}
+
+
+
+
+service --------------------------
+
+public PageDto getAllInquiry(int page, int size) {
+        int offset = (page - 1) * size;
+        List<AdminInquiryDto> items = adminInquiryMapper.findAllInquiry(size, offset);
+        int totalElements = adminInquiryMapper.countTotal();
+        return new PageDto(page, size, totalElements, items);
+    }
+
+
+
+
+mapper ----------------------------
+
+List<AdminInquiryDto> findAllInquiry(@Param("size") int size, @Param("offset") int offset);
+    int countTotal();
+
+
+
+mapper.xml --------------------------
+
+<!-- 관리자 질문 전체 조회 -->
+    <select id="findAllInquiry" resultType="com.road_friends.rentalcar.dto.AdminInquiryDto">
+        SELECT inquiries_num, user_num, admin_num, inquiries_q, inquiries_a, inquiries_q_created_at, inquiries_a_created_at
+        FROM inquiries
+        ORDER BY inquiries_num
+        LIMIT #{size}
+        OFFSET #{offset};
+    </select>
+
+    <!-- 문의 게시글 총 개수-->
+    <select id="countTotal" resultType="Integer">
+        SELECT count(*) FROM inquiries;
+    </select>
+

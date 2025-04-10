@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
+
+<head>
+    <title>주차장 관리 등록</title>
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/parking/parking-create.css}">
+    </th:block>
+
+    <!-- 카카오 지도 -->
+    <script type="text/javascript"
+            src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=7466a0cf7003b23d8dfdda02010725c3"></script>
+</head>
+
+<body>
+<div class="content" layout:fragment="content">
+
+    <div class="header">
+        주차장 관리
+    </div>
+
+    <div class="info">
+        <div class="header-sm">
+            주차장 관리 > 신규 주차장 등록
+        </div>
+        <div class="info-box-big-group">
+
+            <div class="info-box-big">
+                <form id="parkingForm" th:action="@{/admin/parkings/add}" method="post">
+                    <div class="info-box box">
+                        <div class="info-box-title">주차장 정보</div>
+                        <div class="info-box-content">
+                            <div class="info-box-content-table">
+                                <div class="info-box-content-row">
+                                    <label for="parkingName">주차장 이름</label>
+                                    <input type="text" id="parkingName" name="parkingName" required>
+                                </div>
+                                <div class="info-box-content-row">
+                                    <label for="parkingAddress">주차장 주소</label>
+                                    <input type="text" id="parkingAddress" name="parkingAddress" required>
+                                </div>
+                                <div class="info-box-content-row">
+                                    <label for="parkingProvince">주차장 관할 지역</label>
+                                    <select name="parkingProvince" id="parkingProvince" required>
+                                        <option th:each="province : ${provinceList}" th:value="${province}"
+                                                th:text="${province}"></option>
+                                    </select>
+                                </div>
+                                <div class="info-box-content-row">
+                                    <label for="parkingDistrict">주차장 관할 도시</label>
+                                    <input type="text" id="parkingDistrict" name="parkingDistrict" required>
+                                </div>
+                                <div class="info-box-content-row">
+                                    <label for="parkingLatitude">주차장 위도</label>
+                                    <input type="text" id="parkingLatitude" name="parkingLatitude" required>
+                                </div>
+                                <div class="info-box-content-row">
+                                    <label for="parkingLongtitude">주차장 경도</label>
+                                    <input type="text" id="parkingLongtitude" name="parkingLongtitude" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 버튼 그룹 -->
+                    <div class="btn-group">
+                        <button type="button" class="btn-go-back" th:onclick="|location.href='@{/admin/parkings}'|">
+                            목록으로
+                        </button>
+                        <button type="submit" class="btn-update" id="submit">
+                            주차장 등록
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 지도 -->
+            <div class="info-box-big">
+                <div id="map" class="info-box-map"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<th:block layout:fragment="js">
+    <script th:src="@{/js/parking/parking_add.js}"></script>
+</th:block>
+</body>
+
+</html>
