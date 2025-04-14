@@ -85,19 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 위도/경도 수동 입력 시 마커 이동
-    $(latInput).on("input", function () {
-        const lat = parseFloat($(latInput).val());
-        const lng = parseFloat($(lngInput).val());
-        updateMarker(lat, lng);
-    });
-
-    $(lngInput).on("input", function () {
-        const lat = parseFloat($(latInput).val());
-        const lng = parseFloat($(lngInput).val());
-        updateMarker(lat, lng);
-    });
-
     // 초기 지도 표시 (숭례문 좌표 또는 입력된 값 기준)
     const defaultLat = parseFloat(latInput.value) || 37.560052;
     const defaultLng = parseFloat(lngInput.value) || 126.975296;

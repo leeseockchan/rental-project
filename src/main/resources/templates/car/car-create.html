@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
-    layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}">
 
 <head>
     <title>차량 관리 등록</title>
@@ -16,20 +16,20 @@
 </head>
 
 <body>
-    <div class="content" layout:fragment="content">
+<div class="content" layout:fragment="content">
 
-        <div class="header">
-            차량 관리
+    <div class="header">
+        차량 관리
+    </div>
+
+    <div class="info">
+        <div class="header-sm">
+            차량 관리 > 신규 차량 등록
         </div>
-
-        <div class="info">
-            <div class="header-sm">
-                차량 관리 > 신규 차량 등록
-            </div>
-            <form id="add_carData" th:action="@{/admin/vehicles/add}" method="post">
-                <div class="info-box-big">
-
-                    <div class="info-box box1">
+        <div class="info-box-big-group">
+            <div class="info-box-big">
+                <form id="add_carData" th:action="@{/admin/vehicles/add}" method="post">
+                    <div class="info-box box">
                         <div class="info-box-title">차량 정보 등록</div>
                         <div class="info-box-content">
                             <div class="info-box-content-row">
@@ -50,7 +50,7 @@
                                 <label for="carYear">연식</label>
                                 <select id="carYear" name="carYear">
                                     <option th:each="yearList: ${yearList}" th:value="${yearList}"
-                                        th:text="${yearList}"></option>
+                                            th:text="${yearList}"></option>
                                 </select>
                             </div>
                             <div class="info-box-content-row">
@@ -74,9 +74,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="info-box box2">
                         <div class="info-box-title">보유 주차장</div>
                         <div class="info-box-content two">
                             <div class="info-box-content-row">
@@ -84,7 +81,7 @@
                                 <select id="parkingProvince" name="parking.province">
                                     <option value="">도/시 선택</option>
                                     <option th:each="province : ${provinceList}" th:value="${province}"
-                                        th:text="${province}"></option>
+                                            th:text="${province}"></option>
                                 </select>
                             </div>
                             <div class="info-box-content-row">
@@ -103,34 +100,32 @@
                         <div class="info-box-content">
                             <div class="info-box-content-row">
                                 <label for="parkingLatitude">위도</label>
-                                <input type="text" id="parkingLatitude" name="parkingLatitude" readonly />
+                                <input type="text" id="parkingLatitude" name="parkingLatitude" readonly/>
                             </div>
                             <div class="info-box-content-row">
                                 <label for="parkingLongitude">경도</label>
-                                <input type="text" id="parkingLongitude" name="parkingLongitude" value="" readonly />
+                                <input type="text" id="parkingLongitude" name="parkingLongitude" value="" readonly/>
                             </div>
                         </div>
                     </div>
-
-                </div>
-
-                <div class="info-box-big">
-                    <div id="map" class="info-box-map"></div>
-                </div>
-
-                <div class="btn-group">
-                    <button type="button" class="btn-go-back"
-                        th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
-                        목록으로
-                    </button>
-                    <button type="submit" class="btn-update" id="submit">
-                        등록하기
-                    </button>
-                </div>
-            </form>
+                    <div class="btn-group">
+                        <button type="button" class="btn-go-back"
+                                th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
+                            목록으로
+                        </button>
+                        <button type="submit" class="btn-update" id="submit">
+                            등록하기
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-
+            <div class="info-box-big">
+                <div id="map" class="info-box-map"></div>
+            </div>
     </div>
+
+</div>
 </body>
 
 </html>

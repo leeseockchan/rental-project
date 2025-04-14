@@ -34,6 +34,30 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
+    let map, marker;
+    // 지도 초기화
+        function initMap(lat, lng) {
+            const center = new kakao.maps.LatLng(lat, lng);
+            map = new kakao.maps.Map(mapContainer, {
+                center: center,
+                level: 3
+            });
+
+            marker = new kakao.maps.Marker({
+                map: map,
+                position: center
+            });
+        }
+
+        // 마커 위치 갱신
+        function updateMarker(lat, lng) {
+            if (!isNaN(lat) && !isNaN(lng)) {
+                const position = new kakao.maps.LatLng(lat, lng);
+                marker.setPosition(position);
+                map.setCenter(position);
+            }
+        }
+
     document.getElementById("model_modify").addEventListener("submit", function (e) {
         e.preventDefault();
         var modelBrand = document.getElementById("modelBrand").value;
