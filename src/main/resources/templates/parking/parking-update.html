@@ -20,17 +20,14 @@
     <div class="header">
         주차장 관리
     </div>
-        <div class="header-sm">
-            주차장 관리 > 주차장 상세 조회 > 주차장 정보 수정
-        </div>
+    <div class="header-sm">
+        주차장 관리 > 주차장 상세 조회 > 주차장 정보 수정
+    </div>
 
     <div class="info">
         <div class="info-box-big">
-            <form id="parkingModify"
-                  th:action="@{/admin/parkings/{parkingId}/modify(parkingId=${modify.parkingId})}"
-                  method="post">
-                <input type="hidden" name="_method" value="PUT">
-
+            <form id="parkingModify">
+                <input type="hidden" id="parkingId" name="parkingId" th:value="${modify.parkingId}">
                 <div class="info-box box">
                     <div class="info-box-title" th:text="|${modify.parkingName} 주차장의 정보 수정|"></div>
                     <div class="info-box-content">
@@ -46,6 +43,7 @@
                                    required>
                         </div>
                         <div class="info-box-content-row">
+
                             <label for="parkingProvince">주차장 관할 지역</label>
                             <select name="parkingProvince" id="parkingProvince" required>
                                 <option th:each="province : ${provinceList}"

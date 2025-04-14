@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // 위도, 경도 값 가져오기 (기본값: 서울)
+    // 위도, 경도 값 가져오기 (기본값: 숭례문)
     let latitude = parseFloat(document.getElementById("parkingLatitude").value) || 37.560052;
     let longtitude = parseFloat(document.getElementById("parkingLongtitude").value) || 126.975296;
 

@@ -4,6 +4,7 @@ import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
 import com.road_friends.rentalcar.service.AdminParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -94,12 +95,14 @@ public class AdminParkingController {
         return "parking/parking-update";
     }
     @PutMapping("/{parkingId}/modify")
-    public String modifyParking(@PathVariable int parkingId,
-                                @ModelAttribute AdminParkingDto adminParkingDto) {
+    @ResponseBody
+    public ResponseEntity<Void> modifyParking(@PathVariable int parkingId,
+                                              @RequestBody AdminParkingDto adminParkingDto) {
         adminParkingDto.setParkingId(parkingId);
         adminParkingService.modifyParking(adminParkingDto);
-        return "redirect:/admin/parkings/" + parkingId;
+        return ResponseEntity.ok().build();
     }
+
 
     //      주차장 삭제
     @DeleteMapping("/{parkingId}")

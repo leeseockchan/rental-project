@@ -6,57 +6,12 @@
     <title>차량 관리 등록</title>
 
     <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
-
+    <!-- 카카오 지도 -->
+    <script type="text/javascript"
+            src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=7466a0cf7003b23d8dfdda02010725c3"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/car/carAdd.js}" defer></script>
 
-    <script>
-        $(document).ready(function () {
-            // 1. 도/시 선택 시 행정구역 목록 갱신
-            $("#parkingProvince").change(function () {
-                let selectedProvince = $(this).val();
-                $("#parkingDistrict").empty().append('<option value="">행정구역 선택</option>');
-                $("#carParking").empty().append('<option value="">주차장 선택</option>');
-                $("#parkingLatitude").val('');
-                $("#parkingLongitude").val('');
-
-                if (selectedProvince) {
-                    $.get("/admin/vehicles/districts", { province: selectedProvince }, function (data) {
-                        $.each(data, function (index, district) {
-                            $("#parkingDistrict").append('<option value="' + district + '">' + district + '</option>');
-                        });
-                    });
-                }
-            });
-
-            // 2. 행정구역 선택 시 주차장 목록 갱신
-            $("#parkingDistrict").change(function () {
-                let selectedProvince = $("#parkingProvince").val();
-                let selectedDistrict = $(this).val();
-                $("#carParking").empty().append('<option value="">주차장 선택</option>');
-                $("#parkingLatitude").val('');
-                $("#parkingLongitude").val('');
-
-                if (selectedDistrict) {
-                    $.get("/admin/vehicles/parkings", { province: selectedProvince, district: selectedDistrict }, function (data) {
-                        $.each(data, function (index, parking) {
-                            $("#carParking").append('<option value="' + parking.parkingId + '" data-lat="' + parking.parkingLatitude + '" data-lng="' + parking.parkingLongtitude + '">' + parking.parkingName + '</option>');
-                        });
-                    });
-                }
-            });
-
-            // 3. 주차장 선택 시 위도, 경도 자동 입력
-            $("#carParking").change(function () {
-                let selectedOption = $(this).find("option:selected");
-                let lat = selectedOption.attr("data-lat");
-                let lng = selectedOption.attr("data-lng");
-
-                $("#parkingLatitude").val(lat ? lat : '');
-                $("#parkingLongitude").val(lng ? lng : '');
-            });
-        });
-    </script>
 
 </head>
 
@@ -152,11 +107,15 @@
                             </div>
                             <div class="info-box-content-row">
                                 <label for="parkingLongitude">경도</label>
-                                <input type="text" id="parkingLongitude" name="parkingLongitude" readonly />
+                                <input type="text" id="parkingLongitude" name="parkingLongitude" value="" readonly />
                             </div>
                         </div>
                     </div>
 
+                </div>
+
+                <div class="info-box-big">
+                    <div id="map" class="info-box-map"></div>
                 </div>
 
                 <div class="btn-group">

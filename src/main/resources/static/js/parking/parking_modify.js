@@ -2,15 +2,17 @@ document.getElementById('parkingModify').addEventListener('submit', function(e) 
     e.preventDefault();
 
     const parking = {
-        name: document.getElementById('parkingName').value,
-        address: document.getElementById('parkingAddress').value,
-        latitude: document.getElementById('parkingLatitude').value,
-        longtitude: document.getElementById('parkingLongtitude').value,
-        province: document.getElementById('parkingProvince').value,
-        district: document.getElementById('parkingDistrict').value,
-    }
+        parkingId: document.getElementById('parkingId').value,
+        parkingName: document.getElementById('parkingName').value,
+        parkingAddress: document.getElementById('parkingAddress').value,
+        parkingProvince: document.getElementById('parkingProvince').value,
+        parkingDistrict: document.getElementById('parkingDistrict').value,
+        parkingLatitude: document.getElementById('parkingLatitude').value,
+        parkingLongtitude: document.getElementById('parkingLongtitude').value,
+    };
+
      // 서버로 PUT 요청 보내기
-        fetch(`/admin/parkings/${parkingId}/modify`, {
+        fetch(`/admin/parkings/${parking.parkingId}/modify`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,8 +22,7 @@ document.getElementById('parkingModify').addEventListener('submit', function(e) 
         .then(response => {
             if (response.ok) {
                 alert('수정이 완료되었습니다!');
-                updateMap();
-                window.location.href = `/admin/parkings/${parkingId}`;
+                window.location.href = `/admin/parkings/${parking.parkingId}`;
             } else {
                 alert('수정에 실패했습니다.');
             }
