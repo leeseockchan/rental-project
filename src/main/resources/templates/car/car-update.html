@@ -131,12 +131,12 @@
                             목록으로
                         </button>
                         <div>
+                            <button type="submit" class="btn-update" id="submit">
+                                수정완료
+                            </button>
                             <button type="button" class="btn-reset" id="reset"
                                     th:onclick="'location.href=\'' + @{/admin/vehicles/{carId}(carId=${modify.carId})} + '\''">
                                 취소하기
-                            </button>
-                            <button type="submit" class="btn-update" id="submit">
-                                수정완료
                             </button>
                         </div>
                     </div>

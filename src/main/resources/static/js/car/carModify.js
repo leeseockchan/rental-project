@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var selectedProvince = provinceElement.value;
     var selectedDistrict = districtElement.value;
 
+    const mapContainer = document.getElementById("map");
+
     console.log("수정 전 도/시:", selectedProvince);
     console.log("수전 정 행정구역:", selectedDistrict);
 
