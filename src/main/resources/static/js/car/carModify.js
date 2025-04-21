@@ -1,117 +1,166 @@
 document.addEventListener("DOMContentLoaded", function () {
-    var carId = document.body.getAttribute("data-car-id");
-    var provinceElement = document.getElementById("parkingProvince");
-    var districtElement = document.getElementById("parkingDistrict");
+    const carId = document.body.getAttribute("data-car-id");
 
-    var selectedProvince = provinceElement.value;
-    var selectedDistrict = districtElement.value;
-
+    const provinceSelect = document.getElementById("parkingProvince");
+    const districtSelect = document.getElementById("parkingDistrict");
+    const parkingSelect = document.getElementById("carParking");
+    const latInput = document.getElementById("parkingLatitude");
+    const lngInput = document.getElementById("parkingLongitude");
     const mapContainer = document.getElementById("map");
+    let map, marker;
+    
+console.log("parkingId:", document.getElementById("carParking").value);
 
-    console.log("수정 전 도/시:", selectedProvince);
-    console.log("수전 정 행정구역:", selectedDistrict);
+    // 지도 초기화
+    function initMap(lat, lng) {
+        const center = new kakao.maps.LatLng(lat, lng);
+        map = new kakao.maps.Map(mapContainer, {
+            center: center,
+            level: 3
+        });
 
-    if (selectedProvince) {
-        fetch('/admin/vehicles/api/districts/' + encodeURIComponent(selectedProvince))
-            .then(response => response.json())
-            .then(data => {
-                console.log("행정구역 데이터:", data);
-                districtElement.innerHTML = "";
-                if (Array.isArray(data)) {
-                    data.forEach(function (district) {
-                        var option = document.createElement("option");
-                        option.value = district;
-                        option.textContent = district;
-                        if (district === selectedDistrict) {
-                            option.selected = true;
-                        }
-                        districtElement.appendChild(option);
-                    });
-                } else {
-                    console.error("잘못된 형식:", data);
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching districts:", error);
-            });
+        marker = new kakao.maps.Marker({
+            map: map,
+            position: center
+        });
     }
 
-    let map, marker;
-    // 지도 초기화
-        function initMap(lat, lng) {
-            const center = new kakao.maps.LatLng(lat, lng);
-            map = new kakao.maps.Map(mapContainer, {
-                center: center,
-                level: 3
-            });
+    // 마커 위치 갱신
+    function updateMarker(lat, lng) {
+            const position = new kakao.maps.LatLng(lat, lng);
+            marker.setPosition(position);
+            map.setCenter(position);
+    }
 
-            marker = new kakao.maps.Marker({
-                map: map,
-                position: center
-            });
+    // 차량 정보 조회
+    fetch(`/admin/vehicles/${carId}`)
+        .then(response => response.json())
+        .then(data => {
+            const vehicle = data.vehicle;
+            document.getElementById("modelBrand").value = vehicle.model.modelBrand;
+            document.getElementById("modelName").value = vehicle.model.modelName;
+            document.getElementById("carYear").value = vehicle.carYear;
+            document.getElementById("carFuel").value = vehicle.carFuel;
+            document.getElementById("carGrade").value = vehicle.carGrade;
+
+            // 주차장 정보
+            provinceSelect.value = vehicle.parking.province;
+            districtSelect.innerHTML = `<option value="${vehicle.parking.district}" selected>${vehicle.parking.district}</option>`;
+            parkingSelect.innerHTML = `<option value="${vehicle.parking.parkingId}" selected>${vehicle.parking.parkingName}</option>`;
+            latInput.value = vehicle.parking.parkingLatitude;
+            lngInput.value = vehicle.parking.parkingLongtitude;
+
+            initMap(vehicle.parking.parkingLatitude, vehicle.parking.parkingLongtitude);
+    });
+
+    // 도/시 선택 → 행정구역 목록 로드
+    provinceSelect.addEventListener("change", function () {
+        const selectedProvince = this.value;
+        districtSelect.innerHTML = '<option value="">행정구역 선택</option>';
+        parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
+        latInput.value = '';
+        lngInput.value = '';
+
+        if (selectedProvince) {
+            fetch(`/admin/vehicles/districts?province=${encodeURIComponent(selectedProvince)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(district => {
+                        const option = document.createElement("option");
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                });
         }
+    });
 
-        // 마커 위치 갱신
-        function updateMarker(lat, lng) {
-            if (!isNaN(lat) && !isNaN(lng)) {
-                const position = new kakao.maps.LatLng(lat, lng);
-                marker.setPosition(position);
-                map.setCenter(position);
-            }
+    // 행정구역 선택 → 주차장 목록 로드
+    districtSelect.addEventListener("change", function () {
+        const selectedProvince = provinceSelect.value;
+        const selectedDistrict = this.value;
+        parkingSelect.innerHTML = '<option value="">주차장 선택</option>';
+        latInput.value = '';
+        lngInput.value = '';
+
+        if (selectedDistrict) {
+            fetch(`/admin/vehicles/parkings?province=${encodeURIComponent(selectedProvince)}&district=${encodeURIComponent(selectedDistrict)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(parking => {
+                        const option = document.createElement("option");
+                        option.value = parking.parkingId;
+                        option.textContent = parking.parkingName;
+                        option.setAttribute("data-lat", parking.parkingLatitude);
+                        option.setAttribute("data-lng", parking.parkingLongtitude);
+                        parkingSelect.appendChild(option);
+                    });
+                });
         }
+    });
 
-    document.getElementById("model_modify").addEventListener("submit", function (e) {
+    // 주차장 선택 → 위도/경도 입력 + 지도 이동
+    parkingSelect.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const lat = parseFloat(selectedOption.getAttribute("data-lat"));
+        const lng = parseFloat(selectedOption.getAttribute("data-lng"));
+
+        latInput.value = lat || '';
+        lngInput.value = lng || '';
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+            updateMarker(lat, lng);
+        }
+    });
+
+    // 차량 수정 요청
+    const form = document.getElementById("model_modify");
+    form.addEventListener("submit", function (e) {
         e.preventDefault();
-        var modelBrand = document.getElementById("modelBrand").value;
-        var modelName = document.getElementById("modelName").value;
-        var carYear = document.getElementById("carYear").value;
-        var carFuel = document.getElementById("carFuel").value;
-        var carGrade = document.getElementById("carGrade").value;
-        var province = provinceElement.value;
-        var district = districtElement.value;
-        var parkingName = document.getElementById("parkingName").value;
 
-        console.log("carId:", carId);
+        const modelBrand = document.getElementById("modelBrand").value;
+        const modelName = document.getElementById("modelName").value;
+        const carYear = document.getElementById("carYear").value;
+        const carFuel = document.getElementById("carFuel").value;
+        const carGrade = document.getElementById("carGrade").value;
+        const province = provinceSelect.value;
+        const district = districtSelect.value;
+
+        const selectedOption = parkingSelect.options[parkingSelect.selectedIndex];
+        const parkingId = selectedOption?.value || "";
+        const parkingName = selectedOption?.textContent || "";
 
         fetch('/admin/vehicles/modify/' + carId, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: {
-                    modelBrand: modelBrand,
-                    modelName: modelName
-                },
-                carYear: carYear,
-                carFuel: carFuel,
-                carGrade: carGrade,
-                parking: {
-                    province: province,
-                    district: district,
-                    parkingName: parkingName
-                }
+                model: { modelBrand, modelName },
+                carYear,
+                carFuel,
+                carGrade,
+                parking: { province, district, parkingId, parkingName }
             })
         })
         .then(response => {
-        console.log("서버 응답 코드:", response.status);
-            if (!response.ok) {
-                return response.json().then(err => { throw err; });
-            }
+            if (!response.ok) return response.json().then(err => { throw err; });
             return response.json();
         })
         .then(data => {
-        console.log("서버 응답 데이터:", data);
             if (data.success) {
-                 alert("정보가 수정 되었습니다.");
+                alert("정보가 수정되었습니다.");
                 window.location.reload();
             } else {
-                 alert("잘못 입력하였습니다.");
+                alert("잘못 입력하였습니다.");
             }
         })
         .catch(error => {
-            console.error("Error sending update request:", error);
-            alert("오류 발생: " + error.message);
+            console.error("수정 요청 오류:", error);
+            alert("오류 발생: " + (error.message || "서버 오류"));
         });
     });
+
+    // 초기 지도 위치 표시
+    const defaultLat = parseFloat(latInput.value);
+    const defaultLng = parseFloat(lngInput.value);
+    initMap(defaultLat, defaultLng);
 });

@@ -75,8 +75,7 @@
 
     <!-- 차량 관리 수정 -->
     <update id="modifyCar" parameterType="com.road_friends.rentalcar.dto.AdminCarDto">
-        UPDATE car
-        SET
+        UPDATE car SET
         model_id = #{modelId},   <!-- 🔹 modelId 직접 사용 -->
         car_category = #{carCategory},
         car_status = #{carStatus},

@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
       layout:decorate="~{layout/layout}">
-
 <head>
     <title>차량 관리 등록</title>
-
     <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
     <!-- 카카오 지도 -->
     <script type="text/javascript"
             src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=7466a0cf7003b23d8dfdda02010725c3"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/car/carAdd.js}" defer></script>
-
-
 </head>
 
 <body>
 <div class="content" layout:fragment="content">
-
     <div class="header">
         차량 관리
     </div>
-
     <div class="info">
         <div class="header-sm">
             차량 관리 > 신규 차량 등록
@@ -104,7 +98,7 @@
                             </div>
                             <div class="info-box-content-row">
                                 <label for="parkingLongitude">경도</label>
-                                <input type="text" id="parkingLongitude" name="parkingLongitude" value="" readonly/>
+                                <input type="text" id="parkingLongitude" name="parkingLongitude" readonly/>
                             </div>
                         </div>
                     </div>
