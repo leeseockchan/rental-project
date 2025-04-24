@@ -148,15 +148,7 @@ public class AdminCarController {
 
         // 수정할 차량 정보 추가
         model.addAttribute("modify", modifyCar);
-
         return "car/car-update";
-    }
-
-    // JSON 응답 전용
-    @GetMapping("/modify/{carId}/data")
-    @ResponseBody
-    public AdminCarDto modifyCarStatusData(@PathVariable int carId) {
-        return adminCarService.findByCarId(carId);
     }
 
     @PutMapping("/modify/{carId}")
@@ -166,7 +158,6 @@ public class AdminCarController {
 
         // 🔹 디버깅: 요청 데이터 확인
         System.out.println("🔹 수신된 데이터: " + adminCarDto);
-
         if (adminCarDto == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("success", false, "message", "잘못된 요청 데이터"));
