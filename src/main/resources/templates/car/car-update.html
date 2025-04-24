@@ -106,7 +106,8 @@
                                     <option value="">주차장 선택</option>
                                     <option th:each="parking : ${parkingList}" th:value="${parking.parkingId}"
                                             th:text="${parking.parkingName}"
-                                            th:selected="${parking.parkingId.equals(modify.parking.parkingId)}">
+                                            th:selected="${parking.parkingId.equals(modify.parking.parkingId)}"
+                                            th:attr="data-lat=${parking.parkingLatitude},data-lng=${parking.parkingLongtitude}">
                                     </option>
                                 </select>
                             </div>
@@ -115,12 +116,14 @@
                             <div class="info-box-content-row">
                                 <label for="parkingLatitude">위도</label>
                                 <input type="text" id="parkingLatitude" name="parkingLatitude"
-                                       th:value="${modify.parking.parkingLatitude}" readonly/>
+                                       th:value="${modify.parking.parkingLatitude}"
+                                       th:attr="data-lat=${modify.parking.parkingLatitude}"  readonly/>
                             </div>
                             <div class="info-box-content-row">
                                 <label for="parkingLongtitude">경도</label>
                                 <input type="text" id="parkingLongtitude" name="parkingLongtitude"
-                                       th:value="${modify.parking.parkingLongtitude}" readonly/>
+                                       th:value="${modify.parking.parkingLongtitude}"
+                                       th:attr="data-lng=${modify.parking.parkingLongtitude}" readonly/>
                             </div>
                         </div>
                     </div>

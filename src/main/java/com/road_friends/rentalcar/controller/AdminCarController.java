@@ -92,11 +92,7 @@ public class AdminCarController {
         model.addAttribute("car", car);
         return "car/car-detail";
     }
-    @GetMapping("/{carId}/modify")
-    @ResponseBody
-    public AdminCarDto detailData(@PathVariable int carId) {
-        return adminCarService.findByCarId(carId);
-    }
+
 
     //    차량 관리 추가
     @GetMapping("/add")
@@ -153,13 +149,14 @@ public class AdminCarController {
         // 수정할 차량 정보 추가
         model.addAttribute("modify", modifyCar);
 
-        // 주차장 위·경도 추가
-        if (modifyCar.getParking() != null) {
-            model.addAttribute("parkingLatitude", modifyCar.getParking().getParkingLatitude());
-            model.addAttribute("parkingLongtitude", modifyCar.getParking().getParkingLongtitude());
-        }
-
         return "car/car-update";
+    }
+
+    // JSON 응답 전용
+    @GetMapping("/modify/{carId}/data")
+    @ResponseBody
+    public AdminCarDto modifyCarStatusData(@PathVariable int carId) {
+        return adminCarService.findByCarId(carId);
     }
 
     @PutMapping("/modify/{carId}")
