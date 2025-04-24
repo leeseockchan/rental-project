@@ -31,6 +31,7 @@
 .info-box-big-group {
     display: flex;
     justify-content: space-between;
+    gap: 30px;
 }
 .info-box-big {
     flex: 1;
@@ -72,9 +73,9 @@
 }
 
 .info-box-content-row label {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .info-box-content-row select,
@@ -87,12 +88,43 @@
     font-weight: 400;
 }
 
+.info-box-big-1 {
+    flex: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 40px 50px;
+}
+
+.info-box-big-2 {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 40px 50px;
+}
+
 /* 지도 */
 .info-box-map{
     min-width: 400px;
     min-height: 400px;
     width : 100%;
     height: 600px;
+}
+/* 수정 페이지 지도 */
+.info-box-map-update{
+    min-width: 400px;
+    min-height: 400px;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #ddd;
 }
 
 /* 정보 입력창 */

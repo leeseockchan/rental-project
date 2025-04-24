@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const districtSelect = document.getElementById("parkingDistrict");
     const parkingSelect = document.getElementById("carParking");
     const latInput = document.getElementById("parkingLatitude");
-    const lngInput = document.getElementById("parkingLongitude");
+    const lngInput = document.getElementById("parkingLongtitude");
     const mapContainer = document.getElementById("map");
+
     let map, marker;
     
 console.log("parkingId:", document.getElementById("carParking").value);
+
 
     // 지도 초기화
     function initMap(lat, lng) {
@@ -27,16 +29,20 @@ console.log("parkingId:", document.getElementById("carParking").value);
 
     // 마커 위치 갱신
     function updateMarker(lat, lng) {
-            const position = new kakao.maps.LatLng(lat, lng);
-            marker.setPosition(position);
-            map.setCenter(position);
+        if (!isNaN(lat) && !isNaN(lng)) {
+                const position = new kakao.maps.LatLng(lat, lng);
+                marker.setPosition(position);
+                map.setCenter(position);
+            }
     }
 
     // 차량 정보 조회
-    fetch(`/admin/vehicles/${carId}`)
+    console.log(">> fetching vehicle data for carId:", carId);
+    fetch(`/admin/vehicles/${carId}/modify`)
         .then(response => response.json())
         .then(data => {
-            const vehicle = data.vehicle;
+            console.log("전체 응답:", data);
+            const vehicle = data;
             document.getElementById("modelBrand").value = vehicle.model.modelBrand;
             document.getElementById("modelName").value = vehicle.model.modelName;
             document.getElementById("carYear").value = vehicle.carYear;
@@ -44,14 +50,27 @@ console.log("parkingId:", document.getElementById("carParking").value);
             document.getElementById("carGrade").value = vehicle.carGrade;
 
             // 주차장 정보
-            provinceSelect.value = vehicle.parking.province;
-            districtSelect.innerHTML = `<option value="${vehicle.parking.district}" selected>${vehicle.parking.district}</option>`;
-            parkingSelect.innerHTML = `<option value="${vehicle.parking.parkingId}" selected>${vehicle.parking.parkingName}</option>`;
-            latInput.value = vehicle.parking.parkingLatitude;
-            lngInput.value = vehicle.parking.parkingLongtitude;
 
-            initMap(vehicle.parking.parkingLatitude, vehicle.parking.parkingLongtitude);
-    });
+            const p = vehicle.parking;
+             if (!p) {
+                console.error("parking 정보가 없습니다:", vehicle);
+                return;
+              }
+            provinceSelect.value = p.parking.province;
+//            provinceSelect.innerHTML = `<option value="${p.parkingProvince}" selected>${p.parkingProvince}</option>`;
+            districtSelect.innerHTML = `<option value="${p.parkingDistrict}" selected>${p.parkingDistrict}</option>`;
+            parkingSelect.innerHTML = `<option value="${p.parkingId}" selected>${p.parkingName}</option>`;
+
+            console.log("parking from server:", p);
+            latInput.value = p.parkingLatitude;
+            lngInput.value = p.parkingLongtitude;
+
+            initMap(p.parkingLatitude, p.parkingLongtitude);
+
+    })
+    .catch(err => {
+        console.error(">> fetch or JSON error:", err);
+      });
 
     // 도/시 선택 → 행정구역 목록 로드
     provinceSelect.addEventListener("change", function () {
@@ -101,12 +120,12 @@ console.log("parkingId:", document.getElementById("carParking").value);
 
     // 주차장 선택 → 위도/경도 입력 + 지도 이동
     parkingSelect.addEventListener("change", function () {
-        const selectedOption = this.options[this.selectedIndex];
-        const lat = parseFloat(selectedOption.getAttribute("data-lat"));
-        const lng = parseFloat(selectedOption.getAttribute("data-lng"));
+        const opt = this.options[this.selectedIndex];
+        const lat = parseFloat(opt.getAttribute("data-lat"));
+        const lng = parseFloat(opt.getAttribute("data-lng"));
 
-        latInput.value = lat || '';
-        lngInput.value = lng || '';
+         latInput.value = !isNaN(lat) ? lat : '';
+         lngInput.value = !isNaN(lng) ? lng : '';
 
         if (!isNaN(lat) && !isNaN(lng)) {
             updateMarker(lat, lng);
@@ -159,8 +178,5 @@ console.log("parkingId:", document.getElementById("carParking").value);
         });
     });
 
-    // 초기 지도 위치 표시
-    const defaultLat = parseFloat(latInput.value);
-    const defaultLng = parseFloat(lngInput.value);
-    initMap(defaultLat, defaultLng);
+
 });

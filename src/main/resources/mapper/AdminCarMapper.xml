@@ -30,7 +30,7 @@
             <result property="parkingName" column="parking_name"/>
             <result property="parkingAddress" column="parking_address"/>
             <result property="parkingLatitude" column="parking_latitude"/>
-            <result property="parkingLongitude" column="parking_longitude"/>
+            <result property="parkingLongitude" column="parking_longtitude"/>
             <result property="parkingProvince" column="parking_province"/>
             <result property="parkingDistrict" column="parking_district"/>
         </association>

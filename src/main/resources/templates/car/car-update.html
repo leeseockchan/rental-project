@@ -9,7 +9,7 @@
     <script type="text/javascript"
             src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=7466a0cf7003b23d8dfdda02010725c3"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:src="@{/js/car/carModify.js}" defer></script>
+
 </head>
 
 <body th:data-car-id="${modify.carId}">
@@ -18,12 +18,12 @@
     <div class="header">
         차량 관리
     </div>
-
     <div class="info">
         <div class="header-sm">
             차량 관리 > 차량 상세 조회 > 차량 수정
         </div>
-            <div class="info-box-big">
+        <div class="info-box-big-group">
+            <div class="info-box-big-1">
                 <form id="model_modify" th:action="@{/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
                       method="post">
                     <div class="info-box">
@@ -78,9 +78,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="info-box">
                         <div class="info-box-title">보유 주차장 변경</div>
                         <div class="info-box-content two">
                             <div class="info-box-content-row">
@@ -117,11 +114,13 @@
                         <div class="info-box-content">
                             <div class="info-box-content-row">
                                 <label for="parkingLatitude">위도</label>
-                                <input type="text" id="parkingLatitude" name="parkingLatitude" readonly/>
+                                <input type="text" id="parkingLatitude" name="parkingLatitude"
+                                       th:value="${modify.parking.parkingLatitude}" readonly/>
                             </div>
                             <div class="info-box-content-row">
-                                <label for="parkingLongitude">경도</label>
-                                <input type="text" id="parkingLongitude" name="parkingLongitude" readonly/>
+                                <label for="parkingLongtitude">경도</label>
+                                <input type="text" id="parkingLongtitude" name="parkingLongtitude"
+                                       th:value="${modify.parking.parkingLongtitude}" readonly/>
                             </div>
                         </div>
                     </div>
@@ -142,123 +141,16 @@
                     </div>
                 </form>
             </div>
-
-            <div class="info-box-big">
-                <div id="map" class="info-box-map"></div>
+            <div class="info-box-big-2">
+                <div id="map" class="info-box-map-update"></div>
             </div>
         </div>
     </div>
+</div>
 
-<!--    <th:block layout:fragment="js">-->
-<!--        <script>-->
-<!--            document.getElementById("model_modify").addEventListener("submit", function (event) {-->
-<!--                event.preventDefault(); // 기본 폼 제출 방지-->
-
-<!--                const carId = document.getElementById("carId")?.value;-->
-<!--                const modelName = document.getElementById("modelName")?.value;-->
-<!--                const carCategory = document.getElementById("carCategory")?.value;-->
-<!--                const carStatus = document.getElementById("carStatus")?.value;-->
-<!--                const carYear = document.getElementById("carYear")?.value;-->
-<!--                const carFuel = document.getElementById("carFuel")?.value;-->
-<!--                const carGrade = document.getElementById("carGrade")?.value;-->
-<!--                const carOptions = document.getElementById("carOptions")?.value;-->
-<!--                const parkingId = document.getElementById("carParking")?.value;-->
-
-<!--                console.log("🔹 전송 데이터:");-->
-<!--                console.log("carId:", carId);-->
-<!--                console.log("modelName:", modelName);-->
-<!--                console.log("carCategory:", carCategory);-->
-<!--                console.log("carStatus:", carStatus);-->
-<!--                console.log("carYear:", carYear);-->
-<!--                console.log("carFuel:", carFuel);-->
-<!--                console.log("carGrade:", carGrade);-->
-<!--                console.log("carOptions:", carOptions);-->
-<!--                console.log("parkingId:", parkingId);-->
-
-<!--                fetch(`/admin/vehicles/modify/${carId}`, {-->
-<!--                    method: "PUT",-->
-<!--                    headers: {-->
-<!--                        "Content-Type": "application/json"-->
-<!--                    },-->
-<!--                    body: JSON.stringify({-->
-<!--                        model: { modelName: modelName },-->
-<!--                        carCategory: carCategory,-->
-<!--                        carStatus: carStatus,-->
-<!--                        carYear: carYear,-->
-<!--                        carFuel: carFuel,-->
-<!--                        carGrade: carGrade,-->
-<!--                        carOptions: carOptions,-->
-<!--                        parking: { parkingId: parkingId }-->
-<!--                    })-->
-<!--                })-->
-<!--                    .then(response => response.json())-->
-<!--                    .then(data => {-->
-<!--                        if (data.success) {-->
-<!--                            alert("수정 완료");-->
-<!--                            window.location.href = `/admin/vehicles/${carId}`;-->
-<!--                        } else {-->
-<!--                            alert("수정 실패: " + data.message);-->
-<!--                        }-->
-<!--                    })-->
-<!--                    .catch(error => console.error("Error:", error));-->
-<!--            });-->
-
-
-
-<!--            document.addEventListener("DOMContentLoaded", function () {-->
-<!--                const provinceSelect = document.getElementById("parkingProvince");-->
-<!--                const districtSelect = document.getElementById("parkingDistrict");-->
-<!--                const parkingSelect = document.getElementById("carParking");-->
-<!--                const latitudeInput = document.getElementById("parkingLatitude");-->
-<!--                const longitudeInput = document.getElementById("parkingLongitude");-->
-
-<!--                // 1. 도/시 선택 시 해당 시/도의 행정구역 목록 가져오기-->
-<!--                provinceSelect.addEventListener("change", function () {-->
-<!--                    const province = this.value;-->
-<!--                    districtSelect.innerHTML = '<option value="">행정구역 선택</option>';-->
-<!--                    parkingSelect.innerHTML = '<option value="">주차장 선택</option>';-->
-<!--                    latitudeInput.value = "";-->
-<!--                    longitudeInput.value = "";-->
-
-<!--                    if (province) {-->
-<!--                        fetch(`/admin/vehicles/districts?province=${encodeURIComponent(province)}`)-->
-<!--                            .then(response => response.json())-->
-<!--                            .then(data => {-->
-<!--                                data.forEach(district => {-->
-<!--                                    let option = new Option(district, district);-->
-<!--                                    districtSelect.add(option);-->
-<!--                                });-->
-<!--                            })-->
-<!--                            .catch(error => console.error("Error fetching districts:", error));-->
-<!--                    }-->
-<!--                });-->
-
-<!--                // 2. 행정구역 선택 시 해당 지역의 주차장 목록 가져오기-->
-<!--                districtSelect.addEventListener("change", function () {-->
-<!--                    const province = provinceSelect.value;-->
-<!--                    const district = this.value;-->
-<!--                    parkingSelect.innerHTML = '<option value="">주차장 선택</option>';-->
-<!--                    latitudeInput.value = "";-->
-<!--                    longitudeInput.value = "";-->
-
-<!--                    if (province && district) {-->
-<!--                        fetch(`/admin/vehicles/parkings?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)-->
-<!--                            .then(response => response.json())-->
-<!--                            .then(data => {-->
-<!--                                data.forEach(parking => {-->
-<!--                                    let option = new Option(parking.parkingName, parking.parkingId);-->
-<!--                                    parkingSelect.add(option);-->
-<!--                                    option.dataset.latitude = parking.latitude;-->
-<!--                                    option.dataset.longitude = parking.longitude;-->
-<!--                                });-->
-<!--                            })-->
-<!--                            .catch(error => console.error("Error fetching parkings:", error));-->
-<!--                    }-->
-<!--                });-->
-
-<!--            });-->
-<!--        </script>-->
-<!--    </th:block>-->
+<div layout:fragment="js">
+    <script src="/js/car/carModify.js"></script>
+</div>
 </body>
 
 </html>
