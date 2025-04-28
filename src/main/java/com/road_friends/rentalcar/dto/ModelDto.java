@@ -37,4 +37,6 @@ public class ModelDto {
     @JsonProperty("model_amount_day")
     private Integer modelAmountDay;
 
+    @JsonProperty("image_url")
+    private String imageUrl;
 }
