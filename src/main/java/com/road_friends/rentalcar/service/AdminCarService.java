@@ -19,9 +19,9 @@ public class AdminCarService {
         return adminCarMapper.getDistrictsByProvince(province);
     }
 
-    public List<AdminCarDto> findByProvinceAndDistrict(String province, String district) {
-        return adminCarMapper.findByProvinceAndDistrict(province, district);
-    }
+//    public List<AdminCarDto> findByProvinceAndDistrict(String province, String district) {
+//        return adminCarMapper.findByProvinceAndDistrict(province, district);
+//    }
 
     //    차량 관리 상세 보기
     public AdminCarDto findByCarId(int carId) {
@@ -144,8 +144,4 @@ public class AdminCarService {
         return adminCarMapper.getCarBrandCount();
     }
 
-    // 제조사-모델 셀렉트 조회
-    public List<String> getModelsByBrand(String brand) {
-        return adminCarMapper.getModelsByBrand(brand);
-    }
 }

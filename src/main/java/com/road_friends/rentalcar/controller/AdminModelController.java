@@ -44,7 +44,7 @@ public class AdminModelController {
     }
 
     @PostMapping("/create")
-    public  ResponseEntity<Map<String, Object>> addModel(@ModelAttribute AdminModelDto adminModelDto,
+    public ResponseEntity<Map<String, Object>> addModel(@ModelAttribute AdminModelDto adminModelDto,
                                                         @RequestParam(value = "imageFile") MultipartFile file) {
         try {
             // 이미지가 선택된 경우
@@ -76,7 +76,6 @@ public class AdminModelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-
 
     //     차량정보 수정
     @GetMapping("/{modelId}/modify")
@@ -125,13 +124,10 @@ public class AdminModelController {
         }
     }
 
-
-
     //  차량정보 삭제
     @DeleteMapping("/{modelId}")
     public String deleteModel(@PathVariable String modelId) {
         adminModelService.deleteModel(modelId);
         return "redirect:/admin/models";
     }
-
 }

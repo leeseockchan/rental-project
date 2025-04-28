@@ -31,16 +31,16 @@
 .info-box-big-group {
     display: flex;
     justify-content: space-between;
-    background-color: #fff;
-    border-radius: 10px;
-    margin-bottom: 20px;
 }
 
 .info-box-big {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 20px;
     padding: 40px 50px;
+    background-color: #fff;
+    border-radius: 10px;
 }
 
 .info-box {
@@ -62,23 +62,11 @@
     margin-bottom: 20px;
 }
 
-.info-box-content.box-scroll{
-    max-height: 300px;
-    overflow-y: auto;
-}
-
 .info-box-content .info-box-content-table,
 .info-box-content .info-box-content-table2{
     font-size: 14px;
     font-weight: 400;
     text-align: left;
-}
-
-.info-box-no-content{
-    text-align: center;
-    padding: 20px;
-    font-size: 16px;
-    color: gray;
 }
 
 .info-box-content-table tbody tr th,
@@ -143,7 +131,6 @@
 .btn-group{
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 .btn-group form{

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/api/admin/vehicles")
+@RequestMapping("/admin/vehicles")
 public class AdminCarController {
 
     @Autowired
@@ -30,12 +30,12 @@ public class AdminCarController {
         return adminCarService.getDistrictsByProvince(province);
     }
 
-    // 지역별 차량 검색
-    @GetMapping("/search")
-    @ResponseBody
-    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
-        return adminCarService.findByDistrict(district);
-    }
+//    // 지역별 차량 검색
+//    @GetMapping("/search")
+//    @ResponseBody
+//    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
+//        return adminCarService.findByDistrict(district);
+//    }
 
     // 1. 도/시(province) 목록 조회
     @GetMapping("/provinces")
