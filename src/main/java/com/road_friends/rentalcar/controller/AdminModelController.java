@@ -19,66 +19,54 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.springframework.web.servlet.function.ServerResponse.ok;
-
 @Controller
 @RequestMapping("/admin/models")
 public class AdminModelController {
+
+    private static final String IMAGE_DIR = "E:/images/car";
 
     @Autowired
     private AdminModelService adminModelService;
 
     // 모든 차량정보 목록 조회
     @GetMapping
-    public String showAllmodel(Model model) {
+    public String showAllModel(Model model) {
         List<AdminModelDto> models = adminModelService.getAllmodels();
         model.addAttribute("models", models);
         return "car/model-list";
     }
 
-    // 차량정보 추가
+    // 차량정보 추가 페이지
     @GetMapping("/create")
-    public String addModel(Model model) {
+    public String addModelForm(Model model) {
         model.addAttribute("modelDto", new AdminModelDto());
         return "car/model-create";
     }
 
+    // 차량정보 추가
     @PostMapping("/create")
-    public  ResponseEntity<Map<String, Object>> addModel(@ModelAttribute AdminModelDto adminModelDto,
-                                                         @RequestParam(value = "imageFile") MultipartFile file) {
+    public ResponseEntity<Map<String, Object>> addModel(@ModelAttribute AdminModelDto adminModelDto,
+                                                        @RequestParam(value = "imageFile") MultipartFile file) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            // 이미지가 선택된 경우
-            if (file != null && !file.isEmpty()) {
-                String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-                Path imagePath = Paths.get("E:/images/car", filename);
-                Files.createDirectories(imagePath.getParent());
-                file.transferTo(imagePath.toFile());
+            String imageUrl = saveImage(file);
+            adminModelDto.setImageUrl(imageUrl);
 
-                // DB에 저장할 이미지 URL
-                adminModelDto.setImageUrl("/images/car/" + filename);
-            } else {
-                // 이미지가 선택되지 않은 경우 기본 이미지 URL 사용
-                adminModelDto.setImageUrl("/images/car/defaultModel.png");
-            }
-
-            // DB에 모델 정보 저장
             adminModelService.addModel(adminModelDto);
 
-            // 성공 응답 반환
-            Map<String, Object> response = new HashMap<>();
             response.put("success", true);
-            response.put("model", adminModelDto); // 새로 추가된 모델 정보 포함
-            return ResponseEntity.ok().body(response);
+            response.put("model", adminModelDto);
+            return ResponseEntity.ok(response);
 
         } catch (IOException e) {
             e.printStackTrace();
-            Map<String, Object> errorResponse = Map.of("success", false, "message", "파일 업로드 실패");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            response.put("success", false);
+            response.put("message", "파일 업로드 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
-
-    //     차량정보 수정
+    // 차량정보 수정 페이지
     @GetMapping("/{modelId}/modify")
     public String modelModify(@PathVariable String modelId, Model model) {
         AdminModelDto adminModelDto = adminModelService.getModelById(modelId);
@@ -86,52 +74,81 @@ public class AdminModelController {
         return "car/model-update";
     }
 
+    // 차량정보 수정
     @PostMapping("/{modelId}/modify")
-    @ResponseBody  // JSON 응답을 보낼 때 필요
+    @ResponseBody
     public ResponseEntity<String> modifyModel(@PathVariable String modelId,
                                               @ModelAttribute AdminModelDto adminModelDto,
-                                              @RequestParam(value = "imageFile") MultipartFile file) {
+                                              @RequestParam(value = "imageFile", required = false) MultipartFile file) {
         try {
-            // 기존 차량 모델 정보 가져오기
-            AdminModelDto existingModel = adminModelService.getModelById(adminModelDto.getModelId());
+            AdminModelDto existingModel = adminModelService.getModelById(modelId);
             String oldImageUrl = existingModel != null ? existingModel.getImageUrl() : null;
 
-            // 새 이미지 저장
+            // 새 파일이 업로드되었을 경우만 이미지 변경
             if (file != null && !file.isEmpty()) {
-                String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-                // 서버에서 이미지를 저장하는 위치
-                Path imagePath = Paths.get("E:/images/car", filename);
+                // 이전 이미지 삭제 (기본 이미지 제외)
+                deleteImage(oldImageUrl);
 
-                // 폴더 없으면 생성 (폴더 없을 시 오류 방지)
-                Files.createDirectories(imagePath.getParent());
-                file.transferTo(imagePath.toFile());
-
-                // 새 이미지 DB에 업데이트
-                adminModelDto.setImageUrl("/images/car/" + filename);
+                // 새 이미지 저장
+                String newImageUrl = saveImage(file);
+                adminModelDto.setImageUrl(newImageUrl);
             } else {
-                // 기존 이미지가 없으면 기본 이미지 경로 설정
-                adminModelDto.setImageUrl("/images/car/defaultModel.png");
+                // 새 이미지가 없으면 기존 이미지 유지
+                adminModelDto.setImageUrl(oldImageUrl);
             }
 
-            // DB 업데이트
             adminModelDto.setModelId(modelId);
             adminModelService.modifyModel(adminModelDto);
 
-            // JSON 형식으로 성공 응답 반환
             return ResponseEntity.ok("{\"success\": true}");
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"success\": false, \"message\": \"파일 업로드 실패\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"success\": false, \"message\": \"파일 업로드 실패\"}");
         }
     }
 
-
-
-    //  차량정보 삭제
+    // 차량정보 삭제
     @DeleteMapping("/{modelId}")
     public String deleteModel(@PathVariable String modelId) {
+        AdminModelDto existingModel = adminModelService.getModelById(modelId);
+        if (existingModel != null) {
+            deleteImage(existingModel.getImageUrl());
+        }
         adminModelService.deleteModel(modelId);
         return "redirect:/admin/models";
     }
 
+    // 이미지 저장 메서드
+    private String saveImage(MultipartFile file) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path imagePath = Paths.get(IMAGE_DIR, filename);
+
+            Files.createDirectories(imagePath.getParent());
+
+            try {
+                file.transferTo(imagePath.toFile());
+            } catch (IOException e) {
+                Files.deleteIfExists(imagePath);
+                throw e;
+            }
+
+            return "/images/car/" + filename;
+        } else {
+            return "/images/car/defaultModel.png";
+        }
+    }
+
+    // 이미지 삭제 메서드
+    private void deleteImage(String imageUrl) {
+        try {
+            if (imageUrl != null && !imageUrl.contains("defaultModel.png")) {
+                Path path = Paths.get("E:/" + imageUrl.replaceFirst("/", ""));
+                Files.deleteIfExists(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

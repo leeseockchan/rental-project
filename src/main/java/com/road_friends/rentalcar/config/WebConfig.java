@@ -6,9 +6,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/images/notice/**") // 클라이언트에서 접근할 URL 패턴
-            .addResourceLocations("file:///E:/images/notice/"); // 실제 파일 저장 경로
+    registry.addResourceHandler("/images/notice/**")
+            .addResourceLocations("file:///E:/images/notice/");
+
+    registry.addResourceHandler("/images/car/**")
+            .addResourceLocations("file:///E:/images/car/");
   }
 }
