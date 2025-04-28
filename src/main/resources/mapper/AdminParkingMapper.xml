@@ -2,27 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.road_friends.rentalcar.mapper.AdminParkingMapper">
 
+    <!-- AdminParkingMapper.xml -->
     <select id="getDistrictsByProvince" resultType="String">
         SELECT DISTINCT parking_district
         FROM parking
         WHERE parking_province = #{province}
-    </select>
-
-    <select id="findByProvinceAndDistrict" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
-        SELECT
-        p.parking_id,
-        p.parking_name,
-        p.parking_address,
-        p.parking_latitude,
-        p.parking_longtitude,
-        p.parking_province,
-        p.parking_district,
-        COUNT(c.car_id) AS carCount
-        FROM parking p
-        LEFT JOIN car c ON p.parking_id = c.rental_station
-        WHERE p.parking_province = #{province}
-        AND p.parking_district = #{district}
-        GROUP BY p.parking_id
     </select>
 
     <!--    전체 주차장 목록-->
@@ -60,29 +44,4 @@
         DELETE FROM parking WHERE parking_id = #{parkingId};
     </delete>
 
-    <!--    주차장 차트-->
-    <select id="getTop5ParkingStats" resultType="com.road_friends.rentalcar.dto.AdminParkingDto">
-        SELECT
-        p.parking_id AS parkingId,
-        p.parking_name AS parkingName,
-        p.parking_address AS parkingAddress,
-        p.parking_latitude AS parkingLatitude,   -- 수정된 부분
-        p.parking_longtitude AS parkingLongitude, -- 수정된 부분
-        p.parking_province AS parkingProvince,
-        p.parking_district AS parkingDistrict,
-        COUNT(c.car_id) AS carCount
-        FROM parking p
-        LEFT JOIN car c ON p.parking_id = c.rental_station
-        GROUP BY p.parking_id
-        ORDER BY carCount DESC
-        LIMIT 5
-    </select>
-
-    <select id="getParkingCountByRegion" resultType="map">
-        SELECT
-        parking_province AS region,
-        COUNT(*) AS parking_count
-        FROM parking
-        GROUP BY parking_province
-    </select>
 </mapper>

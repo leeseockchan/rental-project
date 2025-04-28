@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/car/model-list.css}">
+    <title>차량 정보</title>
+</head>
+<body>
+<div class="content" layout:fragment="content">
+
+    <div class="header">
+        차량 정보(제원) 관리
+    </div>
+
+    <div class="btn-group">
+        <button type="button" id="model_add" class="btn-update"
+                th:onclick="'location.href=\'' + @{/admin/models/create} + '\''">
+            차량 신규 등록
+        </button>
+    </div>
+    <table class="table-box">
+        <thead>
+        <tr>
+            <th style="width: 50px;">차량 id</th>
+            <th style="width: 80px;">차량 브랜드</th>
+            <th style="width: 80px;">차량 명</th>
+            <th style="width: 80px;">차 종</th>
+            <th style="width: 50px;">차량 정원</th>
+            <th style="width: 80px;">차량 변속</th>
+            <th style="width: 180px;">렌트 요금(1시간)</th>
+            <th style="width: 180px;">렌트 요금(1일)</th>
+        </tr>
+        </thead>
+        <tbody id="carList">
+        <tr th:each="model: ${models}"
+            th:attr="data-href=@{/admin/models/{modelId}/modify(modelId=${model.modelId})}"
+            onclick="location.href=this.getAttribute('data-href')">
+            <td th:text="${model.modelId}" style="width: 50px;"></td>
+            <td th:text="${model.modelBrand}" style="width: 80px;"></td>
+            <td th:text="${model.modelName}" style="width: 80px;"></td>
+            <td th:text="${model.modelCategory}" style="width: 80px;"></td>
+            <td th:text="|${model.modelSeateNum}인승|" style="width: 50px;"></td>
+            <td th:text="${model.modelTransmission}" style="width: 80px;"></td>
+            <td th:text="|${model.modelAmountHour}원|" style="width: 180px;"></td>
+            <td th:text="|${model.modelAmountDay}원|" style="width: 180px;"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 페이지네이션 -->
+    <!--            <div class="pagination">-->
+    <!--                <a th:href="@{/api/admin/vehicles(page=${pageDto.start - 1}, size=${pageDto.size})}"-->
+    <!--                    th:if="${pageDto.prev}">-->
+    <!--                    <span class="material-symbols-outlined">-->
+    <!--                        chevron_left-->
+    <!--                    </span>-->
+    <!--                </a>-->
+    <!--                <span class="page-number" th:each="pageNum : ${#numbers.sequence(pageDto.start, pageDto.end)}">-->
+    <!--                    <a th:href="@{/api/admin/vehicles(page=${pageNum}, size=${pageDto.size})}" th:text="${pageNum}"-->
+    <!--                        th:classappend="${pageNum == pageDto.page} ? 'active' : ''"></a>-->
+    <!--                </span>-->
+    <!--                <a th:href="@{/api/admin/vehicles(page=${pageDto.end + 1}, size=${pageDto.size})}"-->
+    <!--                    th:if="${pageDto.next}">-->
+    <!--                    <span class="material-symbols-outlined">-->
+    <!--                        chevron_right-->
+    <!--                    </span>-->
+    <!--                </a>-->
+    <!--            </div>-->
+
+</div>
+</body>
+</html>
+

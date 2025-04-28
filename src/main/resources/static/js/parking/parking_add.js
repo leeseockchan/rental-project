@@ -25,3 +25,50 @@
 //           alert('오류가 발생했습니다.');
 //       };
 //   };
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("카카오 API 로드 확인:", typeof kakao !== "undefined" && kakao.maps);
+
+    let mapContainer = document.getElementById('map');
+
+    if (!mapContainer) {
+        console.error("지도를 표시할 #map 요소를 찾을 수 없습니다.");
+        return;
+    }
+
+    // 위도, 경도 값 가져오기 (기본값: 숭례문)
+    let latitude = parseFloat(document.getElementById("parkingLatitude").value) || 37.560052;
+    let longtitude = parseFloat(document.getElementById("parkingLongtitude").value) || 126.975296;
+
+    let mapOption = {
+        center: new kakao.maps.LatLng(latitude, longtitude), // 초기 지도 중심
+        level: 3 // 확대 레벨
+    };
+
+    let map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 마커 생성
+    let marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(latitude, longtitude),
+        map: map
+    });
+
+    console.log("초기 지도 중심:", latitude, longtitude);
+
+    // 위도/경도 입력 필드 변경 시 마커 이동
+    function updateMarker() {
+        let newLat = parseFloat(document.getElementById("parkingLatitude").value);
+        let newLng = parseFloat(document.getElementById("parkingLongtitude").value);
+
+        if (!isNaN(newLat) && !isNaN(newLng)) {
+            let newPosition = new kakao.maps.LatLng(newLat, newLng);
+            marker.setPosition(newPosition);
+            map.setCenter(newPosition);
+            console.log("마커 위치 변경:", newLat, newLng);
+        }
+    }
+
+    // input 이벤트 리스너 추가 (즉시 반영)
+    document.getElementById("parkingLatitude").addEventListener("input", updateMarker);
+    document.getElementById("parkingLongtitude").addEventListener("input", updateMarker);
+});
+

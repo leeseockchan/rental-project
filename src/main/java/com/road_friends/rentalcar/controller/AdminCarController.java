@@ -1,6 +1,5 @@
 package com.road_friends.rentalcar.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminModelDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Controller
-@RequestMapping("/admin/vehicles")
+@RequestMapping("/api/admin/vehicles")
 public class AdminCarController {
 
     @Autowired
@@ -24,15 +23,6 @@ public class AdminCarController {
 
     @Autowired
     private AdminParkingService adminParkingService;
-
-    @GetMapping("/getCarModels")
-    @ResponseBody
-    public Map<String, Object> getCarModels(@RequestParam String brand) {
-        Map<String, Object> response = new HashMap<>();
-        List<String> models = adminCarService.getModelsByBrand(brand);
-        response.put("models", models);
-        return response;
-    }
 
     @GetMapping("/districts")
     @ResponseBody
@@ -43,20 +33,14 @@ public class AdminCarController {
     // 지역별 차량 검색
     @GetMapping("/search")
     @ResponseBody
-    public List<AdminCarDto> searchByProvinceAndDistrict(
-            @RequestParam String province,
-            @RequestParam String district) {
-        return adminCarService.findByProvinceAndDistrict(province, district);
+    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
+        return adminCarService.findByDistrict(district);
     }
 
     // 1. 도/시(province) 목록 조회
     @GetMapping("/provinces")
     public ResponseEntity<List<String>> getProvinces() {
-        List<String> provinces = Arrays.asList(
-                "서울특별시", "인천광역시", "대전광역시", "부산광역시", "대구광역시", "울산광역시",
-                "광주광역시", "세종특별자치시", "경기도", "충청남도", "충청북도",
-                "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도"
-        );
+        List<String> provinces = adminParkingService.getAllProvinces();
         return ResponseEntity.ok(provinces);
     }
 
@@ -71,33 +55,15 @@ public class AdminCarController {
 
     // 주차 도/시 리스트
     private List<String> getProvinceList() {
-        return List.of("서울특별시", "인천광역시" , "대전광역시" ,"부산광역시" , "대구광역시" ,"울산광역시" ,"광주광역시" ,"세종특별자치시" ,
-                "경기도", "충청남도", "충청북도", "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
+        return List.of("서울특별시", "경기도", "충청북도", "충청남도",
+                "경상북도", "경상남도", "전라북도", "전라남도", "제주도");
     }
 
-    private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
-
-    //    차량 관리 목록 조회
+    //    차량 관리 목록 조회(경기도 차량들)
     @GetMapping
     public String showCarStatus(Model model) {
-        List<Map<String, Object>> carGrades = adminCarService.getCarGradeCount();
-        List<Map<String, Object>> carRanking = adminCarService.getCarRanking();
-        List<Map<String, Object>> carBrands = adminCarService.getCarBrandCount();
-
-        model.addAttribute("carGrades", carGrades);
-        model.addAttribute("carRanking", carRanking);
-        model.addAttribute("carBrands", carBrands);
-
-        // 🚗 차량 통계 데이터 가져오기
-        Map<String, Integer> vehicleStats = adminCarService.getVehicleStatistics();
-
-        // 🔹 통계 데이터 모델에 추가
-        model.addAttribute("totalVehicles", vehicleStats.get("total"));
-        model.addAttribute("rentedVehicles", vehicleStats.get("rented"));
-        model.addAttribute("repairVehicles", vehicleStats.get("repair"));
-
-        model.addAttribute("provinceList", adminCarService.parkingProvinceList());
-        return "car/car-list";
+        model.addAttribute("provinceList", getProvinceList());
+        return "car_page/list";
     }
 
     //    차량 관리 상세보기
@@ -105,7 +71,7 @@ public class AdminCarController {
     public String detailCarStatus(@PathVariable int carId, Model model) {
         AdminCarDto car = adminCarService.findByCarId(carId);
         model.addAttribute("car", car);
-        return "car/car-detail";
+        return "car_page/detail";
     }
 
     //    차량 관리 추가
@@ -123,12 +89,13 @@ public class AdminCarController {
         newCar.setModel(new AdminModelDto());
         newCar.setParking(new AdminParkingDto());
         model.addAttribute("newCar", newCar);
-        return "car/car-create";
+
+        return "car_page/add";
     }
     @PostMapping("/add")
     public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
         adminCarService.insertCar(adminCarDto);
-        return "redirect:/admin/vehicles";
+        return "redirect:/api/admin/vehicles";
     }
 
     //    차량 관리 수정
@@ -163,7 +130,7 @@ public class AdminCarController {
         // 수정할 차량 정보 추가
         model.addAttribute("modify", modifyCar);
 
-        return "car/car-update";
+        return "car_page/modify";
     }
 
     @PutMapping("/modify/{carId}")
@@ -192,6 +159,8 @@ public class AdminCarController {
         return ResponseEntity.ok(response);
     }
 
+
+
     // 행정 지역 가져오기 엔드포인트
     @GetMapping("/api/districts/{province}")
     @ResponseBody
@@ -203,7 +172,7 @@ public class AdminCarController {
     @DeleteMapping("/{carId}")
     public String deleteCarStatus(@PathVariable int carId) {
         adminCarService.deleteCarStatus(carId);
-        return "redirect:/admin/vehicles";
+        return "redirect:/api/admin/vehicles";
     }
 }
 

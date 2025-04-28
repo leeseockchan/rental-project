@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+      layout:decorate="~{layout/layout}">
+<head>
+    <link rel="stylesheet" th:href="@{/css/car/model-update.css}">
+    <title>차량 정보 수정</title>
+</head>
+<body>
+<div class="content" layout:fragment="content">
+
+    <div class="header">
+        차량 정보 수정
+    </div>
+
+    <div class="header-sm">
+        차량 정보 관리 > 차량 정보 수정
+    </div>
+    <form id="model_modify" th:action="@{/admin/models/{modelId}/modify}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="modelId" th:value="${modify.modelId}">
+        <input type="hidden" name="imageUrl" th:value="${modify.imageUrl}">
+
+        <table>
+            <thead>
+            <tr>
+                <th>차량 번호</th>
+                <th>차량 브랜드</th>
+                <th>차량 이름</th>
+                <th>차 종</th>
+                <th>차량 정원</th>
+                <th>차량 변속기</th>
+                <th>렌트 요금(1시간)</th>
+                <th>렌트 요금(1일)</th>
+                <th>차량 Image</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${modify.modelId}"></td>
+                <td><input type="text" name="modelBrand" th:value="${modify.modelBrand}" required></td>
+                <td><input type="text" name="modelName" th:value="${modify.modelName}" required></td>
+                <td><input type="text" name="modelCategory" th:value="${modify.modelCategory}" required></td>
+                <td><input type="number" name="modelSeateNum" th:value="${modify.modelSeateNum}" required></td>
+                <td><input type="text" name="modelTransmission" th:value="${modify.modelTransmission}" required></td>
+                <td><input type="number" name="modelAmountHour" th:value="${modify.modelAmountHour}" required></td>
+                <td><input type="number" name="modelAmountDay" th:value="${modify.modelAmountDay}" required></td>
+                <td><input type="file" name="imageFile" accept="image/*" required></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 이미지 미리보기 -->
+        <div>
+            <img id="preview"
+                 th:src="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"
+                 alt="차량 이미지 미리보기"
+                 th:data-image-url="${modify.imageUrl != null and modify.imageUrl != '' ? modify.imageUrl : '/images/car/defaultModel.png'}"/>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn-update" id="submit">수정 완료</button>
+            <button type="button" class="btn-cancel" id="reset"
+                    th:onclick="'location.href=\'' + @{/admin/models} + '\''">
+                목록으로
+            </button>
+            <button type="button" class="btn-delete" id="delete_btn">삭제하기</button>
+        </div>
+    </form>
+    <form id="delete_form" class="btn-delete" th:action="@{/admin/models/{modelId}(modelId=${modify.modelId})}" method="post" style="display: none;">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
+
+</div>
+<div layout:fragment="js">
+    <script src="/js/car/modelUpdate.js"></script>
+</div>
+</body>
+</html>

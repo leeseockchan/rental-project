@@ -15,9 +15,9 @@
     <!-- 차량 추가 -->
     <insert id="insert" parameterType="com.road_friends.rentalcar.dto.AdminModelDto">
         INSERT INTO model (model_id, model_brand, model_name, model_category, model_seate_num, model_transmission,
-        model_amount_hour, model_amount_day)
+        model_amount_hour, model_amount_day, image_url)
         VALUES (#{modelId}, #{modelBrand}, #{modelName}, #{modelCategory}, #{modelSeateNum},
-        #{modelTransmission}, #{modelAmountHour}, #{modelAmountDay});
+        #{modelTransmission}, #{modelAmountHour}, #{modelAmountDay}, #{imageUrl});
     </insert>
 
     <!-- 차량 수정 -->
@@ -29,7 +29,8 @@
         model_seate_num = #{modelSeateNum},
         model_transmission = #{modelTransmission},
         model_amount_hour = #{modelAmountHour},
-        model_amount_day = #{modelAmountDay}
+        model_amount_day = #{modelAmountDay},
+        image_url = #{imageUrl}
         WHERE model_id = #{modelId};
     </update>
 

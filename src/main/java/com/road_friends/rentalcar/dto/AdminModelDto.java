@@ -22,5 +22,5 @@ public class AdminModelDto {
 
     private int modelAmountDay;
 
-
+    private String imageUrl;
 }

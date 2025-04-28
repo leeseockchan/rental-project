@@ -18,10 +18,8 @@ public class AdminCarDto {
         private String carOptions;
         private int rentalStation;  // ✅ 추가됨 (주차장 ID)
 
-
         private AdminModelDto model;   // 🔹 ModelDto 객체 포함
         private AdminParkingDto parking;
-
 
         @Override
         public String toString() {

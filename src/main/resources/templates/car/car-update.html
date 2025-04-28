@@ -5,12 +5,15 @@
 <head>
     <title>차량 관리 수정</title>
 
-    <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
-    <script th:src="@{/js/car/carModify.js}" defer></script>
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
+    </th:block>
+
+    <script th:src="@{/js/inquiry/inquiry.js}" defer></script>
 
 </head>
 
-<body th:data-car-id="${modify.carId}">
+<body>
     <div class="content" layout:fragment="content">
 
         <div class="header">
@@ -21,60 +24,51 @@
             <div class="header-sm">
                 차량 관리 > 차량 상세 조회 > 차량 수정
             </div>
-            <form id="model_modify" th:action="@{/admin/vehicles/modify/{carId}(carId=${modify.carId})}" method="post">
+            <form id="reply-form" action=""
+                method="post" onsubmit="return validateForm()">
                 <div class="info-box-big">
 
                     <div class="info-box box1">
-                        <div class="info-box-title" th:text="|${modify.carId}번 차량 정보 변경|"></div>
+                        <div class="info-box-title">차량 정보 변경</div>
                         <div class="info-box-content">
-
-                            <input type="hidden" name="_method" value="PUT">
-                            <input type="hidden" id="carId" th:value="${modify.carId}">
-
                             <div class="info-box-content-row">
-                                <label for="modelBrand">제조사</label>
-                                <select id="modelBrand" name="model.modelBrand">
-                                    <option value="" selected>-- 제조사 선택 --</option>
-                                    <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}"
-                                        th:selected="${modify.model.modelBrand == brand}">
-                                    </option>
+                                <label for="car-model">차량 모델</label>
+                                <select name="carModel" id="car-model">
+                                    <option value="1">아반떼</option>
+                                    <option value="2">소나타</option>
+                                    <option value="3">그랜저</option>
+                                    <option value="4">투싼</option>
+                                    <option value="5">쏘나타</option>
                                 </select>
                             </div>
                             <div class="info-box-content-row">
-                                <label for="modelName">모델명</label>
-                                <select id="modelName" name="model.modelName">
-                                    <option value="">-- 모델 선택 --</option>
-                                    <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}"
-                                        th:selected="${modify.model.modelName == mName}">
-                                    </option>
+                                <label for="car-year">연식</label>
+                                <select name="carYear" id="car-year">
+                                    <option value="1">2021</option>
+                                    <option value="2">2020</option>
+                                    <option value="3">2019</option>
+                                    <option value="4">2018</option>
+                                    <option value="5">2017</option>
                                 </select>
                             </div>
                             <div class="info-box-content-row">
-                                <label for="carYear">연식</label>
-                                <select id="carYear" name="carYear">
-                                    <option th:each="year: ${yearList}" th:value="${year}" th:text="${year}"
-                                        th:selected="${modify.carYear == year}">
-                                    </option>
+                                <label for="car-fuel">연료</label>
+                                <select name="carFuel" id="car-fuel">
+                                    <option value="1">가솔린</option>
+                                    <option value="2">디젤</option>
+                                    <option value="3">LPG</option>
+                                    <option value="4">전기</option>
+                                    <option value="5">수소</option>
                                 </select>
                             </div>
                             <div class="info-box-content-row">
-                                <label for="carFuel">연료</label>
-                                <select id="carFuel" name="carFuel">
-                                    <option th:each="fuel : ${fuelList}" th:value="${fuel}" th:text="${fuel}"></option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="carGrade">등급</label>
-                                <select id="carGrade" name="carGrade">
-                                    <option th:each="grade : ${gradeList}" th:value="${grade}" th:text="${grade}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="carCategory">서비스 카테고리</label>
-                                <select id="carCategory" name="carCategory" required>
-                                    <option value="0">빠른대여</option>
-                                    <option value="1">단기대여</option>
+                                <label for="car-grade">등급</label>
+                                <select name="carGrade" id="car-grade">
+                                    <option value="1">1등급</option>
+                                    <option value="2">2등급</option>
+                                    <option value="3">3등급</option>
+                                    <option value="4">4등급</option>
+                                    <option value="5">5등급</option>
                                 </select>
                             </div>
                         </div>
@@ -82,46 +76,36 @@
 
                     <div class="info-box box2">
                         <div class="info-box-title">보유 주차장 변경</div>
-                        <div class="info-box-content two">
-                            <div class="info-box-content-row">
-                                <label for="parkingProvince">도/시</label>
-                                <select id="parkingProvince" name="parking.province">
-                                    <option value="">-- 도/시 선택 --</option>
-                                    <option th:each="province : ${provinceList}" th:value="${province}"
-                                        th:text="${province}"
-                                        th:selected="${province == modify.parking.parkingProvince}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="parkingDistrict">행정구역</label>
-                                <select id="parkingDistrict" name="parking.district">
-                                    <option value="">-- 행정구역 선택 --</option>
-                                    <option th:each="district : ${districtList}" th:value="${district}"
-                                        th:text="${district}"
-                                        th:selected="${district == modify.parking.parkingDistrict}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="carParking">주차장 이름</label>
-                                <select id="carParking" name="parking.parkingId">
-                                    <option value="">-- 주차장 선택 --</option>
-                                    <option th:each="parking : ${parkingList}" th:value="${parking.parkingId}"
-                                        th:text="${parking.parkingName}"
-                                        th:selected="${parking.parkingId == modify.parking.parkingId}">
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="info-box-content">
                             <div class="info-box-content-row">
-                                <label for="parkingLatitude">위도</label>
-                                <input type="text" id="parkingLatitude" name="parkingLatitude" readonly />
+                                <label for="car-parking1">도 / 시</label>
+                                <select name="carParking1" id="car-parking1">
+                                    <option value="1">서울</option>
+                                    <option value="2">경기</option>
+                                    <option value="3">인천</option>
+                                    <option value="4">대전</option>
+                                    <option value="5">대구</option>
+                                </select>
                             </div>
                             <div class="info-box-content-row">
-                                <label for="parkingLongitude">경도</label>
-                                <input type="text" id="parkingLongitude" name="parkingLongitude" readonly />
+                                <label for="car-parking2">행정구역</label>
+                                <select name="carParking2" id="car-parking2">
+                                    <option value="1">강남구</option>
+                                    <option value="2">강동구</option>
+                                    <option value="3">강북구</option>
+                                    <option value="4">강서구</option>
+                                    <option value="5">관악구</option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="car-parking3">주차장 이름</label>
+                                <select name="carParking3" id="car-parking3">
+                                    <option value="1">강남역 주차장</option>
+                                    <option value="2">강동역 주차장</option>
+                                    <option value="3">강북역 주차장</option>
+                                    <option value="4">강서역 주차장</option>
+                                    <option value="5">관악역 주차장</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -130,174 +114,17 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn-go-back"
-                        th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
+                        onclick="">
                         목록으로
                     </button>
-                    <div>
-                        <button type="button" class="btn-reset" id="reset"
-                            th:onclick="'location.href=\'' + @{/admin/vehicles/{carId}(carId=${modify.carId})} + '\''">
-                            취소하기
-                        </button>
-                        <button type="submit" class="btn-update" id="submit">
-                            수정완료
-                        </button>
-                    </div>
+                    <button type="submit" class="btn-update" id="submit">
+                        수정
+                    </button>
                 </div>
             </form>
         </div>
 
     </div>
-
-    <th:block layout:fragment="js">
-        <script>
-            document.getElementById("model_modify").addEventListener("submit", function (event) {
-                event.preventDefault(); // 기본 폼 제출 방지
-
-                const carId = document.getElementById("carId")?.value;
-                const modelName = document.getElementById("modelName")?.value;
-                const carCategory = document.getElementById("carCategory")?.value;
-                const carStatus = document.getElementById("carStatus")?.value;
-                const carYear = document.getElementById("carYear")?.value;
-                const carFuel = document.getElementById("carFuel")?.value;
-                const carGrade = document.getElementById("carGrade")?.value;
-                const carOptions = document.getElementById("carOptions")?.value;
-                const parkingId = document.getElementById("carParking")?.value;
-
-                console.log("🔹 전송 데이터:");
-                console.log("carId:", carId);
-                console.log("modelName:", modelName);
-                console.log("carCategory:", carCategory);
-                console.log("carStatus:", carStatus);
-                console.log("carYear:", carYear);
-                console.log("carFuel:", carFuel);
-                console.log("carGrade:", carGrade);
-                console.log("carOptions:", carOptions);
-                console.log("parkingId:", parkingId);
-
-                fetch(`/admin/vehicles/modify/${carId}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: { modelName: modelName },
-                        carCategory: carCategory,
-                        carStatus: carStatus,
-                        carYear: carYear,
-                        carFuel: carFuel,
-                        carGrade: carGrade,
-                        carOptions: carOptions,
-                        parking: { parkingId: parkingId }
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("수정 완료");
-                            window.location.href = `/admin/vehicles/${carId}`;
-                        } else {
-                            alert("수정 실패: " + data.message);
-                        }
-                    })
-                    .catch(error => console.error("Error:", error));
-            });
-
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const provinceSelect = document.getElementById("parkingProvince");
-                const districtSelect = document.getElementById("parkingDistrict");
-                const parkingSelect = document.getElementById("carParking");
-                const latitudeInput = document.getElementById("parkingLatitude");
-                const longitudeInput = document.getElementById("parkingLongitude");
-
-                // ✅ 현재 선택된 값 가져오기
-                const defaultProvince = provinceSelect.value;
-                const defaultDistrict = districtSelect.value;
-                const defaultParkingId = parkingSelect.value;
-
-                // ✅ 1. 도/시 목록 가져오기
-                fetch("/admin/vehicles/provinces")
-                    .then(response => response.json())
-                    .then(provinces => {
-                        provinceSelect.innerHTML = '<option value="">-- 도/시 선택 --</option>';
-                        provinces.forEach(province => {
-                            let option = new Option(province, province);
-                            if (province === defaultProvince) option.selected = true;
-                            provinceSelect.add(option);
-                        });
-
-                        if (defaultProvince) {
-                            provinceSelect.dispatchEvent(new Event("change"));
-                        }
-                    })
-                    .catch(error => console.error("Error fetching provinces:", error));
-
-                // ✅ 2. 도/시 선택 시 행정구역 목록 가져오기
-                provinceSelect.addEventListener("change", function () {
-                    const province = this.value;
-                    districtSelect.innerHTML = '<option value="">-- 행정구역 선택 --</option>';
-                    parkingSelect.innerHTML = '<option value="">-- 주차장 선택 --</option>';
-                    latitudeInput.value = "";
-                    longitudeInput.value = "";
-
-                    if (province) {
-                        fetch(`/admin/vehicles/districts?province=${encodeURIComponent(province)}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                data.forEach(district => {
-                                    let option = new Option(district, district);
-                                    if (district === defaultDistrict) option.selected = true;
-                                    districtSelect.add(option);
-                                });
-
-                                if (defaultDistrict) {
-                                    districtSelect.dispatchEvent(new Event("change"));
-                                }
-                            })
-                            .catch(error => console.error("Error fetching districts:", error));
-                    }
-                });
-
-                // ✅ 3. 행정구역 선택 시 주차장 목록 가져오기
-                districtSelect.addEventListener("change", function () {
-                    const province = provinceSelect.value;
-                    const district = this.value;
-                    parkingSelect.innerHTML = '<option value="">-- 주차장 선택 --</option>';
-                    latitudeInput.value = "";
-                    longitudeInput.value = "";
-
-                    if (province && district) {
-                        fetch(`/admin/vehicles/parkings?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                data.forEach(parking => {
-                                    let option = new Option(parking.parkingName, parking.parkingId);
-                                    option.dataset.latitude = parseFloat(parking.parkingLatitude).toFixed(6); // ✅ 소수점 6자리 유지
-                                    option.dataset.longitude = parseFloat(parking.parkingLongtitude).toFixed(6); // ✅ 소수점 6자리 유지
-                                    parkingSelect.add(option);
-                                });
-
-                                setTimeout(() => {
-                                    parkingSelect.value = defaultParkingId;
-                                    parkingSelect.dispatchEvent(new Event("change"));
-                                }, 100);
-                            })
-                            .catch(error => console.error("Error fetching parkings:", error));
-                    }
-                });
-
-                // ✅ 4. 주차장 선택 시 위도/경도 입력
-                parkingSelect.addEventListener("change", function () {
-                    const selectedOption = parkingSelect.options[parkingSelect.selectedIndex];
-                    latitudeInput.value = selectedOption.dataset.latitude || "";
-                    longitudeInput.value = selectedOption.dataset.longitude || "";
-                });
-            });
-        </script>
-
-    </th:block>
-
 </body>
 
 </html>
