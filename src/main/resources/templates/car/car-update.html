@@ -1,130 +1,159 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
-    layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}">
 
 <head>
     <title>차량 관리 수정</title>
-
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
-    </th:block>
-
-    <script th:src="@{/js/inquiry/inquiry.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/car/car-update.css}">
+    <!-- 카카오 지도 -->
+    <script type="text/javascript"
+            src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=7466a0cf7003b23d8dfdda02010725c3"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
-<body>
-    <div class="content" layout:fragment="content">
+<body th:data-car-id="${modify.carId}">
+<div class="content" layout:fragment="content">
 
-        <div class="header">
-            차량 관리
-        </div>
-
-        <div class="info">
-            <div class="header-sm">
-                차량 관리 > 차량 상세 조회 > 차량 수정
-            </div>
-            <form id="reply-form" action=""
-                method="post" onsubmit="return validateForm()">
-                <div class="info-box-big">
-
-                    <div class="info-box box1">
-                        <div class="info-box-title">차량 정보 변경</div>
-                        <div class="info-box-content">
-                            <div class="info-box-content-row">
-                                <label for="car-model">차량 모델</label>
-                                <select name="carModel" id="car-model">
-                                    <option value="1">아반떼</option>
-                                    <option value="2">소나타</option>
-                                    <option value="3">그랜저</option>
-                                    <option value="4">투싼</option>
-                                    <option value="5">쏘나타</option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="car-year">연식</label>
-                                <select name="carYear" id="car-year">
-                                    <option value="1">2021</option>
-                                    <option value="2">2020</option>
-                                    <option value="3">2019</option>
-                                    <option value="4">2018</option>
-                                    <option value="5">2017</option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="car-fuel">연료</label>
-                                <select name="carFuel" id="car-fuel">
-                                    <option value="1">가솔린</option>
-                                    <option value="2">디젤</option>
-                                    <option value="3">LPG</option>
-                                    <option value="4">전기</option>
-                                    <option value="5">수소</option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="car-grade">등급</label>
-                                <select name="carGrade" id="car-grade">
-                                    <option value="1">1등급</option>
-                                    <option value="2">2등급</option>
-                                    <option value="3">3등급</option>
-                                    <option value="4">4등급</option>
-                                    <option value="5">5등급</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="info-box box2">
-                        <div class="info-box-title">보유 주차장 변경</div>
-                        <div class="info-box-content">
-                            <div class="info-box-content-row">
-                                <label for="car-parking1">도 / 시</label>
-                                <select name="carParking1" id="car-parking1">
-                                    <option value="1">서울</option>
-                                    <option value="2">경기</option>
-                                    <option value="3">인천</option>
-                                    <option value="4">대전</option>
-                                    <option value="5">대구</option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="car-parking2">행정구역</label>
-                                <select name="carParking2" id="car-parking2">
-                                    <option value="1">강남구</option>
-                                    <option value="2">강동구</option>
-                                    <option value="3">강북구</option>
-                                    <option value="4">강서구</option>
-                                    <option value="5">관악구</option>
-                                </select>
-                            </div>
-                            <div class="info-box-content-row">
-                                <label for="car-parking3">주차장 이름</label>
-                                <select name="carParking3" id="car-parking3">
-                                    <option value="1">강남역 주차장</option>
-                                    <option value="2">강동역 주차장</option>
-                                    <option value="3">강북역 주차장</option>
-                                    <option value="4">강서역 주차장</option>
-                                    <option value="5">관악역 주차장</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="btn-group">
-                    <button type="button" class="btn-go-back"
-                        onclick="">
-                        목록으로
-                    </button>
-                    <button type="submit" class="btn-update" id="submit">
-                        수정
-                    </button>
-                </div>
-            </form>
-        </div>
-
+    <div class="header">
+        차량 관리
     </div>
+    <div class="info">
+        <div class="header-sm">
+            차량 관리 > 차량 상세 조회 > 차량 수정
+        </div>
+        <div class="info-box-big-group">
+            <div class="info-box-big-1">
+                <form id="model_modify" th:action="@{/admin/vehicles/modify/{carId}(carId=${modify.carId})}"
+                      method="post">
+                    <div class="info-box">
+                        <div class="info-box-title" th:text="|${modify.carId}번 차량 정보 변경|"></div>
+                        <div class="info-box-content">
+
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" id="carId" th:value="${modify.carId}">
+
+                            <div class="info-box-content-row">
+                                <label for="modelBrand">제조사</label>
+                                <select id="modelBrand" name="model.modelBrand">
+                                    <option th:each="brand: ${mBrandList}" th:value="${brand}" th:text="${brand}"
+                                            th:selected="${modify.model.modelBrand == brand}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="modelName">모델명</label>
+                                <select id="modelName" name="model.modelName">
+                                    <option th:each="mName: ${mNameList}" th:value="${mName}" th:text="${mName}"
+                                            th:selected="${modify.model.modelName == mName}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carYear">연식</label>
+                                <select id="carYear" name="carYear">
+                                    <option th:each="year: ${yearList}" th:value="${year}" th:text="${year}"
+                                            th:selected="${modify.carYear == year}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carFuel">연료</label>
+                                <select id="carFuel" name="carFuel">
+                                    <option th:each="fuel : ${fuelList}" th:value="${fuel}" th:text="${fuel}"></option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carGrade">등급</label>
+                                <select id="carGrade" name="carGrade">
+                                    <option th:each="grade : ${gradeList}" th:value="${grade}" th:text="${grade}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carCategory">서비스 카테고리</label>
+                                <select id="carCategory" name="carCategory" required>
+                                    <option value="0">빠른대여</option>
+                                    <option value="1">단기대여</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="info-box-title">보유 주차장 변경</div>
+                        <div class="info-box-content two">
+                            <div class="info-box-content-row">
+                                <label for="parkingProvince">도/시</label>
+                                <select id="parkingProvince" name="parking.province">
+                                    <option value="">도/시 선택</option>
+                                    <option th:each="province : ${provinceList}" th:value="${province}"
+                                            th:text="${province}"
+                                            th:selected="${province == modify.parking.parkingProvince}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="parkingDistrict">행정구역</label>
+                                <select id="parkingDistrict" name="parking.district">
+                                    <option value="">행정구역 선택</option>
+                                    <option th:each="district : ${districtList}" th:value="${district}"
+                                            th:text="${district}"
+                                            th:selected="${district == modify.parking.parkingDistrict}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="carParking">주차장 이름</label>
+                                <select id="carParking" name="parking.parkingId">
+                                    <option value="">주차장 선택</option>
+                                    <option th:each="parking : ${parkingList}" th:value="${parking.parkingId}"
+                                            th:text="${parking.parkingName}"
+                                            th:selected="${parking.parkingId.equals(modify.parking.parkingId)}"
+                                            th:attr="data-lat=${parking.parkingLatitude},data-lng=${parking.parkingLongtitude}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="info-box-content">
+                            <div class="info-box-content-row">
+                                <label for="parkingLatitude">위도</label>
+                                <input type="text" id="parkingLatitude" name="parkingLatitude"
+                                       th:value="${modify.parking.parkingLatitude}"
+                                       th:attr="data-lat=${modify.parking.parkingLatitude}"  readonly/>
+                            </div>
+                            <div class="info-box-content-row">
+                                <label for="parkingLongtitude">경도</label>
+                                <input type="text" id="parkingLongtitude" name="parkingLongtitude"
+                                       th:value="${modify.parking.parkingLongtitude}"
+                                       th:attr="data-lng=${modify.parking.parkingLongtitude}" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-go-back"
+                                th:onclick="'location.href=\'' + @{/admin/vehicles} + '\''">
+                            목록으로
+                        </button>
+                        <div>
+                            <button type="submit" class="btn-update" id="submit">
+                                수정완료
+                            </button>
+                            <button type="button" class="btn-reset" id="reset"
+                                    th:onclick="'location.href=\'' + @{/admin/vehicles/{carId}(carId=${modify.carId})} + '\''">
+                                취소하기
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="info-box-big-2">
+                <div id="map" class="info-box-map-update"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="js">
+    <script src="/js/car/carModify.js"></script>
+</div>
 </body>
 
 </html>

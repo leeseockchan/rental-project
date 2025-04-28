@@ -19,9 +19,9 @@ public class AdminCarService {
         return adminCarMapper.getDistrictsByProvince(province);
     }
 
-//    public List<AdminCarDto> findByProvinceAndDistrict(String province, String district) {
-//        return adminCarMapper.findByProvinceAndDistrict(province, district);
-//    }
+    public List<AdminCarDto> findByDistrict(String district) {
+        return adminCarMapper.findByDistrict(district);
+    }
 
     //    차량 관리 상세 보기
     public AdminCarDto findByCarId(int carId) {
@@ -110,7 +110,7 @@ public class AdminCarService {
     //    주차장 도/시 리스트
     public List<String> parkingProvinceList() {
         return List.of("서울특별시", "인천광역시" ,"경기도", "충청남도", "충청북도",
-                 "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
+                "경상북도", "경상남도", "강원도", "전라북도", "전라남도", "제주도");
     }
 
     // 통계 그래프 데이터
@@ -143,5 +143,6 @@ public class AdminCarService {
     public List<Map<String, Object>> getCarBrandCount() {
         return adminCarMapper.getCarBrandCount();
     }
+
 
 }

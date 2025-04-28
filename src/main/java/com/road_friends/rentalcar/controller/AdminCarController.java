@@ -1,5 +1,6 @@
 package com.road_friends.rentalcar.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.road_friends.rentalcar.dto.AdminCarDto;
 import com.road_friends.rentalcar.dto.AdminModelDto;
 import com.road_friends.rentalcar.dto.AdminParkingDto;
@@ -30,19 +31,19 @@ public class AdminCarController {
         return adminCarService.getDistrictsByProvince(province);
     }
 
-//    // 지역별 차량 검색
-//    @GetMapping("/search")
-//    @ResponseBody
-//    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
-//        return adminCarService.findByDistrict(district);
-//    }
+    // 지역별 차량 검색
+    @GetMapping("/search")
+    @ResponseBody
+    public List<AdminCarDto> searchByDistrict(@RequestParam String district) {
+        return adminCarService.findByDistrict(district);
+    }
 
     // 1. 도/시(province) 목록 조회
-    @GetMapping("/provinces")
-    public ResponseEntity<List<String>> getProvinces() {
-        List<String> provinces = adminParkingService.getAllProvinces();
-        return ResponseEntity.ok(provinces);
-    }
+//    @GetMapping("/provinces")
+//    public ResponseEntity<List<String>> getProvinces() {
+//        List<String> provinces = adminParkingService.getAllProvinces();
+//        return ResponseEntity.ok(provinces);
+//    }
 
     // 3. 선택된 행정구역의 주차장 목록 조회
     @GetMapping("/parkings")
@@ -59,11 +60,29 @@ public class AdminCarController {
                 "경상북도", "경상남도", "전라북도", "전라남도", "제주도");
     }
 
-    //    차량 관리 목록 조회(경기도 차량들)
+    private final ObjectMapper objectMapper = new ObjectMapper(); // JSON 변환기
+
+    //    차량 관리 목록 조회
     @GetMapping
     public String showCarStatus(Model model) {
-        model.addAttribute("provinceList", getProvinceList());
-        return "car_page/list";
+        List<Map<String, Object>> carGrades = adminCarService.getCarGradeCount();
+        List<Map<String, Object>> carRanking = adminCarService.getCarRanking();
+        List<Map<String, Object>> carBrands = adminCarService.getCarBrandCount();
+
+        model.addAttribute("carGrades", carGrades);
+        model.addAttribute("carRanking", carRanking);
+        model.addAttribute("carBrands", carBrands);
+
+        // 🚗 차량 통계 데이터 가져오기
+        Map<String, Integer> vehicleStats = adminCarService.getVehicleStatistics();
+
+        // 🔹 통계 데이터 모델에 추가
+        model.addAttribute("totalVehicles", vehicleStats.get("total"));
+        model.addAttribute("rentedVehicles", vehicleStats.get("rented"));
+        model.addAttribute("repairVehicles", vehicleStats.get("repair"));
+
+        model.addAttribute("provinceList", adminCarService.parkingProvinceList());
+        return "car/car-list";
     }
 
     //    차량 관리 상세보기
@@ -71,8 +90,9 @@ public class AdminCarController {
     public String detailCarStatus(@PathVariable int carId, Model model) {
         AdminCarDto car = adminCarService.findByCarId(carId);
         model.addAttribute("car", car);
-        return "car_page/detail";
+        return "car/car-detail";
     }
+
 
     //    차량 관리 추가
     @GetMapping("/add")
@@ -89,13 +109,12 @@ public class AdminCarController {
         newCar.setModel(new AdminModelDto());
         newCar.setParking(new AdminParkingDto());
         model.addAttribute("newCar", newCar);
-
-        return "car_page/add";
+        return "car/car-create";
     }
     @PostMapping("/add")
     public String addCarStatus(@ModelAttribute AdminCarDto adminCarDto) {
         adminCarService.insertCar(adminCarDto);
-        return "redirect:/api/admin/vehicles";
+        return "redirect:/admin/vehicles";
     }
 
     //    차량 관리 수정
@@ -129,8 +148,7 @@ public class AdminCarController {
 
         // 수정할 차량 정보 추가
         model.addAttribute("modify", modifyCar);
-
-        return "car_page/modify";
+        return "car/car-update";
     }
 
     @PutMapping("/modify/{carId}")
@@ -140,7 +158,6 @@ public class AdminCarController {
 
         // 🔹 디버깅: 요청 데이터 확인
         System.out.println("🔹 수신된 데이터: " + adminCarDto);
-
         if (adminCarDto == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("success", false, "message", "잘못된 요청 데이터"));
@@ -159,20 +176,17 @@ public class AdminCarController {
         return ResponseEntity.ok(response);
     }
 
-
-
     // 행정 지역 가져오기 엔드포인트
     @GetMapping("/api/districts/{province}")
     @ResponseBody
     public List<String> getDistrictsByProvince(@PathVariable String province) {
         return adminCarService.getDistrictsByProvince(province); // 도/시에 해당하는 행정구역 반환
     }
-   
+
     //    차량 상태 관리 삭제
     @DeleteMapping("/{carId}")
     public String deleteCarStatus(@PathVariable int carId) {
         adminCarService.deleteCarStatus(carId);
-        return "redirect:/api/admin/vehicles";
+        return "redirect:/admin/vehicles";
     }
 }
-

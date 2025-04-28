@@ -23,6 +23,7 @@ public interface AdminCarMapper {
     void modifyCar(AdminCarDto adminCarDto);
     void deleteCar(int carId);
 
+
     // 통계 그래프 데이터
     int countTotalVehicles();
     int countRentedVehicles();
